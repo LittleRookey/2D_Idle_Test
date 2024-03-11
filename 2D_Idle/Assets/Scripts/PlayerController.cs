@@ -47,14 +47,16 @@ public class PlayerController : MonoBehaviour
 
     private void MoveRight()
     {
-        rb2D.MovePosition(rb2D.position + Vector2.right * moveSpeed * Time.deltaTime);
-
+        //rb2D.MovePosition(rb2D.position + Vector2.right * moveSpeed * Time.deltaTime);
+        //rb2D.velocity = Vector2.right * moveSpeed;
     }
 
     private void RunRight()
     {
         //rb2D.velocity += new Vector2(1 * runSpeed, 0) * Time.deltaTime;
-        rb2D.MovePosition(rb2D.position + Vector2.right * runSpeed * Time.deltaTime);
+        //rb2D.MovePosition(rb2D.position + Vector2.right * runSpeed * Time.deltaTime);
+        //rb2D.velocity = Vector2.right * runSpeed;
+        transform.position += Vector3.right * runSpeed * Time.deltaTime;
     }
 
     private void CheckGrounded()
@@ -100,7 +102,8 @@ public class PlayerController : MonoBehaviour
             case eBehavior.walk:
                 // 걸으면서 적을 찾는다
                 if (canMove)
-                    MoveRight();
+                    RunRight();
+                    //MoveRight();
                 // 적을 찾으면 적을향해 달려간다, 공격범위까지
                 if (SearchForTarget())
                 {
@@ -162,7 +165,8 @@ public class PlayerController : MonoBehaviour
 
                 break;
             case eBehavior.walk:
-                anim.SetBool(isWalking, true);
+                //anim.SetBool(isWalking, true);
+                anim.SetBool(isRunning, true);
                 break;
             case eBehavior.run:
 
