@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DamageNumbersPro;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
+    public float MaxHealth => maxHealth;
+    public float CurrentHealth => currentHealth;
+
     [SerializeField] private float maxHealth;
     private float currentHealth;
 
@@ -16,18 +20,25 @@ public class Health : MonoBehaviour
     private Vector3 dmgOffset = new Vector3(0f, 0.5f, 0f);
 
     BoxCollider2D bCollider;
+
+    public delegate void OnTakeDamage(float current, float max);
+    public OnTakeDamage onTakeDamage;
+
+    public UnityAction OnDeath;
     // return true when enemy death
     public bool TakeDamage(List<float> damages)
     {
+        StartCoroutine(ShowDmgText(damages));
         for (int i = 0; i < damages.Count; i++)
         {
             currentHealth -= damages[i];
-            StartCoroutine(ShowDmgText(damages));
+            onTakeDamage?.Invoke(currentHealth, maxHealth);
             if (currentHealth <= 0f)
             {
                 currentHealth = 0f;
                 isDead = true;
                 bCollider.enabled = false;
+                OnDeath?.Invoke();
                 return true;
             }
         }
@@ -43,8 +54,7 @@ public class Health : MonoBehaviour
             yield return delay;
         }
     }
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         isDead = false;
         bCollider = GetComponent<BoxCollider2D>();
@@ -52,9 +62,5 @@ public class Health : MonoBehaviour
         dmg = Resources.Load<DamageNumberMesh>("Prefabs/BaseDamage");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
