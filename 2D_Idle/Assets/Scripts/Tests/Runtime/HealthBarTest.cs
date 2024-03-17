@@ -6,7 +6,6 @@ using DG.Tweening;
 namespace ACF.Tests
 {
 	// [ExecuteAlways]
-	[RequireComponent(typeof(Image))]
 	public class HealthBarTest : MonoBehaviour
 	{
 		private const string STEP = "_Steps";
@@ -19,9 +18,9 @@ namespace ACF.Tests
 		private static readonly int floatWidth = Shader.PropertyToID(WIDTH);
 		private static readonly int floatThickness = Shader.PropertyToID(THICKNESS);
 
-		public float Hp = 1000f;
-		public float MaxHp = 1000f;
-		public float Sp = 0f;
+		public float Hp;
+		public float MaxHp;
+		public float Sp;
 
 		public float hpShieldRatio;
 		public float RectWidth = 100f;
@@ -89,18 +88,39 @@ namespace ACF.Tests
 		{
 			targetHealth.onTakeDamage += UpdateHealth;
 			targetHealth.OnDeath += DisableHealthBar;
+			targetHealth.OnReturnFromPool += ResetHealthBar;
 		}
 
 		private void OnDisable()
 		{
 			targetHealth.onTakeDamage -= UpdateHealth;
 			targetHealth.OnDeath -= DisableHealthBar;
+			targetHealth.OnReturnFromPool -= ResetHealthBar;
 		}
 
 		public void DisableHealthBar()
         {
 			orientation.gameObject.SetActive(false);
 
+		}
+
+		public void ResetHealthBar()
+        {
+			sp.transform.localScale = Vector3.one;
+			hp.transform.localScale = Vector3.one;
+			damaged.transform.localScale = Vector3.one;
+			newSPVec = Vector3.one;
+			newHPVec = Vector3.one;
+			newDamagedVec = Vector3.one;
+
+			Hp = targetHealth.CurrentHealth;
+			MaxHp = targetHealth.MaxHealth;
+			UpdateHealth(Hp, MaxHp);
+			Sp = 0;
+
+			separator.material.SetFloat(floatSteps, Hp/300f);
+			orientation.gameObject.SetActive(true);
+			Debug.Log("HealthBar Reset");
 		}
 		public void UpdateHealth(float current, float max)
 		{

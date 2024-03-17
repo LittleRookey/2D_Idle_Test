@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DamageNumbersPro;
 using UnityEngine.Events;
+using Redcode.Pools;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IPoolObject
 {
+    public string Name;
     public float MaxHealth => maxHealth;
     public float CurrentHealth => currentHealth;
 
@@ -25,6 +27,8 @@ public class Health : MonoBehaviour
     public OnTakeDamage onTakeDamage;
 
     public UnityAction OnDeath;
+    public UnityAction OnReturnFromPool;
+
     // return true when enemy death
     public bool TakeDamage(List<float> damages)
     {
@@ -62,5 +66,17 @@ public class Health : MonoBehaviour
         dmg = Resources.Load<DamageNumberMesh>("Prefabs/BaseDamage");
     }
 
+    public void OnCreatedInPool()
+    {
+        throw new System.NotImplementedException();
+    }
 
+    public void OnGettingFromPool()
+    {
+        currentHealth = maxHealth;
+        isDead = false;
+        bCollider.enabled = true;
+        OnReturnFromPool?.Invoke();
+        Debug.Log("@@@@@@GETFROMPOOL");
+    }
 }
