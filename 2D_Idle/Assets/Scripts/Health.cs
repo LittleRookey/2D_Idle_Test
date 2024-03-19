@@ -4,6 +4,7 @@ using UnityEngine;
 using DamageNumbersPro;
 using UnityEngine.Events;
 using Redcode.Pools;
+using Litkey.Stat;
 
 public class Health : MonoBehaviour, IPoolObject
 {
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour, IPoolObject
     public UnityAction OnDeath;
     public UnityAction OnReturnFromPool;
 
+    private StatContainer _statContainer;
     // return true when enemy death
     public bool TakeDamage(List<float> damages)
     {
@@ -49,6 +51,30 @@ public class Health : MonoBehaviour, IPoolObject
         return false;
     }
 
+    public bool TakeDamage(List<Damage> damages)
+    {
+        List<float> finalDamages = new List<float>();
+        for (int i = 0; i < damages.Count; i++)
+        {
+            var dmg = _statContainer.Defend(damages[i].damage);
+            finalDamages.Add(dmg);
+            currentHealth -= dmg;
+            onTakeDamage?.Invoke(currentHealth, maxHealth);
+        }
+
+        StartCoroutine(ShowDmgText(finalDamages));
+
+        if (currentHealth <= 0f)
+        {
+            currentHealth = 0f;
+            isDead = true;
+            bCollider.enabled = false;
+            OnDeath?.Invoke();
+            return true;
+        }
+        return false;
+    }
+
     private IEnumerator ShowDmgText(List<float> damages) 
     {
         WaitForSeconds delay = new WaitForSeconds(0.15f);
@@ -58,10 +84,12 @@ public class Health : MonoBehaviour, IPoolObject
             yield return delay;
         }
     }
+
     private void Awake()
     {
         isDead = false;
         bCollider = GetComponent<BoxCollider2D>();
+        _statContainer = GetComponent<StatContainer>();
         currentHealth = maxHealth;
         dmg = Resources.Load<DamageNumberMesh>("Prefabs/BaseDamage");
     }

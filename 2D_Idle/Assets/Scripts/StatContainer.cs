@@ -16,6 +16,9 @@ public class StatContainer : MonoBehaviour
     public SubStat CritChance;
     public SubStat CritDamage;
 
+    public SubStat ExtraGold;
+    public SubStat ExtraExp;
+
     private void Awake()
     {
         HP = new SubStat("체력", baseStat.MaxHP, eSubStatType.health);
@@ -25,15 +28,30 @@ public class StatContainer : MonoBehaviour
         MoveSpeed = new SubStat("이동속도", baseStat.MoveSpeed, eSubStatType.moveSpeed, true);
         CritChance = new SubStat("크리티컬 확률", baseStat.CritChance, eSubStatType.critChance, true);
         CritDamage = new SubStat("크리티컬 데미지", baseStat.CritDamage, eSubStatType.critDamage, true);
-
+        ExtraGold = new SubStat("골드 추가흭득량", baseStat.ExtraGold, eSubStatType.추가골드, true);
+        ExtraExp = new SubStat("경험치 추가흭득량", baseStat.ExtraExp, eSubStatType.추가경험치, true);
     }
     
-    public float GetFinalDamage()
+    public Damage GetFinalDamage()
     {
         if (ProbabilityCheck.GetThisChanceResult(CritChance.FinalValue))
         {
-            return Attack.FinalValue * (1 + CritDamage.FinalValue);
+            return new Damage(Attack.FinalValue * (1 + CritDamage.FinalValue), true);
         }
-        return Attack.FinalValue;
+        return new Damage(Attack.FinalValue, false);
+    }
+
+    public Damage GetSkillDamage(float skillDmgPercent)
+    {
+        if (ProbabilityCheck.GetThisChanceResult(CritChance.FinalValue))
+        {
+            return new Damage((Attack.FinalValue * skillDmgPercent) * (1 + CritDamage.FinalValue), true);
+        }
+        return new Damage(Attack.FinalValue * skillDmgPercent, false);
+    }
+
+    public float Defend(float inComingDamage)
+    {
+        return Mathf.Max(1f, inComingDamage - Defense.FinalValue);
     }
 }

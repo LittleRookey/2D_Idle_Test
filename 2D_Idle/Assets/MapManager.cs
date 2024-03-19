@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class MapManager : MonoBehaviour
 {
@@ -29,33 +30,42 @@ public class MapManager : MonoBehaviour
     [SerializeField] private int maxZoomMod = 5;
     [SerializeField] private int minZoomMod = 1;
     private Vector3 dragOrigin;
-    private float mapMinX, mapMaxX, mapMinY, mapMaxY;
+    public static float mapMinX, mapMaxX, mapMinY, mapMaxY;
     private float mapWidth, mapHeight;
+
+    //public static float minX
     private bool canScroll = true;
+    
+
+    public UnityAction OnArriveDestination;
     private void Awake()
     {
         mapWidth = screenMap.rect.width/2;
         mapHeight = screenMap.rect.height/2;
-        
+
+        mapMinX = 0f - (step * mapWidth);
+        mapMaxX = (step * mapWidth);
+        mapMinY = 0f - (step * mapHeight);
+        mapMaxY = (step * mapHeight);
+        Debug.Log($"X: {mapMaxX}\nY:{mapMaxY}");
         currentPosition = startPos;
         actualMap.anchoredPosition = currentPosition;
         playerMarker.anchoredPosition = currentPosition;
 
         currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
-        SetDestination(firstDestination);
+        
 
         zoomIn = 1;
         zoomInText.SetText($"x{zoomIn}");
         DOTween.To(() => actualMap.transform.localScale, x => actualMap.transform.localScale = x, Vector3.one * zoomIn, 0.2f);
-        //mapMinX = actualMap.transform.position.x - actualMap.bounds.size.x;
-        //mapMaxX = actualMap.transform.position.x + actualMap.bounds.size.x;
+
 
         
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     public void ZoomIn()
@@ -126,11 +136,17 @@ public class MapManager : MonoBehaviour
     private IEnumerator MoveTo()
     {
         yield return new WaitForSeconds(1f);
-        var movedDist = moveDir * walkPerSec * zoomIn;
+        var movedDist = moveDir * walkPerSec * 1/step;
         //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
-        playerMarker.DOLocalMove(moveDir * markerMovePerMeter * walkPerSec, 1f).SetEase(Ease.Linear).SetRelative(true);
+        playerMarker.DOLocalMove(moveDir * 1/step * walkPerSec, 1f).SetEase(Ease.Linear).SetRelative(true);
+        Vector2 curPos = currentPosition;
+        DOTween.To(() => curPos, x => curPos = x, curPos + movedDist, 1f).OnUpdate(() =>
+        {
+            currentPosText.SetText($"{curPos.x.ToString("F0")}, {curPos.y.ToString("F0")}");
+        }).SetEase(Ease.Linear);
+
         currentPosition += movedDist;
-        currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
+        //currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
         leftDist = (Destination - currentPosition).sqrMagnitude * step; // need help here
         leftDist -= movedDist.sqrMagnitude;
         if (leftDist < 0)
@@ -138,6 +154,7 @@ public class MapManager : MonoBehaviour
             leftDist = 0f;
             currentPosition = Destination;
             currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
+            OnArriveDestination?.Invoke();
             yield break;
         }
         StartCoroutine(MoveTo());

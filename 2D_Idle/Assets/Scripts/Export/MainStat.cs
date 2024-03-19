@@ -8,6 +8,16 @@ using Litkey.InventorySystem;
 namespace Litkey.Stat
 {
 
+    public struct Damage
+    {
+        public float damage;
+        public bool isCrit;
+        public Damage(float dmg, bool crit)
+        {
+            damage = dmg;
+            isCrit = crit;
+        }
+    }
 
     [System.Serializable]  
     public abstract class MainStat
@@ -473,5 +483,7 @@ public enum eSubStatType
     cc_Resistance,
     moveSpeed,
     attackRange,
-    critDamage
+    critDamage,
+    추가골드,
+    추가경험치
 };

@@ -1,3 +1,4 @@
+using Litkey.Stat;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private bool canMove;
 
+    private StatContainer _statContainer;
     private enum eBehavior
     {
         idle,
@@ -37,10 +39,16 @@ public class PlayerController : MonoBehaviour
         attack,
         ability
     }
+
+    private void Awake()
+    {
+        rb2D = GetComponent<Rigidbody2D>();
+        _statContainer = GetComponent<StatContainer>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        rb2D = GetComponent<Rigidbody2D>();
+        
         EnableMovement();
         SwitchState(eBehavior.walk);
     }
@@ -242,7 +250,10 @@ public class PlayerController : MonoBehaviour
 
     public void DamageAction()
     {
-        Target.TakeDamage(new List<float>{ 3, 2 });
+        // 데미지 계산
+        var dmg = _statContainer.GetFinalDamage();
+        //Target.GetComponent<StatContainer>().Defend(dmg.damage);
+        Target.TakeDamage(new List<Damage> { dmg });
         
     }
 

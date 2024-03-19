@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6180691261887922625}
   - component: {fileID: 6180691261887922630}
   - component: {fileID: 2510553012801979023}
+  - component: {fileID: 3640421927060759991}
   m_Layer: 6
   m_Name: BigEnemy
   m_TagString: Untagged
@@ -149,6 +150,73 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
+--- !u!114 &3640421927060759991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6180691261887922626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b665672237d8714dbda87e9e8006190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStat: {fileID: 11400000, guid: 534b86fd145b12c41813654c99b83928, type: 2}
+  HP:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  Attack:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  Defense:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  AttackSpeed:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  MoveSpeed:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  CritChance:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  CritDamage:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  ExtraGold:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  ExtraExp:
+    displayName: 
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1001 &4341388614605211861
 PrefabInstance:
   m_ObjectHideFlags: 0

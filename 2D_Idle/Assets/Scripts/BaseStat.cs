@@ -18,6 +18,8 @@ namespace Litkey.Stat
         public float CritChance;
         public float CritDamage;
 
+        public float ExtraGold;
+        public float ExtraExp;
         //[Space]
         //public float MaxHP_Plus;
         //public float MaxHP_Multiply;

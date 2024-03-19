@@ -29,6 +29,12 @@ public enum eRegion
     Nineth
 }
 
+public enum eHuntMode
+{
+    afk,
+
+}
+
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private float spawnDelay = 5f;
