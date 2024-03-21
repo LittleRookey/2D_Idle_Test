@@ -36,6 +36,7 @@ public class MapManager : MonoBehaviour
     //public static float minX
     private bool canScroll = true;
     
+    private readonly string townPath = "ScriptableObject/Town/";
 
     public UnityAction OnArriveDestination;
     private void Awake()
@@ -51,6 +52,7 @@ public class MapManager : MonoBehaviour
         currentPosition = startPos;
         actualMap.anchoredPosition = currentPosition;
         playerMarker.anchoredPosition = currentPosition;
+        actualMap.rect.Set(actualMap.anchoredPosition.x, actualMap.anchoredPosition.y, screenMap.rect.width, screenMap.rect.height);
 
         currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
         
@@ -59,8 +61,13 @@ public class MapManager : MonoBehaviour
         zoomInText.SetText($"x{zoomIn}");
         DOTween.To(() => actualMap.transform.localScale, x => actualMap.transform.localScale = x, Vector3.one * zoomIn, 0.2f);
 
+        var towns = Resources.LoadAll<Town>(townPath);
 
-        
+        // 맵에 마을 마커 달아주기 
+        for (int i = 0; i < towns.Length; i++)
+        {
+
+        }
     }
     // Start is called before the first frame update
     void Start()
