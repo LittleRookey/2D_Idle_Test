@@ -35,7 +35,7 @@ public class CooldownAbility : Ability, IHasCooldown
 
     public float usedMana = 0f;
 
-    public List<SkillGrowthData> skillUpgrades;
+    //public List<SkillGrowthData> skillUpgrades;
 
     //public SkillLevel level;
 
@@ -60,7 +60,7 @@ public class CooldownAbility : Ability, IHasCooldown
         // 스킬 데미지 상승
         for(int i = 0; i < level; i++)
         {
-            baseDMG += skillUpgrades[i].addedSkillDamagePercent;
+            //baseDMG += skillUpgrades[i].addedSkillDamagePercent;
         }
         finalSkillDamagePercent = baseDMG;
     }

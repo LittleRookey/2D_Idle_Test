@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33bf39eb3129a44b8facfcb95b2828d, type: 3}
+  m_Name: UnitLevel
+  m_EditorClassIdentifier: 
+  maxLevel: 100
+  showLog: 0
+  level: 1
+  currentExp: 0
+  maxExp: 100
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  growthFactor: 1.08
+  extraExpPerLevel: 100
+  MaxExpByLevel:
+  - 108
+  - 234
+  - 379
+  - 547
+  - 740
+  - 962
+  - 1216
+  - 1508
+  - 1840
+  - 2219
+  - 2651
+  - 3142
+  - 3699
+  - 4331
+  - 5047
+  - 5858
+  - 6774
+  - 7808
+  - 8975
+  - 10291
+  - 11774
+  - 13442
+  - 15319
+  - 17428
+  - 19796
+  - 22454
+  - 25436
+  - 28777
+  - 32519
+  - 36709
+  - 41395
+  - 46635
+  - 52491
+  - 59030
+  - 66329
+  - 74472
+  - 83551
+  - 93669
+  - 104939
+  - 117486
+  - 131448
+  - 146977
+  - 164240
+  - 183422
+  - 204726
+  - 228377
+  - 254621
+  - 283729
+  - 316001
+  - 351763
+  - 391376
+  - 435238
+  - 483781
+  - 537485
+  - 596873
+  - 662519
+  - 735054
+  - 815168
+  - 903618
+  - 1001232
+  - 1108918
+  - 1227667
+  - 1358566
+  - 1502801
+  - 1661671
+  - 1836592
+  - 2029114
+  - 2240925
+  - 2473871
+  - 2729964
+  - 3011398
+  - 3320562
+  - 3660063
+  - 4032736
+  - 4441670
+  - 4890222
+  - 5382050
+  - 5921121
+  - 6511754
+  - 7158634
+  - 7866850
+  - 8641924
+  - 9489841
+  - 10417095
+  - 11430715
+  - 12538317
+  - 13748143
+  - 15069105
+  - 16510843
+  - 18083770
+  - 19799130
+  - 21669056
+  - 23706640
+  - 25925986
+  - 28342282
+  - 30971890
+  - 33832396
+  - 36942700
+  - 40323104
+  - 43995400
