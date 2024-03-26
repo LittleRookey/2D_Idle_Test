@@ -19,6 +19,8 @@ public class StatContainer : MonoBehaviour
     public SubStat ExtraGold;
     public SubStat ExtraExp;
 
+    [SerializeField] private UnitLevel unitLevel;
+
     private void Awake()
     {
         HP = new SubStat("Ã¼·Â", baseStat.MaxHP, eSubStatType.health);

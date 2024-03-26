@@ -90,24 +90,31 @@ public class UnitLevel : ScriptableObject
     public virtual void Grow()
     {
         level += 1;
-        float growth = 1 + curve.Evaluate((float)level / (float)maxLevel);
+        //float growth = 1 + curve.Evaluate((float)level / (float)maxLevel);
 
         //_maxExp *= growth;
-        float fin_maxExp = (initMaxExp + extraExpPerLevel) * Mathf.Pow(growthFactor, level) * growth;
+        //float fin_maxExp = (initMaxExp + extraExpPerLevel) * Mathf.Pow(growthFactor, level) * growth;
+        float fin_maxExp = MaxExpByLevel[level - 1];
         //if (growth < 1f)
         //    Debug.LogError("Growth is decreasing");
         maxExp = Mathf.Round(fin_maxExp);
 
         OnLevelUp?.Invoke();
 
-        if (showLog)
-            Debug.Log($"Level {level} - maxEXP - {maxExp}\nGrowth - {growth}");
+        //if (showLog)
+        //    Debug.Log($"Level {level} - maxEXP - {maxExp}\nGrowth - {growth}");
 
     }
 
     public void Init()
     {
+        this.maxLevel = 100;
+        this.maxExp = 100f;
+        this.initMaxExp = this.maxExp;
+        //this.curve = new AnimationCurve(animCurve.keys);
+        //this.growthFactor = 1.1f;
 
+        UpdateMaxExpsPerLevel();
     }
 
     public void UpdateMaxExpsPerLevel()
@@ -115,6 +122,8 @@ public class UnitLevel : ScriptableObject
         MaxExpByLevel.Clear();
         //float growthFactor = 1.1f;
         float _maxExp = maxExp;
+        MaxExpByLevel.Add(Mathf.Round(_maxExp));
+
         for (int i = 0; i < maxLevel; i++)
         {
 
