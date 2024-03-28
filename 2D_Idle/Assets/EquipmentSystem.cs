@@ -1,31 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
-using TMPro;
 
 public class EquipmentSystem : MonoBehaviour
 {
+
+
+
     public EquipmentTier weapon;
     public EquipmentTier topArmor;
 
-    [ContextMenu("UpgradeWeapon")]
-    public void UpgradeWeapon()
-    {
-        UpgradeWeapon(weapon);
-    }
+    //[SerializeField] private 
+    public UnityAction OnUpgradeSuccess;
 
-    public void UpgradeWeapon(EquipmentTier eTier)
+    public bool UpgradeWeapon(EquipmentTier eTier)
     {
         if (ResourceManager.Instance.HasGold(eTier.requiredGold))
         {
             ResourceManager.Instance.UseGold(eTier.requiredGold);
             eTier.UpgradeLevel();
+            OnUpgradeSuccess?.Invoke();
             Debug.Log("Upgrade Success");
+            return true;
         } else
         {
             // Not enouugh gold to upgrade
             Debug.Log("Not ENough Gold");
+            return false;
         }
         
     }
