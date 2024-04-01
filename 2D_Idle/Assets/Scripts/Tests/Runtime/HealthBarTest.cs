@@ -35,6 +35,7 @@ namespace ACF.Tests
 
 		[SerializeField] private Health targetHealth;
 		[SerializeField] private Transform orientation;
+		public bool useMaterial;
 		//[ContextMenu("Create Material")]
 		//private void CreateMaterial()
 		//{

@@ -12,7 +12,7 @@ public class LootTable : ScriptableObject
     [System.Serializable]
     public class ItemDrop
     {
-        public IDroppable item;
+        public ItemData item;
         [Range(0f, 100f)]
         public float dropRate;
         public Vector2Int dropCount = Vector2Int.one;
@@ -20,6 +20,7 @@ public class LootTable : ScriptableObject
 
     public string _lootID;
     public Vector2Int gold;
+    public int dropExp;
     [SerializeField] private ItemDrop[] _lootTable;
     
     public ItemDrop[] GetLootTableInfo()
@@ -72,16 +73,4 @@ public class LootTable : ScriptableObject
 
 }
 
-public interface IDroppable
-{
-    /// <summary>
-    /// 이 아이템이 드롭될떄 
-    /// </summary>
-    public void OnDrop();
 
-    /// <summary>
-    /// 이 아이템의 이름
-    /// </summary>
-    /// <returns></returns>
-    public string ToString();
-}

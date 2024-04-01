@@ -5,6 +5,7 @@ using DamageNumbersPro;
 using UnityEngine.Events;
 using Redcode.Pools;
 using Litkey.Stat;
+using Sirenix.OdinInspector;
 
 public class Health : MonoBehaviour, IPoolObject
 {
@@ -23,6 +24,7 @@ public class Health : MonoBehaviour, IPoolObject
     private Vector3 dmgOffset = new Vector3(0f, 0.5f, 0f);
 
     BoxCollider2D bCollider;
+    Rigidbody2D rb;
 
     public delegate void OnTakeDamage(float current, float max);
     public OnTakeDamage onTakeDamage;
@@ -31,6 +33,23 @@ public class Health : MonoBehaviour, IPoolObject
     public UnityAction OnReturnFromPool;
 
     private StatContainer _statContainer;
+
+    private void OnEnable()
+    {
+        _statContainer = GetComponent<StatContainer>();
+        _statContainer.HP.OnValueChanged += UpdateMaxHealth;
+
+    }
+
+    private void OnDisable()
+    {
+        _statContainer.HP.OnValueChanged -= UpdateMaxHealth;
+    }
+
+    private void UpdateMaxHealth(float mH)
+    {
+        maxHealth = mH;
+    }
     // return true when enemy death
     public bool TakeDamage(List<float> damages)
     {
@@ -43,7 +62,10 @@ public class Health : MonoBehaviour, IPoolObject
             {
                 currentHealth = 0f;
                 isDead = true;
-                bCollider.enabled = false;
+                bCollider.isTrigger = true;
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+
                 OnDeath?.Invoke();
                 return true;
             }
@@ -51,6 +73,7 @@ public class Health : MonoBehaviour, IPoolObject
         return false;
     }
 
+    [Button("TakeDamage")]
     public bool TakeDamage(List<Damage> damages)
     {
         List<float> finalDamages = new List<float>();
@@ -68,7 +91,10 @@ public class Health : MonoBehaviour, IPoolObject
         {
             currentHealth = 0f;
             isDead = true;
-            bCollider.enabled = false;
+            bCollider.isTrigger = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            
+
             OnDeath?.Invoke();
             return true;
         }
@@ -89,7 +115,10 @@ public class Health : MonoBehaviour, IPoolObject
     {
         isDead = false;
         bCollider = GetComponent<BoxCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         _statContainer = GetComponent<StatContainer>();
+        maxHealth = _statContainer.HP.FinalValue;
         currentHealth = maxHealth;
         dmg = Resources.Load<DamageNumberMesh>("Prefabs/BaseDamage");
     }
@@ -101,10 +130,19 @@ public class Health : MonoBehaviour, IPoolObject
 
     public void OnGettingFromPool()
     {
+        maxHealth = _statContainer.HP.FinalValue;
         currentHealth = maxHealth;
         isDead = false;
-        bCollider.enabled = true;
+        bCollider.isTrigger = false;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
         OnReturnFromPool?.Invoke();
         Debug.Log("@@@@@@GETFROMPOOL");
+    }
+
+    public void AddCurrentHealth(float value)
+    {
+        currentHealth += value;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, MaxHealth);
     }
 }

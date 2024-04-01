@@ -23,8 +23,21 @@ public class UnitLevel : ScriptableObject
     public bool showLog;
     public int level = 1;
 
-    public float currentExp;
-    public float maxExp = 100f;
+
+    public float CurrentExp => currentExp;
+    public float MaxExp
+    {
+        get
+        {
+            maxExp = MaxExpByLevel[level - 1];
+            return maxExp;
+        }
+    }
+
+
+
+    private float currentExp;
+    private float maxExp = 100f;
 
     public AnimationCurve curve;
 
@@ -35,39 +48,39 @@ public class UnitLevel : ScriptableObject
     private float initMaxExp = 100f;
 
     public UnityAction OnLevelUp;
+    public UnityAction<float, float> OnGainExp;
+    //public UnitLevel(AnimationCurve animCurve)
+    //{
+    //    this.maxLevel = 100;
+    //    this.maxExp = 100f;
+    //    this.initMaxExp = this.maxExp;
+    //    this.curve = new AnimationCurve(animCurve.keys);
+    //    this.growthFactor = 1.1f;
 
-    public UnitLevel(AnimationCurve animCurve)
-    {
-        this.maxLevel = 100;
-        this.maxExp = 100f;
-        this.initMaxExp = this.maxExp;
-        this.curve = new AnimationCurve(animCurve.keys);
-        this.growthFactor = 1.1f;
+    //    UpdateMaxExpsPerLevel();
+    //}
 
-        UpdateMaxExpsPerLevel();
-    }
+    //public UnitLevel(int maxLevel, float maxExp, AnimationCurve animCurve, float growthFactor = 1.1f)
+    //{
+    //    this.maxLevel = maxLevel;
+    //    this.maxExp = maxExp;
+    //    this.initMaxExp = this.maxExp;
+    //    this.curve = new AnimationCurve(animCurve.keys);
+    //    this.growthFactor = growthFactor;
 
-    public UnitLevel(int maxLevel, float maxExp, AnimationCurve animCurve, float growthFactor = 1.1f)
-    {
-        this.maxLevel = maxLevel;
-        this.maxExp = maxExp;
-        this.initMaxExp = this.maxExp;
-        this.curve = new AnimationCurve(animCurve.keys);
-        this.growthFactor = growthFactor;
+    //    UpdateMaxExpsPerLevel();
+    //}
 
-        UpdateMaxExpsPerLevel();
-    }
+    //public UnitLevel(int currentLevel, float currentExp, AnimationCurve animCurve)
+    //{
+    //    this.maxLevel = 100;
+    //    this.maxExp = 100f;
+    //    this.initMaxExp = this.maxExp;
+    //    this.curve = new AnimationCurve(animCurve.keys);
+    //    this.growthFactor = 1.1f;
 
-    public UnitLevel(int currentLevel, float currentExp, AnimationCurve animCurve)
-    {
-        this.maxLevel = 100;
-        this.maxExp = 100f;
-        this.initMaxExp = this.maxExp;
-        this.curve = new AnimationCurve(animCurve.keys);
-        this.growthFactor = 1.1f;
-
-        UpdateMaxExpsPerLevel();
-    }
+    //    UpdateMaxExpsPerLevel();
+    //}
     //public Dictionary<int, skillUpgrade> skillUpgrades;
 
     //public delegate void HitEffect(SpellEffect spellEffect, GameObject caster, GameObject target, Vector3 hitPoint);
@@ -76,7 +89,7 @@ public class UnitLevel : ScriptableObject
     {
         bool levelUp = false;
         currentExp += value;
-
+        OnGainExp?.Invoke(currentExp, maxExp);
         while (currentExp >= maxExp)
         {
             currentExp -= maxExp;
@@ -85,6 +98,11 @@ public class UnitLevel : ScriptableObject
         }
 
         return levelUp;
+    }
+
+    public float GetCurrentExp()
+    {
+        return currentExp;
     }
 
     public virtual void Grow()
@@ -105,7 +123,13 @@ public class UnitLevel : ScriptableObject
         //    Debug.Log($"Level {level} - maxEXP - {maxExp}\nGrowth - {growth}");
 
     }
+    public void SetLevel(int level, float currentExp)
+    {
+        this.level = level;
+        maxExp = MaxExpByLevel[level - 1];
+        this.currentExp = currentExp;
 
+    }
     public void Init()
     {
         this.maxLevel = 100;
@@ -121,7 +145,7 @@ public class UnitLevel : ScriptableObject
     {
         MaxExpByLevel.Clear();
         //float growthFactor = 1.1f;
-        float _maxExp = maxExp;
+        float _maxExp = initMaxExp;
         MaxExpByLevel.Add(Mathf.Round(_maxExp));
 
         for (int i = 0; i < maxLevel; i++)
@@ -141,9 +165,19 @@ public class UnitLevel : ScriptableObject
         UpdateMaxExpsPerLevel();
     }
 
+
     public float GetMaxExpAtLevel(int level)
     {
         return MaxExpByLevel[level - 1];
+    }
+
+    /// <summary>
+    /// 현재 경험치 비율을 리턴
+    /// </summary>
+    /// <returns></returns>
+    public float GetExpRatio()
+    {
+        return currentExp / maxExp;
     }
 }
 

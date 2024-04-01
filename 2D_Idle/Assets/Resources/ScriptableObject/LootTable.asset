@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lootID: 
   gold: {x: 0, y: 0}
-  _lootTable: []
+  dropExp: 0
+  _lootTable:
+  - item: {fileID: 0}
+    dropRate: 0
+    dropCount: {x: 1, y: 1}

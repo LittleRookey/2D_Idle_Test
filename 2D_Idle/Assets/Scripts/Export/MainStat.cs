@@ -107,7 +107,7 @@ namespace Litkey.Stat
             string s = "";
             foreach (SubStat ss in substats)
             {
-                s+= $"{ss.ToString()}: {ss.GetFinalValue()}\n";
+                s+= $"{ss.ToString()}: {ss.FinalValue}\n";
             }
             Debug.Log(s);
         }
@@ -135,12 +135,13 @@ namespace Litkey.Stat
                 UpdateFinalValue();
                 return _finalValue;
             }
-            set
-            {
-                float origin = _finalValue;
-                if (origin != value)
-                    OnValueChanged?.Invoke();
-            }
+            //set
+            //{
+            //    UpdateFinalValue();
+            //    float origin = _finalValue;
+            //    if (origin != value)
+            //        OnValueChanged?.Invoke(origin);
+            //}
         }
 
 
@@ -186,7 +187,7 @@ namespace Litkey.Stat
         private float _multipliedEquipValue; // 장비 스텟으로 추가된 * 스텟
         private float _multipliedBuffValue; // 버프 스텟으로 추가된 * 스텟
 
-        [HideInInspector] public UnityEvent OnValueChanged;
+        [HideInInspector] public UnityAction<float> OnValueChanged;
 
         // Constructor that has initial value
         public SubStat(string displayName, float initValue, eSubStatType statType, bool isPercantage = false)
@@ -231,6 +232,8 @@ namespace Litkey.Stat
             else if (stat.oper == OperatorType.subtract) _plusEquipValue -= stat.value;
             else if (stat.oper == OperatorType.multiply) _multipliedEquipValue += stat.value;
             else if (stat.oper == OperatorType.divide) _multipliedEquipValue -= stat.value;
+
+            UpdateFinalValue();
         }
         
 
@@ -244,6 +247,7 @@ namespace Litkey.Stat
                 else if (stat.oper == OperatorType.multiply) _multipliedEquipValue -= stat.value;
                 else if (stat.oper == OperatorType.divide) _multipliedEquipValue += stat.value;
             }
+            UpdateFinalValue();
         }
 
 
@@ -290,7 +294,7 @@ namespace Litkey.Stat
             UpdateFinalValue();
         }
 
-        public void AddStatValue(int value)
+        public void AddStatValue(float value)
         {
             _plusStatValue += value;
             UpdateFinalValue();
@@ -298,6 +302,7 @@ namespace Litkey.Stat
 
         private float UpdateFinalValue()
         {
+            float origin = _finalValue;
             // 초기 스텟
             _finalValue = this.BaseStat;
 
@@ -307,8 +312,9 @@ namespace Litkey.Stat
             //    _plusStatValue += inf.GetFinalValue();
             //}
 
-            _finalValue += _plusValue;
             _finalValue *= (1f + _multipliedValue);
+            _finalValue += _plusValue;
+            if (origin != _finalValue) OnValueChanged?.Invoke(_finalValue);
             return _finalValue;
         }
 
@@ -325,11 +331,6 @@ namespace Litkey.Stat
         // 공격력 적용 공식
         // 기본 공격력 * (1+ 곱셈 공격력) + 덧셈 공격력
         // 덧셈 공격력 = (스텟 추가 공격력 + 장비 공격력)
-        public float GetFinalValue()
-        {
-            float baseStat = this.BaseStat * (1 + _multipliedValue) + _plusValue;
-            return _finalValue;
-        }
 
         public override string ToString()
         {

@@ -19,7 +19,7 @@ public class StatContainer : MonoBehaviour
     public SubStat ExtraGold;
     public SubStat ExtraExp;
 
-    [SerializeField] private UnitLevel unitLevel;
+    //public UnitLevel unitLevel;
 
     private void Awake()
     {
@@ -55,5 +55,10 @@ public class StatContainer : MonoBehaviour
     public float Defend(float inComingDamage)
     {
         return Mathf.Max(1f, inComingDamage - Defense.FinalValue);
+    }
+
+    public void AddMaxHealth(float val)
+    {
+        HP.AddStatValue(val);
     }
 }
