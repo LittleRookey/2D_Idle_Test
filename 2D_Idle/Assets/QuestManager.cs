@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class InGameEventManager : MonoBehaviour
+public class QuestManager : MonoBehaviour
 {
     public Queue<InGameEvent> InGameEvents;
     [SerializeField] private EventTable eventTable;
@@ -30,20 +30,6 @@ public class InGameEventManager : MonoBehaviour
     }
     
 
-    public void PerformEvent(InGameEvent iEvent)
-    {
-        switch(iEvent.eventType)
-        {
-            case eEventType.일반몬스터토벌:
-                break;
-            case eEventType.엘리트몬스터:
-                break;
-            case eEventType.보스몬스터:
-                break;
-            case eEventType.몬스터토벌:
-                break;
-
-        }
-    }
+   
 }
 

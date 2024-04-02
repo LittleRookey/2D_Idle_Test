@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private InGameEventManager inGameEventManager;
+    [SerializeField] private QuestManager questManager;
     [SerializeField] private MapManager mapManager;
 
     
@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     private void StartEvent()
     {
-        currentEvent = inGameEventManager.GetEvent();
+        currentEvent = questManager.GetEvent();
         mapManager.SetDestination(currentEvent.eventPosition);
     }
 
