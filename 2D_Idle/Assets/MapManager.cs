@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class MapManager : MonoBehaviour
 {
@@ -32,6 +33,11 @@ public class MapManager : MonoBehaviour
     private Vector3 dragOrigin;
     public static float mapMinX, mapMaxX, mapMinY, mapMaxY;
     private float mapWidth, mapHeight;
+
+    [Header("Map etc")]
+    [SerializeField] private DOTweenAnimation mapTitleBG;
+    [SerializeField] private TextMeshProUGUI mapTitleText;
+    [SerializeField] private Transform areasParent;
 
     //public static float minX
     private bool canScroll = true;
@@ -68,6 +74,30 @@ public class MapManager : MonoBehaviour
         {
 
         }
+
+        var areas = areasParent.GetComponentsInChildren<Area>();
+        foreach(var area in areas)
+        {
+            area.OnPlayerEnterArea += DisplayAreaUI;
+        }
+    }
+
+    public void DisplayAreaUI(string mapName)
+    {
+        mapTitleBG.GetComponent<Image>().color = Color.white;
+        mapTitleText.color = Color.white;
+        mapTitleBG.gameObject.SetActive(true);
+        mapTitleBG.DORestartById("FadeIn");
+        mapTitleText.SetText(mapName);
+        mapTitleText.GetComponent<DOTweenAnimation>().DORestartById("FadeIn");
+        Debug.Log("Entered display UI: " + mapName);
+        //StartCoroutine(DisplayOff());
+    }
+
+    private IEnumerator DisplayOff()
+    {
+        yield return new WaitForSeconds(4f);
+        mapTitleBG.DORestartById("FadeOut");
     }
     // Start is called before the first frame update
     void Start()
