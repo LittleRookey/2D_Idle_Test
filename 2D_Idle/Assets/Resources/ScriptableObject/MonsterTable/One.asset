@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9b643495250a2f498f4ef2e7015799f, type: 3}
-  m_Name: FirstCountry
+  m_Name: One
   m_EditorClassIdentifier: 
   monsterWeights:
   - monster: {fileID: 6180691261887922630, guid: 7a63158d7a2ddfd4d980803b4efa2d79, type: 3}

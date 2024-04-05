@@ -11,7 +11,7 @@ public class MobManager : MonoBehaviour
     // 맵이 어디잇는지 알아야함
 
 
-    public Dictionary<eCountry, MonsterTable> monsterPool;
+    public Dictionary<eRegion, MonsterTable> monsterPool;
     private readonly string monsterTablePath = "ScriptableObject/MonsterTable/";
     public void Awake()
     {
@@ -23,38 +23,28 @@ public class MobManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Debug.Log(monsterTablePath + eCountry.FirstCountry.ToString());
-        monsterPool = new Dictionary<eCountry, MonsterTable>()
+        Debug.Log(monsterTablePath + eCountry.One.ToString());
+        monsterPool = new Dictionary<eRegion, MonsterTable>()
         {
-            { eCountry.FirstCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.FirstCountry.ToString()) },
-            { eCountry.SecondCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.SecondCountry.ToString()) },
-            { eCountry.ThirdCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.ThirdCountry.ToString()) },
-            { eCountry.FourthCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.FourthCountry.ToString()) },
-            { eCountry.FifthCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.FifthCountry.ToString()) },
-            { eCountry.SixthCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.SixthCountry.ToString()) },
-            { eCountry.SeventhCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.SeventhCountry.ToString()) },
-            { eCountry.EigthCountry, Resources.Load<MonsterTable>(monsterTablePath+eCountry.EigthCountry.ToString()) },
+            { eRegion.One, Resources.Load<MonsterTable>(monsterTablePath+eRegion.One.ToString()) },
+            { eRegion.Two, Resources.Load<MonsterTable>(monsterTablePath+eRegion.Two.ToString()) },
+            { eRegion.Three, Resources.Load<MonsterTable>(monsterTablePath+eRegion.Three.ToString()) },
+            { eRegion.Four, Resources.Load<MonsterTable>(monsterTablePath+eRegion.Four.ToString()) },
+            { eRegion.Five, Resources.Load<MonsterTable>(monsterTablePath+eRegion.Five.ToString()) },
+            { eRegion.Six, Resources.Load<MonsterTable>(monsterTablePath+eRegion.Six.ToString()) },
+            { eRegion.Seven, Resources.Load<MonsterTable>(monsterTablePath+eRegion.Seven.ToString()) },
+            { eRegion.Eight, Resources.Load<MonsterTable>(monsterTablePath+eRegion.Eight.ToString()) },
 
         };
 
 
     }
 
-    public Health GetEnemy(eCountry country)
-    {
-        return monsterPool[country].GetRandomMonster();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //public Health GetEnemy(eRegion reg)
+    //{
+    //    return monsterPool[reg].GetRandomMonster();
+    //}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
 
 

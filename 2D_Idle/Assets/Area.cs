@@ -6,14 +6,16 @@ using UnityEngine.Events;
 public class Area : MonoBehaviour
 {
     public string areaName;
+    public eRegion region;
+    public MonsterTable monsterTable;
 
-    public UnityAction<string> OnPlayerEnterArea;
+    public UnityAction<Area> OnPlayerEnterArea;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerMarker"))
         {
             Debug.Log("OnTriggerEnter Area");
-            OnPlayerEnterArea?.Invoke(areaName);
+            OnPlayerEnterArea?.Invoke(this);
         }
     }
     private void OnValidate()

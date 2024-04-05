@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6180691261887922630}
   - component: {fileID: 2510553012801979023}
   - component: {fileID: 3640421927060759991}
+  - component: {fileID: 2968445856354328260}
   m_Layer: 6
   m_Name: BigEnemy
   m_TagString: Untagged
@@ -166,57 +167,43 @@ MonoBehaviour:
   HP:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   Attack:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   Defense:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   AttackSpeed:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   MoveSpeed:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   CritChance:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   CritDamage:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   ExtraGold:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   ExtraExp:
     displayName: 
     statType: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
+--- !u!114 &2968445856354328260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6180691261887922626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26254f8534f9c8847bded7ab2803ebd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reward: {fileID: 11400000, guid: 7fc4695861461c44f96210889c038483, type: 2}
 --- !u!1001 &4341388614605211861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -406,6 +393,7 @@ MonoBehaviour:
   separator: {fileID: 6180691261148891793}
   targetHealth: {fileID: 6180691261887922630}
   orientation: {fileID: 6180691262969973600}
+  useMaterial: 0
 --- !u!224 &6180691262292374605 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7636288599208770712, guid: d7ef19ea18094814a8b23d649c479def, type: 3}

@@ -38,6 +38,38 @@ public class LootTable : ScriptableObject
         return s;
     }
 
+    public int GetGoldReward()
+    {
+        return Random.Range(gold.x, gold.y);
+    }
+
+    public int GetExpReward()
+    {
+        return dropExp;
+    }
+
+    public bool HasDropItem()
+    {
+        return _lootTable.Length > 0;
+    }
+
+    public List<CountableItem> GetDropItems()
+    {
+        List<CountableItem> itemDrops = new List<CountableItem>();
+        for (int i = 0; i < _lootTable.Length; i++)
+        {
+            if (ProbabilityCheck.GetThisChanceResult_Percentage(_lootTable[i].dropRate))
+            {
+                int count = Random.Range(_lootTable[i].dropCount.x, _lootTable[i].dropCount.y);
+                var item = _lootTable[i].item.CreateItem() as CountableItem;
+                item.SetAmount(count);
+                itemDrops.Add(item);
+            }
+        }
+        return itemDrops;
+
+    }
+
     //public IDroppable DropItem(Transform dropTransform)
     //{
 

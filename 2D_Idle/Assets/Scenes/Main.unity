@@ -635,99 +635,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11303466}
   m_CullTransparentMesh: 1
---- !u!1 &14861475
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 14861476}
-  - component: {fileID: 14861478}
-  - component: {fileID: 14861477}
-  m_Layer: 8
-  m_Name: goblin_11
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &14861476
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 14861475}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 437, y: 102.9}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &14861477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 14861475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_11
---- !u!60 &14861478
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 14861475}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -45.59668, y: -85.237305}
-      - {x: -10.208984, y: -94.35742}
-      - {x: 69.24414, y: -78.1416}
-      - {x: 87.41699, y: -78.112305}
-      - {x: 103.15137, y: -83.069336}
-      - {x: 103.36914, y: 62.887695}
-      - {x: 44.60254, y: 67.387695}
-      - {x: -11.673828, y: 78.2041}
-      - {x: -42.500977, y: 80.3125}
-      - {x: -101.18164, y: 53.222656}
-      - {x: -131.5039, y: 33.41797}
-      - {x: -137.20312, y: 25.28125}
-      - {x: -133.53711, y: 18.87207}
-      - {x: -110.19629, y: -4.609375}
-      - {x: -102.46777, y: -15.879883}
-      - {x: -95.413086, y: -25.770508}
-      - {x: -84.58301, y: -65.82324}
 --- !u!1 &18067297
 GameObject:
   m_ObjectHideFlags: 0
@@ -3728,123 +3635,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414378925}
   m_CullTransparentMesh: 1
---- !u!1 &428915145
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 428915146}
-  - component: {fileID: 428915148}
-  - component: {fileID: 428915147}
-  m_Layer: 8
-  m_Name: goblin_4
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &428915146
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 428915145}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -244.6, y: -42}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &428915147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 428915145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_4
---- !u!60 &428915148
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 428915145}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 158.93848, y: 80.30762}
-      - {x: 115.34766, y: 78.95703}
-      - {x: -18.339844, y: 95.038086}
-      - {x: -21.75293, y: 103.97656}
-      - {x: -27.216797, y: 108.89844}
-      - {x: -50.844727, y: 137.06445}
-      - {x: -73.97754, y: 169.07422}
-      - {x: -109.29492, y: 122.5918}
-      - {x: -143.33203, y: 87.59668}
-      - {x: -159.42188, y: 67.16211}
-      - {x: -154.51465, y: 52.030273}
-      - {x: -148.38281, y: 42.625977}
-      - {x: -144.79688, y: 37.5459}
-      - {x: -130.125, y: 13.329102}
-      - {x: -107.43164, y: -28.00586}
-      - {x: -95.32324, y: -49.55371}
-      - {x: -88.37109, y: -50.371094}
-      - {x: -67.10332, y: -62.229218}
-      - {x: -18.541992, y: -81.78027}
-      - {x: -3.9433594, y: -85.07617}
-      - {x: 36.95215, y: -94.893555}
-      - {x: 153.58887, y: -108.27051}
-      - {x: 159.7793, y: -103.87891}
-      - {x: 149.40234, y: -95.28613}
-      - {x: 118.37402, y: -59.945312}
-      - {x: 112.46484, y: -43.984375}
-      - {x: 121.15137, y: -36.944336}
-      - {x: 139.28906, y: -11.866211}
-      - {x: 157.19824, y: -18.862305}
-      - {x: 166.51434, y: -18.09235}
-      - {x: 174.39258, y: -8.21582}
-      - {x: 183.43633, y: 13.549381}
-      - {x: 201.20027, y: 26.000313}
-      - {x: 197.0039, y: 36.333008}
-      - {x: 196.76953, y: 49.115234}
-      - {x: 202.56738, y: 58.1709}
-      - {x: 211.47656, y: 63.97168}
-      - {x: 224.90625, y: 69.13965}
-      - {x: 233.23242, y: 70.4668}
-      - {x: 263.10938, y: 70.28516}
-      - {x: 284.67325, y: 113.40797}
 --- !u!1 &437624813
 GameObject:
   m_ObjectHideFlags: 0
@@ -4018,200 +3808,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443278190}
   m_CullTransparentMesh: 1
---- !u!1 &453501092
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 453501093}
-  - component: {fileID: 453501094}
-  - component: {fileID: 453501095}
-  m_Layer: 8
-  m_Name: goblin_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &453501093
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453501092}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -78.8, y: 136.2}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!60 &453501094
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453501092}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 118.33984, y: -63.831055}
-      - {x: 146.18066, y: -27.236328}
-      - {x: 213.13574, y: -24.066406}
-      - {x: 272.28906, y: -16.865234}
-      - {x: 253.58008, y: 4.178711}
-      - {x: 224.70508, y: 28.922852}
-      - {x: 212.3623, y: 48.34082}
-      - {x: 170.62012, y: 62.930664}
-      - {x: 43.00293, y: 84.51074}
-      - {x: -87.268555, y: 86.7959}
-      - {x: -181.18555, y: 77.11621}
-      - {x: -187.9541, y: 71.6875}
-      - {x: -239.55078, y: -8.899414}
-      - {x: -182.58, y: -83.33}
-      - {x: -148.3, y: -88.07}
-      - {x: -67.32, y: -97.32}
-      - {x: -10.211914, y: -98.95215}
-      - {x: 50.304573, y: -84.01325}
---- !u!114 &453501095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 453501092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_1
---- !u!1 &457788847
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 457788848}
-  - component: {fileID: 457788850}
-  - component: {fileID: 457788849}
-  m_Layer: 8
-  m_Name: goblin_15
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &457788848
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457788847}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -464.8, y: -223.5}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &457788849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457788847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_15
---- !u!60 &457788850
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457788847}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 351.73828, y: -61.691406}
-      - {x: 347.66602, y: -58.166992}
-      - {x: 341.77734, y: -56.643555}
-      - {x: 331.82227, y: -54.625}
-      - {x: 322.5703, y: -55.222656}
-      - {x: 308.41406, y: -50.725586}
-      - {x: 289.8047, y: -43.19922}
-      - {x: 241.25977, y: -23.582031}
-      - {x: 181.43555, y: 2.2402344}
-      - {x: 163.57324, y: 12.324219}
-      - {x: 115.67578, y: 20.427734}
-      - {x: 69.12891, y: 31.504883}
-      - {x: 52.11621, y: 38.36035}
-      - {x: 41.14453, y: 80.615234}
-      - {x: 31.901367, y: 128.76758}
-      - {x: 23.569336, y: 142.58105}
-      - {x: 5.774414, y: 190.91797}
-      - {x: 4.2158203, y: 207.56055}
-      - {x: -8.604492, y: 212.04688}
-      - {x: -21.339844, y: 214.42578}
-      - {x: -57.043945, y: 222.01367}
-      - {x: -75.18457, y: 215.8291}
-      - {x: -76.25098, y: -76.69238}
-      - {x: 352.125, y: -76.481445}
 --- !u!1 &481191388
 GameObject:
   m_ObjectHideFlags: 0
@@ -5110,187 +4706,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 542756069}
   m_CullTransparentMesh: 1
---- !u!1 &569557595
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 569557596}
-  - component: {fileID: 569557598}
-  - component: {fileID: 569557597}
-  m_Layer: 8
-  m_Name: goblin_10
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &569557596
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569557595}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 415, y: -38.7}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &569557597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569557595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_10
---- !u!60 &569557598
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569557595}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -89.646484, y: -38.563477}
-      - {x: -5.5234375, y: -71.49609}
-      - {x: 74.90625, y: -57.41992}
-      - {x: 99.29199, y: -68.68652}
-      - {x: 124.92969, y: -73.58496}
-      - {x: 124.89453, y: -11.5078125}
-      - {x: 124.14746, y: 58.833984}
-      - {x: 108.5293, y: 63.75}
-      - {x: 65.9375, y: 59.32617}
-      - {x: 11.387695, y: 48.024414}
-      - {x: -62.97168, y: 75.25195}
-      - {x: -118.1084, y: 48.94629}
-      - {x: -165.52148, y: 24.027344}
-      - {x: -132.32031, y: -6.609375}
-      - {x: -108.44043, y: -35.027344}
-      - {x: -100.88379, y: -47.632812}
---- !u!1 &576429574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 576429575}
-  - component: {fileID: 576429577}
-  - component: {fileID: 576429576}
-  m_Layer: 8
-  m_Name: goblin_19
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &576429575
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576429574}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 469.9, y: 240.5}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &576429576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576429574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_19
---- !u!60 &576429577
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576429574}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -65.86914, y: -45.518555}
-      - {x: -47.49121, y: -57.28711}
-      - {x: -43.064453, y: -59.51953}
-      - {x: -4.09375, y: -66.55957}
-      - {x: 30.297852, y: -71.88867}
-      - {x: 49.592773, y: -73.81641}
-      - {x: 70.49414, y: -73.63574}
-      - {x: 70.444336, y: 59.429688}
-      - {x: -91.01074, y: 59.344727}
-      - {x: -91.38379, y: 44.458008}
-      - {x: -87.17383, y: 38.976562}
-      - {x: -88.336914, y: 16.168945}
-      - {x: -99.87305, y: -27.180664}
 --- !u!1 &589140506
 GameObject:
   m_ObjectHideFlags: 0
@@ -6137,61 +5552,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &738200743
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 738200744}
-  m_Layer: 8
-  m_Name: BorderColliders
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &738200744
+--- !u!224 &738200744 stripped
 RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+  m_PrefabInstance: {fileID: 2079061801512017854}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738200743}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 453501093}
-  - {fileID: 992621005}
-  - {fileID: 1514871619}
-  - {fileID: 428915146}
-  - {fileID: 1149970280}
-  - {fileID: 1963449116}
-  - {fileID: 1112549649}
-  - {fileID: 1417754880}
-  - {fileID: 998328196}
-  - {fileID: 569557596}
-  - {fileID: 14861476}
-  - {fileID: 1360514844}
-  - {fileID: 1453955087}
-  - {fileID: 1548726228}
-  - {fileID: 457788848}
-  - {fileID: 1696351397}
-  - {fileID: 1298722949}
-  - {fileID: 1191188518}
-  - {fileID: 576429575}
-  m_Father: {fileID: 398284368}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &767096289
 GameObject:
   m_ObjectHideFlags: 0
@@ -7668,113 +7033,6 @@ RectTransform:
   m_AnchoredPosition: {x: -100, y: 19}
   m_SizeDelta: {x: 100, y: 10}
   m_Pivot: {x: 0, y: 1}
---- !u!1 &992621004
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 992621005}
-  - component: {fileID: 992621006}
-  - component: {fileID: 992621007}
-  m_Layer: 8
-  m_Name: goblin_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &992621005
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 992621004}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32, y: -96.3}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!60 &992621006
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 992621004}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -101.84961, y: 45.125977}
-      - {x: -93.04004, y: 68.2793}
-      - {x: -75.20117, y: 80.302734}
-      - {x: -51.365234, y: 68.93555}
-      - {x: -15.959961, y: 67.96875}
-      - {x: -7.8652344, y: 71.42871}
-      - {x: 5.7871094, y: 77.13281}
-      - {x: 14.467773, y: 85.549805}
-      - {x: 15.994141, y: 98.08008}
-      - {x: 19.71, y: 97.3}
-      - {x: 79.23449, y: 79.00335}
-      - {x: 130.60655, y: 61.039616}
-      - {x: 132.03407, y: 33.99274}
-      - {x: 138.90039, y: 3.3955078}
-      - {x: 116.00781, y: -26.833008}
-      - {x: 110.18652, y: -42.319336}
-      - {x: 41.069336, y: -48}
-      - {x: -11.28418, y: -72.94336}
-      - {x: -31.375977, y: -86.59277}
-      - {x: -44.09082, y: -93.69141}
-      - {x: -77.17871, y: -77.118164}
-      - {x: -90.75781, y: -65.83301}
-      - {x: -91.98535, y: -60.00293}
-      - {x: -105.67578, y: -55.070312}
-      - {x: -120.350586, y: -46.086914}
-      - {x: -155.58887, y: -7.649414}
-      - {x: -160.57812, y: 0.23046875}
-      - {x: -164.22266, y: 11.199219}
-      - {x: -137.64453, y: 44.003906}
-      - {x: -117.81055, y: 34.95703}
-      - {x: -110.47668, y: 36.17132}
---- !u!114 &992621007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 992621004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_2
 --- !u!1 &995531553
 GameObject:
   m_ObjectHideFlags: 0
@@ -7867,90 +7125,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995531553}
   m_CullTransparentMesh: 1
---- !u!1 &998328195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 998328196}
-  - component: {fileID: 998328198}
-  - component: {fileID: 998328197}
-  m_Layer: 8
-  m_Name: goblin_9
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &998328196
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998328195}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 232.2, y: -74.1}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &998328197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998328195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_9
---- !u!60 &998328198
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998328195}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 60.38379, y: -34.92871}
-      - {x: 83.00391, y: -12.557617}
-      - {x: 52.7666, y: 26.732422}
-      - {x: 17.460938, y: 60.16504}
-      - {x: -68.08594, y: 23.87793}
-      - {x: -66.243164, y: 3.3388672}
-      - {x: -60.92285, y: -19.140625}
-      - {x: -40.350586, y: -38.08496}
 --- !u!1 &1000689018
 GameObject:
   m_ObjectHideFlags: 0
@@ -8681,97 +7855,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107650450}
   m_CullTransparentMesh: 1
---- !u!1 &1112549648
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1112549649}
-  - component: {fileID: 1112549651}
-  - component: {fileID: 1112549650}
-  m_Layer: 8
-  m_Name: goblin_7
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1112549649
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1112549648}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30.1, y: -201.6}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1112549650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1112549648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_7
---- !u!60 &1112549651
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1112549648}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 9.386719, y: 40.879883}
-      - {x: -21.304688, y: 24.822266}
-      - {x: -41.572266, y: 12.154297}
-      - {x: -53.62793, y: 14.981445}
-      - {x: -77.42676, y: 30.950195}
-      - {x: -81.48633, y: 16.592773}
-      - {x: -89.083984, y: 4.618164}
-      - {x: -92.97844, y: 0.88996124}
-      - {x: 6.9716797, y: -20.18164}
-      - {x: 92.05664, y: -36.121094}
-      - {x: 92.56543, y: -36.11914}
-      - {x: 81.36328, y: -26.338867}
-      - {x: 74.4668, y: -17.341797}
-      - {x: 48.85547, y: 12.450195}
-      - {x: 37.42813, y: 20.443123}
 --- !u!1 &1119137767
 GameObject:
   m_ObjectHideFlags: 0
@@ -9091,112 +8174,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137148829}
   m_CullTransparentMesh: 1
---- !u!1 &1149970279
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1149970280}
-  - component: {fileID: 1149970282}
-  - component: {fileID: 1149970281}
-  m_Layer: 8
-  m_Name: goblin_5
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1149970280
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149970279}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -332.1, y: -152}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1149970281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149970279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_5
---- !u!60 &1149970282
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149970279}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 35.80957, y: 41.146484}
-      - {x: -2.5107422, y: 60.50586}
-      - {x: -7.798828, y: 60.01953}
-      - {x: -26.648438, y: 95.69141}
-      - {x: -65.15332, y: 158.14941}
-      - {x: -71.34082, y: 174.72266}
-      - {x: -84.6875, y: 162.01562}
-      - {x: -111.17871, y: 147.44434}
-      - {x: -129.51855, y: 133.8916}
-      - {x: -115.56738, y: 83.99902}
-      - {x: -101.0625, y: 58.70703}
-      - {x: -86.442184, y: -11.466522}
-      - {x: -77.16211, y: -36.756836}
-      - {x: 28.87207, y: -58.01758}
-      - {x: 33.750977, y: -63.256836}
-      - {x: 176.26758, y: -122.52637}
-      - {x: 212.93945, y: -128.58301}
-      - {x: 218.58984, y: -131.24805}
-      - {x: 218.96191, y: -127.331055}
-      - {x: 225.70898, y: -116.21875}
-      - {x: 228.91992, y: -106.509766}
-      - {x: 229.79004, y: -90.61328}
-      - {x: 220.83105, y: -80.643555}
-      - {x: 203.87988, y: -52.796875}
-      - {x: 175.11005, y: -22.522038}
-      - {x: 168.74414, y: -16.125977}
-      - {x: 162.34843, y: -9.422298}
-      - {x: 156.0157, y: -5.2535934}
-      - {x: 124.916016, y: 15.6875}
-      - {x: 93.76309, y: 22.282967}
 --- !u!1 &1150345817
 GameObject:
   m_ObjectHideFlags: 0
@@ -9827,95 +8804,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182092124}
   m_CullTransparentMesh: 1
---- !u!1 &1191188517
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1191188518}
-  - component: {fileID: 1191188520}
-  - component: {fileID: 1191188519}
-  m_Layer: 8
-  m_Name: goblin_18
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1191188518
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191188517}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 454.8, y: -238.6}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1191188519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191188517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_18
---- !u!60 &1191188520
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191188517}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 85.94531, y: -61.495117}
-      - {x: 85.5293, y: 124.92285}
-      - {x: 58.32422, y: 131.4707}
-      - {x: 34.291992, y: 142.10547}
-      - {x: -45.57715, y: 127.9668}
-      - {x: -56.04492, y: 101.368164}
-      - {x: -79.00781, y: 27.768555}
-      - {x: -144.09375, y: 0.9033203}
-      - {x: -160.16016, y: -12.552734}
-      - {x: -194.3086, y: -29.199219}
-      - {x: -238.9248, y: -40.73633}
-      - {x: -219.01465, y: -49.666016}
-      - {x: -204.36914, y: -62.134766}
 --- !u!1 &1198262264
 GameObject:
   m_ObjectHideFlags: 0
@@ -9957,8 +8845,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 197}
-  m_SizeDelta: {x: 0, y: 600}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 794.18}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1198262266
 MonoBehaviour:
@@ -10278,187 +9166,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1298722948
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1298722949}
-  - component: {fileID: 1298722951}
-  - component: {fileID: 1298722950}
-  m_Layer: 8
-  m_Name: goblin_17
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1298722949
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298722948}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 348.7, y: -137.5}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1298722950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298722948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_17
---- !u!60 &1298722951
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298722948}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -43.61914, y: -31.277344}
-      - {x: -40.021484, y: -68.69238}
-      - {x: -39.22754, y: -100.34766}
-      - {x: 26.707031, y: -74.00488}
-      - {x: 59.774414, y: 25.580078}
-      - {x: -23.308594, y: 61.18164}
-      - {x: -57.19336, y: 26.168945}
---- !u!1 &1360514843
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1360514844}
-  - component: {fileID: 1360514846}
-  - component: {fileID: 1360514845}
-  m_Layer: 8
-  m_Name: goblin_12
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1360514844
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360514843}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 245.9, y: 185.1}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1360514845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360514843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_12
---- !u!60 &1360514846
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360514843}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -13.883789, y: -56.76172}
-      - {x: 8.944336, y: -57.631836}
-      - {x: 53.460938, y: -60.305664}
-      - {x: 54.36035, y: -53.527344}
-      - {x: 89.44336, y: -28.62207}
-      - {x: 146.06836, y: -1.9677734}
-      - {x: 178.90723, y: -3.696289}
-      - {x: 145.89844, y: 16.999023}
-      - {x: 121.69336, y: 29.078125}
-      - {x: 64.6084, y: 47.719727}
-      - {x: 5.970703, y: 53.933594}
-      - {x: -54.585938, y: 63.299805}
-      - {x: -96.67383, y: 46.8291}
-      - {x: -131.22949, y: 30.361328}
-      - {x: -142.47363, y: 23.391602}
-      - {x: -154.78418, y: 14.286133}
-      - {x: -114.17871, y: 0.9589844}
-      - {x: -102.984375, y: -15.816406}
-      - {x: -81.5625, y: -36.464844}
-      - {x: -65.92969, y: -50.38379}
-      - {x: -59.05078, y: -56.20508}
-      - {x: -52.9834, y: -66.11035}
 --- !u!1 &1363929591
 GameObject:
   m_ObjectHideFlags: 0
@@ -10996,117 +9703,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401834247}
   m_CullTransparentMesh: 1
---- !u!1 &1417754879
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1417754880}
-  - component: {fileID: 1417754882}
-  - component: {fileID: 1417754881}
-  m_Layer: 8
-  m_Name: goblin_8
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1417754880
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417754879}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 205.7, y: -180.5}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1417754881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417754879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_8
---- !u!60 &1417754882
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1417754879}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 49.438477, y: 69.18652}
-      - {x: 2.5751953, y: 69.09766}
-      - {x: -12.7890625, y: 66.83301}
-      - {x: -29.217773, y: 79.77344}
-      - {x: -34.661133, y: 87.33887}
-      - {x: -49.86328, y: 71.99805}
-      - {x: -63.8916, y: 41.77246}
-      - {x: -129.36809, y: 34.988594}
-      - {x: -132.39551, y: 34.76172}
-      - {x: -133.71387, y: 34.418945}
-      - {x: -150.54199, y: 28.149414}
-      - {x: -165.82129, y: 20.02539}
-      - {x: -135.86133, y: -1.0947266}
-      - {x: -118.97461, y: -16.452148}
-      - {x: -100.00781, y: -39.51758}
-      - {x: -91.77832, y: -49.99414}
-      - {x: -81.24609, y: -57.496094}
-      - {x: -71.61035, y: -65.84668}
-      - {x: -60.137695, y: -71.92578}
-      - {x: -52.470703, y: -78.86621}
-      - {x: -27.416016, y: -87.71387}
-      - {x: 2.477539, y: -97.44922}
-      - {x: 21.916992, y: -96.39453}
-      - {x: 42.4541, y: -90.96289}
-      - {x: 59.850586, y: -84.59961}
-      - {x: 81.87305, y: -73.67383}
-      - {x: 104.49609, y: -59.58496}
-      - {x: 102.55371, y: -22.581055}
-      - {x: 101.197266, y: -4.203125}
-      - {x: 99.09668, y: 6.0097656}
-      - {x: 96.25781, y: 24.416992}
-      - {x: 91.48242, y: 47.283203}
-      - {x: 87.37793, y: 56.97754}
-      - {x: 85.62891, y: 70.8916}
-      - {x: 71.86075, y: 70.14234}
 --- !u!1 &1431761689
 GameObject:
   m_ObjectHideFlags: 0
@@ -11242,98 +9838,6 @@ RectTransform:
   m_AnchoredPosition: {x: 22.2, y: -6.7}
   m_SizeDelta: {x: 86.4015, y: 10}
   m_Pivot: {x: 0.5, y: 1}
---- !u!1 &1453955086
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1453955087}
-  - component: {fileID: 1453955089}
-  - component: {fileID: 1453955088}
-  m_Layer: 8
-  m_Name: goblin_13
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1453955087
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453955086}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 146.1, y: 270.7}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1453955088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453955086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_13
---- !u!60 &1453955089
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453955086}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -188.65527, y: -41.762695}
-      - {x: -179.36816, y: -50.285156}
-      - {x: -55.799805, y: -71.668945}
-      - {x: -27.859375, y: -52.092773}
-      - {x: 43.876953, y: -22.013672}
-      - {x: 153.82227, y: -38.091797}
-      - {x: 173.26367, y: -40.655273}
-      - {x: 223.81348, y: -57.206055}
-      - {x: 235.49902, y: -12.612305}
-      - {x: 236.75586, y: 3.84375}
-      - {x: 233.19922, y: 13.59082}
-      - {x: 232.67871, y: 30.402344}
-      - {x: -139.58203, y: 30.484375}
-      - {x: -154.41309, y: 8.897461}
-      - {x: -173.07812, y: -9.808594}
-      - {x: -222.66797, y: -23.66211}
 --- !u!1 &1456098104
 GameObject:
   m_ObjectHideFlags: 0
@@ -11641,103 +10145,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474680151}
   m_CullTransparentMesh: 1
---- !u!1 &1514871618
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1514871619}
-  - component: {fileID: 1514871621}
-  - component: {fileID: 1514871620}
-  m_Layer: 8
-  m_Name: goblin_3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1514871619
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514871618}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 181.8, y: 46.5}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1514871620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514871618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_3
---- !u!60 &1514871621
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514871618}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 68.15332, y: 81.94238}
-      - {x: 49.918945, y: 81.41211}
-      - {x: -9.75293, y: 69.68457}
-      - {x: -113.64551, y: 62.342773}
-      - {x: -115.836914, y: 60.432617}
-      - {x: -140.0625, y: 26.66504}
-      - {x: -163.10449, y: -19.123047}
-      - {x: -150.93164, y: -24.203125}
-      - {x: -142.3916, y: -28.38379}
-      - {x: -137.69531, y: -34.140625}
-      - {x: -133.7625, y: -43.417694}
-      - {x: -18.541992, y: -81.78027}
-      - {x: -18.254883, y: -95.30078}
-      - {x: 89.15332, y: -51.756836}
-      - {x: 113.52832, y: -36.402344}
-      - {x: 133.06934, y: -31.539062}
-      - {x: 169.37665, y: -8.685123}
-      - {x: 162.17265, y: 24.588444}
-      - {x: 158.67, y: 34.18}
-      - {x: 136.33887, y: 59.65332}
-      - {x: 116.6, y: 78.24}
 --- !u!1 &1528955453
 GameObject:
   m_ObjectHideFlags: 0
@@ -11892,99 +10299,6 @@ MonoBehaviour:
   mapTitleBG: {fileID: 341279087}
   mapTitleText: {fileID: 246450775}
   areasParent: {fileID: 738200744}
---- !u!1 &1548726227
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1548726228}
-  - component: {fileID: 1548726230}
-  - component: {fileID: 1548726229}
-  m_Layer: 8
-  m_Name: goblin_14
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1548726228
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548726227}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -425.2, y: 190.8}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1548726229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548726227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_14
---- !u!60 &1548726230
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548726227}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -97.21094, y: -192.20801}
-      - {x: -85.73242, y: -195.3164}
-      - {x: -34.03418, y: -203.88086}
-      - {x: -2.6875, y: -187.07812}
-      - {x: 19.173828, y: -168.08203}
-      - {x: 70.55469, y: -111.31641}
-      - {x: 105.444336, y: -62.566406}
-      - {x: 162.34473, y: 20.188477}
-      - {x: 169.1709, y: 23.411133}
-      - {x: 257.28125, y: 31.063477}
-      - {x: 390.04004, y: 32.085938}
-      - {x: 349.04492, y: 56.279297}
-      - {x: 398.30176, y: 69.63281}
-      - {x: 415.62793, y: 87.16406}
-      - {x: 431.64258, y: 109.92285}
-      - {x: -114.77051, y: 111.09766}
-      - {x: -115.60547, y: -199.96777}
 --- !u!1 &1551607520
 GameObject:
   m_ObjectHideFlags: 0
@@ -12770,99 +11084,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673156628}
   m_CullTransparentMesh: 1
---- !u!1 &1696351396
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1696351397}
-  - component: {fileID: 1696351399}
-  - component: {fileID: 1696351398}
-  m_Layer: 8
-  m_Name: goblin_16
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1696351397
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696351396}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.1, y: -266.7}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1696351398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696351396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_16
---- !u!60 &1696351399
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696351396}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 232.26855, y: -33.135742}
-      - {x: 220.43262, y: -23.82129}
-      - {x: 206.1416, y: -15.609375}
-      - {x: 185.7334, y: -9.84375}
-      - {x: 137.64258, y: 6.46875}
-      - {x: 122.35254, y: 18.18164}
-      - {x: 103.60254, y: 28.776367}
-      - {x: -23.581055, y: 53.220703}
-      - {x: -80.61328, y: 65.50293}
-      - {x: -105.703125, y: 36.530273}
-      - {x: -130.26562, y: 35.838867}
-      - {x: -122.103516, y: 26.05371}
-      - {x: -121.09863, y: 20.373047}
-      - {x: -122.625, y: 6.911133}
-      - {x: -124.93652, y: -4.9365234}
-      - {x: -130.48535, y: -14.232422}
-      - {x: -131.53418, y: -33.95117}
 --- !u!1 &1748601890
 GameObject:
   m_ObjectHideFlags: 0
@@ -13767,101 +11988,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933671290}
   m_CullTransparentMesh: 1
---- !u!1 &1963449115
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1963449116}
-  - component: {fileID: 1963449118}
-  - component: {fileID: 1963449117}
-  m_Layer: 8
-  m_Name: goblin_6
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1963449116
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963449115}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 738200744}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -101, y: -180.9}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1963449117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963449115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaName: goblin_6
---- !u!60 &1963449118
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963449115}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 41.097656, y: 24.13379}
-      - {x: 26.963867, y: 29.88086}
-      - {x: 16.973633, y: 35.160156}
-      - {x: 9.720703, y: 31.124023}
-      - {x: -14.333008, y: 33.950195}
-      - {x: -49.58008, y: 37.345703}
-      - {x: -108.98828, y: 45.07422}
-      - {x: -87.12109, y: 32.283203}
-      - {x: -68.69336, y: 17.842773}
-      - {x: -53.913086, y: 5.1367188}
-      - {x: -38.7666, y: -10.419922}
-      - {x: -10.994141, y: -49.768555}
-      - {x: 13.306641, y: -49.498047}
-      - {x: 28.209763, y: -32.256283}
-      - {x: 44.048904, y: -12.498711}
-      - {x: 50.793945, y: 0.4814453}
-      - {x: 54.086914, y: 9.487305}
-      - {x: 52.77246, y: 11.0234375}
-      - {x: 41.348053, y: 20.443123}
 --- !u!1 &1972814491
 GameObject:
   m_ObjectHideFlags: 0
@@ -14281,6 +12407,7 @@ MonoBehaviour:
   currentCountry: 0
   currentRegion: 0
   monsterPrefab: {fileID: 6180691261887922630, guid: 80fd1d370c97a0d4f83635ba4250dfa2, type: 3}
+  mapManager: {fileID: 1547629040}
 --- !u!1 &2088511393
 GameObject:
   m_ObjectHideFlags: 0
@@ -16406,6 +14533,171 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1756675439821503937}
   m_CullTransparentMesh: 1
+--- !u!1001 &2079061801512017854
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 398284368}
+    m_Modifications:
+    - target: {fileID: 2079061799683146915, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061799950965528, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800151863459, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800245274303, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800277280686, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800342390010, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800375726187, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800474982060, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800514369751, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800522155929, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800625499960, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800866043963, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061800967986659, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061801012462006, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801176470297, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: m_Name
+      value: BorderColliders
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079061801368397429, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061801399243279, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    - target: {fileID: 2079061801522682651, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
+      propertyPath: monsterTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
 --- !u!1001 &3227098917932265776
 PrefabInstance:
   m_ObjectHideFlags: 0

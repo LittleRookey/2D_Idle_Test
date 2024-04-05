@@ -23,10 +23,11 @@ namespace Litkey.Utility
 
     public static class ProbabilityCheck
     {
-        /*
-         * @param Chance: float number between 0 and 1
-         * Return: returns the success based on the given chance number between 0 and 1
-         */
+        /// <summary>
+        /// Chance: float number between 0 and 1
+        /// </summary>
+        /// <param name="Chance"></param>
+        /// <returns>returns the success based on the given chance number between 0 and 1</returns>
         public static bool GetThisChanceResult(float Chance)
         {
             if (Chance < 0.0000001f)
@@ -45,10 +46,12 @@ namespace Litkey.Utility
             return Success;
         }
 
-        /*
-         * @param Percentage_Chance: number between 0 and 100.
-         * Return: returns the success based on the given number percentage
-         */
+        
+        /// <summary>
+        /// Percentage_Chance: number between 0 and 100.
+        /// </summary>
+        /// <param name="Percentage_Chance"></param>
+        /// <returns>returns the success based on the given number percentage</returns>
         public static bool GetThisChanceResult_Percentage(float Percentage_Chance)
         {
             if (Percentage_Chance < 0.0000001f)

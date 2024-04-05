@@ -6,27 +6,42 @@ using Redcode.Pools;
 
 public enum eCountry
 {
-    FirstCountry,
-    SecondCountry,
-    ThirdCountry,
-    FourthCountry,
-    FifthCountry,
-    SixthCountry,
-    SeventhCountry, 
-    EigthCountry
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
+    Ten
+
+
 }
 
 public enum eRegion
 {
-    FirstRegion,
-    Second,
-    Third,
-    Fourth,
-    Fifth,
-    Sixth,
-    Seventh,
-    Eigth,
-    Nineth
+    Town,
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
+    Ten,
+    Eleven,
+    Twelve,
+    Thirteen,
+    Fourteen,
+    Fifteen,
+    Sixteen,
+    Seventeen,
+    Eighteen,
+    Nineteen
 }
 
 public enum eHuntMode
@@ -58,7 +73,8 @@ public class SpawnManager : MonoBehaviour
     // 맵에 쓸 모든 몬스터 프리팹들을 미리 풀을 만들어서 저장한다. 
     // 플레이어가 해당 지역을 진입했을떄 그 지역의 몬스터들의 풀을 활성화 시킨다. 
     Pool<Health> enemyPool;
-    
+
+    [SerializeField] private MapManager mapManager;
 
     private void Awake()
     {
@@ -67,7 +83,8 @@ public class SpawnManager : MonoBehaviour
 
     public void Spawn()
     {
-        var monsterToSpawn = MobManager.Instance.GetEnemy(eCountry.FirstCountry);
+        var monsterToSpawn = mapManager.CurrentArea.monsterTable.GetRandomMonster();
+        //var monsterToSpawn = MobManager.Instance.GetEnemy(eRegion.One);
 
         // 가져온 몬스터가 풀에 없으면 풀을 만들어서 딕셔너리에 저장
         if (!monsterDict.TryGetValue(monsterToSpawn.Name, out Pool<Health> pool))

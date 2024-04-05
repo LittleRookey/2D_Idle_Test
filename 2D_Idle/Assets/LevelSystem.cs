@@ -6,6 +6,8 @@ public class LevelSystem : MonoBehaviour
 {
     [SerializeField] public UnitLevel unitLevel;
 
+    Health health;
+
     public float GetCurrentExp()
     {
         return unitLevel.CurrentExp;
@@ -22,6 +24,10 @@ public class LevelSystem : MonoBehaviour
         return unitLevel.level;
     }
 
+    public void GainExp(int val)
+    {
+        unitLevel.GainExp(val);
+    }
     public float GetCurrentExpRate()
     {
         return unitLevel.CurrentExp / unitLevel.MaxExp;
@@ -36,15 +42,6 @@ public class LevelSystem : MonoBehaviour
     {
 
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

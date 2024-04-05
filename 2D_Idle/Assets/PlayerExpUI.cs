@@ -23,6 +23,12 @@ public class PlayerExpUI : MonoBehaviour
         });
     }
 
+    public void ResetExp()
+    {
+        expBar.fillAmount = 0f;
+        expText.SetText($"{expBar.fillAmount.ToString("F2")}%");
+    }
+
     private void Start()
     {
         UpdateExp(levelSystem.GetCurrentExp(), levelSystem.GetMaxExp());
@@ -30,10 +36,12 @@ public class PlayerExpUI : MonoBehaviour
     private void OnEnable()
     {
         levelSystem.unitLevel.OnGainExp += UpdateExp;
+        levelSystem.unitLevel.OnLevelUp += ResetExp;
     }
 
     private void OnDisable()
     {
         levelSystem.unitLevel.OnGainExp -= UpdateExp;
+        levelSystem.unitLevel.OnLevelUp -= ResetExp;
     }
 }

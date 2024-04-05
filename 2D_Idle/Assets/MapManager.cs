@@ -45,6 +45,13 @@ public class MapManager : MonoBehaviour
     private readonly string townPath = "ScriptableObject/Town/";
 
     public UnityAction OnArriveDestination;
+
+    private eCountry currentCountry;
+    private eRegion currentRegion;
+    private Area currentArea;
+    public Area CurrentArea => currentArea;
+    public eRegion CurrentRegion => currentRegion;
+
     private void Awake()
     {
         mapWidth = screenMap.rect.width/2;
@@ -80,17 +87,21 @@ public class MapManager : MonoBehaviour
         {
             area.OnPlayerEnterArea += DisplayAreaUI;
         }
+
+        
     }
 
-    public void DisplayAreaUI(string mapName)
+    public void DisplayAreaUI(Area area)
     {
+        currentArea = area;
+        currentRegion = area.region;
         mapTitleBG.GetComponent<Image>().color = Color.white;
         mapTitleText.color = Color.white;
         mapTitleBG.gameObject.SetActive(true);
         mapTitleBG.DORestartById("FadeIn");
-        mapTitleText.SetText(mapName);
+        mapTitleText.SetText(area.areaName);
         mapTitleText.GetComponent<DOTweenAnimation>().DORestartById("FadeIn");
-        Debug.Log("Entered display UI: " + mapName);
+        Debug.Log("Entered display UI: " + area.areaName);
         //StartCoroutine(DisplayOff());
     }
 
