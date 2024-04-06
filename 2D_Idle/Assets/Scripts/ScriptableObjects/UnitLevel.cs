@@ -45,7 +45,7 @@ public class UnitLevel : ScriptableObject
     public float extraExpPerLevel = 50;
     [ListDrawerSettings(ShowIndexLabels = true)]
     public List<float> MaxExpByLevel = new List<float>();
-    private float initMaxExp = 100f;
+    [SerializeField] private float initMaxExp = 100f;
 
     public UnityAction OnLevelUp;
     public UnityAction<float, float> OnGainExp;
@@ -148,7 +148,7 @@ public class UnitLevel : ScriptableObject
         float _maxExp = initMaxExp;
         MaxExpByLevel.Add(Mathf.Round(_maxExp));
 
-        for (int i = 0; i < maxLevel; i++)
+        for (int i = 1; i < maxLevel; i++)
         {
 
             int _level = i + 1;

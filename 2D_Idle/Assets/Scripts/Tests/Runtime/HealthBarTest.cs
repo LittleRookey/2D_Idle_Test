@@ -99,7 +99,7 @@ namespace ACF.Tests
 			targetHealth.OnReturnFromPool -= ResetHealthBar;
 		}
 
-		public void DisableHealthBar()
+		public void DisableHealthBar(LevelSystem attacker)
         {
 			orientation.gameObject.SetActive(false);
 

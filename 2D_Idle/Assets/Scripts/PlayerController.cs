@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private bool canMove;
 
     private StatContainer _statContainer;
+    private LevelSystem _levelSystem;
     private enum eBehavior
     {
         idle,
@@ -44,13 +45,14 @@ public class PlayerController : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         _statContainer = GetComponent<StatContainer>();
+        _levelSystem = GetComponent<LevelSystem>();
     }
     // Start is called before the first frame update
     void Start()
     {
         
         EnableMovement();
-        SwitchState(eBehavior.walk);
+        SwitchState(eBehavior.run);
     }
 
     private void MoveRight()
@@ -121,6 +123,12 @@ public class PlayerController : MonoBehaviour
             case eBehavior.run:
                 if (canMove)
                     RunRight();
+
+                if (Target == null)
+                {
+                    SearchForTarget();
+
+                }
                 if (TargetWithinAttackRange())
                 {
                     SwitchState(eBehavior.attack);
@@ -149,7 +157,6 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool(isWalking, false);
                 break;
             case eBehavior.run:
-
                 anim.SetBool(isRunning, false);
 
                 break;
@@ -174,7 +181,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case eBehavior.walk:
                 //anim.SetBool(isWalking, true);
-                anim.SetBool(isRunning, true);
+                anim.SetBool(isWalking, true);
                 break;
             case eBehavior.run:
 
@@ -195,6 +202,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SmoothWalk()
+    {
+        EnableMovement();
+        SwitchState(eBehavior.walk);
+    }
+
     private bool TargetWithinAttackRange()
     {
         if (Target == null)
@@ -203,6 +216,7 @@ public class PlayerController : MonoBehaviour
         }
         return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
     }
+
     private bool HasNoTarget()
     {
         return Target == null;
@@ -240,7 +254,7 @@ public class PlayerController : MonoBehaviour
         if (Target.IsDead)
         {
             Target = null;
-            SwitchState(eBehavior.walk);
+            SwitchState(eBehavior.run);
         } else
         {
             anim.SetFloat(AttackState, Random.Range(0, 1f));
@@ -253,7 +267,7 @@ public class PlayerController : MonoBehaviour
         // 데미지 계산
         var dmg = _statContainer.GetFinalDamage();
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-        Target.TakeDamage(new List<Damage> { dmg });
+        Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
         
     }
 

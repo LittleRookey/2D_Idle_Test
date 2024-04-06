@@ -27,13 +27,11 @@ public class RewardContainer : MonoBehaviour
         health.OnDeath -= GainReward;
     }
 
-    public void GainReward()
+    public void GainReward(LevelSystem attacker)
     {
-        levelSystem = GetComponent<LevelSystem>();
-        if (levelSystem != null)
-        {
-            levelSystem.GainExp(reward.GetExpReward());
-        }
+
+        attacker.GainExp(reward.GetExpReward());
+        
 
         ResourceManager.Instance.GainGold(reward.GetGoldReward());
 

@@ -22,7 +22,6 @@ public enum eCountry
 
 public enum eRegion
 {
-    Town,
     One,
     Two,
     Three,
@@ -41,7 +40,8 @@ public enum eRegion
     Sixteen,
     Seventeen,
     Eighteen,
-    Nineteen
+    Nineteen,
+    Town,
 }
 
 public enum eHuntMode
@@ -76,6 +76,11 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private MapManager mapManager;
 
+    private float spawnTimer = 5f;
+    private static float spawnCounter = 0f;
+
+    public static bool stopTimer;
+
     private void Awake()
     {
         monsterDict = new Dictionary<string, Pool<Health>>();
@@ -83,6 +88,7 @@ public class SpawnManager : MonoBehaviour
 
     public void Spawn()
     {
+        StopTimer();
         var monsterToSpawn = mapManager.CurrentArea.monsterTable.GetRandomMonster();
         //var monsterToSpawn = MobManager.Instance.GetEnemy(eRegion.One);
 
@@ -99,14 +105,15 @@ public class SpawnManager : MonoBehaviour
         spawnedMonster = mons;
     }
 
-    private void OnMonsterDeath()
+    private void OnMonsterDeath(LevelSystem attacker)
     {
         // 몬스터풀로 되돌려 보내기
         if (!monsterDict.ContainsKey(spawnedMonster.Name)) Debug.LogError("몬스터" + spawnedMonster.Name+" 키가 없습니다");
         spawnedMonster.OnDeath -= OnMonsterDeath;
         monsterDict[spawnedMonster.Name].Take(spawnedMonster);
         spawnedMonster = null;
-        StartCoroutine(StartSpawn());
+        //StartCoroutine(StartSpawn());
+        StartTimer();
     }
 
     private IEnumerator StartSpawn()
@@ -114,10 +121,10 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(spawnDelay);
         Spawn();
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        Spawn();
+        //Spawn();
         //Resources.LoadAll<Health>
         //monsterDict = new Dictionary<eRegion, Transform> { eRegion.FirstRegion, }
     }
@@ -125,7 +132,26 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        spawnCounter += Time.deltaTime;
+        if (spawnCounter >= spawnTimer && !stopTimer)
+        {
+
+            Spawn();
+            spawnCounter = 0f;
+        }
+    }
+
+    public static void StopTimer()
+    {
+        stopTimer = true;
+
+    }
+
+    public static void StartTimer()
+    {
+        spawnCounter = 0f;
+        stopTimer = false;
     }
 }
 

@@ -39,6 +39,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mapTitleText;
     [SerializeField] private Transform areasParent;
 
+    [Header("Player")]
+    [SerializeField] private PlayerController player;
+
     //public static float minX
     private bool canScroll = true;
     
@@ -93,6 +96,15 @@ public class MapManager : MonoBehaviour
 
     public void DisplayAreaUI(Area area)
     {
+        if (area.region == eRegion.Town)
+        {
+            SpawnManager.StopTimer();
+            // show map enter
+            //player.SmoothWalk();
+            return;
+        }
+        SpawnManager.StartTimer();
+
         currentArea = area;
         currentRegion = area.region;
         mapTitleBG.GetComponent<Image>().color = Color.white;

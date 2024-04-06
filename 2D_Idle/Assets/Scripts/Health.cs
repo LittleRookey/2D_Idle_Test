@@ -29,7 +29,7 @@ public class Health : MonoBehaviour, IPoolObject
     public delegate void OnTakeDamage(float current, float max);
     public OnTakeDamage onTakeDamage;
 
-    public UnityAction OnDeath;
+    public UnityAction<LevelSystem> OnDeath;
     public UnityAction OnReturnFromPool;
 
     private StatContainer _statContainer;
@@ -51,7 +51,7 @@ public class Health : MonoBehaviour, IPoolObject
         maxHealth = mH;
     }
     // return true when enemy death
-    public bool TakeDamage(List<float> damages)
+    public bool TakeDamage(LevelSystem attacker, List<float> damages)
     {
         StartCoroutine(ShowDmgText(damages));
         for (int i = 0; i < damages.Count; i++)
@@ -66,7 +66,8 @@ public class Health : MonoBehaviour, IPoolObject
                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
 
-                OnDeath?.Invoke();
+                OnDeath?.Invoke(attacker);
+
                 return true;
             }
         }
@@ -74,7 +75,7 @@ public class Health : MonoBehaviour, IPoolObject
     }
 
     [Button("TakeDamage")]
-    public bool TakeDamage(List<Damage> damages)
+    public bool TakeDamage(LevelSystem attacker, List<Damage> damages)
     {
         List<float> finalDamages = new List<float>();
         for (int i = 0; i < damages.Count; i++)
@@ -95,7 +96,7 @@ public class Health : MonoBehaviour, IPoolObject
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             
 
-            OnDeath?.Invoke();
+            OnDeath?.Invoke(attacker);
             return true;
         }
         return false;
