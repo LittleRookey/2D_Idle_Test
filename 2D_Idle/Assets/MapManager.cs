@@ -115,6 +115,7 @@ public class MapManager : MonoBehaviour
             SpawnManager.StopTimer();
             // show map enter
             //player.SmoothWalk();
+            EnterTown();
             return;
         }
         SpawnManager.StartTimer();
