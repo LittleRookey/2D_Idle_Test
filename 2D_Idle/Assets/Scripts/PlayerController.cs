@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float attackRange = 1.5f;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private SpriteRenderer playerSprite;
     // 애니메이션
     private int isJumping = Animator.StringToHash("isJumping");
     private int isRunning = Animator.StringToHash("isRunning");
@@ -55,18 +56,26 @@ public class PlayerController : MonoBehaviour
         SwitchState(eBehavior.run);
     }
 
-    private void MoveRight()
+    private void Move()
     {
-        //rb2D.MovePosition(rb2D.position + Vector2.right * moveSpeed * Time.deltaTime);
-        //rb2D.velocity = Vector2.right * moveSpeed;
+        int dir = playerSprite.flipX ? -1 : 1;
+        transform.position += Vector3.right * dir * moveSpeed * Time.deltaTime;
     }
 
-    private void RunRight()
+
+
+    private void Run()
     {
         //rb2D.velocity += new Vector2(1 * runSpeed, 0) * Time.deltaTime;
         //rb2D.MovePosition(rb2D.position + Vector2.right * runSpeed * Time.deltaTime);
         //rb2D.velocity = Vector2.right * runSpeed;
-        transform.position += Vector3.right * runSpeed * Time.deltaTime;
+        int dir = playerSprite.flipX ? -1 : 1;
+        transform.position += Vector3.right * dir * runSpeed * Time.deltaTime;
+    }
+
+    public void Turn(bool turnRight)
+    {
+        playerSprite.flipX = !turnRight;
     }
 
     private void CheckGrounded()
@@ -112,7 +121,7 @@ public class PlayerController : MonoBehaviour
             case eBehavior.walk:
                 // 걸으면서 적을 찾는다
                 if (canMove)
-                    RunRight();
+                    Move();
                     //MoveRight();
                 // 적을 찾으면 적을향해 달려간다, 공격범위까지
                 if (SearchForTarget())
@@ -122,7 +131,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case eBehavior.run:
                 if (canMove)
-                    RunRight();
+                    Run();
 
                 if (Target == null)
                 {
@@ -202,10 +211,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SmoothWalk()
+    public void DOSmoothWalk()
     {
         EnableMovement();
         SwitchState(eBehavior.walk);
+    }
+
+    public void DoIdle()
+    {
+        DisableMovement();
+        SwitchState(eBehavior.idle);
     }
 
     private bool TargetWithinAttackRange()
@@ -246,6 +261,11 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Can move now");
         canMove = true;
+    }
+
+    public void DisableMovement()
+    {
+        canMove = false;
     }
 
     private void AttackAction()

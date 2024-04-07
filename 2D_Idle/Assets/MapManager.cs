@@ -42,6 +42,10 @@ public class MapManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] private PlayerController player;
 
+    [Header("Castle")]
+    [SerializeField] private Transform Castle;
+    [SerializeField] private Transform castleSpawnPosition;
+
     //public static float minX
     private bool canScroll = true;
     
@@ -92,6 +96,16 @@ public class MapManager : MonoBehaviour
         }
 
         
+    }
+
+    public void EnterTown()
+    {
+        // 성문 스폰
+        Castle.gameObject.SetActive(true);
+        Castle.transform.position = castleSpawnPosition.position;
+        Castle.parent = null;
+        // 플레이어 걷기
+        player.DOSmoothWalk();
     }
 
     public void DisplayAreaUI(Area area)

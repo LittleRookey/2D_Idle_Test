@@ -4361,7 +4361,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1155979488}
-  - {fileID: 805853565}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6149,13 +6148,14 @@ GameObject:
   - component: {fileID: 805853565}
   - component: {fileID: 805853566}
   - component: {fileID: 805853567}
+  - component: {fileID: 805853568}
   m_Layer: 0
   m_Name: Castle
-  m_TagString: Untagged
+  m_TagString: Castle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &805853565
 Transform:
   m_ObjectHideFlags: 0
@@ -6163,13 +6163,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 805853564}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.94, y: 1.0365, z: 10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.716, y: 0.5165, z: 0}
   m_LocalScale: {x: 1.8801, y: 3.0731, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 519420032}
-  m_RootOrder: 1
+  m_Father: {fileID: 1277054489}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &805853566
 SpriteRenderer:
@@ -6249,6 +6249,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &805853568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805853564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69b5dd5ed1122445845fb07cb67be99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &806432455
 GameObject:
   m_ObjectHideFlags: 0
@@ -9282,6 +9294,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 805853565}
   - {fileID: 1124617904}
   - {fileID: 1082867066}
   - {fileID: 1472358215}
@@ -10423,6 +10436,8 @@ MonoBehaviour:
   mapTitleText: {fileID: 246450775}
   areasParent: {fileID: 738200744}
   player: {fileID: 3510259789152823816}
+  Castle: {fileID: 805853565}
+  castleSpawnPosition: {fileID: 1155979488}
 --- !u!1 &1551607520
 GameObject:
   m_ObjectHideFlags: 0
@@ -15119,7 +15134,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3510259790029311300, guid: db9ccc3f6e3d0564e9229191c59ed8c7, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3510259790029311300, guid: db9ccc3f6e3d0564e9229191c59ed8c7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15317,7 +15332,7 @@ PrefabInstance:
       objectReference: {fileID: 1472358215}
     - target: {fileID: 5532023750969190602, guid: 160cfb24d160bf04d85ab43481b7baf4, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5532023750969190602, guid: 160cfb24d160bf04d85ab43481b7baf4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15398,7 +15413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180691261887922631, guid: 80fd1d370c97a0d4f83635ba4250dfa2, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6180691261887922631, guid: 80fd1d370c97a0d4f83635ba4250dfa2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15451,7 +15466,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7323775238791952940, guid: 1b430ad42feb11e4199f9574d5afb67e, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7323775238791952940, guid: 1b430ad42feb11e4199f9574d5afb67e, type: 3}
       propertyPath: m_LocalPosition.x
