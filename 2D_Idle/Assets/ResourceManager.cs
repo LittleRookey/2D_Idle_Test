@@ -12,6 +12,7 @@ public class ResourceManager : MonoBehaviour
     private int gold;
     private void Awake()
     {
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
         if (Instance == null)
         {

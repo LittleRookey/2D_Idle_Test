@@ -77,4 +77,38 @@ namespace Litkey.Utility
         //    throw new NotImplementedException();
         //}
     }
+
+    public static class PolygonRandomPosition
+    {
+        public static Vector2 GetRandomPositionOf(PolygonCollider2D polygonCollider)
+        {
+            int maxAttempts = 100; // Maximum number of attempts to find a point within the polygon
+            int attempts = 0;
+
+            Vector2 randomPoint;
+
+            do
+            {
+                // Create a random point within the bounds of the PolygonCollider2D
+                randomPoint = new Vector2(
+                    UnityEngine.Random.Range(polygonCollider.bounds.min.x, polygonCollider.bounds.max.x),
+                    UnityEngine.Random.Range(polygonCollider.bounds.min.y, polygonCollider.bounds.max.y)
+                );
+
+                attempts++;
+
+                // Check if the random point is within the PolygonCollider2D
+                if (polygonCollider.OverlapPoint(randomPoint))
+                {
+                    // The random point is within the PolygonCollider2D
+                    Debug.Log("Random point within collider: " + randomPoint);
+                    return randomPoint;
+                }
+            } while (attempts < maxAttempts);
+
+            // If no point is found within the maximum number of attempts
+            Debug.LogWarning("Failed to find a random point within the collider after " + maxAttempts + " attempts.");
+            return Vector2.zero;
+        }
+    }
 }

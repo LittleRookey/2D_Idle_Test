@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private QuestManager questManager;
+    public static GameManager Instance;
+
     [SerializeField] private MapManager mapManager;
 
     
     private InGameEvent currentEvent;
 
-
+    private void Awake()
+    {
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void StartEvent()
     {
-        currentEvent = questManager.GetEvent();
-        mapManager.SetDestination(currentEvent.eventPosition);
+        //currentEvent = questManager.GetEvent();
+        //mapManager.SetDestination(currentEvent.eventPosition);
     }
 
     

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class MapManager : MonoBehaviour
 {
     private Vector2 currentPosition;
-
+    [Header("Map")]
     public RectTransform playerMarker;
 
     public float totalMapSize;
@@ -115,7 +115,7 @@ public class MapManager : MonoBehaviour
             SpawnManager.StopTimer();
             // show map enter
             //player.SmoothWalk();
-            EnterTown();
+            //EnterTown();
             return;
         }
         SpawnManager.StartTimer();
@@ -194,6 +194,7 @@ public class MapManager : MonoBehaviour
 
     public void SetDestination(Vector2 destPos)
     {
+
         moveDir = (destPos - currentPosition).normalized;
         Destination = destPos;
         leftDist = (Destination - currentPosition).sqrMagnitude * step;

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EquipmentSystem : MonoBehaviour
 {
-
+    public static EquipmentSystem Instance;
 
 
     public EquipmentTier weapon;
@@ -15,6 +15,20 @@ public class EquipmentSystem : MonoBehaviour
     //[SerializeField] private 
     public UnityAction OnUpgradeSuccess;
 
+    private void Awake()
+    {
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+    }
     public bool UpgradeWeapon(EquipmentTier eTier)
     {
         if (ResourceManager.Instance.HasGold(eTier.requiredGold))

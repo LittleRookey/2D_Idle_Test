@@ -13,15 +13,9 @@ MonoBehaviour:
   m_Name: EventTable
   m_EditorClassIdentifier: 
   eventWeights:
-  - Event:
-      eventPosition: {x: 0, y: 0}
-      eventType: 0
+  - Event: {fileID: 11400000, guid: 7ddc954fc32b8d6469e49aa1bde1e2e3, type: 2}
     weight: 900
-  - Event:
-      eventPosition: {x: 0, y: 0}
-      eventType: 2
+  - Event: {fileID: 0}
     weight: 300
-  - Event:
-      eventPosition: {x: 0, y: 0}
-      eventType: 3
+  - Event: {fileID: 0}
     weight: 100
