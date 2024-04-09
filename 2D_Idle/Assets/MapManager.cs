@@ -5,12 +5,15 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Litkey.Utility;
+using Sirenix.OdinInspector;
 
 public class MapManager : MonoBehaviour
 {
     private Vector2 currentPosition;
     [Header("Map")]
     public RectTransform playerMarker;
+    public RectTransform destinationImage;
 
     public float totalMapSize;
     [SerializeField] private float markerMovePerMeter;
@@ -68,7 +71,11 @@ public class MapManager : MonoBehaviour
         mapMaxX = (step * mapWidth);
         mapMinY = 0f - (step * mapHeight);
         mapMaxY = (step * mapHeight);
+        destinationImage.gameObject.SetActive(false);
+
         Debug.Log($"X: {mapMaxX}\nY:{mapMaxY}");
+
+
         currentPosition = startPos;
         actualMap.anchoredPosition = currentPosition;
         playerMarker.anchoredPosition = currentPosition;
@@ -201,6 +208,15 @@ public class MapManager : MonoBehaviour
         StartCoroutine(MoveTo());
     }
 
+    [Button("randomDest")]
+    public void SetRandomDestination(Area area)
+    {
+        var pos = PolygonRandomPosition.GetRandomPositionOf(area.GetComponent<PolygonCollider2D>());
+        destinationImage.gameObject.SetActive(true);
+        destinationImage.transform.position = pos;
+        SetDestination(destinationImage.transform.localPosition);
+
+    }
     public void SetCenter()
     {
         // 마커 * 스케ㅐ일 만큼 뺴기
@@ -214,7 +230,7 @@ public class MapManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         var movedDist = moveDir * walkPerSec * 1/step;
         //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
-        playerMarker.DOLocalMove(moveDir * 1/step * walkPerSec, 1f).SetEase(Ease.Linear).SetRelative(true);
+        playerMarker.DOLocalMove(movedDist, 1f).SetEase(Ease.Linear).SetRelative(true);
         Vector2 curPos = currentPosition;
         DOTween.To(() => curPos, x => curPos = x, curPos + movedDist, 1f).OnUpdate(() =>
         {
