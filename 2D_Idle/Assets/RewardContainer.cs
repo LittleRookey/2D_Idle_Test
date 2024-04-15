@@ -8,6 +8,7 @@ public class RewardContainer : MonoBehaviour
 
     Health health;
     LevelSystem levelSystem;
+
     private void Awake()
     {
         health = GetComponent<Health>();
@@ -29,7 +30,6 @@ public class RewardContainer : MonoBehaviour
 
     public void GainReward(LevelSystem attacker)
     {
-
         attacker.GainExp(reward.GetExpReward());
         
 

@@ -40,10 +40,7 @@ namespace Litkey.UI
 			MaxHp = targetHealth.MaxHealth;
 			UpdateHealth(Hp, MaxHp);
 			Sp = 0;
-			if (healthText!= null)
-            {
-				healthText.SetText($"{Hp} / {MaxHp}");
-            }
+
 			//			while (Sp > 0)
 			//			{
 			//				Sp -= 280 * Time.deltaTime;
@@ -126,7 +123,7 @@ namespace Litkey.UI
 				damaged.fillAmount = previousHP / max;
 				if (healthText != null)
 				{
-					healthText.SetText($"{previousHP.ToString("F0")} / {MaxHp}");
+					healthText.SetText($"{previousHP.ToString("F0")} / {TMProUtility.GetColorText(MaxHp.ToString(), new Color(184, 56, 83))}");
 				}
 			});
 		}

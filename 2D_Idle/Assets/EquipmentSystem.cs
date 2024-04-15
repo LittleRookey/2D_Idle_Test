@@ -17,8 +17,7 @@ public class EquipmentSystem : MonoBehaviour
 
     private void Awake()
     {
-        transform.parent = null;
-        DontDestroyOnLoad(gameObject);
+
         if (Instance == null)
         {
             Instance = this;

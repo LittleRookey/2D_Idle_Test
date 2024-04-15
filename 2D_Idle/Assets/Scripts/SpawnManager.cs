@@ -42,6 +42,7 @@ public enum eRegion
     Eighteen,
     Nineteen,
     Town,
+    Boss,
 }
 
 public enum eHuntMode

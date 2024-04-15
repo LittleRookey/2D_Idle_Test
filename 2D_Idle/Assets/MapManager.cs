@@ -61,7 +61,7 @@ public class MapManager : MonoBehaviour
     private Area currentArea;
     public Area CurrentArea => currentArea;
     public eRegion CurrentRegion => currentRegion;
-
+    [SerializeField] private Area startArea;
     private void Awake()
     {
         mapWidth = screenMap.rect.width/2;
@@ -105,6 +105,10 @@ public class MapManager : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        currentArea = startArea;
+    }
     public void EnterTown()
     {
         // 성문 스폰
@@ -123,6 +127,10 @@ public class MapManager : MonoBehaviour
             // show map enter
             //player.SmoothWalk();
             //EnterTown();
+            return;
+        }
+        if (area.region == currentArea.region)
+        {
             return;
         }
         SpawnManager.StartTimer();
@@ -201,19 +209,36 @@ public class MapManager : MonoBehaviour
 
     public void SetDestination(Vector2 destPos)
     {
-
-        moveDir = (destPos - currentPosition).normalized;
+        StopCoroutine(MoveTo());
+        moveDir = (destPos - (Vector2)playerMarker.localPosition).normalized;
         Destination = destPos;
-        leftDist = (Destination - currentPosition).sqrMagnitude * step;
+        //leftDist = (Destination - currentPosition).sqrMagnitude * step;
+        leftDist = (Destination - (Vector2)playerMarker.localPosition).sqrMagnitude;
+        Debug.Log("Set Destination: " + Destination);
         StartCoroutine(MoveTo());
     }
 
     [Button("randomDest")]
-    public void SetRandomDestination(Area area)
+    public void SetRandomDestination()
     {
+        var area = AreaManager.GetAreaOf(eRegion.One);
+        if (area == null)
+        {
+            Debug.LogError("No Region: " + eRegion.One);
+            return;
+        }
+
         var pos = PolygonRandomPosition.GetRandomPositionOf(area.GetComponent<PolygonCollider2D>());
         destinationImage.gameObject.SetActive(true);
+
         destinationImage.transform.position = pos;
+
+        //destinationImage.transform.position.Set(pos.x, pos.y, 0f);
+        var destImagePos = destinationImage.GetComponent<RectTransform>();
+
+        var newLocalPos = new Vector3(destImagePos.localPosition.x, destImagePos.localPosition.y, 0f);
+        destImagePos.localPosition = newLocalPos;
+        //destImagePos.anchoredPosition = new Vector3(destImagePos.anchoredPosition.x, destImagePos.anchoredPosition.y, 0f); 
         SetDestination(destinationImage.transform.localPosition);
 
     }
@@ -227,20 +252,24 @@ public class MapManager : MonoBehaviour
 
     private IEnumerator MoveTo()
     {
+        var oldPosition = playerMarker.localPosition;
         yield return new WaitForSeconds(1f);
         var movedDist = moveDir * walkPerSec * 1/step;
+
         //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
         playerMarker.DOLocalMove(movedDist, 1f).SetEase(Ease.Linear).SetRelative(true);
-        Vector2 curPos = currentPosition;
+
+        Vector2 curPos = oldPosition;
         DOTween.To(() => curPos, x => curPos = x, curPos + movedDist, 1f).OnUpdate(() =>
         {
             currentPosText.SetText($"{curPos.x.ToString("F0")}, {curPos.y.ToString("F0")}");
         }).SetEase(Ease.Linear);
-
         currentPosition += movedDist;
         //currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
-        leftDist = (Destination - currentPosition).sqrMagnitude * step; // need help here
-        leftDist -= movedDist.sqrMagnitude;
+
+        leftDist -= ((Vector2)playerMarker.localPosition - (Vector2)oldPosition).sqrMagnitude;
+        //leftDist -= dist; // need help here
+
         if (leftDist < 0)
         {
             leftDist = 0f;

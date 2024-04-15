@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ResourceManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class ResourceManager : MonoBehaviour
     public int totalRunDistance;
 
     private int gold;
+
+    public static readonly UnityEvent<int> OnGainGold = new();
     private void Awake()
     {
         transform.parent = null;
@@ -27,6 +30,7 @@ public class ResourceManager : MonoBehaviour
     public void GainGold(int extraGold)
     {
         gold += extraGold;
+        OnGainGold?.Invoke(extraGold);
     }
 
     public void UseGold(int usedGold)
