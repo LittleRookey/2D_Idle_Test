@@ -286,6 +286,8 @@ public class PlayerController : MonoBehaviour
     {
         // 데미지 계산
         var dmg = _statContainer.GetFinalDamage();
+        _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
         Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
         

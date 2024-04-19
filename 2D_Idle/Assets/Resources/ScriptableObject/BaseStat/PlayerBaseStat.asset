@@ -14,10 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHP: 100
   Attack: 10
+  MagicAttack: 0
   Defense: 3
+  MagicDefense: 0
   AttackSpeed: 1
   MoveSpeed: 1
   CritChance: 0.05
-  CritDamage: 1
+  CritDamage: 0.5
+  Precision: 0
+  Evasion: 0
+  p_penetration: 0
+  magic_penetration: 0
+  magic_resist: 0
+  p_resist: 0
   ExtraGold: 0
   ExtraExp: 0

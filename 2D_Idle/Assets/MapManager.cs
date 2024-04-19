@@ -62,6 +62,8 @@ public class MapManager : MonoBehaviour
     public Area CurrentArea => currentArea;
     public eRegion CurrentRegion => currentRegion;
     [SerializeField] private Area startArea;
+
+    private DestinationBehavior destBehavior;
     private void Awake()
     {
         mapWidth = screenMap.rect.width/2;
@@ -102,7 +104,9 @@ public class MapManager : MonoBehaviour
             area.OnPlayerEnterArea += DisplayAreaUI;
         }
 
-        
+        destBehavior = destinationImage.GetComponent<DestinationBehavior>();
+
+
     }
 
     private void OnEnable()
@@ -211,11 +215,19 @@ public class MapManager : MonoBehaviour
     {
         StopCoroutine(MoveTo());
         moveDir = (destPos - (Vector2)playerMarker.localPosition).normalized;
+        
+        Debug.Log($"player position: {playerMarker.localPosition}\nDestination: {destPos}");
+        
         Destination = destPos;
         //leftDist = (Destination - currentPosition).sqrMagnitude * step;
         leftDist = (Destination - (Vector2)playerMarker.localPosition).sqrMagnitude;
+        
         Debug.Log("Set Destination: " + Destination);
-        StartCoroutine(MoveTo());
+
+        destBehavior.OnDestinationArrival.RemoveAllListeners();
+        destBehavior.OnDestinationArrival.AddListener(StopMovement);
+
+        currentMovement = StartCoroutine(MoveTo());
     }
 
     [Button("randomDest")]
@@ -239,7 +251,7 @@ public class MapManager : MonoBehaviour
         var newLocalPos = new Vector3(destImagePos.localPosition.x, destImagePos.localPosition.y, 0f);
         destImagePos.localPosition = newLocalPos;
         //destImagePos.anchoredPosition = new Vector3(destImagePos.anchoredPosition.x, destImagePos.anchoredPosition.y, 0f); 
-        SetDestination(destinationImage.transform.localPosition);
+        SetDestination(newLocalPos);
 
     }
     public void SetCenter()
@@ -250,14 +262,26 @@ public class MapManager : MonoBehaviour
         ClampMap();
     }
 
+    private Coroutine currentMovement;
     private IEnumerator MoveTo()
     {
         var oldPosition = playerMarker.localPosition;
         yield return new WaitForSeconds(1f);
         var movedDist = moveDir * walkPerSec * 1/step;
+        if (leftDist < 0)
+        {
+            //leftDist = 0f;
+            //currentPosition = Destination;
+            //currentPosText.SetText($"{oldPosition.x.ToString("F0")}, {oldPosition.y.ToString("F0")}");
+            //OnArriveDestination?.Invoke();
+            yield break;
+        }
 
         //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
-        playerMarker.DOLocalMove(movedDist, 1f).SetEase(Ease.Linear).SetRelative(true);
+        playerMarker.DOLocalMove(movedDist, 1f).SetEase(Ease.Linear).SetRelative(true).OnComplete(()=> 
+        {
+            leftDist -= Vector2.Distance(playerMarker.localPosition, oldPosition);
+        });
 
         Vector2 curPos = oldPosition;
         DOTween.To(() => curPos, x => curPos = x, curPos + movedDist, 1f).OnUpdate(() =>
@@ -267,18 +291,19 @@ public class MapManager : MonoBehaviour
         currentPosition += movedDist;
         //currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
 
-        leftDist -= ((Vector2)playerMarker.localPosition - (Vector2)oldPosition).sqrMagnitude;
+        //leftDist -= ((Vector2)playerMarker.localPosition - (Vector2)oldPosition).sqrMagnitude;
         //leftDist -= dist; // need help here
 
-        if (leftDist < 0)
-        {
-            leftDist = 0f;
-            currentPosition = Destination;
-            currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
-            OnArriveDestination?.Invoke();
-            yield break;
-        }
-        StartCoroutine(MoveTo());
+
+        currentMovement = StartCoroutine(MoveTo());
+    }
+
+    public void StopMovement()
+    {
+        StopCoroutine(currentMovement);
+        //moveDir = (Destination - (Vector2)playerMarker.localPosition).normalized;
+        Debug.Log("Arrived at destination: " + Destination);
+
     }
 
     private void ClampMap()

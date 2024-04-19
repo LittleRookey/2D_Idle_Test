@@ -53,7 +53,7 @@ public class Health : MonoBehaviour, IPoolObject
     // return true when enemy death
     public bool TakeDamage(LevelSystem attacker, List<float> damages)
     {
-        StartCoroutine(ShowDmgText(damages));
+        //StartCoroutine(ShowDmgText(damages));
         for (int i = 0; i < damages.Count; i++)
         {
             currentHealth -= damages[i];
@@ -73,16 +73,20 @@ public class Health : MonoBehaviour, IPoolObject
         }
         return false;
     }
-
+    // 피격자의 시점에서 데미지를 입는다.
     [Button("TakeDamage")]
     public bool TakeDamage(LevelSystem attacker, List<Damage> damages)
     {
-        List<float> finalDamages = new List<float>();
+        List<Damage> finalDamages = new List<Damage>();
+        var attackerStat = attacker.GetComponent<StatContainer>();
         for (int i = 0; i < damages.Count; i++)
         {
-            var dmg = _statContainer.Defend(damages[i].damage);
-            finalDamages.Add(dmg);
-            currentHealth -= dmg;
+            var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
+
+            //var dmg = _statContainer.Defend(damages[i].damage);
+            finalDamages.Add(damageInfo);
+            //currentHealth -= dmg;
+            currentHealth -= damageInfo.damage;
             onTakeDamage?.Invoke(currentHealth, maxHealth);
         }
 
@@ -102,12 +106,12 @@ public class Health : MonoBehaviour, IPoolObject
         return false;
     }
 
-    private IEnumerator ShowDmgText(List<float> damages) 
+    private IEnumerator ShowDmgText(List<Damage> damages) 
     {
         WaitForSeconds delay = new WaitForSeconds(0.15f);
         for (int i = 0; i < damages.Count; i++)
         {
-            dmg.Spawn(transform.position + Vector3.up + dmgOffset * (i + 1), damages[i]);
+            dmg.Spawn(transform.position + Vector3.up + dmgOffset * (i + 1), damages[i].damage);
             yield return delay;
         }
     }

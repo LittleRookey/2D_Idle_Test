@@ -12,15 +12,24 @@ namespace Litkey.Stat
     {
         public float damage;
         public bool isCrit;
+        public bool isPhysicalDmg;
         public Damage(float dmg, bool crit)
         {
-            damage = dmg;
-            isCrit = crit;
+            this.damage = dmg;
+            this.isCrit = crit;
+            this.isPhysicalDmg = false;
+        }
+
+        public Damage(float dmg, bool crit, bool isPhysicalDmg)
+        {
+            this.damage = dmg;
+            this.isCrit = crit;
+            this.isPhysicalDmg = isPhysicalDmg;
         }
     }
 
     [System.Serializable]  
-    public abstract class MainStat
+    public class MainStat
     {
 
         public string StatName; // 고유 ID
@@ -31,7 +40,7 @@ namespace Litkey.Stat
         //  메인스텟이 올려주는 서브스텟들
         private List<SubStat> substats;
 
-        private int _levelAddedStats;
+        private int _levelAddedStats; // 레벨업 포인트로 찍은 메인스텟 추가포인트
 
 
         [HideInInspector] public UnityEvent OnValueChanged;
@@ -89,7 +98,7 @@ namespace Litkey.Stat
         {
             if (substats.Contains(ss)) return;
             substats.Add(ss);
-            UpdateValue();
+            //UpdateValue();
         }
 
         public int GetFinalValue()
@@ -133,7 +142,8 @@ namespace Litkey.Stat
             get
             {
                 UpdateFinalValue();
-                return _finalValue;
+                if (minValue < 0f || maxValue < 0f) return this._finalValue;
+                else return Mathf.Clamp(this._finalValue, this.minValue, this.maxValue);
             }
             //set
             //{
@@ -155,6 +165,9 @@ namespace Litkey.Stat
 
         // 초기 캐릭터 스텟 값
         private float BaseStat;
+
+        private float minValue = -1;
+        private float maxValue = -1;
 
         // 버프나 자입로 얻은 덧셈 값
         // ( 장비(+) + 레벨(+) + 버프(+) )
@@ -204,6 +217,34 @@ namespace Litkey.Stat
             this._multipliedStatValue = 0;
             this._multipliedEquipValue = 0;
             this._multipliedBuffValue = 0;
+
+            this.displayName = displayName;
+            this.statType = statType;
+            this.equipStats = new Dictionary<string, List<StatModifier>>();
+            influencers = new List<Influencer>();
+
+            buffStats = new List<StatModifier>();
+            //equipStats = new List<StatModifier>();
+
+        }
+
+        public SubStat(string displayName, float initValue, eSubStatType statType, float minVal, float maxVal, bool isPercantage = false)
+        {
+
+            this._isPercentage = isPercantage;
+            this.BaseStat = initValue;
+            this._finalValue = initValue;
+
+            this._plusStatValue = 0;
+            this._plusEquipValue = 0;
+            this._plusBuffValue = 0;
+
+            this._multipliedStatValue = 0;
+            this._multipliedEquipValue = 0;
+            this._multipliedBuffValue = 0;
+
+            this.minValue = minVal;
+            this.maxValue = maxVal;
 
             this.displayName = displayName;
             this.statType = statType;
@@ -281,7 +322,7 @@ namespace Litkey.Stat
                 spv.increasedStat));
             UpdateFinalValue();
         }
-
+        // 스텟 인플루언서가 잇으면 
         // if one of the main stat values changed, find that main stat and apply changes to that influencer
         public void ApplyChange(MainStat mainStat, int changedMainStatValue)
         {
@@ -289,6 +330,7 @@ namespace Litkey.Stat
             Influencer inf = influencers.Find((Influencer inf) => inf._mainStat.ToString() == mainStat.ToString());
             // apply the changed substat value
             // + 스텟값을 저장
+            
             _plusStatValue = inf.ApplyChange(changedMainStatValue);
             // update final value based on change
             UpdateFinalValue();
@@ -463,11 +505,10 @@ namespace Litkey.Stat
 }
 public enum eMainStatType
 {
-    Str,
-    Vit,
-    Dex,
-    Int,
-    Wis
+    근력,
+    맷집,
+    민첩,
+    감각,
 };
 
 public enum eSubStatType
@@ -477,14 +518,26 @@ public enum eSubStatType
     healthRegen,
     manaRegen,
     attack,
+    magicAttack,
     critChance,
     defense,
+    magicDefense,
     penetration,
     attackSpeed,
     cc_Resistance,
     moveSpeed,
     attackRange,
     critDamage,
+    물리저항,
+    마법저항,
+    물리관통력,
+    마법관통력,
+    명중, 
+    회피,
+    주는피해증가,
+    주는피해감소,
+    받는피해증가,
+    받는피해감소,
     추가골드,
     추가경험치
 };

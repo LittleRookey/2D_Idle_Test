@@ -12,14 +12,34 @@ namespace Litkey.Stat
         public float MaxHP;
 
         public float Attack;
+        public float MagicAttack;
+
         public float Defense;
+        public float MagicDefense;
+
         public float AttackSpeed;
         public float MoveSpeed;
+        [Range(0f, 1f)]
         public float CritChance;
+        [Range(0f, 1f)]
         public float CritDamage;
 
-        public float ExtraGold;
-        public float ExtraExp;
+        public float Precision;
+        public float Evasion;
+
+        [Range(0, 100f)]
+        public float p_penetration; // %
+        [Range(0, 100f)]
+        public float magic_penetration; // %
+
+        [Range(0, 100f)]
+        public float magic_resist; // %
+        [Range(0, 100f)]
+        public float p_resist; // %
+
+        public float ExtraGold; // %
+        public float ExtraExp; // %
+
         //[Space]
         //public float MaxHP_Plus;
         //public float MaxHP_Multiply;
