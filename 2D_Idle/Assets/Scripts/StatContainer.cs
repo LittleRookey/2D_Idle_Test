@@ -149,17 +149,20 @@ public class StatContainer : MonoBehaviour
         if (m_AttackVal.isPhysicalDmg)
         {
             float attackDmg = (m_AttackVal.damage * (1f + (p_penetration.FinalValue - enemyStat.p_resist.FinalValue))) 
-                - (enemyStat.Defense.FinalValue * 1f + (enemyStat.p_resist.FinalValue - p_penetration.FinalValue);
+                - (enemyStat.Defense.FinalValue * 1f + (enemyStat.p_resist.FinalValue - p_penetration.FinalValue));
 
 
-            dmg = (Mathf.Clamp(attackDmg, 1f, 999999999) * (100f - (enemyStat.p_resist.FinalValue - p_penetration.FinalValue)   / 100f));
+            dmg = (Mathf.Clamp(attackDmg, 1f, 999999999));
 
         }
         else
         {
             // magic dmg
-            float attackDmg = m_AttackVal.damage - enemyStat.MagicDefense.FinalValue;
-            dmg = (Mathf.Clamp(attackDmg, 1f, 999999999) * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue) / 100f));
+            //float attackDmg = m_AttackVal.damage - enemyStat.MagicDefense.FinalValue;
+            //dmg = (Mathf.Clamp(attackDmg, 1f, 999999999) * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue) / 100f));
+            float attackDmg = (m_AttackVal.damage * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue)))
+                - (enemyStat.MagicDefense.FinalValue * 1f + (enemyStat.m_resist.FinalValue - m_penetration.FinalValue));
+            dmg = (Mathf.Clamp(attackDmg, 1f, 999999999));
         }
         return new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg);
     }

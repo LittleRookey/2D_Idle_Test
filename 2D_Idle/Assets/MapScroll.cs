@@ -18,6 +18,8 @@ public class MapScroll : MonoBehaviour
 
     private float lastCameraX;
     private float lastGroundY;
+    [Range(0f, 2f)]
+    [SerializeField] private float speedVar = 1f;
     // 플레이어가 우측
     // Start is called before the first frame update
     void Start()
@@ -34,7 +36,7 @@ public class MapScroll : MonoBehaviour
         if (parallax)
         {
             float deltaX = cameraTransform.position.x - lastCameraX;
-            transform.position += Vector3.right * (deltaX * parallaxSpeed);
+            transform.position += Vector3.right * (deltaX * parallaxSpeed) * speedVar;
         }
         lastCameraX = cameraTransform.position.x;
         if (scrolling)
