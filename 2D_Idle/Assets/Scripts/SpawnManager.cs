@@ -85,6 +85,7 @@ public class SpawnManager : MonoBehaviour
     private void Awake()
     {
         monsterDict = new Dictionary<string, Pool<Health>>();
+        StopTimer();
     }
 
     public void Spawn()
