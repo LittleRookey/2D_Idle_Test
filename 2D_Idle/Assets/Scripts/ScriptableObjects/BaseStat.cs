@@ -40,6 +40,8 @@ namespace Litkey.Stat
         public float ExtraGold; // %
         public float ExtraExp; // %
 
+        [Header("∏ÛΩ∫≈Õ Ω∫≈›")]
+        public float Attack_Interval;
         //[Space]
         //public float MaxHP_Plus;
         //public float MaxHP_Multiply;

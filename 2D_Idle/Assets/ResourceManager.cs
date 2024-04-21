@@ -7,6 +7,7 @@ public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager Instance;
 
+
     public int Gold => gold;
     public int totalRunDistance;
 

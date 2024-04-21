@@ -211,4 +211,9 @@ public class StatContainer : MonoBehaviour
     {
         this.alias = alias;
     }
+
+    public BaseStat GetBaseStat()
+    {
+        return this.baseStat;
+    }
 }

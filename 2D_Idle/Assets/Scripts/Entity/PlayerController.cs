@@ -2,6 +2,7 @@ using Litkey.Stat;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Litkey.Interface;
 
 public class PlayerController : MonoBehaviour
 {
@@ -237,6 +238,7 @@ public class PlayerController : MonoBehaviour
         return Target == null;
     }
 
+
     private bool SearchForTarget()
     {
         var raycastHit = Physics2D.Raycast(transform.position, Vector2.right, scanDistance, enemyLayer);
@@ -292,5 +294,6 @@ public class PlayerController : MonoBehaviour
         Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
         
     }
+
 
 }

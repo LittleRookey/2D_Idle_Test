@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Litkey.Utility;
+using UnityEditor;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(fileName = "MonsterTable", menuName = "Litkey/MonsterTable")]
 public class MonsterTable : ScriptableObject
@@ -23,6 +25,21 @@ public class MonsterTable : ScriptableObject
     public Health GetRandomMonster()
     {
         return monsterTable.GetRandomPick();
+    }
+
+    [Button(ButtonSizes.Large)]
+    private void OpenMonsterFolder()
+    {
+        string folderPath = "Assets/Prefabs/Monsters/Template";
+        Object folderObject = AssetDatabase.LoadAssetAtPath<Object>(folderPath);
+        if (folderObject != null)
+        {
+            EditorGUIUtility.PingObject(folderObject);
+        }
+        else
+        {
+            Debug.LogWarning("The 'Prefabs/Monster' folder does not exist in your project.");
+        }
     }
 }
 

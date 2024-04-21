@@ -53,6 +53,7 @@ public enum eHuntMode
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance;
     [SerializeField] private float spawnDelay = 5f;
 
     [SerializeField] private Transform spawnPosition;
@@ -84,6 +85,13 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null) 
+        {
+            Instance = this;
+        } else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
         monsterDict = new Dictionary<string, Pool<Health>>();
         StopTimer();
     }
@@ -111,11 +119,20 @@ public class SpawnManager : MonoBehaviour
     {
         // 몬스터풀로 되돌려 보내기
         if (!monsterDict.ContainsKey(spawnedMonster.Name)) Debug.LogError("몬스터" + spawnedMonster.Name+" 키가 없습니다");
+
         spawnedMonster.OnDeath -= OnMonsterDeath;
-        monsterDict[spawnedMonster.Name].Take(spawnedMonster);
+
+        
+        //monsterDict[spawnedMonster.Name].Take(spawnedMonster);
+        Debug.Log("Monster returned to pool: " + spawnedMonster.Name);
         spawnedMonster = null;
         //StartCoroutine(StartSpawn());
         StartTimer();
+    }
+
+    public void TakeToPool(Health targ)
+    {
+        monsterDict[targ.Name].Take(targ);
     }
 
     private IEnumerator StartSpawn()

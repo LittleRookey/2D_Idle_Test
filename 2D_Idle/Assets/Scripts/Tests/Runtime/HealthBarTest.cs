@@ -36,16 +36,25 @@ namespace ACF.Tests
 		[SerializeField] private Health targetHealth;
 		[SerializeField] private Transform orientation;
 		public bool useMaterial;
-		//[ContextMenu("Create Material")]
-		//private void CreateMaterial()
-		//{
-		//	// if (separator.material == null)
-		//	{
-		//		separator.material = new Material(Shader.Find("ABS/UI/Health Separator"));
-		//	}
-		//}
+        //[ContextMenu("Create Material")]
+        //private void CreateMaterial()
+        //{
+        //	// if (separator.material == null)
+        //	{
+        //		separator.material = new Material(Shader.Find("ABS/UI/Health Separator"));
+        //	}
+        //}
 
-		private void Start()
+        private void Awake()
+        {
+			if (targetHealth == null)
+			{
+				if (transform.parent.TryGetComponent<Health>(out Health targHealth))
+					targetHealth = targHealth;
+			}
+			
+        }
+        private void Start()
 		{
 			newSPVec = Vector3.one;
 			newHPVec = Vector3.one;
