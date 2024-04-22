@@ -39,6 +39,19 @@ public class BarTemplate : MonoBehaviour
         InitializeBar(startWithFullBar);
     }
 
+
+    public void SetBar(float width, float height, bool startWithFullBar, Color innerColor, Color outerColor)
+    {
+        SetSize(width, height);
+        innerBar.color = innerColor;
+        outerBar.color = outerColor;
+
+        this.startWithFullBar = startWithFullBar;
+
+        InitializeBar(startWithFullBar);
+    }
+
+
     public void SetBar(float width, float height, bool startWithFullBar, Color innerColor = default, Color outerColor = default, Color bgColor = default)
     {
         SetSize(width, height);
@@ -89,5 +102,15 @@ public class BarTemplate : MonoBehaviour
             OnExitBehavior.RemoveListener(endAction);
         });
         return tween;
+    }
+
+    public void SetOuterColor(Color col)
+    {
+        outerBar.color = col;
+    }
+
+    public void SetInnerColor(Color col)
+    {
+        innerBar.color = col;
     }
 }

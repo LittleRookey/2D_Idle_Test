@@ -88,6 +88,7 @@ public class EnemyAI : MonoBehaviour
         OnStunExit.AddListener(onStunExit);
         final_attackInterval = Mathf.Max(attackInterval * (1f - (_statContainer.AttackSpeed.FinalValue / attackInterval)), 0.5f);
         health.OnDeath += OnDeath;
+        health.onTakeDamage += OnHitEnter;
     }
 
     private void OnDisable()
@@ -166,6 +167,8 @@ public class EnemyAI : MonoBehaviour
         // 몇초후에 공격 속행
         isAttacking = true;
         var bar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
+        bar.SetOuterColor(Color.black);
+
         attackTimer = 0f;
         currentBarTween = bar.StartFillBar(final_attackInterval, () => 
         { 
@@ -204,6 +207,7 @@ public class EnemyAI : MonoBehaviour
         SwitchState(eEnemyBehavior.idle);
         stopAttackTimer = false;
         isAttacking = false;
+        currentBarTween.Pause();
         // 죽음 애니메이션플레이
         onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
     }
@@ -212,6 +216,11 @@ public class EnemyAI : MonoBehaviour
     public void OnDeathExit()
     {
         SpawnManager.Instance.TakeToPool(health);
+    }
+
+    private void OnHitEnter(float current, float max)
+    {
+        onStateEnterBeahviors[eEnemyBehavior.hit]?.Invoke(health);
     }
 
     private bool HasNoTarget()
