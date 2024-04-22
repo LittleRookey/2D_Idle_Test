@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Two
   m_EditorClassIdentifier: 
   monsterWeights:
-  - monster: {fileID: 6180691261887922630, guid: 7a63158d7a2ddfd4d980803b4efa2d79, type: 3}
-    weight: 100
-  - monster: {fileID: 6180691261887922630, guid: 80fd1d370c97a0d4f83635ba4250dfa2, type: 3}
+  - monster: {fileID: 7224041334326621997, guid: 129ec087498f89e4581692b2ce38a97c, type: 3}
+    weight: 1000
+  - monster: {fileID: 7224041334326621997, guid: 819e90b3c05f83d4b9e7f35e00696f19, type: 3}
     weight: 900

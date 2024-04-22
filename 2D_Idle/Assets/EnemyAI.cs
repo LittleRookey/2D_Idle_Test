@@ -161,16 +161,16 @@ public class EnemyAI : MonoBehaviour
         isAttacking = false;
     }
 
-
+    private BarTemplate currentBar;
     private void onAttackEnter()
     {
         // 몇초후에 공격 속행
         isAttacking = true;
-        var bar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
-        bar.SetOuterColor(Color.black);
+        currentBar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
+        currentBar.SetOuterColor(Color.black);
 
         attackTimer = 0f;
-        currentBarTween = bar.StartFillBar(final_attackInterval, () => 
+        currentBarTween = currentBar.StartFillBar(final_attackInterval, () => 
         { 
             currentBarTween = null;
 
@@ -178,7 +178,7 @@ public class EnemyAI : MonoBehaviour
 
             SwitchState(eEnemyBehavior.attack);
 
-            BarCreator.ReturnBar(bar);
+            BarCreator.ReturnBar(currentBar);
         });
     }
 
@@ -206,10 +206,12 @@ public class EnemyAI : MonoBehaviour
         Target = null;
         SwitchState(eEnemyBehavior.idle);
         stopAttackTimer = false;
-        isAttacking = false;
+        //isAttacking = false;
         currentBarTween.Pause();
         // 죽음 애니메이션플레이
         onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
+        if (currentBar.gameObject.activeInHierarchy)
+            BarCreator.ReturnBar(currentBar);
     }
 
     // called from animation

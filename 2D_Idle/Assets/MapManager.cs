@@ -213,7 +213,8 @@ public class MapManager : MonoBehaviour
 
     public void SetDestination(Vector2 destPos)
     {
-        StopCoroutine(MoveTo());
+        //StopCoroutine(MoveTo());
+        canMove = false;
         moveDir = (destPos - (Vector2)playerMarker.localPosition).normalized;
         
         Debug.Log($"player position: {playerMarker.localPosition}\nDestination: {destPos}");
@@ -224,10 +225,11 @@ public class MapManager : MonoBehaviour
         
         Debug.Log("Set Destination: " + Destination);
 
-        destBehavior.OnDestinationArrival.RemoveAllListeners();
-        destBehavior.OnDestinationArrival.AddListener(StopMovement);
-
-        currentMovement = StartCoroutine(MoveTo());
+        //destBehavior.OnDestinationArrival.RemoveAllListeners();
+        //destBehavior.OnDestinationArrival.AddListener(StopMovement);
+        
+        canMove = true;
+        //currentMovement = StartCoroutine(MoveTo());
     }
 
     [Button("randomDest")]
@@ -263,44 +265,69 @@ public class MapManager : MonoBehaviour
     }
 
     private Coroutine currentMovement;
-    private IEnumerator MoveTo()
+    private bool canMove;
+
+    private void MoveTo()
     {
-        var oldPosition = playerMarker.localPosition;
-        yield return new WaitForSeconds(1f);
-        var movedDist = moveDir * walkPerSec * 1/step;
-        if (leftDist < 0)
+        if (!canMove) return;
+
+
+        
+        var dir = Destination - (Vector2)playerMarker.localPosition;
+
+        if (dir.sqrMagnitude <= 0.0f)
         {
-            //leftDist = 0f;
-            //currentPosition = Destination;
-            //currentPosText.SetText($"{oldPosition.x.ToString("F0")}, {oldPosition.y.ToString("F0")}");
-            //OnArriveDestination?.Invoke();
-            yield break;
+            return;
+        }
+        dir.Normalize();
+        moveDir = dir;
+        Vector3 movedDist = moveDir * walkPerSec * 1/step;
+
+        Vector2 newPos = playerMarker.localPosition + movedDist * Time.deltaTime;
+
+        if (Vector2.Dot(newPos - Destination, moveDir) > 0.0f)
+        {
+
+            newPos = Destination;
+            StopMovement();
         }
 
-        //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
-        playerMarker.DOLocalMove(movedDist, 1f).SetEase(Ease.Linear).SetRelative(true).OnComplete(()=> 
-        {
-            leftDist -= Vector2.Distance(playerMarker.localPosition, oldPosition);
-        });
+        playerMarker.localPosition = newPos;
+        currentPosText.SetText($"{playerMarker.localPosition.x.ToString("F0")}, {playerMarker.localPosition.y.ToString("F0")}");
+        //if (leftDist < 0)
+        //{
+        //    //leftDist = 0f;
+        //    //currentPosition = Destination;
+        //    //currentPosText.SetText($"{oldPosition.x.ToString("F0")}, {oldPosition.y.ToString("F0")}");
+        //    //OnArriveDestination?.Invoke();
+        //    yield break;
+        //}
 
-        Vector2 curPos = oldPosition;
-        DOTween.To(() => curPos, x => curPos = x, curPos + movedDist, 1f).OnUpdate(() =>
-        {
-            currentPosText.SetText($"{curPos.x.ToString("F0")}, {curPos.y.ToString("F0")}");
-        }).SetEase(Ease.Linear);
-        currentPosition += movedDist;
+        //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
+        //playerMarker.DOLocalMove(movedDist, 1f).SetEase(Ease.Linear).SetRelative(true).OnComplete(()=> 
+        //{
+        //    leftDist -= Vector2.Distance(playerMarker.localPosition, oldPosition);
+        //});
+
+        //Vector2 curPos = oldPosition;
+        //DOTween.To(() => curPos, x => curPos = x, curPos + movedDist, 1f).OnUpdate(() =>
+        //{
+        //    currentPosText.SetText($"{curPos.x.ToString("F0")}, {curPos.y.ToString("F0")}");
+        //}).SetEase(Ease.Linear);
+        //currentPosition += movedDist;
         //currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
 
         //leftDist -= ((Vector2)playerMarker.localPosition - (Vector2)oldPosition).sqrMagnitude;
         //leftDist -= dist; // need help here
 
 
-        currentMovement = StartCoroutine(MoveTo());
+        //currentMovement = StartCoroutine(MoveTo());
     }
 
     public void StopMovement()
     {
-        StopCoroutine(currentMovement);
+        canMove = false;
+        //StopCoroutine(currentMovement);
         //moveDir = (Destination - (Vector2)playerMarker.localPosition).normalized;
         Debug.Log("Arrived at destination: " + Destination);
 
@@ -322,7 +349,7 @@ public class MapManager : MonoBehaviour
         {
             Vector2 diff = dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
 
-            print("origin " + dragOrigin + " new Position " + cam.ScreenToWorldPoint(Input.mousePosition) + "=difference " + diff);
+            //print("origin " + dragOrigin + " new Position " + cam.ScreenToWorldPoint(Input.mousePosition) + "=difference " + diff);
             actualMap.anchoredPosition += diff;
             ClampMap();
             //cam.transform.position += diff;
@@ -332,5 +359,6 @@ public class MapManager : MonoBehaviour
     void Update()
     {
         PanCamera();
+        MoveTo();
     }
 }

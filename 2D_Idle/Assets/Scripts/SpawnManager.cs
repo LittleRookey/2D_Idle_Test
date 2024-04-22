@@ -117,16 +117,28 @@ public class SpawnManager : MonoBehaviour
 
     private void OnMonsterDeath(LevelSystem attacker)
     {
-        // 몬스터풀로 되돌려 보내기
-        if (!monsterDict.ContainsKey(spawnedMonster.Name)) Debug.LogError("몬스터" + spawnedMonster.Name+" 키가 없습니다");
+        // Check if spawnedMonster is not null before proceeding
+        if (spawnedMonster != null)
+        {
+            // Check if the key exists in the dictionary
+            if (monsterDict.ContainsKey(spawnedMonster.Name))
+            {
+                spawnedMonster.OnDeath -= OnMonsterDeath;
+                Debug.Log("Monster returned to pool: " + spawnedMonster.Name);
+                // monsterDict[spawnedMonster.Name].Take(spawnedMonster);
+            }
+            else
+            {
+                Debug.LogError("몬스터" + spawnedMonster.Name + " 키가 없습니다");
+            }
 
-        spawnedMonster.OnDeath -= OnMonsterDeath;
+            spawnedMonster = null;
+        }
+        else
+        {
+            Debug.LogWarning("spawnedMonster is null. Skipping monster return to pool.");
+        }
 
-        
-        //monsterDict[spawnedMonster.Name].Take(spawnedMonster);
-        Debug.Log("Monster returned to pool: " + spawnedMonster.Name);
-        spawnedMonster = null;
-        //StartCoroutine(StartSpawn());
         StartTimer();
     }
 

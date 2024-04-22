@@ -34,6 +34,11 @@ public class Health : MonoBehaviour, IPoolObject
 
     private StatContainer _statContainer;
 
+    private void OnValidate()
+    {
+        Name = gameObject.name;
+    }
+
     private void OnEnable()
     {
         _statContainer = GetComponent<StatContainer>();

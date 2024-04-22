@@ -4451,53 +4451,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387350071}
   m_CullTransparentMesh: 1
---- !u!28 &388496285
-Texture2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 2
-  m_Width: 256
-  m_Height: 1
-  m_CompleteImageSize: 2044
-  m_MipsStripped: 0
-  m_TextureFormat: 4
-  m_MipCount: 9
-  m_IsReadable: 1
-  m_IsPreProcessed: 0
-  m_IgnoreMasterTextureLimit: 0
-  m_StreamingMipmaps: 0
-  m_StreamingMipmapsPriority: 0
-  m_VTOnly: 0
-  m_AlphaIsTransparency: 0
-  m_ImageCount: 1
-  m_TextureDimension: 2
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_LightmapFormat: 0
-  m_ColorSpace: 0
-  m_PlatformBlob: 
-  image data: 2044
-  _typelessdata: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
 --- !u!1 &398284367
 GameObject:
   m_ObjectHideFlags: 0
@@ -9619,6 +9572,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 880149227}
   m_CullTransparentMesh: 1
+--- !u!28 &899799271
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 2
+  m_Width: 256
+  m_Height: 1
+  m_CompleteImageSize: 2044
+  m_MipsStripped: 0
+  m_TextureFormat: 4
+  m_MipCount: 9
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMasterTextureLimit: 0
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_LightmapFormat: 0
+  m_ColorSpace: 0
+  m_PlatformBlob: 
+  image data: 2044
+  _typelessdata: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
 --- !u!1 &923195937
 GameObject:
   m_ObjectHideFlags: 0
@@ -14308,7 +14308,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _GradientTex:
-        m_Texture: {fileID: 388496285}
+        m_Texture: {fileID: 899799271}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -21448,22 +21448,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 398284368}
     m_Modifications:
     - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: disableOnStart
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 777699111}
@@ -21471,226 +21455,58 @@ PrefabInstance:
       propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1660291687}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: DORestartById
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: DG.Tweening.DOTweenAnimation, Assembly-CSharp-firstpass
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
-      value: Enter
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 175637580822220008, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: OnEnterArea.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061799683146914, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061799683146915, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2079061799683146915, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061799950965528, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061799950965528, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061799950965531, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800151863458, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800151863459, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 3
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800151863459, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800245274302, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800245274303, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 2
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800245274303, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800277280686, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 4
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800277280686, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800277280689, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800342390010, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800342390010, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: monsterTable
-      value: 
-      objectReference: {fileID: 11400000, guid: 16629c87ff417424db735b86d6e77aad, type: 2}
-    - target: {fileID: 2079061800342390013, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800375726186, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800375726187, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 4
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800375726187, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800474982060, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 2
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800474982060, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800474982063, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800514369750, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800514369751, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 1
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800514369751, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800522155928, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800522155929, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800522155929, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800625499960, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800625499960, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800625499963, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800856268401, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800856268401, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: monsterTable
-      value: 
-      objectReference: {fileID: 11400000, guid: 16629c87ff417424db735b86d6e77aad, type: 2}
-    - target: {fileID: 2079061800856268403, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800866043962, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800866043963, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 2
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800866043963, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061800967986658, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061800967986659, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 3
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061800967986659, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061801012462006, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061801012462009, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 18
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061801176470294, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -21779,54 +21595,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: BorderColliders
       objectReference: {fileID: 0}
-    - target: {fileID: 2079061801368397428, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061801368397429, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2079061801368397429, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061801394437913, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061801394437915, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061801399243278, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061801399243279, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 4
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061801399243279, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 2079061801522682650, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2079061801522682651, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: region
-      value: 3
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     - target: {fileID: 2079061801522682651, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
       propertyPath: monsterTable
       value: 
-      objectReference: {fileID: 11400000, guid: 5f5522522e9c3164489dea744b116b8b, type: 2}
-    - target: {fileID: 6858210885310620843, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-      propertyPath: m_RootOrder
-      value: 19
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f3be18cee7dfdf34da283cb07fd8c947, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
 --- !u!114 &2079061801512017855 stripped
@@ -21840,24 +21620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f0c65cbde72f04fa8ae0b54c43c64f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2079061801512017856 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2079061801176470297, guid: 81bb5bbc1a06c4d46852cc1e1379b07d, type: 3}
-  m_PrefabInstance: {fileID: 2079061801512017854}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2079061801512017857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2079061801512017856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0a7871626ff4bb459cb355db15406fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areas: []
 --- !u!1001 &3227098917932265776
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Redcode.Pools;
+using System;
 
 namespace Litkey.Utility 
 { 
@@ -54,7 +55,14 @@ namespace Litkey.Utility
 
         public static void ReturnBar(BarTemplate usedBar)
         {
-            barPool.Take(usedBar);
+            try
+            {
+
+                barPool.Take(usedBar);
+            }catch (ArgumentException)
+            {
+
+            }
         }
 
         private static void CheckPoolExists()

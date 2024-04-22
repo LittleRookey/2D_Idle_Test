@@ -47,7 +47,8 @@ public class UnitLevel : ScriptableObject
     public List<float> MaxExpByLevel = new List<float>();
     [SerializeField] private float initMaxExp = 100f;
 
-    public UnityAction OnLevelUp;
+    //public Queue<UnityAction> OnLevelUp;
+    public UnityAction<float, float> OnLevelUp;
     public UnityAction<float, float> OnGainExp;
     //public UnitLevel(AnimationCurve animCurve)
     //{
@@ -117,12 +118,15 @@ public class UnitLevel : ScriptableObject
         //    Debug.LogError("Growth is decreasing");
         maxExp = Mathf.Round(fin_maxExp);
 
-        OnLevelUp?.Invoke();
+
+        OnLevelUp?.Invoke(currentExp, maxExp);
 
         //if (showLog)
         //    Debug.Log($"Level {level} - maxEXP - {maxExp}\nGrowth - {growth}");
 
     }
+
+
     public void SetLevel(int level, float currentExp)
     {
         this.level = level;

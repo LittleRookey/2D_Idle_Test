@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
         
         isGrounded = raycastHit;
         anim.SetBool(isGround, isGrounded);
+
     }
 
     void Update()
