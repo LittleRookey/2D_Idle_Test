@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public enum eEventType
 {
@@ -12,24 +13,11 @@ public enum eEventType
 
 public enum eDifficulty
 {
-    FFF,
-    FF,
-    F,
-    EEE,
-    EE,
-    E,
-    DDD,
-    DD,
-    D,
-    CCC,
-    CC,
-    C,
-    BBB,
-    BB,
-    B,
-    AAA,
-    AA,
-    A,
+    I,
+    II,
+    III,
+    IV,
+    V
 }
 
 [CreateAssetMenu(fileName = "Quest", menuName = "Litkey/Quest/InGameEvent")]

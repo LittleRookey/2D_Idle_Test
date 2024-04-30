@@ -63,26 +63,31 @@ public class MapManager : MonoBehaviour
     public eRegion CurrentRegion => currentRegion;
     [SerializeField] private Area startArea;
 
+    private Vector2[] zoomInClamps;
+
     private DestinationBehavior destBehavior;
     private void Awake()
     {
-        mapWidth = screenMap.rect.width/2;
-        mapHeight = screenMap.rect.height/2;
+        zoomInClamps = new Vector2[]
+        { new Vector2(281, 121), new Vector2(824, 418), new Vector2(1363, 723), new Vector2(1903, 1021), new Vector2(2440, 1320) };
 
-        mapMinX = 0f - (step * mapWidth);
-        mapMaxX = (step * mapWidth);
-        mapMinY = 0f - (step * mapHeight);
-        mapMaxY = (step * mapHeight);
+        mapWidth = actualMap.rect.width/2;
+        mapHeight = actualMap.rect.height/2;
+
+        //mapMinX = 0f - (step * mapWidth);
+        //mapMaxX = (step * mapWidth);
+        //mapMinY = 0f - (step * mapHeight);
+        //mapMaxY = (step * mapHeight);
         destinationImage.gameObject.SetActive(false);
 
-        Debug.Log($"X: {mapMaxX}\nY:{mapMaxY}");
+        //Debug.Log($"X: {mapMaxX}\nY:{mapMaxY}");
 
 
         currentPosition = startPos;
         actualMap.anchoredPosition = currentPosition;
         playerMarker.anchoredPosition = currentPosition;
         actualMap.rect.Set(actualMap.anchoredPosition.x, actualMap.anchoredPosition.y, screenMap.rect.width, screenMap.rect.height);
-
+        Debug.Log($"map width height set {screenMap.rect.width} : {screenMap.rect.height}");
         currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
         
 
@@ -335,8 +340,9 @@ public class MapManager : MonoBehaviour
 
     private void ClampMap()
     {
-        actualMap.anchoredPosition = new Vector2(Mathf.Clamp(actualMap.anchoredPosition.x, -1 * mapWidth * (zoomIn - 1), mapWidth * (zoomIn - 1)),
-                Mathf.Clamp(actualMap.anchoredPosition.y, -1 * mapHeight * (zoomIn - 1), mapHeight * (zoomIn - 1)));
+        Debug.Log("Clamp X Y = " + mapWidth * (zoomIn - 1) + " : " + mapHeight * (zoomIn - 1));
+        actualMap.anchoredPosition = new Vector2(Mathf.Clamp(actualMap.anchoredPosition.x, -1 * zoomInClamps[zoomIn - 1].x, zoomInClamps[zoomIn - 1].x),
+                Mathf.Clamp(actualMap.anchoredPosition.y, -1 * zoomInClamps[zoomIn - 1].y, zoomInClamps[zoomIn - 1].y));
     }
     private void PanCamera()
     {

@@ -52,6 +52,9 @@ namespace TransitionsPlus {
 
         public TransitionProfile profile;
 
+        [Tooltip("Event triggered when transition starts in autoPlay mode")]
+        public UnityEvent onTransitionStart;
+
         [Tooltip("Event triggered when transition ends in autoPlay mode")]
         public UnityEvent onTransitionEnd;
 
@@ -183,6 +186,7 @@ namespace TransitionsPlus {
         }
 
         void StartTransition() {
+            onTransitionStart?.Invoke();
             playing = true;
             startTime = GetTime();
             if (profile != null && profile.sound != null) {
@@ -531,6 +535,7 @@ namespace TransitionsPlus {
         /// Plays the transition from start
         /// </summary>
         public void Play() {
+            
             progress = 0;
             enabled = true;
             Start();

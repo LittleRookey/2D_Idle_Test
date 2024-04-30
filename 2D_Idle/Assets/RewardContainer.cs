@@ -30,6 +30,7 @@ public class RewardContainer : MonoBehaviour
 
     public void GainReward(LevelSystem attacker)
     {
+        if (attacker == null) return;
         attacker.GainExp(reward.GetExpReward());
         
 

@@ -20,7 +20,7 @@ public class EnemyAnimationHook : MonoBehaviour
     {
         enemyAI.OnIdle.AddListener(Idle);
         enemyAI.OnHit.AddListener(Hit);
-        enemyAI.OnAttack.AddListener(Attack);
+        enemyAI.OnAttack.AddListener(RandAttack);
         enemyAI.OnDead.AddListener(Dead);
 
     }
@@ -30,7 +30,7 @@ public class EnemyAnimationHook : MonoBehaviour
     {
         enemyAI.OnIdle.RemoveListener(Idle);
         enemyAI.OnHit.RemoveListener(Hit);
-        enemyAI.OnAttack.RemoveListener(Attack);
+        enemyAI.OnAttack.RemoveListener(RandAttack);
         enemyAI.OnDead.RemoveListener(Dead);
     }
 
@@ -44,12 +44,20 @@ public class EnemyAnimationHook : MonoBehaviour
         dotweenAnimation.DORestartAllById("Hit");   
     }
     
-    public void Attack(Health targ)
+    private void RandAttack(Health targ)
     {
-        dotweenAnimation.DORestartAllById("Attack");
+        var randNum = Random.Range(0f, 2f);
+
+        if (randNum >= 1f) JumpAttack(targ);
+        else FrontAttack(targ);
     }
 
-    public void Dead(Health targ)
+    private void JumpAttack(Health target) => dotweenAnimation.DORestartAllById("JumpAttack");
+
+    private void FrontAttack(Health target) => dotweenAnimation.DORestartAllById("FrontAttack");
+
+
+    private void Dead(Health targ)
     {
         dotweenAnimation.DORestartAllById("Dead");
     }

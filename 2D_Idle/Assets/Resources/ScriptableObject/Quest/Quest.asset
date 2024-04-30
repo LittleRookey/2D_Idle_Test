@@ -17,7 +17,7 @@ MonoBehaviour:
   eventPosition: {x: 0, y: 0}
   eventType: 0
   normalMonsterName: 
-  normalMonsterCount: 6400000096000000c8000000fa0000002c010000
+  normalMonsterCount: 6400000096000000c8000000fa0000002c010000f4010000
   eliteMonsterName: 
   eliteMonsterCount: 020000000400000006000000080000000a000000
   bossMonsterName: 

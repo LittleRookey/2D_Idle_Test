@@ -12,7 +12,7 @@ namespace TransitionsPlus {
     public class TransitionAnimatorEditor : Editor {
 
         SerializedProperty progress;
-        SerializedProperty autoPlay, playDelay, useUnscaledTime, autoDestroy, destroyDelay, destroyAllTransitions, onTransitionEnd;
+        SerializedProperty autoPlay, playDelay, useUnscaledTime, autoDestroy, destroyDelay, destroyAllTransitions, onTransitionStart, onTransitionEnd;
         SerializedProperty profile;
         SerializedProperty loadSceneAtEnd, sceneNameToLoad, sceneLoadMode;
         SerializedProperty fadeToCamera, mainCamera, secondCamera, switchActiveCamera, keepSecondCameraActive;
@@ -41,6 +41,7 @@ namespace TransitionsPlus {
             autoDestroy = serializedObject.FindProperty("autoDestroy");
             destroyDelay = serializedObject.FindProperty("destroyDelay");
             destroyAllTransitions = serializedObject.FindProperty("destroyAllTransitions");
+            onTransitionStart = serializedObject.FindProperty("onTransitionStart");
             onTransitionEnd = serializedObject.FindProperty("onTransitionEnd");
 
             autoFollow = serializedObject.FindProperty("autoFollow");
@@ -126,6 +127,7 @@ namespace TransitionsPlus {
                         EditorGUILayout.PropertyField(destroyAllTransitions);
                         EditorGUI.indentLevel--;
                     }
+                    EditorGUILayout.PropertyField(onTransitionStart);
                     EditorGUILayout.PropertyField(onTransitionEnd);
                 }
                 EditorGUILayout.PropertyField(useUnscaledTime);

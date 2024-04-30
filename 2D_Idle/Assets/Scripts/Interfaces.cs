@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Litkey.Interface
 {
-    public interface ISearchTarget
+    public interface IParryable
     {
 
-
+        public void OnParried();
     }
 }

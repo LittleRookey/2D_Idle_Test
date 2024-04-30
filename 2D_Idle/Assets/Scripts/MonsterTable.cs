@@ -41,6 +41,21 @@ public class MonsterTable : ScriptableObject
             Debug.LogWarning("The 'Prefabs/Monster' folder does not exist in your project.");
         }
     }
+
+    [Button(ButtonSizes.Large)]
+    private void OpenMonsterTable()
+    {
+        string folderPath = "Assets/Resources/ScriptableObject/MonsterTable/Targ";
+        Object folderObject = AssetDatabase.LoadAssetAtPath<Object>(folderPath);
+        if (folderObject != null)
+        {
+            EditorGUIUtility.PingObject(folderObject);
+        }
+        else
+        {
+            Debug.LogWarning("The 'Assets/Resources/ScriptableObject/MonsterTable' folder does not exist in your project.");
+        }
+    }
 }
 
 [System.Serializable]

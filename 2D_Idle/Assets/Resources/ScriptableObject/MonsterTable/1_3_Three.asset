@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b643495250a2f498f4ef2e7015799f, type: 3}
+  m_Name: 1_3_Three
+  m_EditorClassIdentifier: 
+  monsterWeights:
+  - monster: {fileID: 7224041334326621997, guid: cd658e4748a481d4aa65b21bd32d75fe, type: 3}
+    weight: 1000
+  - monster: {fileID: 7224041334326621997, guid: 07f676a47cd6aee47aa3b0c9ee3a12a4, type: 3}
+    weight: 900
+  - monster: {fileID: 7224041334326621997, guid: a8983c7ca6f52e245bc8e19468ddace8, type: 3}
+    weight: 900
+  - monster: {fileID: 7224041334326621997, guid: 1518b2ad3caa0ed4d88ab96b21ff42e2, type: 3}
+    weight: 900
+  - monster: {fileID: 7224041334326621997, guid: bd8f0d060ff897b4ca9d29bb823ebb4d, type: 3}
+    weight: 100
+  - monster: {fileID: 7224041334326621997, guid: a7f21ef356f1ab1488ee34cb3939c3ca, type: 3}
+    weight: 100

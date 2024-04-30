@@ -6,10 +6,16 @@ using UnityEngine.Events;
 using Redcode.Pools;
 using Litkey.Stat;
 using Sirenix.OdinInspector;
+using Litkey.Interface;
 
-public class Health : MonoBehaviour, IPoolObject
+public class Health : MonoBehaviour, IPoolObject, IParryable
 {
     public string Name;
+
+    public bool canParry;
+    public bool isInterrupted;
+    private bool isParried;
+
     public float MaxHealth => maxHealth;
     public float CurrentHealth => currentHealth;
 
@@ -155,4 +161,14 @@ public class Health : MonoBehaviour, IPoolObject
         currentHealth += value;
         currentHealth = Mathf.Clamp(currentHealth, 0f, MaxHealth);
     }
+
+    public void OnParried()
+    {
+        // 인터페이스구현
+    }
+
+    public void ActivateParry() => canParry = true;
+
+    public void DisactivateParry() => canParry = false;
+    
 }

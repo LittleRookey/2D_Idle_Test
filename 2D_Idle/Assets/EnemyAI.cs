@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
+using Litkey.Stat;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -79,6 +80,7 @@ public class EnemyAI : MonoBehaviour
         _statContainer = GetComponent<StatContainer>();
         health = GetComponent<Health>();
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
+        boxCollider2D = GetComponentInChildren<BoxCollider2D>();
     }
 
     private void OnEnable()
@@ -162,29 +164,47 @@ public class EnemyAI : MonoBehaviour
     }
 
     private BarTemplate currentBar;
+    private bool canParry;
+    private bool isParried;
+    [SerializeField] private float parryTime = 0.5f;
+    private BoxCollider2D boxCollider2D;
+    // 패리 로직: 공격떄 패리박스를 넣음, 타겟이 패리박스가 열렸을떄 isParried를 트루로 만들면 데미지 공식 빗겨가고 패링당한 애니메이션 실행
+    // 만약 방어를 그 전에하고 유지하면 데미지 반감, 패링박스 열리고 닫히기전에 하면 패링, 이후에 패링하면 아무것도 없고 데미지공식 그대로 실행
     private void onAttackEnter()
     {
         // 몇초후에 공격 속행
         isAttacking = true;
         currentBar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
         currentBar.SetOuterColor(Color.black);
-
+        var parryActivateTime = final_attackInterval - parryTime; 
         attackTimer = 0f;
         currentBarTween = currentBar.StartFillBar(final_attackInterval, () => 
         { 
             currentBarTween = null;
 
             //isAttacking = false;
+            
 
             SwitchState(eEnemyBehavior.attack);
-
             BarCreator.ReturnBar(currentBar);
         });
+    }
+
+    private IEnumerator ActivateParrying(int targetNum)
+    {
+        yield return new WaitForSeconds(final_attackInterval - parryTime);
+        canParry = true;
+
+        yield return new WaitForSeconds(parryTime);
+        canParry = false;
+
+
     }
 
     // call from attack dotween animation
     public void onAttackExit()
     {
+        DamageAction();
         isAttacking = false;
         SwitchState(eEnemyBehavior.idle);
     }
@@ -263,6 +283,18 @@ public class EnemyAI : MonoBehaviour
     {
         Target = enemy;
         Debug.Log("Target set: " + enemy.name);
+    }
+
+    public void DamageAction()
+    {
+        if (Target == null) return;
+        // 데미지 계산
+        var dmg = _statContainer.GetFinalDamage();
+        _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+
+        //Target.GetComponent<StatContainer>().Defend(dmg.damage);
+        Target.TakeDamage(null, new List<Damage> { dmg });
+
     }
 
     // Update is called once per frame

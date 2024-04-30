@@ -134,6 +134,7 @@ public class UnitLevel : ScriptableObject
         this.currentExp = currentExp;
 
     }
+
     public void Init()
     {
         this.maxLevel = 100;
@@ -154,7 +155,6 @@ public class UnitLevel : ScriptableObject
 
         for (int i = 1; i < maxLevel; i++)
         {
-
             int _level = i + 1;
             float growth = 1 + curve.Evaluate((float)_level / (float)maxLevel);
             //_maxExp *= growth;
@@ -182,6 +182,12 @@ public class UnitLevel : ScriptableObject
     public float GetExpRatio()
     {
         return currentExp / maxExp;
+    }
+
+    public UnitLevel Clone()
+    {
+        Init();
+        return this.Clone();
     }
 }
 
