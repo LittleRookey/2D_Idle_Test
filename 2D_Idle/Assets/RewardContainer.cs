@@ -38,6 +38,7 @@ public class RewardContainer : MonoBehaviour
 
         if (reward.HasDropItem())
         {
+            // TODO 인벤토리에 넣기
             reward.GetDropItems();
         }
     }

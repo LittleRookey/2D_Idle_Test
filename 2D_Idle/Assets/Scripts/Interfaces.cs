@@ -9,4 +9,10 @@ namespace Litkey.Interface
 
         public void OnParried();
     }
+
+    public interface IRewardable<T>
+    {
+        public T GetReward();
+    }
+
 }

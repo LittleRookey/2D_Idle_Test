@@ -17,12 +17,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private SpriteRenderer playerSprite;
     // 애니메이션
-    private int isJumping = Animator.StringToHash("isJumping");
-    private int isRunning = Animator.StringToHash("isRunning");
-    private int isWalking = Animator.StringToHash("isWalking");
-    private int isGround = Animator.StringToHash("isGround");
-    private int AttackState = Animator.StringToHash("AttackState");
-    private int Attack = Animator.StringToHash("Attack");
+    private int _isJumping = Animator.StringToHash("isJumping");
+    private int _isRunning = Animator.StringToHash("isRunning");
+    private int _isWalking = Animator.StringToHash("isWalking");
+    private int _isGround = Animator.StringToHash("isGround");
+    private int _AttackState = Animator.StringToHash("AttackState");
+    private int _Attack = Animator.StringToHash("Attack");
+    
+    private int _Dead = Animator.StringToHash("Death");
+    private int _Revive = Animator.StringToHash("Revive");
+
     private eBehavior currentBehavior;
     private bool isGrounded;
 
@@ -33,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     private StatContainer _statContainer;
     private LevelSystem _levelSystem;
+    private Health _health;
+    public bool isDead;
     private enum eBehavior
     {
         idle,
@@ -48,7 +54,19 @@ public class PlayerController : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         _statContainer = GetComponent<StatContainer>();
         _levelSystem = GetComponent<LevelSystem>();
+        _health = GetComponent<Health>();
     }
+
+    private void OnEnable()
+    {
+        _health.OnDeath += Death;
+    }
+
+    private void OnDisable()
+    {
+        _health.OnDeath -= Death;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +92,18 @@ public class PlayerController : MonoBehaviour
         transform.position += Vector3.right * dir * runSpeed * Time.deltaTime;
     }
 
+    private void Death(LevelSystem levelSystem)
+    {
+        isDead = true;
+        anim.SetTrigger(this._Dead);
+    }
+
+    private void Revive(LevelSystem levelSystem)
+    {
+        isDead = false;
+        anim.SetTrigger(this._Revive);
+    }
+
     public void Turn(bool turnRight)
     {
         playerSprite.flipX = !turnRight;
@@ -85,7 +115,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.down * 0.55f, Color.red, 0.3f);
         
         isGrounded = raycastHit;
-        anim.SetBool(isGround, isGrounded);
+        anim.SetBool(_isGround, isGrounded);
 
     }
 
@@ -107,6 +137,8 @@ public class PlayerController : MonoBehaviour
 
     private void Action()
     {
+        if (isDead) return;
+
         //if (HasNoTarget())
         //{
         //    SwitchState(eBehavior.walk);
@@ -146,7 +178,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             case eBehavior.jump:
-                anim.SetBool(isJumping, true);
+                anim.SetBool(_isJumping, true);
                 break;
             case eBehavior.attack:
                 AttackAction();
@@ -165,15 +197,15 @@ public class PlayerController : MonoBehaviour
                 
                 break;
             case eBehavior.walk:
-                anim.SetBool(isWalking, false);
+                anim.SetBool(_isWalking, false);
                 break;
             case eBehavior.run:
-                anim.SetBool(isRunning, false);
+                anim.SetBool(_isRunning, false);
 
                 break;
             case eBehavior.jump:
  
-                anim.SetBool(isJumping, false);
+                anim.SetBool(_isJumping, false);
                 break;
             case eBehavior.attack:
   
@@ -192,16 +224,16 @@ public class PlayerController : MonoBehaviour
                 break;
             case eBehavior.walk:
                 //anim.SetBool(isWalking, true);
-                anim.SetBool(isWalking, true);
+                anim.SetBool(_isWalking, true);
                 break;
             case eBehavior.run:
 
-                anim.SetBool(isRunning, true);
+                anim.SetBool(_isRunning, true);
 
                 break;
             case eBehavior.jump:
 
-                anim.SetBool(isJumping, true);
+                anim.SetBool(_isJumping, true);
                 break;
             case eBehavior.attack:
                 canMove = false;
@@ -280,8 +312,8 @@ public class PlayerController : MonoBehaviour
             SwitchState(eBehavior.run);
         } else
         {
-            anim.SetFloat(AttackState, Random.Range(0, 1f));
-            anim.SetTrigger(Attack);
+            anim.SetFloat(_AttackState, Random.Range(0, 1f));
+            anim.SetTrigger(_Attack);
         }
     }
 

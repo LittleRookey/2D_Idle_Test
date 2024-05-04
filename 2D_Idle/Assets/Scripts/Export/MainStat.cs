@@ -38,9 +38,20 @@ namespace Litkey.Stat
         //private int _addedStat;
 
         //  메인스텟이 올려주는 서브스텟들
-        private List<SubStat> substats;
+        public List<SubStat> ChildSubstats 
+        { 
+            get
+            {
+                if (_childSubStats == null)
+                {
+                    _childSubStats = new List<SubStat>();
+                }
+                return _childSubStats;
+            }
+        }
 
-        private int _levelAddedStats; // 레벨업 포인트로 찍은 메인스텟 추가포인트
+        private List<SubStat> _childSubStats;
+        public int LevelAddedStats { get; private set; } // 레벨업 포인트로 찍은 메인스텟 추가포인트
 
 
         [HideInInspector] public UnityEvent OnValueChanged;
@@ -51,7 +62,7 @@ namespace Litkey.Stat
         {
             get
             {
-                return BaseStat + _levelAddedStats;
+                return BaseStat + LevelAddedStats;
             }
             set
             {
@@ -64,8 +75,8 @@ namespace Litkey.Stat
         {
             this.StatName = statName;
             this.BaseStat = value;
-            this._levelAddedStats = 0;
-            this.substats = new List<SubStat>();
+            this.LevelAddedStats = 0;
+            this._childSubStats = new List<SubStat>();
             //OnValueChanged.AddListener(() => Debug.Log($"{StatName} : {}"));
         }
 
@@ -73,7 +84,7 @@ namespace Litkey.Stat
         public void IncreaseStat(int addedVal=1)
         {
             if (addedVal <= 0) return;
-            _levelAddedStats += addedVal;
+            LevelAddedStats += addedVal;
             //Debug.Log($"{StatName} increased by {addedVal} from {FinalValue - addedVal} to {FinalValue}");
             //  TODO apply substat based on full stat
             // apply mainstat changes to substat, 
@@ -88,7 +99,7 @@ namespace Litkey.Stat
         // each substat will apply changes to each mainstat that belongs to
         private void UpdateValue()
         {
-            foreach (SubStat stat in substats)
+            foreach (SubStat stat in ChildSubstats)
             {
                 stat.ApplyChange(this, FinalValue);
             }
@@ -96,8 +107,8 @@ namespace Litkey.Stat
 
         public void AddSubStatAsChild(SubStat ss)
         {
-            if (substats.Contains(ss)) return;
-            substats.Add(ss);
+            if (ChildSubstats.Contains(ss)) return;
+            ChildSubstats.Add(ss);
             //UpdateValue();
         }
 
@@ -111,10 +122,15 @@ namespace Litkey.Stat
             return StatName;
         }
 
+        public bool Equals(MainStat other)
+        {
+            return this.StatName == other.StatName;
+        }
+
         public void DisplayAllSubstats()
         {
             string s = "";
-            foreach (SubStat ss in substats)
+            foreach (SubStat ss in _childSubStats)
             {
                 s+= $"{ss.ToString()}: {ss.FinalValue}\n";
             }
@@ -129,8 +145,8 @@ namespace Litkey.Stat
         // 메인스텟 Influencer들이 서브스텟들에 더하는 형식
 
         //public float Value => _finalValue;
+        public string DisplayName => displayName;
 
-        [SerializeField] 
         private string displayName;
 
         public eSubStatType statType;
@@ -155,16 +171,16 @@ namespace Litkey.Stat
         }
 
 
-        private bool _isPercentage; // is substat shown as percantage
+        public bool IsPercentage { private set; get; } // is substat shown as percantage
 
-        private string shownFinalValue => _isPercentage ? _finalValue.ToString() + percantage : _finalValue.ToString();
+        private string shownFinalValue => IsPercentage ? _finalValue.ToString() + percantage : _finalValue.ToString();
         
         private List<Influencer> influencers; // mainstats that affect substat
 
         string percantage = "%";
 
         // 초기 캐릭터 스텟 값
-        private float BaseStat;
+        public float BaseStat { get; private set; }
 
         private float minValue = -1;
         private float maxValue = -1;
@@ -206,7 +222,7 @@ namespace Litkey.Stat
         public SubStat(string displayName, float initValue, eSubStatType statType, bool isPercantage = false)
         {
 
-            this._isPercentage = isPercantage;
+            this.IsPercentage = isPercantage;
             this.BaseStat = initValue;
             this._finalValue = initValue;
 
@@ -231,7 +247,7 @@ namespace Litkey.Stat
         public SubStat(string displayName, float initValue, eSubStatType statType, float minVal, float maxVal, bool isPercantage = false)
         {
 
-            this._isPercentage = isPercantage;
+            this.IsPercentage = isPercantage;
             this.BaseStat = initValue;
             this._finalValue = initValue;
 
@@ -509,6 +525,7 @@ public enum eMainStatType
     맷집,
     민첩,
     감각,
+    지혜,
 };
 
 public enum eSubStatType

@@ -1,3 +1,4 @@
+using Litkey.Interface;
 using UnityEngine;
 
 
@@ -36,7 +37,7 @@ namespace Litkey.InventorySystem
                 - ArmorItemData
     */
     [System.Serializable]
-    public abstract class ItemData : ScriptableObject
+    public abstract class ItemData : ScriptableObject, IRewardable<ItemData>
     {
         public int intID;
         
@@ -47,6 +48,7 @@ namespace Litkey.InventorySystem
         public string itemType;
         public EquipmentRarity rarity => _rarity;
         public int Weight => _weight;
+
         /// <summary> 최대 내구도 </summary>
         [SerializeField] private EquipmentRarity _rarity = EquipmentRarity.노말;
         [SerializeField] private int _weight = 0;
@@ -66,7 +68,8 @@ namespace Litkey.InventorySystem
                 (this is AccessoryItemData);
         }
 
-        
+        public virtual ItemData GetReward() { return this; }
+
     }
 
  

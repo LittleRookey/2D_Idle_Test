@@ -16,6 +16,11 @@ namespace Litkey.InventorySystem
             return new PortionItem(this, intID.ToString());
         }
 
+        public override ItemData GetReward()
+        {
+            return this;
+        }
+
         public StatModifier[] GetStats()
         {
             return stats;

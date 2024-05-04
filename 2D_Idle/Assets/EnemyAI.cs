@@ -110,6 +110,11 @@ public class EnemyAI : MonoBehaviour
         
     }
 
+    public Health GetTarget()
+    {
+        return Target;
+    }
+
     private void SwitchState(eEnemyBehavior behavior)
     {
         onStateExitBeahviors[currentBehavior]?.Invoke(Target);
@@ -182,9 +187,10 @@ public class EnemyAI : MonoBehaviour
         { 
             currentBarTween = null;
 
-            //isAttacking = false;
-            
+            isAttacking = false;
+            if (!isParried) DamageAction();
 
+            //onAttackExit();
             SwitchState(eEnemyBehavior.attack);
             BarCreator.ReturnBar(currentBar);
         });
@@ -204,8 +210,8 @@ public class EnemyAI : MonoBehaviour
     // call from attack dotween animation
     public void onAttackExit()
     {
-        DamageAction();
-        isAttacking = false;
+        //DamageAction();
+        //isAttacking = false;
         SwitchState(eEnemyBehavior.idle);
     }
 
@@ -287,14 +293,16 @@ public class EnemyAI : MonoBehaviour
 
     public void DamageAction()
     {
+        Debug.Log(11111111111);
         if (Target == null) return;
         // 데미지 계산
+        Debug.Log(222222222222);
         var dmg = _statContainer.GetFinalDamage();
         _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
-
+        Debug.Log(333333333333);
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-        Target.TakeDamage(null, new List<Damage> { dmg });
-
+        Target.TakeDamage(_statContainer, new List<Damage> { dmg });
+        Debug.Log(444444444444444);
     }
 
     // Update is called once per frame

@@ -53,7 +53,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1389305967821746214, guid: 02479d586e688df45842f13ac3faf2db, type: 2}
+  - {fileID: 9117687240880175460, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1389305967821746214, guid: 02479d586e688df45842f13ac3faf2db, type: 2}
+  - {fileID: 9117687240880175460, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,10 +183,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 02479d586e688df45842f13ac3faf2db, type: 2}
-  m_sharedMaterial: {fileID: -1389305967821746214, guid: 02479d586e688df45842f13ac3faf2db, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  m_sharedMaterial: {fileID: 9117687240880175460, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -318,7 +318,7 @@ MonoBehaviour:
     closeScale: 2
     farScale: 0.5
   cameraOverride: {fileID: 0}
-  enableNumber: 1
+  enableNumber: 0
   number: 1
   numberSettings:
     bold: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
     characterSpacing: 0
     size: 0
   enableTopText: 0
-  topText: 
+  topText: MISS
   topTextSettings:
     bold: 0
     italic: 0
@@ -465,13 +465,13 @@ MonoBehaviour:
   enableShakeFadeOut: 0
   shakeOffsetFadeOut: {x: 0, y: 1.5}
   shakeFrequencyFadeOut: 4
-  enableLerp: 0
+  enableLerp: 1
   lerpSettings:
     speed: 5
-    minX: 0
-    maxX: 0
-    minY: 0
-    maxY: 0.1
+    minX: -0.4
+    maxX: 0.4
+    minY: 0.5
+    maxY: 1
     randomFlip: 0
   enableVelocity: 0
   velocitySettings:
@@ -548,7 +548,7 @@ MonoBehaviour:
     toNumber: 1000
     fromScale: 1
     toScale: 2
-  enableScaleOverTime: 1
+  enableScaleOverTime: 0
   scaleOverTime:
     serializedVersion: 2
     m_Curve:
@@ -561,15 +561,6 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    - serializedVersion: 3
-      time: 0.061858617
-      value: 2.494197
-      inSlope: -2.4765296
-      outSlope: -2.4765296
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.21271013
     - serializedVersion: 3
       time: 1
       value: 0.7
@@ -727,7 +718,7 @@ MonoBehaviour:
   enablePooling: 1
   poolSize: 50
   disableOnSceneLoad: 1
-  editorLastFont: Basic-Default
+  editorLastFont: bitcell_memesbruh03 SDF
   position: {x: 0, y: 0, z: 0}
 --- !u!210 &6323344755239107247
 SortingGroup:
@@ -793,7 +784,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -1389305967821746214, guid: 02479d586e688df45842f13ac3faf2db, type: 2}
+  - {fileID: 9117687240880175460, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

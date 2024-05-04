@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Litkey.InventorySystem;
 using Litkey.Utility;
+using Litkey.Interface;
 
 
 [CreateAssetMenu(fileName = "LootTable", menuName = "Litkey/LootTable")]
@@ -12,7 +13,7 @@ public class LootTable : ScriptableObject
     [System.Serializable]
     public class ItemDrop
     {
-        public ItemData item;
+        public IRewardable<ItemData> item;
         [Range(0f, 100f)]
         public float dropRate;
         public Vector2Int dropCount = Vector2Int.one;
@@ -53,17 +54,26 @@ public class LootTable : ScriptableObject
         return _lootTable.Length > 0;
     }
 
-    public List<CountableItem> GetDropItems()
+    public List<Item> GetDropItems()
     {
-        List<CountableItem> itemDrops = new List<CountableItem>();
+        List<Item> itemDrops = new List<Item>();
         for (int i = 0; i < _lootTable.Length; i++)
         {
             if (ProbabilityCheck.GetThisChanceResult_Percentage(_lootTable[i].dropRate))
             {
                 int count = Random.Range(_lootTable[i].dropCount.x, _lootTable[i].dropCount.y);
-                var item = _lootTable[i].item.CreateItem() as CountableItem;
-                item.SetAmount(count);
-                itemDrops.Add(item);
+                var item = _lootTable[i].item.GetReward().CreateItem();
+               if (item is CountableItem countableItem)
+                {
+                    countableItem.SetAmount(count);
+                    itemDrops.Add(countableItem);
+                }
+               else if (item is EquipmentItem equipItem)
+                {
+                    itemDrops.Add(equipItem);
+                }
+                
+           
             }
         }
         return itemDrops;

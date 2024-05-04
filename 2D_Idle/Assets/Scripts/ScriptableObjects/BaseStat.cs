@@ -8,6 +8,7 @@ namespace Litkey.Stat
     [CreateAssetMenu(fileName ="BaseStat", menuName ="Litkey/BaseStat")]
     public class BaseStat : ScriptableObject
     {
+        public int MonsterLevel;
         [Header("±âº»½ºÅÝ")]
         public float MaxHP;
 
@@ -23,8 +24,9 @@ namespace Litkey.Stat
         public float CritChance;
         [Range(0f, 1f)]
         public float CritDamage;
-
+        [Range(0, 100f)]
         public float Precision;
+        [Range(0, 100f)]
         public float Evasion;
 
         [Range(0, 100f)]

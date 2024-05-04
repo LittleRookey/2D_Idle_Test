@@ -26,6 +26,8 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     public bool IsDead => isDead;
 
     private DamageNumberMesh dmg;
+    private DamageNumberMesh missText;
+    private DamageNumberMesh critDamageText;
 
     private Vector3 dmgOffset = new Vector3(0f, 0.5f, 0f);
 
@@ -88,8 +90,16 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     [Button("TakeDamage")]
     public bool TakeDamage(LevelSystem attacker, List<Damage> damages)
     {
-        List<Damage> finalDamages = new List<Damage>();
         var attackerStat = attacker.GetComponent<StatContainer>();
+        // 명중 회피 계산하기
+        if (!attackerStat.CalculateHit(_statContainer))
+        {
+            // 회피 텍스트, 회피 모션취하기
+            ShowMissText();
+            return false;
+        }
+        // 명중 통과하면 데미지 계산
+        List<Damage> finalDamages = new List<Damage>();
         for (int i = 0; i < damages.Count; i++)
         {
             var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
@@ -117,12 +127,64 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         return false;
     }
 
+    public bool TakeDamage(StatContainer attacker, List<Damage> damages)
+    {
+        var attackerStat = attacker;
+        // 명중 회피 계산하기
+        if (!attackerStat.CalculateHit(_statContainer))
+        {
+            // 회피 텍스트, 회피 모션취하기
+            ShowMissText();
+            return false;
+        }
+        // 명중 통과하면 데미지 계산
+        List<Damage> finalDamages = new List<Damage>();
+        for (int i = 0; i < damages.Count; i++)
+        {
+            var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
+
+            //var dmg = _statContainer.Defend(damages[i].damage);
+            finalDamages.Add(damageInfo);
+            //currentHealth -= dmg;
+            currentHealth -= damageInfo.damage;
+            onTakeDamage?.Invoke(currentHealth, maxHealth);
+        }
+
+        StartCoroutine(ShowDmgText(finalDamages));
+
+        if (currentHealth <= 0f)
+        {
+            currentHealth = 0f;
+            isDead = true;
+            bCollider.isTrigger = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+
+            OnDeath?.Invoke(attacker.GetComponent<LevelSystem>());
+            return true;
+        }
+        return false;
+    }
+
+
+    private void ShowMissText()
+    {
+        missText.Spawn(transform.position + Vector3.up + dmgOffset);
+    }
+
     private IEnumerator ShowDmgText(List<Damage> damages) 
     {
         WaitForSeconds delay = new WaitForSeconds(0.15f);
         for (int i = 0; i < damages.Count; i++)
         {
-            dmg.Spawn(transform.position + Vector3.up + dmgOffset * (i + 1), damages[i].damage);
+            if (damages[i].isCrit)
+            {
+                critDamageText.Spawn(transform.position + Vector3.up + dmgOffset * (i + 1), damages[i].damage);
+            }
+            else
+            {
+                dmg.Spawn(transform.position + Vector3.up + dmgOffset * (i + 1), damages[i].damage);
+            }
             yield return delay;
         }
     }
@@ -137,6 +199,8 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         maxHealth = _statContainer.HP.FinalValue;
         currentHealth = maxHealth;
         dmg = Resources.Load<DamageNumberMesh>("Prefabs/BaseDamage");
+        missText = Resources.Load<DamageNumberMesh>("Prefabs/Miss");
+        critDamageText = Resources.Load<DamageNumberMesh>("Prefabs/CriticalDamage");
     }
 
     public void OnCreatedInPool()
