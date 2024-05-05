@@ -11,13 +11,14 @@ public class StatContainer : MonoBehaviour
 
     public int MonsterLevel;
 
+    #region Stats
     public MainStat Strength { private set; get; } // 근력
     public MainStat Vit { private set; get; } // 맷집
     public MainStat Avi { private set; get; } // 민첩
     public MainStat Sensation { private set; get; } // 감각
     public MainStat Int { private set; get; } // 지혜
 
-    public SubStat HP { private set; get; } // 체력
+    public SubStat HP; // 체력
 
     public SubStat Attack { private set; get; } // 공격력
     public SubStat MagicAttack { private set; get; } // 마법 공격력
@@ -49,13 +50,36 @@ public class StatContainer : MonoBehaviour
 
     public SubStat ExtraGold; // 추가 골드
     public SubStat ExtraExp; // 추가 경험치 
+    #endregion
 
     //public UnitLevel unitLevel;
     [SerializeField] private Alias alias;
 
     public int AbilityPoint { get; private set; }
 
-    public int addedStat { private set; get; } = 0;
+    public int addedStat { 
+        get
+        {
+            if (statGiven == null)
+            {
+                statGiven = new Dictionary<eMainStatType, int>() {
+                    { eMainStatType.근력, 0 },
+                    { eMainStatType.맷집, 0 },
+                    { eMainStatType.민첩, 0 },
+                    { eMainStatType.감각, 0 },
+                    { eMainStatType.지혜, 0 },
+                };
+            }
+            _addedStat = 0;
+            foreach (var statplus in statGiven.Values)
+            {
+                _addedStat += statplus;
+            }
+            return _addedStat;
+        }
+    }
+    private int _addedStat = 0;
+
     // 서브 스텟 값은 최종적으로 메인스텟 + 베이스 스텟 + 이명 스텟(성격)을 합한 값이 될것이다
     public Dictionary<eMainStatType, MainStat> mainStats
     {
@@ -76,24 +100,70 @@ public class StatContainer : MonoBehaviour
     }
     private Dictionary<eMainStatType, MainStat> _mainStats;
 
-    public UnityEvent<eMainStatType> OnIncreaseStat = new();
-    public UnityEvent<eMainStatType, int> OnTryIncreaseStat = new();
+    public Dictionary<eSubStatType, SubStat> subStats
+    {
+        get
+        {
+            if (_subStats == null || _subStats.Count == 0)
+            {
+                _subStats = new Dictionary<eSubStatType, SubStat>() {
+                    { eSubStatType.attack, this.Attack },
+                    //{ eSubStatType.attackRange, this.},
+                    { eSubStatType.attackSpeed, this.AttackSpeed },
+                    //{ eSubStatType.cc_Resistance, this. },
+                    { eSubStatType.critChance, this.CritChance },
+                    { eSubStatType.critDamage, this.CritDamage },
+                    { eSubStatType.defense, this.Defense },
+                    { eSubStatType.health, this.HP },
+                    //{ eSubStatType.healthRegen, this. },
+                    { eSubStatType.magicAttack, this.MagicAttack },
+                    { eSubStatType.magicDefense, this.MagicDefense },
+                    //{ eSubStatType.mana, this. },
+                    //{ eSubStatType.manaRegen, this. },
+                    { eSubStatType.moveSpeed, this.MoveSpeed },
+                    { eSubStatType.물리관통력, this.p_penetration },
+                    { eSubStatType.마법관통력, this.m_penetration },
+                    { eSubStatType.마법저항, this.m_resist },
+                    { eSubStatType.명중, this.Precision },
+                    { eSubStatType.물리저항, this.p_resist },
+                    //{ eSubStatType.받는피해감소, this. },
+                    //{ eSubStatType.받는피해증가, this.Int },
+                    //{ eSubStatType.주는피해감소, this.Int },
+                    //{ eSubStatType.주는피해증가, this.Int },
+                    { eSubStatType.추가경험치, this.ExtraExp },
+                    { eSubStatType.추가골드, this.ExtraGold },
+                    { eSubStatType.회피, this.Evasion },
+                };
+            }
+            return _subStats;
+        }
+    }
+    private Dictionary<eSubStatType, SubStat> _subStats;
+
+
+    [HideInInspector] public UnityEvent<eMainStatType> OnIncreaseStat = new();
+    [HideInInspector] public UnityEvent<eMainStatType, int> OnTryIncreaseStat = new();
+    [HideInInspector] public UnityEvent OnApplyStat;
+    [HideInInspector] public UnityEvent OnCancelStat;
 
     private Dictionary<eMainStatType, int> statGiven;
+
     private void Awake()
     {
         this.MonsterLevel = baseStat.MonsterLevel;
         SetupStats();
 
         this.AbilityPoint = 5;
-
-        statGiven = new Dictionary<eMainStatType, int>() {
-            { eMainStatType.근력, 0 },
-            { eMainStatType.맷집, 0 },
-            { eMainStatType.민첩, 0 },
-            { eMainStatType.감각, 0 },
-            { eMainStatType.지혜, 0 },
-        };
+        if (statGiven == null)
+        {
+            statGiven = new Dictionary<eMainStatType, int>() {
+                { eMainStatType.근력, 0 },
+                { eMainStatType.맷집, 0 },
+                { eMainStatType.민첩, 0 },
+                { eMainStatType.감각, 0 },
+                { eMainStatType.지혜, 0 },
+            };
+        }
 
         _mainStats = new Dictionary<eMainStatType, MainStat>() {
             { eMainStatType.근력, this.Strength },
@@ -103,6 +173,37 @@ public class StatContainer : MonoBehaviour
             { eMainStatType.지혜, this.Int },
         };
 
+        if (_subStats == null)
+        {
+            _subStats = new Dictionary<eSubStatType, SubStat>() {
+                    { eSubStatType.attack, this.Attack },
+                    //{ eSubStatType.attackRange, this.},
+                    { eSubStatType.attackSpeed, this.AttackSpeed },
+                    //{ eSubStatType.cc_Resistance, this. },
+                    { eSubStatType.critChance, this.CritChance },
+                    { eSubStatType.critDamage, this.CritDamage },
+                    { eSubStatType.defense, this.Defense },
+                    { eSubStatType.health, this.HP },
+                    //{ eSubStatType.healthRegen, this. },
+                    { eSubStatType.magicAttack, this.MagicAttack },
+                    { eSubStatType.magicDefense, this.MagicDefense },
+                    //{ eSubStatType.mana, this. },
+                    //{ eSubStatType.manaRegen, this. },
+                    { eSubStatType.moveSpeed, this.MoveSpeed },
+                    { eSubStatType.물리관통력, this.p_penetration },
+                    { eSubStatType.마법관통력, this.m_penetration },
+                    { eSubStatType.마법저항, this.m_resist },
+                    { eSubStatType.명중, this.Precision },
+                    { eSubStatType.물리저항, this.p_resist },
+                    //{ eSubStatType.받는피해감소, this. },
+                    //{ eSubStatType.받는피해증가, this.Int },
+                    //{ eSubStatType.주는피해감소, this.Int },
+                    //{ eSubStatType.주는피해증가, this.Int },
+                    { eSubStatType.추가경험치, this.ExtraExp },
+                    { eSubStatType.추가골드, this.ExtraGold },
+                    { eSubStatType.회피, this.Evasion },
+                };
+        }
         if (TryGetComponent<LevelSystem>(out LevelSystem lvlSystem))
         {
             lvlSystem.unitLevel.OnLevelUp += (float a, float b) =>
@@ -128,29 +229,29 @@ public class StatContainer : MonoBehaviour
         Sensation = new MainStat("감각", 0);
         Int = new MainStat("지혜", 0);
 
-        HP = new SubStat("체력", baseStat.MaxHP, eSubStatType.health);
-        Attack = new SubStat("공격력", baseStat.Attack, eSubStatType.attack);
-        MagicAttack = new SubStat("마법 공격력", baseStat.MagicAttack, eSubStatType.magicAttack);
+        HP = new SubStat("체력", baseStat.MaxHP, eSubStatType.health).SetMaxUIValue(1000f);
+        Attack = new SubStat("공격력", baseStat.Attack, eSubStatType.attack).SetMaxUIValue(100f);
+        MagicAttack = new SubStat("마법 공격력", baseStat.MagicAttack, eSubStatType.magicAttack).SetMaxUIValue(100f);
 
-        Defense = new SubStat("방어력", baseStat.Defense, eSubStatType.defense);
-        MagicDefense = new SubStat("마법 방어력", baseStat.MagicDefense, eSubStatType.magicDefense);
+        Defense = new SubStat("방어력", baseStat.Defense, eSubStatType.defense).SetMaxUIValue(100f);
+        MagicDefense = new SubStat("마법 방어력", baseStat.MagicDefense, eSubStatType.magicDefense).SetMaxUIValue(100f);
 
-        AttackSpeed = new SubStat("공격속도", baseStat.AttackSpeed, eSubStatType.attackSpeed, true);
-        MoveSpeed = new SubStat("이동속도", baseStat.MoveSpeed, eSubStatType.moveSpeed, true);
+        AttackSpeed = new SubStat("공격속도", baseStat.AttackSpeed, eSubStatType.attackSpeed, true).SetMaxUIValue(0.1f);
+        MoveSpeed = new SubStat("이동속도", baseStat.MoveSpeed, eSubStatType.moveSpeed, true).SetMaxUIValue(0.1f);
 
-        CritChance = new SubStat("크리티컬 확률", baseStat.CritChance, eSubStatType.critChance, true);
-        CritDamage = new SubStat("크리티컬 데미지", baseStat.CritDamage, eSubStatType.critDamage, true);
+        CritChance = new SubStat("크리티컬 확률", baseStat.CritChance, eSubStatType.critChance, true).SetMaxUIValue(1f);
+        CritDamage = new SubStat("크리티컬 데미지", baseStat.CritDamage, eSubStatType.critDamage, true).SetMaxUIValue(1f);
 
-        ExtraGold = new SubStat("골드 추가흭득량", baseStat.ExtraGold, eSubStatType.추가골드, true);
-        ExtraExp = new SubStat("경험치 추가흭득량", baseStat.ExtraExp, eSubStatType.추가경험치, true);
+        ExtraGold = new SubStat("골드 추가흭득량", baseStat.ExtraGold, eSubStatType.추가골드, true).SetMaxUIValue(1f);
+        ExtraExp = new SubStat("경험치 추가흭득량", baseStat.ExtraExp, eSubStatType.추가경험치, true).SetMaxUIValue(1f);
 
-        Precision = new SubStat("명중", baseStat.Precision, eSubStatType.명중);
-        Evasion = new SubStat("회피", baseStat.Evasion, eSubStatType.회피);
+        Precision = new SubStat("명중", baseStat.Precision, eSubStatType.명중).SetMaxUIValue(100f);
+        Evasion = new SubStat("회피", baseStat.Evasion, eSubStatType.회피).SetMaxUIValue(100f);
 
-        p_resist = new SubStat("물리 저항력", baseStat.p_resist, eSubStatType.물리저항, 0f, 100f);
-        m_resist = new SubStat("마법 저항력", baseStat.magic_resist, eSubStatType.마법저항, 0f, 100f);
-        p_penetration = new SubStat("물리 관통력", baseStat.p_penetration, eSubStatType.물리관통력, 0f, 100f);
-        m_penetration = new SubStat("마법 관통력", baseStat.magic_penetration, eSubStatType.마법관통력, 0f, 100f);
+        p_resist = new SubStat("물리 저항력", baseStat.p_resist, eSubStatType.물리저항, 0f, 100f).SetMaxUIValue(100f);
+        m_resist = new SubStat("마법 저항력", baseStat.magic_resist, eSubStatType.마법저항, 0f, 100f).SetMaxUIValue(100f);
+        p_penetration = new SubStat("물리 관통력", baseStat.p_penetration, eSubStatType.물리관통력, 0f, 100f).SetMaxUIValue(100f);
+        m_penetration = new SubStat("마법 관통력", baseStat.magic_penetration, eSubStatType.마법관통력, 0f, 100f).SetMaxUIValue(100f);
 
         //receiveAdditionalDamage = new SubStat("받는 피해 증가", 0f, eSubStatType.받는피해증가, true);
         //giveAdditionalDamage = new SubStat("주는 피해 증가", 0f, eSubStatType.주는피해증가, true);
@@ -204,14 +305,16 @@ public class StatContainer : MonoBehaviour
         this.AbilityPoint += val;
     }
     
+    // addedstat = 0, 1, 5
+    // 1, 1, 4
+    // 2, 1, 3
+    // 3, 1, 2
     public void TryAddMainStat(eMainStatType mainStat, int val=1)
     {
         if (this.addedStat + val > this.AbilityPoint) return;
 
-        this.addedStat += val;
         statGiven[mainStat] += val;
 
-        this.AbilityPoint -= val;
         OnTryIncreaseStat?.Invoke(mainStat, statGiven[mainStat]);
     }
 
@@ -225,24 +328,22 @@ public class StatContainer : MonoBehaviour
             OnIncreaseStat?.Invoke(stat);
         }
 
+        this.AbilityPoint -= this.addedStat;
         foreach (var stat in mainStats.Keys)
         {
             statGiven[stat] = 0;
         }
-        this.AbilityPoint -= this.addedStat;
-        this.addedStat = 0;
+        OnApplyStat?.Invoke();
     }
 
 
     public void CancelStatChange()
     {
-        this.AbilityPoint += this.addedStat;
-        this.addedStat = 0;
         foreach (var stat in mainStats.Keys)
         {
             statGiven[stat] = 0;
         }
-
+        OnCancelStat?.Invoke();
     }
 
     #region Damage 

@@ -49,14 +49,17 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     private void OnEnable()
     {
-        _statContainer = GetComponent<StatContainer>();
-        _statContainer.HP.OnValueChanged += UpdateMaxHealth;
+        Debug.Log(_statContainer);
+        Debug.Log(_statContainer.HP);
+        maxHealth = _statContainer.HP.FinalValue;
+        currentHealth = maxHealth;
+        _statContainer.HP.OnValueChanged.AddListener(UpdateMaxHealth);
 
     }
 
     private void OnDisable()
     {
-        _statContainer.HP.OnValueChanged -= UpdateMaxHealth;
+        _statContainer.HP.OnValueChanged.RemoveListener(UpdateMaxHealth);
     }
 
     private void UpdateMaxHealth(float mH)
@@ -196,8 +199,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         _statContainer = GetComponent<StatContainer>();
-        maxHealth = _statContainer.HP.FinalValue;
-        currentHealth = maxHealth;
+        
         dmg = Resources.Load<DamageNumberMesh>("Prefabs/BaseDamage");
         missText = Resources.Load<DamageNumberMesh>("Prefabs/Miss");
         critDamageText = Resources.Load<DamageNumberMesh>("Prefabs/CriticalDamage");

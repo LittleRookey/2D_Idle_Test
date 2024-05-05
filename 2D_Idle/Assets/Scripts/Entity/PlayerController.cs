@@ -17,15 +17,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private SpriteRenderer playerSprite;
     // 애니메이션
-    private int _isJumping = Animator.StringToHash("isJumping");
-    private int _isRunning = Animator.StringToHash("isRunning");
-    private int _isWalking = Animator.StringToHash("isWalking");
-    private int _isGround = Animator.StringToHash("isGround");
-    private int _AttackState = Animator.StringToHash("AttackState");
-    private int _Attack = Animator.StringToHash("Attack");
+    private readonly int _isJumping = Animator.StringToHash("isJumping");
+    private readonly int _isRunning = Animator.StringToHash("isRunning");
+    private readonly int _isWalking = Animator.StringToHash("isWalking");
+    private readonly int _isGround = Animator.StringToHash("isGround");
+    private readonly int _AttackState = Animator.StringToHash("AttackState");
+    private readonly int _Attack = Animator.StringToHash("Attack");
     
-    private int _Dead = Animator.StringToHash("Death");
-    private int _Revive = Animator.StringToHash("Revive");
+    private readonly int _Dead = Animator.StringToHash("Death");
+    private readonly int _Revive = Animator.StringToHash("Revive");
+    private readonly int _Block = Animator.StringToHash("Block");
 
     private eBehavior currentBehavior;
     private bool isGrounded;
@@ -94,8 +95,10 @@ public class PlayerController : MonoBehaviour
 
     private void Death(LevelSystem levelSystem)
     {
+        if (isDead) return;
         isDead = true;
-        anim.SetTrigger(this._Dead);
+        anim.Play(this._Dead);
+        //anim.SetTrigger(this._Dead);
     }
 
     private void Revive(LevelSystem levelSystem)

@@ -7,14 +7,20 @@ using Litkey.Stat;
 
 public class StatUIManager : MonoBehaviour
 {
+    [Header("StatBar")]
     [SerializeField] private TextMeshProUGUI apText;
     [SerializeField] private List<StatBarUI> statBarUIs;
-
     [SerializeField] private Transform statWindow;
 
     [SerializeField] private StatContainer playerStat;
 
     public Dictionary<eMainStatType, StatBarUI> statBarUIDict;
+
+
+    [Header("StatDisplay")]
+    [SerializeField] private StatDisplayUI statDisplayPrefab;
+    [SerializeField] private RectTransform statDisplayParent;
+    [SerializeField] private StatColor statColors;
 
     private void OnEnable()
     {
@@ -26,6 +32,8 @@ public class StatUIManager : MonoBehaviour
         InitUpdateStats();
         playerStat.OnTryIncreaseStat.AddListener(TryUpdateStat);
         playerStat.OnIncreaseStat.AddListener(UpdateStat);
+        playerStat.OnCancelStat.AddListener(UpdateStats);
+        playerStat.OnApplyStat.AddListener(UpdateStats);
 
         // 각 StatBarUI의 UI를 이벤트에 넣어준다. 
         Debug.Log(playerStat.mainStats);
@@ -44,6 +52,8 @@ public class StatUIManager : MonoBehaviour
 
     private void OnDisable()
     {
+        playerStat.OnCancelStat.RemoveListener(UpdateStats);
+        playerStat.OnApplyStat.RemoveListener(UpdateStats);
         playerStat.OnTryIncreaseStat.RemoveListener(TryUpdateStat);
         playerStat.OnIncreaseStat.RemoveListener(UpdateStat);
     }
@@ -51,6 +61,15 @@ public class StatUIManager : MonoBehaviour
     private void Start()
     {
         
+    }
+
+    private void InitStatDisplayUI()
+    {
+         foreach(var subStatType in playerStat.subStats.Keys)
+        {
+            var statDisplayUI = Instantiate(statDisplayPrefab, statDisplayParent);
+            //statDisplayUI.SetStatDisplay(playerStat, subStatType, statColors.GetColor(subStatType), ,playerStat.subStats[subStatType].UIMaxValue);
+        }
     }
     public void OpenStatWindow()
     {
@@ -69,11 +88,13 @@ public class StatUIManager : MonoBehaviour
     }
     private void TryUpdateStat(eMainStatType mainStat, int val)
     {
+        apText.SetText($"{TMProUtility.GetColorText("AP: ", Color.green)}{playerStat.AbilityPoint - playerStat.addedStat}");
         statBarUIDict[mainStat].SetStatBarUIs(mainStat, val);
     }
 
     private void UpdateStat(eMainStatType mainStat)
     {
+        apText.SetText($"{TMProUtility.GetColorText("AP: ", Color.green)}{playerStat.AbilityPoint}");
         var statBarUI = statBarUIDict[mainStat];
         statBarUI.SetStatBarUI(playerStat.mainStats[mainStat]);
     }
@@ -110,7 +131,7 @@ public class StatUIManager : MonoBehaviour
 
         }
     }
-
+    //public void Try
     public void UpdateStats()
     {
         apText.SetText($"{TMProUtility.GetColorText("AP: ", Color.green)}{playerStat.AbilityPoint}");

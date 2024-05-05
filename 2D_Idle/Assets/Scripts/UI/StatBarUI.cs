@@ -31,7 +31,7 @@ public class StatBarUI : MonoBehaviour
     public void InitMainStat(StatContainer playerStat, eMainStatType mainStat)
     {
         this.playerStat = playerStat;
-        this.playerStat.OnTryIncreaseStat.AddListener(ClickPlus);
+        //this.playerStat.OnTryIncreaseStat.AddListener(ClickPlus);
         this.mainStatType = mainStat;
 
     }
@@ -94,6 +94,7 @@ public class StatBarUI : MonoBehaviour
         //var _mainStat = playerStat.mainStats[mainStatType];
         //Debug.Log(this.mainStat.StatName + "///// " + _mainStat.StatName);
         //if (!this.mainStat.Equals(_mainStat)) return;
+        if (mainStatType != type) return;
         var mainStat = playerStat.mainStats[mainStatType];
         var connectedSubstats = mainStat.ChildSubstats;
 
@@ -131,18 +132,19 @@ public class StatBarUI : MonoBehaviour
 
         // AP ≈ÿΩ∫∆Æ
         apUsedText.SetText($"AP -{usedAP}");
+
+        ClickPlus();
     }
 
-    public void ClickPlus(eMainStatType type, int val)
+    public void ClickPlus()
     {
         dotweenAnim.DORestart();
         //SetStatBarUI(this.playerStat.TryAddMainStat, val);
-        SetStatBarUIs(type, val);
     }
 
     public void ClickMinus()
     {
-        
+        dotweenAnim.DORestart();
     }
 
 }

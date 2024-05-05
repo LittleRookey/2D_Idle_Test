@@ -182,9 +182,11 @@ namespace Litkey.Stat
         // 초기 캐릭터 스텟 값
         public float BaseStat { get; private set; }
 
-        private float minValue = -1;
-        private float maxValue = -1;
+        private float minValue = -1; // 스텟의 최소값
+        private float maxValue = -1; // 스텟의 최대값
 
+        private float uiMaxValue = -1; // UI에서의 단위
+        public float UIMaxValue => uiMaxValue;
         // 버프나 자입로 얻은 덧셈 값
         // ( 장비(+) + 레벨(+) + 버프(+) )
         private float _plusValue
@@ -216,8 +218,9 @@ namespace Litkey.Stat
         private float _multipliedEquipValue; // 장비 스텟으로 추가된 * 스텟
         private float _multipliedBuffValue; // 버프 스텟으로 추가된 * 스텟
 
-        [HideInInspector] public UnityAction<float> OnValueChanged;
+        [HideInInspector] public UnityEvent<float> OnValueChanged = new();
 
+        #region constructors
         // Constructor that has initial value
         public SubStat(string displayName, float initValue, eSubStatType statType, bool isPercantage = false)
         {
@@ -244,6 +247,7 @@ namespace Litkey.Stat
 
         }
 
+     
         public SubStat(string displayName, float initValue, eSubStatType statType, float minVal, float maxVal, bool isPercantage = false)
         {
 
@@ -269,8 +273,10 @@ namespace Litkey.Stat
 
             buffStats = new List<StatModifier>();
             //equipStats = new List<StatModifier>();
-
         }
+
+        #endregion
+
         /// <summary>
         /// 하나의 스텟을 적용시킨다, 들어오는 스텟은 이 스텟임을 명제로 둔다
         /// </summary>
@@ -406,6 +412,12 @@ namespace Litkey.Stat
             // update final value based on change
             return addedValue;
         }
+
+        public SubStat SetMaxUIValue(float val)
+        {
+            uiMaxValue = val;
+            return this;
+        }
     }
     
     public enum eRarity
@@ -539,7 +551,6 @@ public enum eSubStatType
     critChance,
     defense,
     magicDefense,
-    penetration,
     attackSpeed,
     cc_Resistance,
     moveSpeed,
