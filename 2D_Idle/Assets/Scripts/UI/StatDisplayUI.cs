@@ -71,8 +71,8 @@ public class StatDisplayUI : MonoBehaviour
         //backBarSlider.value = stat.FinalValue / this.maxValue;
         float current = frontBarSlider.value;
         DOTween.To(() => current, x => current = x, backBarSlider.value, 0.5f)
-            .OnUpdate(() => frontBarSlider.value = current)
-            .OnComplete(()=> frontBarSlider.value = backBarSlider.value);
+            .OnUpdate(() => frontBarSlider.value = current);
+            //.OnComplete(()=> frontBarSlider.value = backBarSlider.value);
         //frontBarSlider.value = stat.FinalValue / this.maxValue;
     }
 }

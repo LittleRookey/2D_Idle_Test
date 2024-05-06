@@ -334,7 +334,8 @@ public class StatContainer : MonoBehaviour
     public void TryAddMainStat(eMainStatType mainStat, int val=1)
     {
         if (this.addedStat + val > this.AbilityPoint) return;
-
+        if (this.addedStat + val < 0) return;
+        if (statGiven[mainStat] + val < 0) return;
         statGiven[mainStat] += val;
 
         OnTryIncreaseStat?.Invoke(mainStat, statGiven[mainStat]);

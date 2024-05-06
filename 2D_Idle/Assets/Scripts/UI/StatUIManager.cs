@@ -115,6 +115,7 @@ public class StatUIManager : MonoBehaviour
         var childStats = playerStat.mainStats[mainStat].ChildSubstats;
         foreach(var subStat in childStats)
         {
+            Debug.Log($"{subStat.statType}: {playerStat.GetTotalPreviewOf(subStat.statType)}");
             statDisplayUIDict[subStat.statType].PreviewStat(playerStat.GetTotalPreviewOf(subStat.statType));
         }
     }
@@ -152,6 +153,7 @@ public class StatUIManager : MonoBehaviour
             Debug.Log("Empty Added");
             emptyOne.SetStatBarUI(playerStat.mainStats[mainStatType]);
             emptyOne.plusButton.onClick.AddListener(()=>playerStat.TryAddMainStat(mainStatType));
+            emptyOne.minusButton.onClick.AddListener(() => playerStat.TryAddMainStat(mainStatType, -1));
 
             emptyOne.gameObject.SetActive(true);
 
