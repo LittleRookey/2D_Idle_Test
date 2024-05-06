@@ -293,16 +293,12 @@ public class EnemyAI : MonoBehaviour
 
     public void DamageAction()
     {
-        Debug.Log(11111111111);
         if (Target == null) return;
         // 데미지 계산
-        Debug.Log(222222222222);
         var dmg = _statContainer.GetFinalDamage();
         _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
-        Debug.Log(333333333333);
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
         Target.TakeDamage(_statContainer, new List<Damage> { dmg });
-        Debug.Log(444444444444444);
     }
 
     // Update is called once per frame

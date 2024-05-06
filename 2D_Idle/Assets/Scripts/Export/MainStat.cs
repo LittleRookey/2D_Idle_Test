@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Litkey.InventorySystem;
-
+using System.Linq;
 
 namespace Litkey.Stat
 {
@@ -32,9 +32,9 @@ namespace Litkey.Stat
     public class MainStat
     {
 
-        public string StatName; // 고유 ID
-        [HideInInspector] public int BaseStat;
-
+        public string StatName { get; private set; } // 고유 ID
+        [HideInInspector] public int BaseStat { get; private set; }
+        public eMainStatType mainStatType { get; private set; }
         //private int _addedStat;
 
         //  메인스텟이 올려주는 서브스텟들
@@ -80,11 +80,22 @@ namespace Litkey.Stat
             //OnValueChanged.AddListener(() => Debug.Log($"{StatName} : {}"));
         }
 
+        public MainStat(string statName, int value, eMainStatType mainStatType)
+        {
+            this.StatName = statName;
+            this.BaseStat = value;
+            this.LevelAddedStats = 0;
+            this._childSubStats = new List<SubStat>();
+            this.mainStatType = mainStatType;
+            //OnValueChanged.AddListener(() => Debug.Log($"{StatName} : {}"));
+        }
+
         // Increases main stat by 1
         public void IncreaseStat(int addedVal=1)
         {
             if (addedVal <= 0) return;
             LevelAddedStats += addedVal;
+            Debug.Log(StatName + ": " + LevelAddedStats);
             //Debug.Log($"{StatName} increased by {addedVal} from {FinalValue - addedVal} to {FinalValue}");
             //  TODO apply substat based on full stat
             // apply mainstat changes to substat, 
@@ -137,6 +148,22 @@ namespace Litkey.Stat
             Debug.Log(s);
         }
 
+
+        /// <summary>
+        /// 서브스텟하나의 메인스텟포인트만큼의 올라가는값을 리턴
+        /// </summary>
+        /// <param name="subStatType"></param>
+        /// <param name="mainStatPoint"></param>
+        /// <returns></returns>
+        public float GetFutureStat(eSubStatType subStatType, int mainStatPoint)
+        {
+            for (int i = 0; i < ChildSubstats.Count; i++)
+            {
+                if (ChildSubstats[i].statType == subStatType) return ChildSubstats[i].GetFutureStat(this, mainStatPoint);
+            }
+            return -1f;
+        } 
+
     }
 
     [System.Serializable]
@@ -174,7 +201,8 @@ namespace Litkey.Stat
         public bool IsPercentage { private set; get; } // is substat shown as percantage
 
         private string shownFinalValue => IsPercentage ? _finalValue.ToString() + percantage : _finalValue.ToString();
-        
+
+        public List<Influencer> Influencers => influencers;
         private List<Influencer> influencers; // mainstats that affect substat
 
         string percantage = "%";
@@ -349,11 +377,16 @@ namespace Litkey.Stat
         public void ApplyChange(MainStat mainStat, int changedMainStatValue)
         {
             // substat can't have repetitive main stat in influencer
-            Influencer inf = influencers.Find((Influencer inf) => inf._mainStat.ToString() == mainStat.ToString());
+            //Influencer inf = influencers.Find((Influencer inf) => inf._mainStat.ToString() == mainStat.ToString());
             // apply the changed substat value
             // + 스텟값을 저장
-            
-            _plusStatValue = inf.ApplyChange(changedMainStatValue);
+            _plusStatValue = 0;
+            List<Influencer> relatedInfluencers = influencers.Where(inf => inf.IsEqual(mainStat)).ToList();
+
+            for (int i = 0; i < relatedInfluencers.Count; i++) relatedInfluencers[i].ApplyChange(changedMainStatValue);
+
+            for (int i = 0; i < influencers.Count; i++) _plusStatValue += influencers[i].GetFinalValue();
+            //_plusStatValue = inf.ApplyChange(changedMainStatValue);
             // update final value based on change
             UpdateFinalValue();
         }
@@ -427,6 +460,7 @@ namespace Litkey.Stat
 
 
     // class used for substat to apply changes to mainstats
+    [System.Serializable]
     public class Influencer
     {
         public MainStat _mainStat { get; }
@@ -446,7 +480,7 @@ namespace Litkey.Stat
         }
 
         /// <summary>
-        /// 해당 스텟을 찍고 더해진 스텟값을 리턴
+        /// 해당 스텟을 찍고 더해진 총 스텟값을 리턴
         /// </summary>
         /// <param name="mainStatValue"></param>
         /// <returns></returns>
@@ -457,7 +491,12 @@ namespace Litkey.Stat
             return finalValue;
         }
 
-        // 업데이트 하지 않고 값만 가져오기 
+        
+        /// <summary>
+        /// 추가된 메인스텟포인트의 값만 리턴
+        /// </summary>
+        /// <param name="addedMainStatValue"></param>
+        /// <returns></returns>
         public float GetPreviewValue(int addedMainStatValue)
         {
             float result = (addedMainStatValue / _perMainStat) * _increaseValue;
@@ -469,7 +508,10 @@ namespace Litkey.Stat
             finalValue = (currentMainStat / _perMainStat) * _increaseValue;
             return finalValue;
         }
-
+        public bool IsEqual(MainStat mainStat)
+        {
+            return string.Equals(this._mainStat.StatName, mainStat.StatName);
+        }
 
     }
 

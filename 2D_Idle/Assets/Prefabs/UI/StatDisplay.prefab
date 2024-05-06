@@ -527,6 +527,8 @@ MonoBehaviour:
   frontBarImage: {fileID: 145017844745838298}
   backBarSlider: {fileID: 3991683390838598244}
   BGBar: {fileID: 3767467448385923344}
+  backbarFill: {fileID: 4972324293790241777}
+  frontbarFill: {fileID: 3203787332212843971}
 --- !u!1 &3767467448385923350
 GameObject:
   m_ObjectHideFlags: 0

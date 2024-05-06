@@ -223,11 +223,11 @@ public class StatContainer : MonoBehaviour
 
     private void SetupStats()
     {
-        Strength = new MainStat("근력", 0);
-        Vit = new MainStat("맷집", 0);
-        Avi = new MainStat("민첩", 0);
-        Sensation = new MainStat("감각", 0);
-        Int = new MainStat("지혜", 0);
+        Strength = new MainStat("근력", 0, eMainStatType.근력);
+        Vit = new MainStat("맷집", 0, eMainStatType.맷집);
+        Avi = new MainStat("민첩", 0, eMainStatType.민첩);
+        Sensation = new MainStat("감각", 0, eMainStatType.감각);
+        Int = new MainStat("지혜", 0, eMainStatType.지혜);
 
         HP = new SubStat("체력", baseStat.MaxHP, eSubStatType.health).SetMaxUIValue(1000f);
         Attack = new SubStat("공격력", baseStat.Attack, eSubStatType.attack).SetMaxUIValue(100f);
@@ -298,6 +298,28 @@ public class StatContainer : MonoBehaviour
 
         Precision.AddAsInfluencer(StatUtility.StatPerValue(Sensation, 2, 1f));
         Evasion.AddAsInfluencer(StatUtility.StatPerValue(Avi, 5, 1f));
+    }
+
+    /// <summary>
+    /// 메인스텟 포인트찍힌후 해당 서브스텟의 총 증가값을 리턴 
+    /// </summary>
+    /// <param name="subStatType"></param>
+    /// <returns></returns>
+    public float GetTotalPreviewOf(eSubStatType subStatType)
+    {
+        float total = 0f;
+        var influencers = subStats[subStatType].Influencers;
+        for (int i = 0; i< influencers.Count; i++)
+        {
+            // statGiven[mainStatType] != 0 => 
+            var mainStatUsed = statGiven[influencers[i]._mainStat.mainStatType];
+            if (mainStatUsed > 0)
+            {
+                // 
+                total += influencers[i].GetPreviewValue(mainStatUsed);
+            }
+        }
+        return total;
     }
 
     private void IncreaseAbilityPoint(int val)

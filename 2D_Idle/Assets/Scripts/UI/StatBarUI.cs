@@ -118,7 +118,7 @@ public class StatBarUI : MonoBehaviour
         for (int i = 0; i < connectedSubstats.Count; i++)
         {
             if (connectedSubstats[i].IsPercentage)
-                valueText += $"{connectedSubstats[i].GetAddedStatValue().ToString("F2")} " + TMProUtility.GetColorText("+" +connectedSubstats[i].GetFutureStat(mainStat, usedAP), Color.green);
+                valueText += $"{connectedSubstats[i].GetAddedStatValue().ToString("F3")} " + TMProUtility.GetColorText("+" +connectedSubstats[i].GetFutureStat(mainStat, usedAP), Color.green);
             else
                 valueText += connectedSubstats[i].GetAddedStatValue().ToString("F0") + TMProUtility.GetColorText("+" + connectedSubstats[i].GetFutureStat(mainStat, usedAP), Color.green);
 

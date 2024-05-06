@@ -22,6 +22,7 @@ public class StatUIManager : MonoBehaviour
     [SerializeField] private RectTransform statDisplayParent;
     [SerializeField] private StatColor statColors;
 
+    private Dictionary<eSubStatType, StatDisplayUI> statDisplayUIDict; 
     private void OnEnable()
     {
         if (playerStat == null)
@@ -31,9 +32,14 @@ public class StatUIManager : MonoBehaviour
         }
         InitUpdateStats();
         playerStat.OnTryIncreaseStat.AddListener(TryUpdateStat);
+        playerStat.OnTryIncreaseStat.AddListener(TryUpdateSubStatDisplay);
         playerStat.OnIncreaseStat.AddListener(UpdateStat);
+        
         playerStat.OnCancelStat.AddListener(UpdateStats);
+        playerStat.OnCancelStat.AddListener(UpdateStatDisplays);
+        
         playerStat.OnApplyStat.AddListener(UpdateStats);
+        playerStat.OnApplyStat.AddListener(UpdatePreviewStatDisplays);
 
         // 각 StatBarUI의 UI를 이벤트에 넣어준다. 
         Debug.Log(playerStat.mainStats);
@@ -53,8 +59,11 @@ public class StatUIManager : MonoBehaviour
     private void OnDisable()
     {
         playerStat.OnCancelStat.RemoveListener(UpdateStats);
+        playerStat.OnCancelStat.RemoveListener(UpdateStatDisplays);
         playerStat.OnApplyStat.RemoveListener(UpdateStats);
+        playerStat.OnApplyStat.RemoveListener(UpdatePreviewStatDisplays);
         playerStat.OnTryIncreaseStat.RemoveListener(TryUpdateStat);
+        playerStat.OnTryIncreaseStat.RemoveListener(TryUpdateSubStatDisplay);
         playerStat.OnIncreaseStat.RemoveListener(UpdateStat);
     }
 
@@ -66,13 +75,19 @@ public class StatUIManager : MonoBehaviour
 
     private void InitStatDisplayUI()
     {
-         foreach(var subStatType in playerStat.subStats.Keys)
+        statDisplayUIDict = new Dictionary<eSubStatType, StatDisplayUI>();
+
+         foreach (var subStatType in playerStat.subStats.Keys)
         {
             var statDisplayUI = Instantiate(statDisplayPrefab, statDisplayParent);
-            Debug.Log($"{subStatType}: {statColors.GetStatIcon(subStatType)}");
+            //Debug.Log($"{subStatType}: {statColors.GetStatIcon(subStatType)}");
+
+            statDisplayUIDict.Add(subStatType, statDisplayUI);
             statDisplayUI.SetStatDisplay(playerStat, subStatType, statColors.GetStatIcon(subStatType), statColors.GetColor(subStatType),  playerStat.subStats[subStatType].UIMaxValue);
+
         }
     }
+
     public void OpenStatWindow()
     {
         statWindow.gameObject.SetActive(true);
@@ -88,10 +103,20 @@ public class StatUIManager : MonoBehaviour
         }
         return null;
     }
+
     private void TryUpdateStat(eMainStatType mainStat, int val)
     {
         apText.SetText($"{TMProUtility.GetColorText("AP: ", Color.green)}{playerStat.AbilityPoint - playerStat.addedStat}");
         statBarUIDict[mainStat].SetStatBarUIs(mainStat, val);
+    }
+
+    private void TryUpdateSubStatDisplay(eMainStatType mainStat, int val)
+    {
+        var childStats = playerStat.mainStats[mainStat].ChildSubstats;
+        foreach(var subStat in childStats)
+        {
+            statDisplayUIDict[subStat.statType].PreviewStat(playerStat.GetTotalPreviewOf(subStat.statType));
+        }
     }
 
     private void UpdateStat(eMainStatType mainStat)
@@ -143,6 +168,40 @@ public class StatUIManager : MonoBehaviour
             UpdateStat(mainStatType);
 
         }
+    }
+
+
+    private void UpdateStatDisplays()
+    {
+        foreach (var statType in playerStat.subStats.Keys)
+        {
+            UpdateStatDisplay(statType);
+        }
+    }
+
+    // 창 오픈하거나 스텟 취소할떄 쓰임
+    private void UpdateStatDisplay(eSubStatType statType)
+    {
+        this.statDisplayUIDict[statType].UpdateStat();
+    }
+
+    // applystat 할때 쓰임
+    private void UpdatePreviewStatDisplay(eSubStatType statType)
+    {
+        statDisplayUIDict[statType].UpdatePreviewedStat();
+    }
+
+    private void UpdatePreviewStatDisplays()
+    {
+        foreach (var statType in playerStat.subStats.Keys)
+        {
+            statDisplayUIDict[statType].UpdatePreviewedStat();
+        }
+    }
+
+    private void PreviewStatDisplay(eSubStatType statType, float extraValue)
+    {
+        statDisplayUIDict[statType].PreviewStat(extraValue);
     }
 
     private void Awake()
