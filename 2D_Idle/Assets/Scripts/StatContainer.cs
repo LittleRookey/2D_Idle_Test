@@ -107,32 +107,32 @@ public class StatContainer : MonoBehaviour
             if (_subStats == null || _subStats.Count == 0)
             {
                 _subStats = new Dictionary<eSubStatType, SubStat>() {
+                    { eSubStatType.health, this.HP },
                     { eSubStatType.attack, this.Attack },
+                    { eSubStatType.magicAttack, this.MagicAttack },
+                    { eSubStatType.defense, this.Defense },
+                    { eSubStatType.magicDefense, this.MagicDefense },
                     //{ eSubStatType.attackRange, this.},
-                    { eSubStatType.attackSpeed, this.AttackSpeed },
                     //{ eSubStatType.cc_Resistance, this. },
                     { eSubStatType.critChance, this.CritChance },
                     { eSubStatType.critDamage, this.CritDamage },
-                    { eSubStatType.defense, this.Defense },
-                    { eSubStatType.health, this.HP },
+                    { eSubStatType.attackSpeed, this.AttackSpeed },
                     //{ eSubStatType.healthRegen, this. },
-                    { eSubStatType.magicAttack, this.MagicAttack },
-                    { eSubStatType.magicDefense, this.MagicDefense },
                     //{ eSubStatType.mana, this. },
                     //{ eSubStatType.manaRegen, this. },
                     { eSubStatType.moveSpeed, this.MoveSpeed },
                     { eSubStatType.물리관통력, this.p_penetration },
                     { eSubStatType.마법관통력, this.m_penetration },
-                    { eSubStatType.마법저항, this.m_resist },
                     { eSubStatType.명중, this.Precision },
+                    { eSubStatType.회피, this.Evasion },
                     { eSubStatType.물리저항, this.p_resist },
+                    { eSubStatType.마법저항, this.m_resist },
                     //{ eSubStatType.받는피해감소, this. },
                     //{ eSubStatType.받는피해증가, this.Int },
                     //{ eSubStatType.주는피해감소, this.Int },
                     //{ eSubStatType.주는피해증가, this.Int },
                     { eSubStatType.추가경험치, this.ExtraExp },
                     { eSubStatType.추가골드, this.ExtraGold },
-                    { eSubStatType.회피, this.Evasion },
                 };
             }
             return _subStats;
@@ -176,32 +176,32 @@ public class StatContainer : MonoBehaviour
         if (_subStats == null)
         {
             _subStats = new Dictionary<eSubStatType, SubStat>() {
+                    { eSubStatType.health, this.HP },
                     { eSubStatType.attack, this.Attack },
+                    { eSubStatType.magicAttack, this.MagicAttack },
+                    { eSubStatType.defense, this.Defense },
+                    { eSubStatType.magicDefense, this.MagicDefense },
                     //{ eSubStatType.attackRange, this.},
-                    { eSubStatType.attackSpeed, this.AttackSpeed },
                     //{ eSubStatType.cc_Resistance, this. },
                     { eSubStatType.critChance, this.CritChance },
                     { eSubStatType.critDamage, this.CritDamage },
-                    { eSubStatType.defense, this.Defense },
-                    { eSubStatType.health, this.HP },
+                    { eSubStatType.attackSpeed, this.AttackSpeed },
                     //{ eSubStatType.healthRegen, this. },
-                    { eSubStatType.magicAttack, this.MagicAttack },
-                    { eSubStatType.magicDefense, this.MagicDefense },
                     //{ eSubStatType.mana, this. },
                     //{ eSubStatType.manaRegen, this. },
                     { eSubStatType.moveSpeed, this.MoveSpeed },
                     { eSubStatType.물리관통력, this.p_penetration },
                     { eSubStatType.마법관통력, this.m_penetration },
-                    { eSubStatType.마법저항, this.m_resist },
                     { eSubStatType.명중, this.Precision },
+                    { eSubStatType.회피, this.Evasion },
                     { eSubStatType.물리저항, this.p_resist },
+                    { eSubStatType.마법저항, this.m_resist },
                     //{ eSubStatType.받는피해감소, this. },
                     //{ eSubStatType.받는피해증가, this.Int },
                     //{ eSubStatType.주는피해감소, this.Int },
                     //{ eSubStatType.주는피해증가, this.Int },
                     { eSubStatType.추가경험치, this.ExtraExp },
                     { eSubStatType.추가골드, this.ExtraGold },
-                    { eSubStatType.회피, this.Evasion },
                 };
         }
         if (TryGetComponent<LevelSystem>(out LevelSystem lvlSystem))
@@ -236,8 +236,8 @@ public class StatContainer : MonoBehaviour
         Defense = new SubStat("방어력", baseStat.Defense, eSubStatType.defense).SetMaxUIValue(100f);
         MagicDefense = new SubStat("마법 방어력", baseStat.MagicDefense, eSubStatType.magicDefense).SetMaxUIValue(100f);
 
-        AttackSpeed = new SubStat("공격속도", baseStat.AttackSpeed, eSubStatType.attackSpeed, true).SetMaxUIValue(0.1f);
-        MoveSpeed = new SubStat("이동속도", baseStat.MoveSpeed, eSubStatType.moveSpeed, true).SetMaxUIValue(0.1f);
+        AttackSpeed = new SubStat("공격속도", baseStat.AttackSpeed, eSubStatType.attackSpeed, true).SetMaxUIValue(0.3f);
+        MoveSpeed = new SubStat("이동속도", baseStat.MoveSpeed, eSubStatType.moveSpeed, true).SetMaxUIValue(0.3f);
 
         CritChance = new SubStat("크리티컬 확률", baseStat.CritChance, eSubStatType.critChance, true).SetMaxUIValue(1f);
         CritDamage = new SubStat("크리티컬 데미지", baseStat.CritDamage, eSubStatType.critDamage, true).SetMaxUIValue(1f);

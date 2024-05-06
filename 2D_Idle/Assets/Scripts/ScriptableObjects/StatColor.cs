@@ -51,6 +51,15 @@ namespace Litkey.Stat
             }
             return Color.white;
         }
+
+        public Sprite GetStatIcon(eSubStatType statType)
+        {
+            for (int i = 0; i < statDatabase.Count; i++)
+            {
+                if (statDatabase[i].statType == statType) return statDatabase[i].statIcon;
+            }
+            return null;
+        }
     }
 
 }

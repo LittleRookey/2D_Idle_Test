@@ -60,7 +60,8 @@ public class StatUIManager : MonoBehaviour
 
     private void Start()
     {
-        
+        InitStatDisplayUI();
+        statWindow.gameObject.SetActive(false);
     }
 
     private void InitStatDisplayUI()
@@ -68,7 +69,8 @@ public class StatUIManager : MonoBehaviour
          foreach(var subStatType in playerStat.subStats.Keys)
         {
             var statDisplayUI = Instantiate(statDisplayPrefab, statDisplayParent);
-            //statDisplayUI.SetStatDisplay(playerStat, subStatType, statColors.GetColor(subStatType), ,playerStat.subStats[subStatType].UIMaxValue);
+            Debug.Log($"{subStatType}: {statColors.GetStatIcon(subStatType)}");
+            statDisplayUI.SetStatDisplay(playerStat, subStatType, statColors.GetStatIcon(subStatType), statColors.GetColor(subStatType),  playerStat.subStats[subStatType].UIMaxValue);
         }
     }
     public void OpenStatWindow()
