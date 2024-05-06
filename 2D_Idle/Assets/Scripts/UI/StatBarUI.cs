@@ -11,29 +11,75 @@ using UnityEngine.Events;
 public class StatBarUI : MonoBehaviour
 {
     [Header("텍스트들")]
-    [SerializeField] private TextMeshProUGUI titleText;
-    [SerializeField] private TextMeshProUGUI statNameText;
+    [SerializeField] private TextMeshProUGUI titleText; // 메인스텟 이름
+    [SerializeField] private TextMeshProUGUI statNameText; // 추가스텟 이름
     [SerializeField] private TextMeshProUGUI statValueText;
     [SerializeField] private TextMeshProUGUI apUsedText;
-
+    [SerializeField] private TextMeshProUGUI infoText;
     [Space]
     [Header("버튼들")]
     [SerializeField] public Button minusButton;
     [SerializeField] public Button plusButton;
-    [SerializeField] private DOTweenAnimation dotweenAnim;
+    [SerializeField] public Button infoButton;
 
+    [SerializeField] private DOTweenAnimation dotweenAnim; // 마이너스, 플러스 눌렀을때
+    //[SerializeField] private DOTweenAnimation infoAnim; // 인포눌렀을떄
     public UnityEvent OnMinusClicked;
-    public UnityEvent<int> OnPlusClicked;
+    public UnityEvent OnPlusClicked;
 
     // References
     private StatContainer playerStat;
     private eMainStatType mainStatType;
-    public void InitMainStat(StatContainer playerStat, eMainStatType mainStat)
+    private bool infoMode;
+    public void InitMainStat(StatContainer playerStat, eMainStatType mainStatType)
     {
         this.playerStat = playerStat;
         //this.playerStat.OnTryIncreaseStat.AddListener(ClickPlus);
-        this.mainStatType = mainStat;
+        this.mainStatType = mainStatType;
+        
 
+
+        
+
+
+        //infoButton.onClick.AddListener(() =>
+        //{
+        //    //infoAnim.DORestartAllById("Info");
+        //    //if (infoMode)
+        //    //    infoAnim.DORestartAllById("InfoOn");
+        //    //else
+        //    //    infoAnim.DORestartAllById("InfoOff");
+        //});
+    }
+
+    
+    public void InfoMode()
+    {
+        //infoAnim.DORestartAllById("Info");
+        infoMode = !infoMode;
+        //this.titleText.SetText(playerStat.mainStats[mainStatType].StatName);
+        
+        this.statNameText.gameObject.SetActive(!infoMode);
+        this.statValueText.gameObject.SetActive(!infoMode);
+        plusButton.gameObject.SetActive(!infoMode);
+        minusButton.gameObject.SetActive(!infoMode);
+        apUsedText.gameObject.SetActive(!infoMode);
+        infoText.gameObject.SetActive(infoMode);
+
+        if (infoMode) return;
+
+        string infoString = string.Empty;
+        var t_mainStat = playerStat.mainStats[mainStatType];
+        var childSubStats = t_mainStat.ChildSubstats;
+        for (int i = 0; i < childSubStats.Count; i++)
+        {
+            infoString += $"Lv {childSubStats[i].GetInfluencerOf(t_mainStat).PerMainStat}당 {childSubStats[i].DisplayName} +{childSubStats[i].GetInfluencerOf(t_mainStat).IncreaseValue}";
+            if (i + 1 < childSubStats.Count)
+            {
+                infoString += '\n';
+            }
+        }
+        this.infoText.SetText(infoString);
     }
 
     public bool IsEmpty()
@@ -118,7 +164,7 @@ public class StatBarUI : MonoBehaviour
         for (int i = 0; i < connectedSubstats.Count; i++)
         {
             if (connectedSubstats[i].IsPercentage)
-                valueText += $"{connectedSubstats[i].GetAddedStatValue().ToString("F3")} " + TMProUtility.GetColorText("+" +connectedSubstats[i].GetFutureStat(mainStat, usedAP), Color.green);
+                valueText += $"{connectedSubstats[i].GetAddedStatValue().ToString("F2")} " + TMProUtility.GetColorText("+" +connectedSubstats[i].GetFutureStat(mainStat, usedAP), Color.green);
             else
                 valueText += connectedSubstats[i].GetAddedStatValue().ToString("F0") + TMProUtility.GetColorText("+" + connectedSubstats[i].GetFutureStat(mainStat, usedAP), Color.green);
 
@@ -139,12 +185,14 @@ public class StatBarUI : MonoBehaviour
     public void ClickPlus()
     {
         dotweenAnim.DORestart();
+
         //SetStatBarUI(this.playerStat.TryAddMainStat, val);
     }
 
     public void ClickMinus()
     {
         dotweenAnim.DORestart();
+        OnMinusClicked?.Invoke();
     }
 
 }

@@ -91,8 +91,9 @@ public class StatUIManager : MonoBehaviour
     public void OpenStatWindow()
     {
         statWindow.gameObject.SetActive(true);
-
+        //SetInfoModes(false);
         UpdateStats();
+
     }
 
     private StatBarUI GetEmptyStatBarUI()
@@ -142,10 +143,12 @@ public class StatUIManager : MonoBehaviour
             Debug.LogWarning("playerStat.mainStats is null");
             return;
         }
+        
         foreach (var mainStatType in playerStat.mainStats.Keys)
         {
             var emptyOne = GetEmptyStatBarUI();
-
+            Debug.Log(mainStatType);
+            Debug.Log(playerStat.mainStats.Keys.Count);
             statBarUIDict.Add(mainStatType, emptyOne);
 
             // 초기설정
@@ -171,6 +174,15 @@ public class StatUIManager : MonoBehaviour
 
         }
     }
+
+    //private void SetInfoModes(bool infoModeOn)
+    //{
+    //    foreach (var mainStatType in playerStat.mainStats.Keys)
+    //    {
+    //        statBarUIDict[mainStatType].InfoMode(infoModeOn);
+
+    //    }
+    //}
 
 
     private void UpdateStatDisplays()

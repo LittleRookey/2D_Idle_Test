@@ -446,6 +446,20 @@ namespace Litkey.Stat
             return addedValue;
         }
 
+        /// <summary>
+        /// 해당 메인스텟에 속하는 Influencer를 리턴
+        /// </summary>
+        /// <param name="mainStat"></param>
+        /// <returns></returns>
+        public Influencer GetInfluencerOf(MainStat mainStat)
+        {
+            for (int i = 0; i < influencers.Count; i++)
+            {
+                if (influencers[i]._mainStat.Equals(mainStat)) return influencers[i];
+            }
+            Debug.LogError("There is no such influencer of " + mainStat.StatName);
+            return null;
+        }
         public SubStat SetMaxUIValue(float val)
         {
             uiMaxValue = val;
@@ -464,7 +478,10 @@ namespace Litkey.Stat
     public class Influencer
     {
         public MainStat _mainStat { get; }
+        public int PerMainStat => _perMainStat;
         private int _perMainStat;
+
+        public float IncreaseValue => _increaseValue;
         private float _increaseValue; // increase value per increased main stat of substat, ex) VIT 1 당 100 체력
 
         private int currentMainStat; // actual value of main stat assigned

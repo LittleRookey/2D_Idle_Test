@@ -85,7 +85,7 @@ public class StatContainer : MonoBehaviour
     {
         get
         {
-            if (_mainStats == null || _mainStats.Count == 0)
+            if (_mainStats == null)
             {
                 _mainStats = new Dictionary<eMainStatType, MainStat>() {
                     { eMainStatType.±Ù·Â, this.Strength },

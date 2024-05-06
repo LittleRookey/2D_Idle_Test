@@ -49,8 +49,6 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     private void OnEnable()
     {
-        Debug.Log(_statContainer);
-        Debug.Log(_statContainer.HP);
         maxHealth = _statContainer.HP.FinalValue;
         currentHealth = maxHealth;
         _statContainer.HP.OnValueChanged.AddListener(UpdateMaxHealth);

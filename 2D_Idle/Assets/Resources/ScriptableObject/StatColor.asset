@@ -14,53 +14,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statDatabase:
   - statType: 0
-    color: {r: 1, g: 0, b: 0, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 43c68867892de4be49a716ff9b59f71e, type: 3}
   - statType: 4
-    color: {r: 1, g: 0.5019608, b: 0, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 5df367024fd9a42d993d65056dbf8944, type: 3}
   - statType: 5
-    color: {r: 0, g: 0.5019608, b: 1, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 9b97f65c8cf274655a3de31f4814d451, type: 3}
   - statType: 7
-    color: {r: 0, g: 1, b: 0, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 6e46443440ee64119ad037e5d65f720d, type: 3}
   - statType: 8
-    color: {r: 0.5019608, g: 0, b: 1, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: c57f5b19decd44526aa002e99d435543, type: 3}
   - statType: 9
-    color: {r: 1, g: 1, b: 0, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 5e19d38a7a0e446d3b8caef98a3795d4, type: 3}
   - statType: 11
-    color: {r: 1, g: 0.5019608, b: 1, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: e1683a1acccb446889b2eb95ce0cbaae, type: 3}
   - statType: 6
-    color: {r: 1, g: 1, b: 1, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: c4e246c987a2745d9a604b6edc5567e2, type: 3}
   - statType: 13
-    color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 6c62538b304ed4af1904527d954ce735, type: 3}
   - statType: 24
-    color: {r: 1, g: 0.84313726, b: 0, a: 1}
+    color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
     statIcon: {fileID: 21300000, guid: da47e138b473a274396b98b99355e9d7, type: 3}
   - statType: 25
-    color: {r: 0, g: 1, b: 1, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 78b69d29c497a43c4879533fb228c02f, type: 3}
   - statType: 18
-    color: {r: 0.5019608, g: 1, b: 0, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 7add68a9c005fde479a84a40cefc28ff, type: 3}
   - statType: 19
-    color: {r: 1, g: 0.5019608, b: 0.5019608, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 873a7bcd4eb5eb843b7290d2e8978e41, type: 3}
   - statType: 14
-    color: {r: 0.5019608, g: 0.5019608, b: 0, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: c69b666ab7ab747d785bd9d49e6a00ec, type: 3}
   - statType: 15
-    color: {r: 0, g: 0.5019608, b: 0.5019608, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: ef408ea0548fb422eb0a2bc4cc1383dc, type: 3}
   - statType: 16
-    color: {r: 1, g: 0, b: 1, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 84f667a0eed51a340b7b37327afb72ea, type: 3}
   - statType: 17
-    color: {r: 0, g: 1, b: 0.5019608, a: 1}
+    color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     statIcon: {fileID: 21300000, guid: 12c36a3a039fe4503bfa34765ff45862, type: 3}
