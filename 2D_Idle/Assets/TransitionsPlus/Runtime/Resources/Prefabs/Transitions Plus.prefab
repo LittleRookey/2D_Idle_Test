@@ -212,6 +212,9 @@ MonoBehaviour:
   customScreen: {fileID: 0}
   sortingOrder: 100
   profile: {fileID: 0}
+  onTransitionStart:
+    m_PersistentCalls:
+      m_Calls: []
   onTransitionEnd:
     m_PersistentCalls:
       m_Calls: []

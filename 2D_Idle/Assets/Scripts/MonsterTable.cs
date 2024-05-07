@@ -26,7 +26,7 @@ public class MonsterTable : ScriptableObject
     {
         return monsterTable.GetRandomPick();
     }
-
+#if UNITY_EDITOR
     [Button(ButtonSizes.Large)]
     private void OpenMonsterFolder()
     {
@@ -56,6 +56,7 @@ public class MonsterTable : ScriptableObject
             Debug.LogWarning("The 'Assets/Resources/ScriptableObject/MonsterTable' folder does not exist in your project.");
         }
     }
+#endif
 }
 
 [System.Serializable]
