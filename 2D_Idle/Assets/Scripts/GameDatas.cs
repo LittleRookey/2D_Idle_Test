@@ -6,19 +6,29 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-
+using CodeStage.AntiCheat.ObscuredTypes;
 
 public class GameData
 {
-    int gold;
-    PlayerData playerData;
+    public ObscuredInt gold;
+    public PlayerData playerData;
 }
 
 [System.Serializable]
 public class PlayerData
 {
-    int level;
-    float currentExp;
+    public ObscuredInt level;
+    public ObscuredFloat currentExp;
+
+    // 능력치 저장
+    public ObscuredInt leftAbilityPoint;
+    public ObscuredInt StrengthLevel;
+    public ObscuredInt VitLevel;
+    public ObscuredInt AVILevel;
+    public ObscuredInt SensationLevel;
+    public ObscuredInt IntLevel;
+
+
 }
 
 public class GameDatas : MonoBehaviour
@@ -26,6 +36,8 @@ public class GameDatas : MonoBehaviour
     public GameData dataSettings = new GameData();
 
     private string fileName = "gdata.dat";
+
+    private string keyName = "data";
 
     #region Save
     public void SaveData()
@@ -53,10 +65,16 @@ public class GameDatas : MonoBehaviour
 
             var update = new SavedGameMetadataUpdate.Builder().Build();
 
-            //JSON
-            var json = JsonUtility.ToJson(dataSettings);
-            byte[] bytes = Encoding.UTF8.GetBytes(json);
-            Debug.Log("저장 데이터: " + bytes);
+            ////JSON
+            //var json = JsonUtility.ToJson(dataSettings);
+            //byte[] bytes = Encoding.UTF8.GetBytes(json);
+            //Debug.Log("저장 데이터: " + bytes);
+
+            // ES3
+            var cache = new ES3Settings(ES3.Location.File);
+            ES3.Save(keyName, dataSettings);
+            byte[] bytes = ES3.LoadRawBytes(cache);
+
 
             savedGameClient.CommitUpdate(game, update, bytes, OnSavedGameWritten);
         }
@@ -126,7 +144,12 @@ public class GameDatas : MonoBehaviour
             Debug.Log("로드 데이터 : " + data);
 
             //JSON
-            dataSettings = JsonUtility.FromJson<GameData>(data);
+            //dataSettings = JsonUtility.FromJson<GameData>(data);
+
+            // ES3
+            var cache = new ES3Settings(ES3.Location.File);
+            ES3.SaveRaw(loadedData, cache);
+            ES3.LoadInto(keyName, dataSettings, cache);
         }
     }
 
@@ -134,7 +157,7 @@ public class GameDatas : MonoBehaviour
 
     public void DeleteData()
     {
-
+        DeleteGameData();
     }
 
     private void DeleteGameData()
@@ -156,11 +179,20 @@ public class GameDatas : MonoBehaviour
         {
             savedGameClient.Delete(data);
 
+
+            // ES3
+            ES3.DeleteFile();
             Debug.Log("삭제 성공");
         }
         else
         {
             Debug.Log("삭제 실패");
         }
+    }
+
+
+    public void DetectCheat()
+    {
+        Application.Quit();
     }
 }
