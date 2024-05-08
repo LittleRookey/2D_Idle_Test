@@ -64,12 +64,6 @@ namespace Litkey.Stat
             {
                 return BaseStat + LevelAddedStats;
             }
-            set
-            {
-                int origin = FinalValue;
-                if (origin != value)
-                    OnValueChanged?.Invoke();
-            }
         }
         public MainStat(string statName, int value)
         {
@@ -77,7 +71,7 @@ namespace Litkey.Stat
             this.BaseStat = value;
             this.LevelAddedStats = 0;
             this._childSubStats = new List<SubStat>();
-            //OnValueChanged.AddListener(() => Debug.Log($"{StatName} : {}"));
+
         }
 
         public MainStat(string statName, int value, eMainStatType mainStatType)
@@ -87,7 +81,7 @@ namespace Litkey.Stat
             this.LevelAddedStats = 0;
             this._childSubStats = new List<SubStat>();
             this.mainStatType = mainStatType;
-            //OnValueChanged.AddListener(() => Debug.Log($"{StatName} : {}"));
+
         }
 
         // Increases main stat by 1
@@ -96,10 +90,7 @@ namespace Litkey.Stat
             if (addedVal <= 0) return;
             LevelAddedStats += addedVal;
             Debug.Log(StatName + ": " + LevelAddedStats);
-            //Debug.Log($"{StatName} increased by {addedVal} from {FinalValue - addedVal} to {FinalValue}");
-            //  TODO apply substat based on full stat
-            // apply mainstat changes to substat, 
-            // each substat will apply changes to each mainstat that belongs to
+
             UpdateValue();
         }
 
@@ -120,7 +111,6 @@ namespace Litkey.Stat
         {
             if (ChildSubstats.Contains(ss)) return;
             ChildSubstats.Add(ss);
-            //UpdateValue();
         }
 
         public int GetFinalValue()
@@ -164,6 +154,11 @@ namespace Litkey.Stat
             return -1f;
         } 
 
+        public void ClearStat()
+        {
+            this.LevelAddedStats = 0;
+            UpdateValue();
+        }
     }
 
     [System.Serializable]
@@ -345,14 +340,7 @@ namespace Litkey.Stat
         public void AddBuffValue(StatModifier statModifier)
         {
             buffStats.Add(statModifier);
-            //if (oper == BuffOperator.Add)
-            //{
-            //    _addedValue += addedVal;
 
-            //}  else if (oper == BuffOperator.Multiply)
-            //{
-            //    _multipliedValue += addedVal;
-            //} 
             UpdateFinalValue();
         }
         
@@ -372,13 +360,11 @@ namespace Litkey.Stat
                 spv.increasedStat));
             UpdateFinalValue();
         }
+
         // 스텟 인플루언서가 잇으면 
         // if one of the main stat values changed, find that main stat and apply changes to that influencer
         public void ApplyChange(MainStat mainStat, int changedMainStatValue)
         {
-            // substat can't have repetitive main stat in influencer
-            //Influencer inf = influencers.Find((Influencer inf) => inf._mainStat.ToString() == mainStat.ToString());
-            // apply the changed substat value
             // + 스텟값을 저장
             _plusStatValue = 0;
             List<Influencer> relatedInfluencers = influencers.Where(inf => inf.IsEqual(mainStat)).ToList();
@@ -386,7 +372,7 @@ namespace Litkey.Stat
             for (int i = 0; i < relatedInfluencers.Count; i++) relatedInfluencers[i].ApplyChange(changedMainStatValue);
 
             for (int i = 0; i < influencers.Count; i++) _plusStatValue += influencers[i].GetFinalValue();
-            //_plusStatValue = inf.ApplyChange(changedMainStatValue);
+
             // update final value based on change
             UpdateFinalValue();
         }

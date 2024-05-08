@@ -29,16 +29,23 @@ public class PlayerExpUI : MonoBehaviour
         levelText.SetText($"Lv {levelSystem.unitLevel.level}");
     }
 
+    private void Awake()
+    {
+        levelSystem.unitLevel.OnInitSetup += UpdateLevelText;
+        levelSystem.unitLevel.OnInitSetup += UpdateExp;
+    }
+
     private void Start()
     {
-        UpdateExp(levelSystem.GetCurrentExp(), levelSystem.GetMaxExp());
-        UpdateLevelText(levelSystem.GetCurrentExp(), levelSystem.GetMaxExp());
+        UpdateExp(levelSystem.unitLevel.CurrentExp, levelSystem.unitLevel.MaxExp);
+        UpdateLevelText(levelSystem.unitLevel.CurrentExp, levelSystem.unitLevel.MaxExp);
     }
     private void OnEnable()
     {
         levelSystem.unitLevel.OnGainExp += UpdateExp;
         levelSystem.unitLevel.OnLevelUp += UpdateExp;
         levelSystem.unitLevel.OnLevelUp += UpdateLevelText;
+        
     }
 
     private void OnDisable()
@@ -46,5 +53,7 @@ public class PlayerExpUI : MonoBehaviour
         levelSystem.unitLevel.OnGainExp -= UpdateExp;
         levelSystem.unitLevel.OnLevelUp -= UpdateExp;
         levelSystem.unitLevel.OnLevelUp -= UpdateLevelText;
+        //levelSystem.unitLevel.OnInitSetup -= UpdateLevelText;
+        //levelSystem.unitLevel.OnInitSetup -= UpdateExp;
     }
 }

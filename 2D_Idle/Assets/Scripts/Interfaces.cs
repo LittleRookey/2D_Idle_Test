@@ -15,4 +15,15 @@ namespace Litkey.Interface
         public T GetReward();
     }
 
+    public interface ILoadable
+    {
+        public void Load();
+    }
+
+
+    public interface ISavable
+    {
+        public void Save();
+    }
+
 }

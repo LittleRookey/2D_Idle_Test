@@ -21,8 +21,7 @@ public class UnitLevel : ScriptableObject
 {
     [SerializeField] public int maxLevel = 100;
     public bool showLog;
-    public int level = 1;
-
+    public int level { get; private set; } = 1;
 
     public float CurrentExp => currentExp;
     public float MaxExp
@@ -50,42 +49,7 @@ public class UnitLevel : ScriptableObject
     //public Queue<UnityAction> OnLevelUp;
     public UnityAction<float, float> OnLevelUp;
     public UnityAction<float, float> OnGainExp;
-    //public UnitLevel(AnimationCurve animCurve)
-    //{
-    //    this.maxLevel = 100;
-    //    this.maxExp = 100f;
-    //    this.initMaxExp = this.maxExp;
-    //    this.curve = new AnimationCurve(animCurve.keys);
-    //    this.growthFactor = 1.1f;
-
-    //    UpdateMaxExpsPerLevel();
-    //}
-
-    //public UnitLevel(int maxLevel, float maxExp, AnimationCurve animCurve, float growthFactor = 1.1f)
-    //{
-    //    this.maxLevel = maxLevel;
-    //    this.maxExp = maxExp;
-    //    this.initMaxExp = this.maxExp;
-    //    this.curve = new AnimationCurve(animCurve.keys);
-    //    this.growthFactor = growthFactor;
-
-    //    UpdateMaxExpsPerLevel();
-    //}
-
-    //public UnitLevel(int currentLevel, float currentExp, AnimationCurve animCurve)
-    //{
-    //    this.maxLevel = 100;
-    //    this.maxExp = 100f;
-    //    this.initMaxExp = this.maxExp;
-    //    this.curve = new AnimationCurve(animCurve.keys);
-    //    this.growthFactor = 1.1f;
-
-    //    UpdateMaxExpsPerLevel();
-    //}
-    //public Dictionary<int, skillUpgrade> skillUpgrades;
-
-    //public delegate void HitEffect(SpellEffect spellEffect, GameObject caster, GameObject target, Vector3 hitPoint);
-    //public delegate void skillUpgrade(Ability ability);
+    public UnityAction<float, float> OnInitSetup;
     public bool GainExp(int value)
     {
         bool levelUp = false;
@@ -109,21 +73,12 @@ public class UnitLevel : ScriptableObject
     public virtual void Grow()
     {
         level += 1;
-        //float growth = 1 + curve.Evaluate((float)level / (float)maxLevel);
 
-        //_maxExp *= growth;
-        //float fin_maxExp = (initMaxExp + extraExpPerLevel) * Mathf.Pow(growthFactor, level) * growth;
         float fin_maxExp = MaxExpByLevel[level - 1];
-        //if (growth < 1f)
-        //    Debug.LogError("Growth is decreasing");
+
         maxExp = Mathf.Round(fin_maxExp);
 
-
         OnLevelUp?.Invoke(currentExp, maxExp);
-
-        //if (showLog)
-        //    Debug.Log($"Level {level} - maxEXP - {maxExp}\nGrowth - {growth}");
-
     }
 
 
@@ -132,7 +87,7 @@ public class UnitLevel : ScriptableObject
         this.level = level;
         maxExp = MaxExpByLevel[level - 1];
         this.currentExp = currentExp;
-
+        OnInitSetup?.Invoke(currentExp, maxExp);
     }
 
     public void Init()
@@ -140,8 +95,6 @@ public class UnitLevel : ScriptableObject
         this.maxLevel = 100;
         this.maxExp = 100f;
         this.initMaxExp = this.maxExp;
-        //this.curve = new AnimationCurve(animCurve.keys);
-        //this.growthFactor = 1.1f;
 
         UpdateMaxExpsPerLevel();
     }

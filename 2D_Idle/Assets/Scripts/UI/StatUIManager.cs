@@ -42,8 +42,7 @@ public class StatUIManager : MonoBehaviour
         playerStat.OnApplyStat.AddListener(UpdatePreviewStatDisplays);
 
         // 각 StatBarUI의 UI를 이벤트에 넣어준다. 
-        Debug.Log(playerStat.mainStats);
-        Debug.Log(playerStat.mainStats.Keys.Count);
+
         foreach (var mainStatType in playerStat.mainStats.Keys)
         {
             //statBarUIDict[mainStatType].OnPlusClicked.AddListener()
@@ -83,6 +82,9 @@ public class StatUIManager : MonoBehaviour
             //Debug.Log($"{subStatType}: {statColors.GetStatIcon(subStatType)}");
 
             statDisplayUIDict.Add(subStatType, statDisplayUI);
+            //Debug.Log(playerStat.subStats);
+            //Debug.Log(playerStat.subStats.Count);
+            //Debug.Log(playerStat.subStats[subStatType]);
             statDisplayUI.SetStatDisplay(playerStat, subStatType, statColors.GetStatIcon(subStatType), statColors.GetColor(subStatType),  playerStat.subStats[subStatType].UIMaxValue);
 
         }
@@ -93,7 +95,7 @@ public class StatUIManager : MonoBehaviour
         statWindow.gameObject.SetActive(true);
         //SetInfoModes(false);
         UpdateStats();
-
+        UpdateStatDisplays();
     }
 
     private StatBarUI GetEmptyStatBarUI()
@@ -116,7 +118,7 @@ public class StatUIManager : MonoBehaviour
         var childStats = playerStat.mainStats[mainStat].ChildSubstats;
         foreach(var subStat in childStats)
         {
-            Debug.Log($"{subStat.statType}: {playerStat.GetTotalPreviewOf(subStat.statType)}");
+            //Debug.Log($"{subStat.statType}: {playerStat.GetTotalPreviewOf(subStat.statType)}");
             statDisplayUIDict[subStat.statType].PreviewStat(playerStat.GetTotalPreviewOf(subStat.statType));
         }
     }
@@ -147,13 +149,10 @@ public class StatUIManager : MonoBehaviour
         foreach (var mainStatType in playerStat.mainStats.Keys)
         {
             var emptyOne = GetEmptyStatBarUI();
-            Debug.Log(mainStatType);
-            Debug.Log(playerStat.mainStats.Keys.Count);
             statBarUIDict.Add(mainStatType, emptyOne);
 
             // 초기설정
             emptyOne.InitMainStat(playerStat, mainStatType);
-            Debug.Log("Empty Added");
             emptyOne.SetStatBarUI(playerStat.mainStats[mainStatType]);
             emptyOne.plusButton.onClick.AddListener(()=>playerStat.TryAddMainStat(mainStatType));
             emptyOne.minusButton.onClick.AddListener(() => playerStat.TryAddMainStat(mainStatType, -1));
@@ -167,7 +166,7 @@ public class StatUIManager : MonoBehaviour
     public void UpdateStats()
     {
         apText.SetText($"{TMProUtility.GetColorText("AP: ", Color.green)}{playerStat.AbilityPoint}");
-        Debug.Log(playerStat.mainStats.Keys.Count);
+        //Debug.Log(playerStat.mainStats.Keys.Count);
         foreach (var mainStatType in playerStat.mainStats.Keys)
         {
             UpdateStat(mainStatType);

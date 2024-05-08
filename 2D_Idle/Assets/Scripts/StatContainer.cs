@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class StatContainer : MonoBehaviour
 {
-    [SerializeField] private BaseStat baseStat;
+    [SerializeField] protected BaseStat baseStat;
 
     public int MonsterLevel;
 
@@ -53,9 +53,9 @@ public class StatContainer : MonoBehaviour
     #endregion
 
     //public UnitLevel unitLevel;
-    [SerializeField] private Alias alias;
+    [SerializeField] protected Alias alias;
 
-    public int AbilityPoint { get; private set; }
+    public int AbilityPoint { get; protected set; }
 
     public int addedStat { 
         get
@@ -78,7 +78,7 @@ public class StatContainer : MonoBehaviour
             return _addedStat;
         }
     }
-    private int _addedStat = 0;
+    protected int _addedStat = 0;
 
     // 서브 스텟 값은 최종적으로 메인스텟 + 베이스 스텟 + 이명 스텟(성격)을 합한 값이 될것이다
     public Dictionary<eMainStatType, MainStat> mainStats
@@ -98,7 +98,7 @@ public class StatContainer : MonoBehaviour
             return _mainStats;
         }
     }
-    private Dictionary<eMainStatType, MainStat> _mainStats;
+    protected Dictionary<eMainStatType, MainStat> _mainStats;
 
     public Dictionary<eSubStatType, SubStat> subStats
     {
@@ -138,7 +138,7 @@ public class StatContainer : MonoBehaviour
             return _subStats;
         }
     }
-    private Dictionary<eSubStatType, SubStat> _subStats;
+    protected Dictionary<eSubStatType, SubStat> _subStats;
 
 
     [HideInInspector] public UnityEvent<eMainStatType> OnIncreaseStat = new();
@@ -146,14 +146,13 @@ public class StatContainer : MonoBehaviour
     [HideInInspector] public UnityEvent OnApplyStat;
     [HideInInspector] public UnityEvent OnCancelStat;
 
-    private Dictionary<eMainStatType, int> statGiven;
+    protected Dictionary<eMainStatType, int> statGiven;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         this.MonsterLevel = baseStat.MonsterLevel;
         SetupStats();
 
-        this.AbilityPoint = 5;
         if (statGiven == null)
         {
             statGiven = new Dictionary<eMainStatType, int>() {
@@ -164,6 +163,7 @@ public class StatContainer : MonoBehaviour
                 { eMainStatType.지혜, 0 },
             };
         }
+
 
         _mainStats = new Dictionary<eMainStatType, MainStat>() {
             { eMainStatType.근력, this.Strength },
@@ -204,14 +204,7 @@ public class StatContainer : MonoBehaviour
                     { eSubStatType.추가골드, this.ExtraGold },
                 };
         }
-        if (TryGetComponent<LevelSystem>(out LevelSystem lvlSystem))
-        {
-            lvlSystem.unitLevel.OnLevelUp += (float a, float b) =>
-            {
-                // TODO stat per level 로드하기
-                IncreaseAbilityPoint(5);
-            };
-        }
+        
         //Evasion = new SubStat("회피", baseStat.Evasion, eSubStatType.회피);
 
         //receiveAdditionalDamage = new SubStat("받는 피해 증가", 0f, eSubStatType.받는피해증가, true);
@@ -221,7 +214,16 @@ public class StatContainer : MonoBehaviour
 
     }
 
-    private void SetupStats()
+    public void ClearMainStats()
+    {
+        Strength.ClearStat();
+        Vit.ClearStat();
+        Avi.ClearStat();
+        Sensation.ClearStat();
+        Int.ClearStat();
+    }
+
+    protected void SetupStats()
     {
         Strength = new MainStat("근력", 0, eMainStatType.근력);
         Vit = new MainStat("맷집", 0, eMainStatType.맷집);
@@ -280,7 +282,7 @@ public class StatContainer : MonoBehaviour
         HP.AddAsInfluencer(StatUtility.StatPerValue(Vit, 1, 25f));
 
         Attack.AddAsInfluencer(StatUtility.StatPerValue(Strength, 1, 9f));
-        Attack.AddAsInfluencer(StatUtility.StatPerValue(Vit, 1, 3f));
+        Attack.AddAsInfluencer(StatUtility.StatPerValue(Avi, 1, 3f));
 
         MagicAttack.AddAsInfluencer(StatUtility.StatPerValue(Int, 1, 15f));
 
@@ -322,10 +324,7 @@ public class StatContainer : MonoBehaviour
         return total;
     }
 
-    private void IncreaseAbilityPoint(int val)
-    {
-        this.AbilityPoint += val;
-    }
+
     
     // addedstat = 0, 1, 5
     // 1, 1, 4
@@ -352,13 +351,17 @@ public class StatContainer : MonoBehaviour
         }
 
         this.AbilityPoint -= this.addedStat;
+        ClearStatGivenPoints();
+        OnApplyStat?.Invoke();
+    }
+
+    protected void ClearStatGivenPoints()
+    {
         foreach (var stat in mainStats.Keys)
         {
             statGiven[stat] = 0;
         }
-        OnApplyStat?.Invoke();
     }
-
 
     public void CancelStatChange()
     {
