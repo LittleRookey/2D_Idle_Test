@@ -87,7 +87,7 @@ public class MapManager : MonoBehaviour
         actualMap.anchoredPosition = currentPosition;
         playerMarker.anchoredPosition = currentPosition;
         actualMap.rect.Set(actualMap.anchoredPosition.x, actualMap.anchoredPosition.y, screenMap.rect.width, screenMap.rect.height);
-        Debug.Log($"map width height set {screenMap.rect.width} : {screenMap.rect.height}");
+        //Debug.Log($"map width height set {screenMap.rect.width} : {screenMap.rect.height}");
         currentPosText.SetText($"{currentPosition.x.ToString("F0")}, {currentPosition.y.ToString("F0")}");
         
 
@@ -340,7 +340,7 @@ public class MapManager : MonoBehaviour
 
     private void ClampMap()
     {
-        Debug.Log("Clamp X Y = " + mapWidth * (zoomIn - 1) + " : " + mapHeight * (zoomIn - 1));
+        //Debug.Log("Clamp X Y = " + mapWidth * (zoomIn - 1) + " : " + mapHeight * (zoomIn - 1));
         actualMap.anchoredPosition = new Vector2(Mathf.Clamp(actualMap.anchoredPosition.x, -1 * zoomInClamps[zoomIn - 1].x, zoomInClamps[zoomIn - 1].x),
                 Mathf.Clamp(actualMap.anchoredPosition.y, -1 * zoomInClamps[zoomIn - 1].y, zoomInClamps[zoomIn - 1].y));
     }

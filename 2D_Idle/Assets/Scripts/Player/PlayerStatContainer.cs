@@ -29,6 +29,12 @@ public class PlayerStatContainer : StatContainer, ILoadable, ISavable
         this.OnApplyStat.AddListener(Save);
     }
 
+    private void OnEnable()
+    {
+        Load();
+    }
+
+
     private void IncreaseAbilityPoint(int val)
     {
         this.AbilityPoint += val;
@@ -50,6 +56,9 @@ public class PlayerStatContainer : StatContainer, ILoadable, ISavable
         this.Sensation.IncreaseStat(playerData.SensationLevel);
         this.Int.IncreaseStat(playerData.IntLevel);
         this.AbilityPoint = playerData.leftAbilityPoint;
+
+        OnStatSetupComplete?.Invoke(this);
+        Debug.Log("PlayerStat loaded in PlayerStatContainer");
     }
 
     public void Save()

@@ -59,12 +59,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _WaterSpeed: 0.04
-    - _reflectionStrength: 0.997
+    - _WaterSpeed: 0.02
+    - _reflectionStrength: 0.122
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _WaterTextureTiling: {r: 0, g: 0, b: 0, a: 0}
-    - _waterColor: {r: 1, g: 1, b: 1, a: 0.43137255}
+    - _waterColor: {r: 1, g: 1, b: 1, a: 0.50980395}
   m_BuildTextureStacks: []

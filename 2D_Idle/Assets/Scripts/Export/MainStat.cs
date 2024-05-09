@@ -183,13 +183,14 @@ namespace Litkey.Stat
                 if (minValue < 0f || maxValue < 0f) return this._finalValue;
                 else return Mathf.Clamp(this._finalValue, this.minValue, this.maxValue);
             }
-            //set
-            //{
-            //    UpdateFinalValue();
-            //    float origin = _finalValue;
-            //    if (origin != value)
-            //        OnValueChanged?.Invoke(origin);
-            //}
+            set
+            {
+                float origin = _finalValue;
+                UpdateFinalValue();
+                Debug.Log($"{displayName}: {origin} -> {_finalValue}");
+                if (origin != _finalValue)
+                    OnValueChanged?.Invoke(origin);
+            }
         }
 
 

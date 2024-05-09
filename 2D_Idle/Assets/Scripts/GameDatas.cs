@@ -86,7 +86,7 @@ public class GameDatas : ScriptableObject
 
     private string fileName = "gdata.dat";
     private string keyName = "data";
-    public UnityEvent OnGameDataLoaded;
+    public UnityEvent OnGameDataLoaded = new();
 
 
 

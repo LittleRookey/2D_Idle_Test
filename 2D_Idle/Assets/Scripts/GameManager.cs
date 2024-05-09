@@ -24,12 +24,25 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+    }
+
+    private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene m_scene, UnityEngine.SceneManagement.LoadSceneMode m_sceneMode)
+    {
+        if (m_scene.name == "Main")
+        {
+            gameData.LoadDataLocal();
+        }
     }
 
     private void OnEnable()
     {
         gameData.LoadDataLocal();
+    }
+
+    private void Start()
+    {
+        //gameData.LoadDataLocal();
     }
     private void StartEvent()
     {

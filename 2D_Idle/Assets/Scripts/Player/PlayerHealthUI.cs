@@ -76,7 +76,7 @@ namespace Litkey.UI
 		{
 			targetHealth.onTakeDamage += UpdateHealth;
 			if (disableOnDeath)
-				targetHealth.OnDeath += DisableHealthBar;
+				targetHealth.OnDeath.AddListener(DisableHealthBar);
 			targetHealth.OnReturnFromPool += ResetHealthBar;
 		}
 
@@ -84,7 +84,7 @@ namespace Litkey.UI
 		{
 			targetHealth.onTakeDamage -= UpdateHealth;
 			if (disableOnDeath)
-				targetHealth.OnDeath -= DisableHealthBar;
+				targetHealth.OnDeath.RemoveListener(DisableHealthBar);
 			targetHealth.OnReturnFromPool -= ResetHealthBar;
 		}
 

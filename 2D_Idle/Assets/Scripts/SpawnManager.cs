@@ -111,7 +111,7 @@ public class SpawnManager : MonoBehaviour
         var mons = monsterDict[monsterToSpawn.Name].Get();
         mons.transform.position = spawnPosition.position;
         //var mons = Instantiate(, spawnPosition.position, Quaternion.identity);
-        mons.OnDeath += OnMonsterDeath;
+        mons.OnDeath.AddListener(OnMonsterDeath);
         spawnedMonster = mons;
     }
 
@@ -123,7 +123,7 @@ public class SpawnManager : MonoBehaviour
             // Check if the key exists in the dictionary
             if (monsterDict.ContainsKey(spawnedMonster.Name))
             {
-                spawnedMonster.OnDeath -= OnMonsterDeath;
+                spawnedMonster.OnDeath.RemoveListener(OnMonsterDeath);
                 Debug.Log("Monster returned to pool: " + spawnedMonster.Name);
                 // monsterDict[spawnedMonster.Name].Take(spawnedMonster);
             }

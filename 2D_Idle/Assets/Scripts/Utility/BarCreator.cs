@@ -61,7 +61,6 @@ namespace Litkey.Utility
                 barPool.Take(usedBar);
             }catch (ArgumentException)
             {
-
             }
         }
 

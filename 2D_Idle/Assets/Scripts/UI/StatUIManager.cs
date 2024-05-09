@@ -45,13 +45,7 @@ public class StatUIManager : MonoBehaviour
 
         foreach (var mainStatType in playerStat.mainStats.Keys)
         {
-            //statBarUIDict[mainStatType].OnPlusClicked.AddListener()
             playerStat.OnTryIncreaseStat.AddListener(statBarUIDict[mainStatType].SetStatBarUIs);
-
-            //emptyOne.SetStatBarUI(playerStat.mainStats[mainStatType]);
-            //emptyOne.gameObject.SetActive(true);
-
-
         }
     }
 
@@ -96,6 +90,13 @@ public class StatUIManager : MonoBehaviour
         //SetInfoModes(false);
         UpdateStats();
         UpdateStatDisplays();
+    }
+
+    public void CloseStatWindow()
+    {
+        // 올린 능력치 초기화
+        playerStat.CancelStatChange();
+        statWindow.gameObject.SetActive(false);
     }
 
     private StatBarUI GetEmptyStatBarUI()
@@ -165,6 +166,7 @@ public class StatUIManager : MonoBehaviour
     //public void Try
     public void UpdateStats()
     {
+        Debug.Log("abilityPoint: "+playerStat.AbilityPoint);
         apText.SetText($"{TMProUtility.GetColorText("AP: ", Color.green)}{playerStat.AbilityPoint}");
         //Debug.Log(playerStat.mainStats.Keys.Count);
         foreach (var mainStatType in playerStat.mainStats.Keys)

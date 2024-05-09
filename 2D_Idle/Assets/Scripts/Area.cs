@@ -25,7 +25,7 @@ public class Area : MonoBehaviour
             enterCounter++;
             //if (enterCounter <= 1 && disableOnStart) return;
 
-            Debug.Log("OnTriggerEnter Area");
+            //Debug.Log("OnTriggerEnter Area");
             OnPlayerEnterArea?.Invoke(this);
             OnEnterArea?.Invoke();
         }

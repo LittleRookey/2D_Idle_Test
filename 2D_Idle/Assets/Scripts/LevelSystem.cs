@@ -21,6 +21,11 @@ public class LevelSystem : MonoBehaviour, ILoadable, ISavable
         unitLevel.OnLevelUp += SaveOnGain;
 
     }
+
+    private void OnEnable()
+    {
+        Load();
+    }
     public float GetCurrentExp()
     {
         return unitLevel.CurrentExp;
@@ -48,13 +53,13 @@ public class LevelSystem : MonoBehaviour, ILoadable, ISavable
 
     public void Load()
     { 
-        Debug.Log(gameDatas);
-        Debug.Log(gameDatas.dataSettings);
-        Debug.Log(gameDatas.dataSettings.playerData);
+        //Debug.Log(gameDatas);
+        //Debug.Log(gameDatas.dataSettings);
+        //Debug.Log(gameDatas.dataSettings.playerData);
 
         playerData = gameDatas.dataSettings.playerData;
-        Debug.Log(playerData.leftAbilityPoint);
-        Debug.Log(playerData.currentExp);
+        Debug.Log("LevelSystem - left ability point: "  +playerData.leftAbilityPoint);
+        Debug.Log("Current Exp: " +playerData.currentExp);
         this.unitLevel.SetLevel(playerData.level, playerData.currentExp);
     }
 

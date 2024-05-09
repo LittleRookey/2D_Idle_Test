@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Litkey.Interface;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class PlayerController : MonoBehaviour
     private LevelSystem _levelSystem;
     private Health _health;
     public bool isDead;
+
+    public UnityEvent OnRevive;
+
     private enum eBehavior
     {
         idle,
@@ -60,12 +64,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.OnDeath += Death;
+        _health.OnDeath.AddListener(Death);
     }
 
     private void OnDisable()
     {
-        _health.OnDeath -= Death;
+        _health.OnDeath.RemoveListener(Death);
     }
 
     // Start is called before the first frame update
@@ -101,10 +105,14 @@ public class PlayerController : MonoBehaviour
         //anim.SetTrigger(this._Dead);
     }
 
-    private void Revive(LevelSystem levelSystem)
+    public void Revive()
     {
         isDead = false;
+        // 애니메이션
         anim.SetTrigger(this._Revive);
+        // HP
+        OnRevive?.Invoke();
+        // 스킬 쿨다운 등등
     }
 
     public void Turn(bool turnRight)
@@ -297,7 +305,7 @@ public class PlayerController : MonoBehaviour
 
     public void EnableMovement()
     {
-        Debug.Log("Can move now");
+        //Debug.Log("Can move now");
         canMove = true;
     }
 

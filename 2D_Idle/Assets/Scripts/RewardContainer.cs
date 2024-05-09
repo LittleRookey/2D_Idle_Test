@@ -20,12 +20,12 @@ public class RewardContainer : MonoBehaviour
 
     private void OnEnable()
     {
-        health.OnDeath += GainReward;
+        health.OnDeath.AddListener(GainReward);
     }
 
     private void OnDisable()
     {
-        health.OnDeath -= GainReward;
+        health.OnDeath.RemoveListener(GainReward);
     }
 
     public void GainReward(LevelSystem attacker)

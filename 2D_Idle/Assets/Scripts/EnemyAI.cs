@@ -89,7 +89,7 @@ public class EnemyAI : MonoBehaviour
         OnStun.AddListener(onStunEnter);
         OnStunExit.AddListener(onStunExit);
         final_attackInterval = Mathf.Max(attackInterval * (1f - (_statContainer.AttackSpeed.FinalValue / attackInterval)), 0.5f);
-        health.OnDeath += OnDeath;
+        health.OnDeath.AddListener(OnDeath);
         health.onTakeDamage += OnHitEnter;
     }
 
@@ -98,7 +98,7 @@ public class EnemyAI : MonoBehaviour
 
         OnStun.RemoveListener(onStunEnter);
         OnStunExit.RemoveListener(onStunExit);
-        health.OnDeath -= OnDeath;
+        health.OnDeath.RemoveListener(OnDeath);
     }
 
     // Start is called before the first frame update

@@ -97,14 +97,14 @@ namespace ACF.Tests
 		private void OnEnable()
 		{
 			targetHealth.onTakeDamage += UpdateHealth;
-			targetHealth.OnDeath += DisableHealthBar;
+			targetHealth.OnDeath.AddListener(DisableHealthBar);
 			targetHealth.OnReturnFromPool += ResetHealthBar;
 		}
 
 		private void OnDisable()
 		{
 			targetHealth.onTakeDamage -= UpdateHealth;
-			targetHealth.OnDeath -= DisableHealthBar;
+			targetHealth.OnDeath.RemoveListener(DisableHealthBar);
 			targetHealth.OnReturnFromPool -= ResetHealthBar;
 		}
 

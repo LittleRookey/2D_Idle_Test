@@ -148,6 +148,8 @@ public class StatContainer : MonoBehaviour
 
     protected Dictionary<eMainStatType, int> statGiven;
 
+    public UnityEvent<StatContainer> OnStatSetupComplete;
+
     protected virtual void Awake()
     {
         this.MonsterLevel = baseStat.MonsterLevel;
@@ -225,6 +227,7 @@ public class StatContainer : MonoBehaviour
 
     protected void SetupStats()
     {
+        Debug.Log("½ºÅÝ ¼Â¾÷ ½ÃÀÛ");
         Strength = new MainStat("±Ù·Â", 0, eMainStatType.±Ù·Â);
         Vit = new MainStat("¸ËÁý", 0, eMainStatType.¸ËÁý);
         Avi = new MainStat("¹ÎÃ¸", 0, eMainStatType.¹ÎÃ¸);
@@ -300,6 +303,9 @@ public class StatContainer : MonoBehaviour
 
         Precision.AddAsInfluencer(StatUtility.StatPerValue(Sensation, 2, 1f));
         Evasion.AddAsInfluencer(StatUtility.StatPerValue(Avi, 5, 1f));
+        Debug.Log("½ºÅÝ ¼Â¾÷ ¿Ï·á");
+
+        
     }
 
     /// <summary>
@@ -353,6 +359,7 @@ public class StatContainer : MonoBehaviour
         this.AbilityPoint -= this.addedStat;
         ClearStatGivenPoints();
         OnApplyStat?.Invoke();
+        OnStatSetupComplete?.Invoke(this);
     }
 
     protected void ClearStatGivenPoints()

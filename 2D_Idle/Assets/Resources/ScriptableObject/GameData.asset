@@ -13,67 +13,16 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   dataSettings:
-    gold:
-      currentCryptoKey: 1217952531
-      hiddenValue: 1217952531
-      fakeValue: 0
-      fakeValueActive: 0
-      inited: 1
+    gold: 100
     playerData:
-      level:
-        currentCryptoKey: 1978337078
-        hiddenValue: 1978337078
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
-      currentExp:
-        migratedVersion: 
-        currentCryptoKey: 1860544249
-        hiddenValue: 1856431609
-        hiddenValueOldByte4:
-          b1: 0
-          b2: 0
-          b3: 0
-          b4: 0
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
-      leftAbilityPoint:
-        currentCryptoKey: 1168574490
-        hiddenValue: 1168574490
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
-      StrengthLevel:
-        currentCryptoKey: 1685198274
-        hiddenValue: 1685198274
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
-      VitLevel:
-        currentCryptoKey: 1571757427
-        hiddenValue: 1571757427
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
-      AVILevel:
-        currentCryptoKey: 1380144536
-        hiddenValue: 1380144536
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
-      SensationLevel:
-        currentCryptoKey: 1760650129
-        hiddenValue: 1760650129
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
-      IntLevel:
-        currentCryptoKey: 1932769727
-        hiddenValue: 1932769727
-        fakeValue: 0
-        fakeValueActive: 0
-        inited: 1
+      level: 1
+      currentExp: 0
+      leftAbilityPoint: 0
+      StrengthLevel: 1
+      VitLevel: 0
+      AVILevel: 0
+      SensationLevel: 0
+      IntLevel: 0
   OnGameDataLoaded:
     m_PersistentCalls:
       m_Calls: []

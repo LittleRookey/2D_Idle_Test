@@ -23,7 +23,7 @@ public class MobManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Debug.Log(monsterTablePath + eCountry.One.ToString());
+        //Debug.Log(monsterTablePath + eCountry.One.ToString());
         monsterPool = new Dictionary<eRegion, MonsterTable>()
         {
             { eRegion.One, Resources.Load<MonsterTable>(monsterTablePath+eRegion.One.ToString()) },
