@@ -29,7 +29,7 @@ public class SkillContainer : MonoBehaviour
     {
         foreach (var skill in passiveSkills)
         {
-            skill.ApplyEffect(target);
+            //skill.ApplyEffect(target);
         }
     }
 

@@ -6,19 +6,19 @@ using UnityEngine;
 public class PoisonDecorator : PassiveSkillDecorator
 {
     
-    public CinemachineTrack poisonDamagePerTick;
+    public float poisonDamagePerTick;
     public int poisonDuration;
 
     
 
 
-    protected override void AddPassiveEffect(Health target)
+    protected override void AddPassiveEffect(StatContainer target)
     {
         
         ApplyPoison(target);
     }
 
-    private void ApplyPoison(Health target)
+    private void ApplyPoison(StatContainer target)
     {
         // 포이즌 로직
     }

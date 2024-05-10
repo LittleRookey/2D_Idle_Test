@@ -8,8 +8,8 @@ public abstract class Skill : ScriptableObject
     public string skillName;
     public int skillLevel;
     [SerializeField] protected string abilityUseSound;
-    [SerializeField] protected StatContainer allyStat;
-    public abstract void ApplyEffect(Health target);
+    
+    public abstract void ApplyEffect(StatContainer allyStat, StatContainer target);
 }
 
 public abstract class PassiveSkillDecorator : Skill
@@ -20,14 +20,14 @@ public abstract class PassiveSkillDecorator : Skill
         decoratedSkill = skill;
     }
 
-    public override void ApplyEffect(Health target)
+    public override void ApplyEffect(StatContainer allyStat, StatContainer target)
     {
 
-        decoratedSkill.ApplyEffect(target);
+        decoratedSkill.ApplyEffect(allyStat, target);
         AddPassiveEffect(target);
     }
 
-    protected abstract void AddPassiveEffect(Health target);
+    protected abstract void AddPassiveEffect(StatContainer target);
 }
 
 public abstract class ActiveSkill : Skill

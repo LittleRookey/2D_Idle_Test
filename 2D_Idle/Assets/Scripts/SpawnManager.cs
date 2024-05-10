@@ -124,7 +124,7 @@ public class SpawnManager : MonoBehaviour
             if (monsterDict.ContainsKey(spawnedMonster.Name))
             {
                 spawnedMonster.OnDeath.RemoveListener(OnMonsterDeath);
-                Debug.Log("Monster returned to pool: " + spawnedMonster.Name);
+                //Debug.Log("Monster returned to pool: " + spawnedMonster.Name);
                 // monsterDict[spawnedMonster.Name].Take(spawnedMonster);
             }
             else

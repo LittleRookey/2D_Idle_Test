@@ -39,7 +39,7 @@ public class MapScroll : MonoBehaviour
             transform.position += Vector3.right * (deltaX * parallaxSpeed) * speedVar;
         } else
         {
-            transform.position = new Vector3(player.position.x, transform.position.y, transform.position.z);
+            //transform.position = new Vector3(player.position.x, transform.position.y, transform.position.z);
         }
         lastCameraX = cameraTransform.position.x;
         if (scrolling)

@@ -9,17 +9,14 @@ public class BasicAttack : Skill
     [Range(0, 10)]
     public float damagePercent;
 
-    public virtual void Initialize(StatContainer stat)
+    public override void ApplyEffect(StatContainer allyStat, StatContainer target)
     {
-        this.allyStat = stat;
-    }
-
-    public override void ApplyEffect(Health target)
-    {
-        var dmg = allyStat.GetFinalDamage();
-        allyStat.GetDamageAgainst(target.GetComponent<StatContainer>());
-
-        target.TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg });
+        //var dmg = allyStat.GetFinalDamage();
+        //Debug.Log("ApplyEffect1:" );
+        var dmg = allyStat.GetDamageAgainst(target);
+        //Debug.Log("ApplyEffect2:" );
+        target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg });
+        //Debug.Log("ApplyEffect3:" );
     }
 
    

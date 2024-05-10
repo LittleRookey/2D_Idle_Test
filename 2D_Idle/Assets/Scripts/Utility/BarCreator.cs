@@ -75,4 +75,42 @@ namespace Litkey.Utility
 
 
     }
+
+    public class ShapeCreator
+    {
+        private static readonly string shapePath = "Prefabs/UI/Circle";
+
+        private static Pool<SpriteRenderer> shapePool;
+
+        public static SpriteRenderer CreateCircle(Vector3 spawnPosition, Color baseColor=default)
+        {
+            CheckPoolExists();
+
+            var newBar = shapePool.Get();
+            newBar.color = baseColor;
+            newBar.transform.position = spawnPosition;
+
+            return newBar;
+        }
+
+        public static void ReturnShape(SpriteRenderer usedBar)
+        {
+            try
+            {
+                shapePool.Take(usedBar);
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
+
+        private static void CheckPoolExists()
+        {
+            if (shapePool == null)
+            {
+                var bar = Resources.Load<SpriteRenderer>(shapePath);
+                shapePool = Pool.Create<SpriteRenderer>(bar, 3).NonLazy();
+            }
+        }
+    }
 }

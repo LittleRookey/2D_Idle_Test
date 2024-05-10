@@ -206,6 +206,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             onTakeDamage?.Invoke(currentHealth, maxHealth);
         }
 
+        OnHit?.Invoke();
         StartCoroutine(ShowDmgText(finalDamages));
 
         if (currentHealth <= 0f)

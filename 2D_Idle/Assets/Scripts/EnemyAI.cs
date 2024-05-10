@@ -21,7 +21,11 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] private float scanDistance = 3f;
     [SerializeField] private float attackRange = 2.5f;
+
     [SerializeField] private LayerMask enemyLayer;
+
+    [SerializeField] private BasicAttack basicAttack;
+
     private float attackInterval;
     private float final_attackInterval;
 
@@ -129,7 +133,7 @@ public class EnemyAI : MonoBehaviour
             case eEnemyBehavior.idle:
                 // 적을 찾기
                 SearchForTarget();
-                Debug.Log($"HasNoTarget: {!HasNoTarget()}\nTargetWithinAttackRange: {TargetWithinAttackRange()}\nisAttacking: {!isAttacking}");
+                //Debug.Log($"HasNoTarget: {!HasNoTarget()}\nTargetWithinAttackRange: {TargetWithinAttackRange()}\nisAttacking: {!isAttacking}");
 
                 if (!HasNoTarget() && TargetWithinAttackRange() && !isAttacking)
                 {
@@ -171,7 +175,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     private BarTemplate currentBar;
-    private bool canParry;
+    public bool canParry;
     private bool isParried;
     [SerializeField] private float parryTime = 0.5f;
     private BoxCollider2D boxCollider2D;
@@ -180,41 +184,51 @@ public class EnemyAI : MonoBehaviour
     private void onAttackEnter()
     {
         // 몇초후에 공격 속행
-        Debug.Log("111111111Is Attacking = " + isAttacking);
+
         isAttacking = true;
-        Debug.Log("22222222222Is Attacking = " + isAttacking);
+
         currentBar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
-        Debug.Log("33333333333Is Attacking = " + isAttacking);
+
         currentBar.SetOuterColor(Color.black);
-        Debug.Log("44444444444Is Attacking = " + isAttacking);
+
         var parryActivateTime = final_attackInterval - parryTime; 
 
         attackTimer = 0f;
-        Debug.Log("555555555555Is Attacking = " + isAttacking);
+
         currentBarTween = currentBar.StartFillBar(final_attackInterval, () => 
         {
-            Debug.Log("6666666666666Is Attacking = " + isAttacking);
+
             isAttacking = false;
-            Debug.Log("77777777777777Is Attacking = " + isAttacking);
+
             if (!isParried) DamageAction();
-            Debug.Log("77777777777777Is Attacking = " + isAttacking);
+
 
             //onAttackExit();
             SwitchState(eEnemyBehavior.attack);
-            Debug.Log("8888888888888888Is Attacking = " + isAttacking);
+
             BarCreator.ReturnBar(currentBar);
-            Debug.Log("99999999999999999Is Attacking = " + isAttacking);
+
             currentBarTween = null;
-            Debug.Log("0000000000000000Is Attacking = " + isAttacking);
+
         });
+        StartCoroutine(ActivateParrying(1));
     }
 
+    private void BarOnEndBehavior()
+    {
+
+    }
     private IEnumerator ActivateParrying(int targetNum)
     {
         yield return new WaitForSeconds(final_attackInterval - parryTime);
         canParry = true;
+        var shape = ShapeCreator.CreateCircle(transform.position + Vector3.up * 1.2f, Color.white);
+        health.OnDeath.AddListener((LevelSystem lvl) => ShapeCreator.ReturnShape(shape));
 
         yield return new WaitForSeconds(parryTime);
+        ShapeCreator.ReturnShape(shape);
+        health.OnDeath.RemoveListener((LevelSystem lvl) => ShapeCreator.ReturnShape(shape));
+        isParried = false;
         canParry = false;
 
 
@@ -301,22 +315,42 @@ public class EnemyAI : MonoBehaviour
     private void SetTarget(Health enemy)
     {
         Target = enemy;
-        Debug.Log("Target set: " + enemy.name);
+        //Debug.Log("Target set: " + enemy.name);
     }
 
     public void DamageAction()
     {
+        if (isParried)
+        {
+            isParried = false;
+            return;
+        }
+
+        if (basicAttack == null)
+        {
+            basicAttack = Resources.Load<BasicAttack>("ScriptableObject/Skills/EnemyBasicAttack");
+        }
         Debug.Log("Entered DamageAction");
         if (Target == null) return;
         // 데미지 계산
- 
-        //var dmg = _statContainer.GetFinalDamage();
+        Debug.Log("Entered DamageAction1111111");
+        basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+        Debug.Log("Entered DamageAction22222222");
 
-        var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
- 
-        //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-        Target.TakeDamage(_statContainer, new List<Damage> { dmg });
+    }
 
+    public bool TryParry()
+    {
+        Debug.Log("canparry: " + canParry);
+        Debug.Log("isParried: " + isParried);
+        if (canParry && !isParried)
+        {
+            isParried = true;
+            // Handle successful parry
+            //onStateEnterBeahviors[eEnemyBehavior.parry]?.Invoke(health);
+            return true;
+        }
+        return false;
     }
 
     // Update is called once per frame

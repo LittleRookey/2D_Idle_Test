@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Litkey.Interface;
 using UnityEngine.Events;
+using DG.Tweening;
+using Sirenix.OdinInspector;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private SpriteRenderer playerSprite;
+
+    [SerializeField] private BasicAttack basicAttack;
     // 애니메이션
     private readonly int _isJumping = Animator.StringToHash("isJumping");
     private readonly int _isRunning = Animator.StringToHash("isRunning");
@@ -28,7 +32,9 @@ public class PlayerController : MonoBehaviour
     private readonly int _Dead = Animator.StringToHash("Death");
     private readonly int _Revive = Animator.StringToHash("Revive");
     private readonly int _Hit = Animator.StringToHash("Hit");
-
+    
+    private readonly int _EnterCounter = Animator.StringToHash("EnterCounter");
+    private readonly int _Parry = Animator.StringToHash("Parry");
     private eBehavior currentBehavior;
     private bool isGrounded;
 
@@ -42,8 +48,11 @@ public class PlayerController : MonoBehaviour
     private Health _health;
     public bool isDead;
 
+    private Material playerMat;
     public UnityEvent OnRevive;
 
+    private float startValue = 0f;
+    Sequence hitSequence;
     private enum eBehavior
     {
         idle,
@@ -60,6 +69,21 @@ public class PlayerController : MonoBehaviour
         _statContainer = GetComponent<StatContainer>();
         _levelSystem = GetComponent<LevelSystem>();
         _health = GetComponent<Health>();
+        playerMat = playerSprite.material;
+
+        hitSequence = DOTween.Sequence();
+        
+        hitSequence.Append(DOTween.To(() => startValue, x => startValue = x, 0.5f, 0.1f)
+            .OnUpdate(() =>
+            {
+                playerMat.SetFloat("_HitEffectBlend", startValue);
+            }))
+            .AppendInterval(0.2f) // Optional: Delay before the hit effect fades out
+            .Append(DOTween.To(() => startValue, x => startValue = x, 0f, 0.1f)
+            .OnUpdate(() =>
+            {
+                playerMat.SetFloat("_HitEffectBlend", startValue);
+            }));
     }
 
     private void OnEnable()
@@ -103,13 +127,25 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        anim.Play(this._Dead);
+        Debug.Log("Played Dead animation");
+        PlayDeath();
         //anim.SetTrigger(this._Dead);
+    }
+
+    [Button("PlayDead")]
+    public void PlayDeath()
+    {
+        anim.Play(this._Dead);
     }
 
     private void HitAnim()
     {
-        anim.Play(_Hit);
+        //anim.Play(_Hit);
+
+
+
+
+        hitSequence.Restart();
     }
 
     public void Revive()
@@ -238,7 +274,7 @@ public class PlayerController : MonoBehaviour
         switch (currentBehavior)
         {
             case eBehavior.idle:
-
+                anim.SetBool(_Parry, false);
                 break;
             case eBehavior.walk:
                 //anim.SetBool(isWalking, true);
@@ -273,6 +309,42 @@ public class PlayerController : MonoBehaviour
     {
         DisableMovement();
         SwitchState(eBehavior.idle);
+    }
+
+    public void EnterCounter()
+    {
+        anim.Play(_EnterCounter);
+        
+    }
+    bool isParried = false;
+    // call from other script
+    public void DoParry(bool doParry)
+    {
+        if (Target == null) return;
+        if (isDead) return;
+
+        var enemyAI = Target.GetComponent<EnemyAI>();
+        EnterCounter();
+        if (doParry)
+        {
+            if (enemyAI != null && enemyAI.TryParry())
+            {
+                anim.SetBool(_Parry, true);
+                isParried = true;
+                // Handle successful parry for the player
+            }
+            else
+            {
+                // Handle failed parry attempt
+                anim.SetBool(_Parry, false);
+                isParried = false;
+            }
+        }
+        else
+        {
+            anim.SetBool(_Parry, false);
+            isParried = false;
+        }
     }
 
     private bool TargetWithinAttackRange()
@@ -337,12 +409,17 @@ public class PlayerController : MonoBehaviour
 
     public void DamageAction()
     {
+        if (basicAttack == null)
+        {
+            basicAttack = Resources.Load<BasicAttack>("ScriptableObject/Skills/PlayerBasicAttack");
+        }
         // 데미지 계산
         //var dmg = _statContainer.GetFinalDamage();
-        var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+        //var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+        basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
 
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-        Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
+        //Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
         
     }
 
