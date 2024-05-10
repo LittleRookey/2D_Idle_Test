@@ -11,3 +11,28 @@ public abstract class Skill : ScriptableObject
     [SerializeField] protected StatContainer allyStat;
     public abstract void ApplyEffect(Health target);
 }
+
+public abstract class PassiveSkillDecorator : Skill
+{
+    [SerializeField] protected Skill decoratedSkill;
+    public void Initialize(Skill skill)
+    {
+        decoratedSkill = skill;
+    }
+
+    public override void ApplyEffect(Health target)
+    {
+
+        decoratedSkill.ApplyEffect(target);
+        AddPassiveEffect(target);
+    }
+
+    protected abstract void AddPassiveEffect(Health target);
+}
+
+public abstract class ActiveSkill : Skill
+{
+    public float cooldown;
+
+    public abstract void Use(Health target);
+}

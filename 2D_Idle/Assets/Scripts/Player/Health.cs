@@ -37,6 +37,8 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     public delegate void OnTakeDamage(float current, float max);
     public OnTakeDamage onTakeDamage;
 
+    public UnityEvent OnHit;
+
     public UnityEvent<LevelSystem> OnDeath;
     public UnityAction OnReturnFromPool;
 
@@ -125,12 +127,65 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         }
         return false;
     }
-    // 피격자의 시점에서 데미지를 입는다.
+    /// <summary>
+    /// 플레이어에서 부르는 TakeDamage
+    /// </summary>
+    /// <param name="attacker"></param>
+    /// <param name="damages"></param>
+    /// <returns></returns>
     [Button("TakeDamage")]
     public bool TakeDamage(LevelSystem attacker, List<Damage> damages)
     {
         if (isDead) return true;
         var attackerStat = attacker.GetComponent<StatContainer>();
+        // 명중 회피 계산하기
+        if (!attackerStat.CalculateHit(_statContainer))
+        {
+            // 회피 텍스트, 회피 모션취하기
+            ShowMissText();
+            return false;
+        }
+        // 명중 통과하면 데미지 계산
+        List<Damage> finalDamages = new List<Damage>();
+        for (int i = 0; i < damages.Count; i++)
+        {
+            var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
+
+            //var dmg = _statContainer.Defend(damages[i].damage);
+            finalDamages.Add(damageInfo);
+            //currentHealth -= dmg;
+            currentHealth -= damageInfo.damage;
+            onTakeDamage?.Invoke(currentHealth, maxHealth);
+        }
+
+        OnHit?.Invoke();
+
+        StartCoroutine(ShowDmgText(finalDamages));
+
+        if (currentHealth <= 0f)
+        {
+            currentHealth = 0f;
+            isDead = true;
+            bCollider.isTrigger = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            
+
+            OnDeath?.Invoke(attacker);
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 몬스터에서 부르는TakeDamage
+    /// </summary>
+    /// <param name="attacker"></param>
+    /// <param name="damages"></param>
+    /// <returns></returns>
+    public bool TakeDamage(StatContainer attacker, List<Damage> damages)
+    {
+        if (isDead) return true;
+        var attackerStat = attacker;
         // 명중 회피 계산하기
         if (!attackerStat.CalculateHit(_statContainer))
         {
@@ -159,53 +214,13 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             isDead = true;
             bCollider.isTrigger = true;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            
 
-            OnDeath?.Invoke(attacker);
+
+            OnDeath?.Invoke(attacker.GetComponent<LevelSystem>());
             return true;
         }
         return false;
     }
-
-    //public bool TakeDamage(StatContainer attacker, List<Damage> damages)
-    //{
-    //    if (isDead) return true;
-    //    var attackerStat = attacker;
-    //    // 명중 회피 계산하기
-    //    if (!attackerStat.CalculateHit(_statContainer))
-    //    {
-    //        // 회피 텍스트, 회피 모션취하기
-    //        ShowMissText();
-    //        return false;
-    //    }
-    //    // 명중 통과하면 데미지 계산
-    //    List<Damage> finalDamages = new List<Damage>();
-    //    for (int i = 0; i < damages.Count; i++)
-    //    {
-    //        var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
-
-    //        //var dmg = _statContainer.Defend(damages[i].damage);
-    //        finalDamages.Add(damageInfo);
-    //        //currentHealth -= dmg;
-    //        currentHealth -= damageInfo.damage;
-    //        onTakeDamage?.Invoke(currentHealth, maxHealth);
-    //    }
-
-    //    StartCoroutine(ShowDmgText(finalDamages));
-
-    //    if (currentHealth <= 0f)
-    //    {
-    //        currentHealth = 0f;
-    //        isDead = true;
-    //        bCollider.isTrigger = true;
-    //        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-
-
-    //        OnDeath?.Invoke(attacker.GetComponent<LevelSystem>());
-    //        return true;
-    //    }
-    //    return false;
-    //}
 
 
     protected void ShowMissText()

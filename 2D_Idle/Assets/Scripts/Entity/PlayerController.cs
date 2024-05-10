@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     
     private readonly int _Dead = Animator.StringToHash("Death");
     private readonly int _Revive = Animator.StringToHash("Revive");
-    private readonly int _Block = Animator.StringToHash("Block");
+    private readonly int _Hit = Animator.StringToHash("Hit");
 
     private eBehavior currentBehavior;
     private bool isGrounded;
@@ -65,10 +65,12 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         _health.OnDeath.AddListener(Death);
+        _health.OnHit.AddListener(HitAnim);
     }
 
     private void OnDisable()
     {
+        _health.OnHit.RemoveListener(HitAnim);
         _health.OnDeath.RemoveListener(Death);
     }
 
@@ -103,6 +105,11 @@ public class PlayerController : MonoBehaviour
         isDead = true;
         anim.Play(this._Dead);
         //anim.SetTrigger(this._Dead);
+    }
+
+    private void HitAnim()
+    {
+        anim.Play(_Hit);
     }
 
     public void Revive()
@@ -331,7 +338,7 @@ public class PlayerController : MonoBehaviour
     public void DamageAction()
     {
         // 데미지 계산
-        //_statContainer.GetFinalDamage();
+        //var dmg = _statContainer.GetFinalDamage();
         var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
 
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);

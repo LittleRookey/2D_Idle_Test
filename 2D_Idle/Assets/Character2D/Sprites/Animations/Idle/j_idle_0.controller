@@ -1004,7 +1004,7 @@ AnimatorStateMachine:
     m_Position: {x: 290, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5227977956086455113}
-    m_Position: {x: 130, y: -100, z: 0}
+    m_Position: {x: 100, y: -100, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 3758841344694444014}
@@ -1127,7 +1127,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Block
+  m_Name: Hit
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

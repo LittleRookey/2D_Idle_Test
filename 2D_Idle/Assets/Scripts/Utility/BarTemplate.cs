@@ -85,7 +85,7 @@ public class BarTemplate : MonoBehaviour
         var tween = DOTween.To(() => innerBar.fillAmount, x => innerBar.fillAmount = x, goalFillValue, timeTilFull).OnComplete(()=>
         {
             OnExitBehavior?.Invoke();
-            OnExitBehavior.RemoveListener(endAction);
+            OnExitBehavior.RemoveAllListeners();
         });
         return tween;
     }
@@ -99,7 +99,7 @@ public class BarTemplate : MonoBehaviour
         var tween = DOTween.To(() => innerBar.fillAmount, x => innerBar.fillAmount = x, goalFillValue, timeTilFull).OnComplete(() =>
         {
             OnExitBehavior?.Invoke();
-            OnExitBehavior.RemoveListener(endAction);
+            OnExitBehavior.RemoveAllListeners();
         });
         return tween;
     }

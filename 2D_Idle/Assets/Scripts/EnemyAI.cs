@@ -129,6 +129,8 @@ public class EnemyAI : MonoBehaviour
             case eEnemyBehavior.idle:
                 // 적을 찾기
                 SearchForTarget();
+                Debug.Log($"HasNoTarget: {!HasNoTarget()}\nTargetWithinAttackRange: {TargetWithinAttackRange()}\nisAttacking: {!isAttacking}");
+
                 if (!HasNoTarget() && TargetWithinAttackRange() && !isAttacking)
                 {
 
@@ -178,21 +180,32 @@ public class EnemyAI : MonoBehaviour
     private void onAttackEnter()
     {
         // 몇초후에 공격 속행
+        Debug.Log("111111111Is Attacking = " + isAttacking);
         isAttacking = true;
+        Debug.Log("22222222222Is Attacking = " + isAttacking);
         currentBar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
+        Debug.Log("33333333333Is Attacking = " + isAttacking);
         currentBar.SetOuterColor(Color.black);
+        Debug.Log("44444444444Is Attacking = " + isAttacking);
         var parryActivateTime = final_attackInterval - parryTime; 
-        attackTimer = 0f;
-        currentBarTween = currentBar.StartFillBar(final_attackInterval, () => 
-        { 
-            currentBarTween = null;
 
+        attackTimer = 0f;
+        Debug.Log("555555555555Is Attacking = " + isAttacking);
+        currentBarTween = currentBar.StartFillBar(final_attackInterval, () => 
+        {
+            Debug.Log("6666666666666Is Attacking = " + isAttacking);
             isAttacking = false;
+            Debug.Log("77777777777777Is Attacking = " + isAttacking);
             if (!isParried) DamageAction();
+            Debug.Log("77777777777777Is Attacking = " + isAttacking);
 
             //onAttackExit();
             SwitchState(eEnemyBehavior.attack);
+            Debug.Log("8888888888888888Is Attacking = " + isAttacking);
             BarCreator.ReturnBar(currentBar);
+            Debug.Log("99999999999999999Is Attacking = " + isAttacking);
+            currentBarTween = null;
+            Debug.Log("0000000000000000Is Attacking = " + isAttacking);
         });
     }
 
@@ -293,12 +306,17 @@ public class EnemyAI : MonoBehaviour
 
     public void DamageAction()
     {
+        Debug.Log("Entered DamageAction");
         if (Target == null) return;
         // 데미지 계산
-        //_statContainer.GetFinalDamage();
+ 
+        //var dmg = _statContainer.GetFinalDamage();
+
         var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+ 
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-        Target.TakeDamage(null, new List<Damage> { dmg });
+        Target.TakeDamage(_statContainer, new List<Damage> { dmg });
+
     }
 
     // Update is called once per frame
