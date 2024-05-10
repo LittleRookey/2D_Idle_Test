@@ -167,45 +167,45 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         return false;
     }
 
-    public bool TakeDamage(StatContainer attacker, List<Damage> damages)
-    {
-        if (isDead) return true;
-        var attackerStat = attacker;
-        // 명중 회피 계산하기
-        if (!attackerStat.CalculateHit(_statContainer))
-        {
-            // 회피 텍스트, 회피 모션취하기
-            ShowMissText();
-            return false;
-        }
-        // 명중 통과하면 데미지 계산
-        List<Damage> finalDamages = new List<Damage>();
-        for (int i = 0; i < damages.Count; i++)
-        {
-            var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
+    //public bool TakeDamage(StatContainer attacker, List<Damage> damages)
+    //{
+    //    if (isDead) return true;
+    //    var attackerStat = attacker;
+    //    // 명중 회피 계산하기
+    //    if (!attackerStat.CalculateHit(_statContainer))
+    //    {
+    //        // 회피 텍스트, 회피 모션취하기
+    //        ShowMissText();
+    //        return false;
+    //    }
+    //    // 명중 통과하면 데미지 계산
+    //    List<Damage> finalDamages = new List<Damage>();
+    //    for (int i = 0; i < damages.Count; i++)
+    //    {
+    //        var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
 
-            //var dmg = _statContainer.Defend(damages[i].damage);
-            finalDamages.Add(damageInfo);
-            //currentHealth -= dmg;
-            currentHealth -= damageInfo.damage;
-            onTakeDamage?.Invoke(currentHealth, maxHealth);
-        }
+    //        //var dmg = _statContainer.Defend(damages[i].damage);
+    //        finalDamages.Add(damageInfo);
+    //        //currentHealth -= dmg;
+    //        currentHealth -= damageInfo.damage;
+    //        onTakeDamage?.Invoke(currentHealth, maxHealth);
+    //    }
 
-        StartCoroutine(ShowDmgText(finalDamages));
+    //    StartCoroutine(ShowDmgText(finalDamages));
 
-        if (currentHealth <= 0f)
-        {
-            currentHealth = 0f;
-            isDead = true;
-            bCollider.isTrigger = true;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    //    if (currentHealth <= 0f)
+    //    {
+    //        currentHealth = 0f;
+    //        isDead = true;
+    //        bCollider.isTrigger = true;
+    //        rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
 
-            OnDeath?.Invoke(attacker.GetComponent<LevelSystem>());
-            return true;
-        }
-        return false;
-    }
+    //        OnDeath?.Invoke(attacker.GetComponent<LevelSystem>());
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
 
     protected void ShowMissText()

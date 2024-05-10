@@ -411,24 +411,24 @@ public class StatContainer : MonoBehaviour
         return new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg);
     }
 
-    public Damage GetFinalDamage()
+    public Damage GetFinalDamage(float multiplier=1)
     {
         bool isPhysic = Attack.FinalValue >= MagicAttack.FinalValue;
         if (isPhysic)
         {
             if (ProbabilityCheck.GetThisChanceResult(CritChance.FinalValue))
             {
-                return new Damage(Attack.FinalValue * (1 + CritDamage.FinalValue), true, isPhysic);
+                return new Damage(Attack.FinalValue * multiplier * (1 + CritDamage.FinalValue), true, isPhysic);
             }
-            return new Damage(Attack.FinalValue, false, isPhysic);
+            return new Damage(Attack.FinalValue * multiplier, false, isPhysic);
         }
         else
         {
             if (ProbabilityCheck.GetThisChanceResult(CritChance.FinalValue))
             {
-                return new Damage(MagicAttack.FinalValue * (1 + CritDamage.FinalValue), true, false);
+                return new Damage(MagicAttack.FinalValue * multiplier * (1 + CritDamage.FinalValue), true, false);
             }
-            return new Damage(MagicAttack.FinalValue, false, false);
+            return new Damage(MagicAttack.FinalValue * multiplier, false, false);
         }
     }
 

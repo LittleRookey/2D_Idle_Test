@@ -295,10 +295,10 @@ public class EnemyAI : MonoBehaviour
     {
         if (Target == null) return;
         // 데미지 계산
-        var dmg = _statContainer.GetFinalDamage();
-        _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+        //_statContainer.GetFinalDamage();
+        var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-        Target.TakeDamage(_statContainer, new List<Damage> { dmg });
+        Target.TakeDamage(null, new List<Damage> { dmg });
     }
 
     // Update is called once per frame

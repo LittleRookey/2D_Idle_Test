@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Litkey.Utility;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 public class MapManager : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class MapManager : MonoBehaviour
     private float mapWidth, mapHeight;
 
     [Header("Map etc")]
-    [SerializeField] private DOTweenAnimation mapTitleBG;
+    [SerializeField] private RectTransform mapTitleBG;
     [SerializeField] private TextMeshProUGUI mapTitleText;
     [SerializeField] private Transform areasParent;
 
@@ -146,12 +147,13 @@ public class MapManager : MonoBehaviour
 
         currentArea = area;
         currentRegion = area.region;
-        mapTitleBG.GetComponent<Image>().color = Color.white;
+
         mapTitleText.color = Color.white;
         mapTitleBG.gameObject.SetActive(true);
-        mapTitleBG.DORestartById("FadeIn");
+        //mapTitleText.GetComponent<DOTweenAnimation>().DORestartAllById("FadeIn");
+
         mapTitleText.SetText(area.areaName);
-        mapTitleText.GetComponent<DOTweenAnimation>().DORestartById("FadeIn");
+
         Debug.Log("Entered display UI: " + area.areaName);
         //StartCoroutine(DisplayOff());
     }
@@ -159,7 +161,7 @@ public class MapManager : MonoBehaviour
     private IEnumerator DisplayOff()
     {
         yield return new WaitForSeconds(4f);
-        mapTitleBG.DORestartById("FadeOut");
+        //mapTitleBG.DORestartById("FadeOut");
     }
     // Start is called before the first frame update
     void Start()
@@ -247,8 +249,26 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        var pos = PolygonRandomPosition.GetRandomPositionOf(area.GetComponent<PolygonCollider2D>());
+        var newLocalPos = GetRandomPoint(area);
+        //var pos = PolygonRandomPosition.GetRandomPositionOf(area.GetComponent<PolygonCollider2D>());
         destinationImage.gameObject.SetActive(true);
+
+        //destinationImage.transform.position = pos;
+
+        ////destinationImage.transform.position.Set(pos.x, pos.y, 0f);
+        //var destImagePos = destinationImage.GetComponent<RectTransform>();
+
+        //var newLocalPos = new Vector3(destImagePos.localPosition.x, destImagePos.localPosition.y, 0f);
+        //destImagePos.localPosition = newLocalPos;
+        //destImagePos.anchoredPosition = new Vector3(destImagePos.anchoredPosition.x, destImagePos.anchoredPosition.y, 0f); 
+        SetDestination(newLocalPos);
+
+    }
+
+    private Vector2 GetRandomPoint(Area area)
+    {
+        var pos = PolygonRandomPosition.GetRandomPositionOf(area.GetComponent<PolygonCollider2D>());
+        //destinationImage.gameObject.SetActive(true);
 
         destinationImage.transform.position = pos;
 
@@ -257,9 +277,7 @@ public class MapManager : MonoBehaviour
 
         var newLocalPos = new Vector3(destImagePos.localPosition.x, destImagePos.localPosition.y, 0f);
         destImagePos.localPosition = newLocalPos;
-        //destImagePos.anchoredPosition = new Vector3(destImagePos.anchoredPosition.x, destImagePos.anchoredPosition.y, 0f); 
-        SetDestination(newLocalPos);
-
+        return destImagePos.localPosition;
     }
     public void SetCenter()
     {
@@ -295,6 +313,13 @@ public class MapManager : MonoBehaviour
 
             newPos = Destination;
             StopMovement();
+            RemoveDestPoint();
+            SetRandomDestination();
+            canMove = true;
+            //Get
+
+            
+            //IsPathObstructed()
         }
 
         playerMarker.localPosition = newPos;
@@ -329,6 +354,11 @@ public class MapManager : MonoBehaviour
         //currentMovement = StartCoroutine(MoveTo());
     }
 
+    private void RemoveDestPoint()
+    {
+        destinationImage.gameObject.SetActive(false);
+
+    }
     public void StopMovement()
     {
         canMove = false;
@@ -361,10 +391,25 @@ public class MapManager : MonoBehaviour
             //cam.transform.position += diff;
         }
     }
+    /// <summary>
+    /// True = 다른지역이 잇다, false = 이 구역안이다
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <returns></returns>
+    private bool IsPathObstructed(Vector2 start, Vector2 end)
+    {
+        // 시작점과 끝점 사이를 가로지르는 PolygonCollider의 Area를 찾습니다.
+        var areas = Physics2D.OverlapAreaAll(start, end, LayerMask.GetMask("Map"));
+        Debug.Log(areas);
+        // 현재 Area와 다른 Area가 있는지 확인합니다.
+        return areas.Any(area => area.GetComponent<Area>() != currentArea);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        PanCamera();
+        //PanCamera();
         MoveTo();
     }
 }
