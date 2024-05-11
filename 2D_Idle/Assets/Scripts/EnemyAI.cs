@@ -59,7 +59,8 @@ public class EnemyAI : MonoBehaviour
     private DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
 
     private Health health;
-    
+
+    private Material enemyMat;
 
     private void Awake()
     {
@@ -85,6 +86,7 @@ public class EnemyAI : MonoBehaviour
         health = GetComponent<Health>();
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
         boxCollider2D = GetComponentInChildren<BoxCollider2D>();
+        enemyMat = allySprite.material;
     }
 
     private void OnEnable()
@@ -103,6 +105,7 @@ public class EnemyAI : MonoBehaviour
         OnStun.RemoveListener(onStunEnter);
         OnStunExit.RemoveListener(onStunExit);
         health.OnDeath.RemoveListener(OnDeath);
+        health.onTakeDamage -= OnHitEnter;
     }
 
     // Start is called before the first frame update
@@ -273,9 +276,23 @@ public class EnemyAI : MonoBehaviour
         SpawnManager.Instance.TakeToPool(health);
     }
 
+    private float startValue = 0f;
     private void OnHitEnter(float current, float max)
     {
         onStateEnterBeahviors[eEnemyBehavior.hit]?.Invoke(health);
+        var hitSequence = DOTween.Sequence();
+
+        hitSequence.Append(DOTween.To(() => startValue, x => startValue = x, 0.5f, 0.1f)
+            .OnUpdate(() =>
+            {
+                enemyMat.SetFloat("_HitEffectBlend", startValue);
+            }))
+            .AppendInterval(0.1f) // Optional: Delay before the hit effect fades out
+            .Append(DOTween.To(() => startValue, x => startValue = x, 0f, 0.1f)
+            .OnUpdate(() =>
+            {
+                enemyMat.SetFloat("_HitEffectBlend", startValue);
+            }));
     }
 
     private bool HasNoTarget()
@@ -330,12 +347,17 @@ public class EnemyAI : MonoBehaviour
         {
             basicAttack = Resources.Load<BasicAttack>("ScriptableObject/Skills/EnemyBasicAttack");
         }
-        Debug.Log("Entered DamageAction");
         if (Target == null) return;
         // 데미지 계산
-        Debug.Log("Entered DamageAction1111111");
+
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
-        Debug.Log("Entered DamageAction22222222");
+
+        if (Target.IsDead)
+        {
+            Target = null;
+            SwitchState(eEnemyBehavior.idle);
+        }
+
 
     }
 

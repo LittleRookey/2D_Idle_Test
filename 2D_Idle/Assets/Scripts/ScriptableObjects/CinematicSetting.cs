@@ -7,10 +7,16 @@ using Sirenix.OdinInspector;
 
 public class CinematicSetting : MonoBehaviour
 {
+    public static CinematicSetting Instance;
     [SerializeField] private CinemachineVirtualCamera characterCamera;
     [SerializeField] private CinemachineVirtualCamera characterDeathCamera;
 
     private float shakeTimerTotal;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     public void OnDeath()
     {
         characterCamera.Priority = 10;
@@ -50,7 +56,7 @@ public class CinematicSetting : MonoBehaviour
                 // time over
                 CinemachineBasicMultiChannelPerlin cinemachinePerlin = characterCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 cinemachinePerlin.m_AmplitudeGain = 0f;
-                Mathf.Lerp(startingIntensity, 0f, (1 - (shakeTimer / shakeTimerTotal));
+                Mathf.Lerp(startingIntensity, 0f, (1 - (shakeTimer / shakeTimerTotal)));
             }
         }
     }

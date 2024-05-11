@@ -19,57 +19,24 @@ namespace Litkey.UI
 		public Image sp;
 
 
-		[SerializeField] private Health targetHealth;
+		[SerializeField] private PlayerHealth targetHealth;
 		[SerializeField] private Transform orientation;
 		[SerializeField] private TextMeshProUGUI healthText;
+		[SerializeField] private Image hpBorderImage;
+		[SerializeField] private DOTweenAnimation onHitAnim;
+		private Material borderMat;
 		//[SerializeField] private TextMeshProUGUI expTe;
 		public bool disableOnDeath;
-		//[ContextMenu("Create Material")]
-		//private void CreateMaterial()
-		//{
-		//	// if (separator.material == null)
-		//	{
-		//		separator.material = new Material(Shader.Find("ABS/UI/Health Separator"));
-		//	}
-		//}
 
 		private void Start()
 		{
-
+			borderMat = hpBorderImage.material;
 			Hp = targetHealth.CurrentHealth;
 			MaxHp = targetHealth.MaxHealth;
 			Debug.Log(Hp);
 			Debug.Log(MaxHp);
 			UpdateHealth(Hp, MaxHp);
 			Sp = 0;
-
-			//			while (Sp > 0)
-			//			{
-			//				Sp -= 280 * Time.deltaTime;
-			//				yield return null;
-			//			}
-
-			//			Sp = 0;
-
-			//			yield return new WaitForSeconds(2f);
-
-			//			for (int i = 0; i < 8; i++)
-			//			{
-			//				Hp -= 120;
-			//				yield return new WaitForSeconds(1f);
-			//			}
-
-			//			for (int i = 0; i < 8; i++)
-			//			{
-			//				MaxHp += 200;
-			//				Hp = MaxHp;
-
-			//				yield return new WaitForSeconds(1f);
-			//			}
-
-			//#if UNITY_EDITOR
-			//			UnityEditor.EditorApplication.isPlaying = false;
-			//#endif
 		}
 
 		private void OnEnable()
@@ -78,6 +45,7 @@ namespace Litkey.UI
 			if (disableOnDeath)
 				targetHealth.OnDeath.AddListener(DisableHealthBar);
 			targetHealth.OnReturnFromPool += ResetHealthBar;
+			targetHealth.OnHit.AddListener(UIHitEffect);
 		}
 
 		private void OnDisable()
@@ -86,6 +54,7 @@ namespace Litkey.UI
 			if (disableOnDeath)
 				targetHealth.OnDeath.RemoveListener(DisableHealthBar);
 			targetHealth.OnReturnFromPool -= ResetHealthBar;
+			targetHealth.OnHit.RemoveListener(UIHitEffect);
 		}
 
 		public void DisableHealthBar(LevelSystem attacker)
@@ -130,7 +99,36 @@ namespace Litkey.UI
 			});
 		}
 
+		private float startValue = 0f;
+		private void UIHitEffect()
+        {
+			var hitSequence = DOTween.Sequence();
 
+			hitSequence.Append(DOTween.To(() => startValue, x => startValue = x, 0.3f, 0.05f)
+				.OnUpdate(() =>
+				{
+					borderMat.SetFloat("_HitEffectBlend", startValue);
+				}))
+                .AppendInterval(0.05f) // Optional: Delay before the hit effect fades out
+                .Append(DOTween.To(() => startValue, x => startValue = x, 0f, 0.05f)
+				.OnUpdate(() =>
+				{
+					borderMat.SetFloat("_HitEffectBlend", startValue);
+				}))
+				.Append(DOTween.To(() => startValue, x => startValue = x, 0.3f, 0.05f)
+				.OnUpdate(() =>
+				{
+					borderMat.SetFloat("_HitEffectBlend", startValue);
+				}))
+				.AppendInterval(0.05f) // Optional: Delay before the hit effect fades out
+				.Append(DOTween.To(() => startValue, x => startValue = x, 0f, 0.05f)
+				.OnUpdate(() =>
+				{
+					borderMat.SetFloat("_HitEffectBlend", startValue);
+				}));
+			onHitAnim.DORestartById("Enter");
+		}
+		
 
 	}
 }

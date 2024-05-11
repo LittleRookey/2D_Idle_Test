@@ -31,20 +31,20 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     protected Vector3 dmgOffset = new Vector3(0f, 0.5f, 0f);
 
-    BoxCollider2D bCollider;
-    Rigidbody2D rb;
+    protected BoxCollider2D bCollider;
+    protected Rigidbody2D rb;
 
     public delegate void OnTakeDamage(float current, float max);
     public OnTakeDamage onTakeDamage;
 
-    public UnityEvent OnHit;
+    public UnityEvent OnHit = new();
 
-    public UnityEvent<LevelSystem> OnDeath;
+    public UnityEvent<LevelSystem> OnDeath = new();
     public UnityAction OnReturnFromPool;
 
     protected StatContainer _statContainer;
 
-    private void OnValidate()
+    protected void OnValidate()
     {
         Name = gameObject.name;
     }
@@ -134,7 +134,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     /// <param name="damages"></param>
     /// <returns></returns>
     [Button("TakeDamage")]
-    public bool TakeDamage(LevelSystem attacker, List<Damage> damages)
+    public virtual bool TakeDamage(LevelSystem attacker, List<Damage> damages)
     {
         if (isDead) return true;
         var attackerStat = attacker.GetComponent<StatContainer>();
@@ -158,7 +158,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             onTakeDamage?.Invoke(currentHealth, maxHealth);
         }
 
-        OnHit?.Invoke();
+        //OnHit?.Invoke();
 
         StartCoroutine(ShowDmgText(finalDamages));
 
@@ -168,7 +168,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             isDead = true;
             bCollider.isTrigger = true;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            
+
 
             OnDeath?.Invoke(attacker);
             return true;
@@ -182,7 +182,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     /// <param name="attacker"></param>
     /// <param name="damages"></param>
     /// <returns></returns>
-    public bool TakeDamage(StatContainer attacker, List<Damage> damages)
+    public virtual bool TakeDamage(StatContainer attacker, List<Damage> damages)
     {
         if (isDead) return true;
         var attackerStat = attacker;

@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: ab74febb3f5c1294a83a209c2c35620c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,7 +170,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: ab74febb3f5c1294a83a209c2c35620c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1677,6 +1677,12 @@ MonoBehaviour:
   canParry: 0
   isInterrupted: 0
   maxHealth: 25
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &1392047747190715492
 Rigidbody2D:
   serializedVersion: 4
@@ -1712,88 +1718,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStat: {fileID: 11400000, guid: 15193e40e3c8f4b43869bbfe9776d645, type: 2}
   MonsterLevel: 0
-  Strength:
-    StatName: 
-    BaseStat: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  Vit:
-    StatName: 
-    BaseStat: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  Avi:
-    StatName: 
-    BaseStat: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  Sensation:
-    StatName: 
-    BaseStat: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  Int:
-    StatName: 
-    BaseStat: 0
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
   HP:
-    displayName: 
     statType: 0
-  Attack:
-    displayName: 
-    statType: 0
-  MagicAttack:
-    displayName: 
-    statType: 0
-  Defense:
-    displayName: 
-    statType: 0
-  MagicDefense:
-    displayName: 
-    statType: 0
-  AttackSpeed:
-    displayName: 
-    statType: 0
-  MoveSpeed:
-    displayName: 
-    statType: 0
-  CritChance:
-    displayName: 
-    statType: 0
-  CritDamage:
-    displayName: 
-    statType: 0
-  Precision:
-    displayName: 
-    statType: 0
-  Evasion:
-    displayName: 
-    statType: 0
-  p_resist:
-    displayName: 
-    statType: 0
-  m_resist:
-    displayName: 
-    statType: 0
-  p_penetration:
-    displayName: 
-    statType: 0
-  m_penetration:
-    displayName: 
-    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
   ExtraGold:
-    displayName: 
     statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
   ExtraExp:
-    displayName: 
     statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
   alias: {fileID: 0}
+  OnIncreaseStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTryIncreaseStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnApplyStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCancelStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStatSetupComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6868713106583409852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1838,6 +1793,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
+  basicAttack: {fileID: 0}
   OnIdle:
     m_PersistentCalls:
       m_Calls: []
@@ -1868,6 +1824,7 @@ MonoBehaviour:
   OnStunExit:
     m_PersistentCalls:
       m_Calls: []
+  canParry: 0
   parryTime: 0.5
 --- !u!114 &3903416404384665924
 MonoBehaviour:

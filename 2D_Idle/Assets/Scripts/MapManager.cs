@@ -81,6 +81,8 @@ public class MapManager : MonoBehaviour
         //mapMaxY = (step * mapHeight);
         destinationImage.gameObject.SetActive(false);
 
+        mapTitleBG.gameObject.SetActive(true);
+        mapTitleBG.gameObject.SetActive(false);
         //Debug.Log($"X: {mapMaxX}\nY:{mapMaxY}");
 
 

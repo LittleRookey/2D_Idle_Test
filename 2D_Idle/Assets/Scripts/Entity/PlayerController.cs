@@ -71,19 +71,7 @@ public class PlayerController : MonoBehaviour
         _health = GetComponent<Health>();
         playerMat = playerSprite.material;
 
-        hitSequence = DOTween.Sequence();
         
-        hitSequence.Append(DOTween.To(() => startValue, x => startValue = x, 0.5f, 0.1f)
-            .OnUpdate(() =>
-            {
-                playerMat.SetFloat("_HitEffectBlend", startValue);
-            }))
-            .AppendInterval(0.2f) // Optional: Delay before the hit effect fades out
-            .Append(DOTween.To(() => startValue, x => startValue = x, 0f, 0.1f)
-            .OnUpdate(() =>
-            {
-                playerMat.SetFloat("_HitEffectBlend", startValue);
-            }));
     }
 
     private void OnEnable()
@@ -142,10 +130,22 @@ public class PlayerController : MonoBehaviour
     {
         //anim.Play(_Hit);
 
+        hitSequence = DOTween.Sequence();
+
+        hitSequence.Append(DOTween.To(() => startValue, x => startValue = x, 0.5f, 0.1f)
+            .OnUpdate(() =>
+            {
+                playerMat.SetFloat("_HitEffectBlend", startValue);
+            }))
+            .AppendInterval(0.1f) // Optional: Delay before the hit effect fades out
+            .Append(DOTween.To(() => startValue, x => startValue = x, 0f, 0.1f)
+            .OnUpdate(() =>
+            {
+                playerMat.SetFloat("_HitEffectBlend", startValue);
+            }));
 
 
-
-        hitSequence.Restart();
+        //hitSequence.Restart();
     }
 
     public void Revive()

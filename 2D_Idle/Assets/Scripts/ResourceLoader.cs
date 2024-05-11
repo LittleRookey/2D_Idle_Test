@@ -8,17 +8,18 @@ public class ResourceLoader : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI goldText;
 
-
-    private void Start()
+    private void OnEnable()
     {
         ResourceManager.OnGainGold.AddListener(UpdateExtraGold);
         ResourceManager.Instance.OnResourceLoaded.AddListener(UpdateGold);
+        
     }
 
-    private void OnEnable()
+    private void Start()
     {
         UpdateExtraGold(0);
     }
+
    
     public void UpdateExtraGold(int extraGold)
     {
