@@ -86,7 +86,7 @@ public class BarTemplate : MonoBehaviour
         {
             OnExitBehavior?.Invoke();
             OnExitBehavior.RemoveAllListeners();
-        });
+        }).SetEase(Ease.Linear);
         return tween;
     }
 
@@ -100,7 +100,7 @@ public class BarTemplate : MonoBehaviour
         {
             OnExitBehavior?.Invoke();
             OnExitBehavior.RemoveAllListeners();
-        });
+        }).SetEase(Ease.Linear);
         return tween;
     }
 

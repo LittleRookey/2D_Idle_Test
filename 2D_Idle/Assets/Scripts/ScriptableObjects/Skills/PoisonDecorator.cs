@@ -9,12 +9,8 @@ public class PoisonDecorator : PassiveSkillDecorator
     public float poisonDamagePerTick;
     public int poisonDuration;
 
-    
-
-
-    protected override void AddPassiveEffect(StatContainer target)
+    protected override void AddPassiveEffect(StatContainer ally, StatContainer target)
     {
-        
         ApplyPoison(target);
     }
 

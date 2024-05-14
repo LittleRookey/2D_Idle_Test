@@ -39,6 +39,10 @@ public class PlayerData
     public int SensationLevel = 0;
     public int IntLevel = 0;
 
+    public EquipmentUpgradeStatus weapon;
+    //public EquipmentUpgradeStatus subWeapon;
+    public EquipmentUpgradeStatus topArmor;
+
 
     public PlayerData()
     {
@@ -50,6 +54,8 @@ public class PlayerData
         AVILevel = 0;
         SensationLevel = 0;
         IntLevel = 0;
+        weapon = new EquipmentUpgradeStatus();
+        topArmor = new EquipmentUpgradeStatus();
     }
     /// <summary>
     /// 레벨과 현재 경험치를 저장
@@ -78,6 +84,28 @@ public class PlayerData
     }
 }
 
+[System.Serializable]
+public class EquipmentUpgradeStatus
+{
+    public string equipmentName;
+    public int weaponLevel;
+    public int weaponRank;
+    public int totalUpgradeLevel;
+    public EquipmentUpgradeStatus()
+    {
+        equipmentName = string.Empty;
+        weaponLevel = 0;
+        weaponRank = 0;
+        totalUpgradeLevel = 0;
+    }
+    public void SetStatus(EquipmentTier eTier)
+    {
+        this.equipmentName = eTier.equipmentName;
+        this.weaponLevel = eTier.currentLevel;
+        this.weaponRank = eTier.currentTier;
+        this.totalUpgradeLevel = eTier.totalUpgradeLevel;
+    }
+}
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Litkey/GameData")]
 public class GameDatas : ScriptableObject

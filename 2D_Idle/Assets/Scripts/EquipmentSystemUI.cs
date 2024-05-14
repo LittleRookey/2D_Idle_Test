@@ -42,6 +42,14 @@ public class EquipmentSystemUI : MonoBehaviour
 
     }
 
+    public void InitializeEquipSystemUI()
+    {
+        SetupEquipments(eSystem.weapon);
+        SetupEquipments(eSystem.topArmor);
+
+        // 골드량 업데이트
+        UpdateTotalGold();
+    }
     public void SetupEquipments(EquipmentTier eTier)
     {
         var slot = GetEmptySlot();
@@ -74,5 +82,5 @@ public class EquipmentSystemUI : MonoBehaviour
     private void UpdateTotalGold()
     {
         totalGoldText.SetText(ResourceManager.Instance.Gold.ToString("N0"));
-    }
+    } 
 }

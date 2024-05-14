@@ -24,7 +24,7 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField] private LayerMask enemyLayer;
 
-    [SerializeField] private BasicAttack basicAttack;
+    [SerializeField] private EnemyBasicAttack basicAttack;
 
     private float attackInterval;
     private float final_attackInterval;
@@ -193,6 +193,7 @@ public class EnemyAI : MonoBehaviour
         currentBar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
 
         currentBar.SetOuterColor(Color.black);
+        currentBar.SetInnerColor(Color.green);
 
         var parryActivateTime = final_attackInterval - parryTime; 
 
@@ -221,11 +222,12 @@ public class EnemyAI : MonoBehaviour
     {
 
     }
+    SpriteRenderer shape;
     private IEnumerator ActivateParrying(int targetNum)
     {
         yield return new WaitForSeconds(final_attackInterval - parryTime);
         canParry = true;
-        var shape = ShapeCreator.CreateCircle(transform.position + Vector3.up * 1.2f, Color.white);
+        shape = ShapeCreator.CreateCircle(transform.position + Vector3.up * 1.2f, Color.white);
         health.OnDeath.AddListener((LevelSystem lvl) => ShapeCreator.ReturnShape(shape));
 
         yield return new WaitForSeconds(parryTime);
@@ -266,6 +268,8 @@ public class EnemyAI : MonoBehaviour
         currentBarTween.Pause();
         // 죽음 애니메이션플레이
         onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
+
+        ShapeCreator.ReturnShape(shape);
         if (currentBar.gameObject.activeInHierarchy)
             BarCreator.ReturnBar(currentBar);
     }
@@ -273,6 +277,7 @@ public class EnemyAI : MonoBehaviour
     // called from animation
     public void OnDeathExit()
     {
+        ShapeCreator.ReturnShape(shape);
         SpawnManager.Instance.TakeToPool(health);
     }
 
@@ -345,7 +350,7 @@ public class EnemyAI : MonoBehaviour
 
         if (basicAttack == null)
         {
-            basicAttack = Resources.Load<BasicAttack>("ScriptableObject/Skills/EnemyBasicAttack");
+            basicAttack = Resources.Load<EnemyBasicAttack>("ScriptableObject/Skills/EnemyBasicAttack");
         }
         if (Target == null) return;
         // 데미지 계산

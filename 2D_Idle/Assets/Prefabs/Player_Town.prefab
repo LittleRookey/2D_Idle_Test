@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 27649622990200548}
   - component: {fileID: 27649622990200549}
   - component: {fileID: 27649622990200546}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: j_idle_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 27649623439467466}
   - component: {fileID: 27649623439467464}
   - component: {fileID: 27649623439467465}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: upslash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,10 +205,13 @@ GameObject:
   - component: {fileID: 27649623445100529}
   - component: {fileID: 27649623445100530}
   - component: {fileID: 27649623445100543}
-  - component: {fileID: 3518658768287472306}
   - component: {fileID: 3518658768287472305}
   - component: {fileID: 3518658768287472304}
-  m_Layer: 0
+  - component: {fileID: 1529021389}
+  - component: {fileID: 1529021382}
+  - component: {fileID: 1529021383}
+  - component: {fileID: 1529021388}
+  m_Layer: 10
   m_Name: Player_Town
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -222,7 +225,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27649623445100531}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.19, y: -0.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -303,46 +306,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playerSprite: {fileID: 27649622990200548}
---- !u!114 &3518658768287472306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27649623445100531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b665672237d8714dbda87e9e8006190, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseStat: {fileID: 11400000, guid: 993b5d0117d092d4a9f9511d85118bfb, type: 2}
-  HP:
-    displayName: 
-    statType: 0
-  Attack:
-    displayName: 
-    statType: 0
-  Defense:
-    displayName: 
-    statType: 0
-  AttackSpeed:
-    displayName: 
-    statType: 0
-  MoveSpeed:
-    displayName: 
-    statType: 0
-  CritChance:
-    displayName: 
-    statType: 0
-  CritDamage:
-    displayName: 
-    statType: 0
-  ExtraGold:
-    displayName: 
-    statType: 0
-  ExtraExp:
-    displayName: 
-    statType: 0
+  basicAttack: {fileID: 0}
+  isDead: 0
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3518658768287472305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +339,108 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minX: -15
   maxX: 15
+--- !u!95 &1529021389
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27649623445100531}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1529021382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27649623445100531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54895bb2ab3e8a347a233c7835a42f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Player_Town
+  canParry: 0
+  isInterrupted: 0
+  maxHealth: 0
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1529021383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27649623445100531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e2cfd234f51714bb1776e1aab7bc53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStat: {fileID: 11400000, guid: 993b5d0117d092d4a9f9511d85118bfb, type: 2}
+  MonsterLevel: 0
+  HP:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  ExtraGold:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  ExtraExp:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  alias: {fileID: 0}
+  OnIncreaseStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTryIncreaseStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnApplyStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCancelStat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStatSetupComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  gameDatas: {fileID: 11400000, guid: e343f301cde27f94fa0ec3f8887040f9, type: 2}
+--- !u!114 &1529021388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27649623445100531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ec0a88ea10f0f4684682e8afd975e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitLevel: {fileID: 11400000, guid: 648c76b5371f99240bfae17f761ee216, type: 2}
+  gameDatas: {fileID: 11400000, guid: e343f301cde27f94fa0ec3f8887040f9, type: 2}
 --- !u!1 &27649623911572149
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +452,7 @@ GameObject:
   - component: {fileID: 27649623911572148}
   - component: {fileID: 27649623911572146}
   - component: {fileID: 27649623911572147}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: downslash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,7 +521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 27649624232295551}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CameraFollow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +554,7 @@ GameObject:
   - component: {fileID: 27649625000663900}
   - component: {fileID: 27649625000663898}
   - component: {fileID: 27649625000663899}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: frontAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}

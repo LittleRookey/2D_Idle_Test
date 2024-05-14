@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 1144139838}
   - component: {fileID: 1144139837}
   - component: {fileID: 1144139836}
+  - component: {fileID: 6771805210083930045}
   m_Layer: 5
   m_Name: InfoButton
   m_TagString: Untagged
@@ -268,6 +269,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6771805210083930045}
+        m_TargetAssemblyTypeName: AudioPlay, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6771805210083930045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144139834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68a0c04f6e948344eab22134a1fc7cc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioName: "UI\uC18C\uB9AC2"
+  playOnAwake: 0
 --- !u!1 &8285832795596659364
 GameObject:
   m_ObjectHideFlags: 0

@@ -67,6 +67,10 @@ public class MapManager : MonoBehaviour
     private Vector2[] zoomInClamps;
 
     private DestinationBehavior destBehavior;
+
+    public bool isCenteredOn;
+    private float CenterTime = 2f;
+    private float CenterTimer = 0f;
     private void Awake()
     {
         zoomInClamps = new Vector2[]
@@ -121,6 +125,7 @@ public class MapManager : MonoBehaviour
     {
         currentArea = startArea;
     }
+
     public void EnterTown()
     {
         // 성문 스폰
@@ -168,7 +173,7 @@ public class MapManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        SetRandomDestination();
     }
 
     public void ZoomIn()
@@ -408,10 +413,27 @@ public class MapManager : MonoBehaviour
         return areas.Any(area => area.GetComponent<Area>() != currentArea);
     }
 
+    private void CenterMarker()
+    {
+        if (!isCenteredOn) return;
+        CenterTimer += Time.deltaTime;
+        if (CenterTimer >= CenterTime)
+        {
+            CenterTimer = 0f;
+            SetCenter();
+        }
+    }
+
+    public void SetCenterReverse()
+    {
+        isCenteredOn = !isCenteredOn;
+    }
+
     // Update is called once per frame
     void Update()
     {
         //PanCamera();
+        CenterMarker();
         MoveTo();
     }
 }

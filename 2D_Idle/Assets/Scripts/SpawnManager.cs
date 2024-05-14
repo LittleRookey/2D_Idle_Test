@@ -54,6 +54,7 @@ public enum eHuntMode
 public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager Instance;
+    [SerializeField] private PlayerController player;
     [SerializeField] private float spawnDelay = 5f;
 
     [SerializeField] private Transform spawnPosition;
@@ -163,7 +164,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (player.isDead) return;
         spawnCounter += Time.deltaTime;
         if (spawnCounter >= spawnTimer && !stopTimer)
         {
@@ -181,6 +182,7 @@ public class SpawnManager : MonoBehaviour
 
     public static void StartTimer()
     {
+        
         spawnCounter = 0f;
         stopTimer = false;
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Litkey.Stat;
+using DarkTonic.MasterAudio;
 
 public class StatUIManager : MonoBehaviour
 {
@@ -87,6 +88,7 @@ public class StatUIManager : MonoBehaviour
     public void OpenStatWindow()
     {
         statWindow.gameObject.SetActive(true);
+        MasterAudio.PlaySound("책넘기는소리");
         //SetInfoModes(false);
         UpdateStats();
         UpdateStatDisplays();

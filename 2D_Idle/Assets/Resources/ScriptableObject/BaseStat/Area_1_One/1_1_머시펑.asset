@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: "1_1_\uBA38\uC2DC\uD391"
   m_EditorClassIdentifier: 
   MonsterLevel: 10
-  MaxHP: 100
-  Attack: 10
+  MaxHP: 450
+  Attack: 40
   MagicAttack: 0
-  Defense: 3
+  Defense: 10
   MagicDefense: 0
   AttackSpeed: 1
   MoveSpeed: 1
   CritChance: 0.05
   CritDamage: 0.5
   Precision: 50
-  Evasion: 3
+  Evasion: 5
   p_penetration: 0
   magic_penetration: 0
   magic_resist: 0
   p_resist: 0
   ExtraGold: 0
   ExtraExp: 0
-  Attack_Interval: 3
+  Attack_Interval: 6

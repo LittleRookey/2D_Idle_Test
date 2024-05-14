@@ -1,3 +1,4 @@
+using DarkTonic.MasterAudio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,10 +30,19 @@ public class GameManager : MonoBehaviour
 
     private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene m_scene, UnityEngine.SceneManagement.LoadSceneMode m_sceneMode)
     {
-        if (m_scene.name == "Main")
-        {
-            gameData.LoadDataLocal();
-        }
+        //if (m_scene.name == "Main")
+        //{
+        //    MasterAudio.StartPlaylist("BattleScene");
+        //} 
+        //else if (m_scene.name == "Town")
+        //{
+        //    MasterAudio.StartPlaylist("Town");
+        //} 
+        //else if (m_scene.name == "Lobby")
+        //{
+        //    MasterAudio.StartPlaylist("Lobby");
+        //}
+        gameData.LoadDataLocal();
     }
 
     private void OnEnable()

@@ -14,9 +14,27 @@ namespace Litkey.Utility
 
         public static BarTemplate CreateFillBar(Vector3 spawnPosition, bool startWithFullBar=true)
         {
-            CheckPoolExists();
+            if (barPool == null)
+            {
+                CheckPoolExists();
+                if (barPool == null)
+                {
+                    // Handle the case where the pool could not be created
+                    Debug.LogError("Failed to create the BarTemplate object pool.");
+                    return null;
+                }
+            }
 
             var newBar = barPool.Get();
+
+            if (newBar == null)
+            {
+                barPool.Clear();
+                barPool = null;
+                var bar = Resources.Load<BarTemplate>(barPath);
+                barPool = Pool.Create<BarTemplate>(bar).NonLazy();
+                newBar = barPool.Get();
+            }
 
             newBar.transform.position = spawnPosition;
 
@@ -27,10 +45,27 @@ namespace Litkey.Utility
 
         public static BarTemplate CreateFillBar(Vector3 spawnPosition, Transform parent, bool startWithFullBar=true)
         {
-            CheckPoolExists();
+            if (barPool == null)
+            {
+                CheckPoolExists();
+                if (barPool == null)
+                {
+                    // Handle the case where the pool could not be created
+                    Debug.LogError("Failed to create the BarTemplate object pool.");
+                    return null;
+                }
+            }
 
             var newBar = barPool.Get();
-
+            Debug.Log("New Bar is null?:: " +newBar == null);
+            if (newBar == null)
+            {
+                barPool.Clear();
+                barPool = null;
+                var bar = Resources.Load<BarTemplate>(barPath);
+                barPool = Pool.Create<BarTemplate>(bar).NonLazy();
+                newBar = barPool.Get();
+            }
             newBar.transform.position = spawnPosition;
             newBar.transform.parent = parent;
 
@@ -41,9 +76,27 @@ namespace Litkey.Utility
 
         public static BarTemplate CreateFillBar(float width, float height, Vector3 spawnPosition, Transform parent, bool startWithFullBar=true)
         {
-            CheckPoolExists();
+            if (barPool == null)
+            {
+                CheckPoolExists();
+                if (barPool == null)
+                {
+                    // Handle the case where the pool could not be created
+                    Debug.LogError("Failed to create the BarTemplate object pool.");
+                    return null;
+                }
+            }
 
             var newBar = barPool.Get();
+
+            if (newBar == null)
+            {
+                barPool.Clear();
+                barPool = null;
+                var bar = Resources.Load<BarTemplate>(barPath);
+                barPool = Pool.Create<BarTemplate>(bar).NonLazy();
+                newBar = barPool.Get();
+            }
 
             newBar.transform.position = spawnPosition;
             newBar.transform.parent = parent;
@@ -69,7 +122,14 @@ namespace Litkey.Utility
             if (barPool == null)
             {
                 var bar = Resources.Load<BarTemplate>(barPath);
-                barPool = Pool.Create<BarTemplate>(bar, 3).NonLazy();
+                if (bar == null)
+                {
+                    Debug.LogError($"Failed to load the prefab from path: {barPath}");
+                }
+                else
+                {
+                    barPool = Pool.Create<BarTemplate>(bar).NonLazy();
+                }
             }
         }
 
@@ -87,6 +147,17 @@ namespace Litkey.Utility
             CheckPoolExists();
 
             var newBar = shapePool.Get();
+
+            Debug.Log("New Shape is null?:: " + newBar == null);
+            if (newBar == null)
+            {
+                shapePool.Clear();
+                shapePool = null;
+                var bar = Resources.Load<SpriteRenderer>(shapePath);
+                shapePool = Pool.Create<SpriteRenderer>(bar).NonLazy();
+                newBar = shapePool.Get();
+            }
+
             newBar.color = baseColor;
             newBar.transform.position = spawnPosition;
 
@@ -104,12 +175,13 @@ namespace Litkey.Utility
             }
         }
 
+
         private static void CheckPoolExists()
         {
             if (shapePool == null)
             {
                 var bar = Resources.Load<SpriteRenderer>(shapePath);
-                shapePool = Pool.Create<SpriteRenderer>(bar, 3).NonLazy();
+                shapePool = Pool.Create<SpriteRenderer>(bar).NonLazy();
             }
         }
     }

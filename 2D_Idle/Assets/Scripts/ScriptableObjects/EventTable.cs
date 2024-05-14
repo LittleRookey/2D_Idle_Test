@@ -11,11 +11,11 @@ public class EventTable : ScriptableObject
 
     private void OnEnable()
     {
-        eventTable = null;
-        eventTable = new WeightedRandomPicker<InGameEvent>();
+        //eventTable = null;
+        //eventTable = new WeightedRandomPicker<InGameEvent>();
         for (int i = 0; i < eventWeights.Length; i++)
         {
-            eventTable.Add(eventWeights[i].Event, eventWeights[i].weight);
+            //eventTable.Add(eventWeights[i].Event, eventWeights[i].weight);
 
         }
     }

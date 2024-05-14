@@ -41,7 +41,7 @@ public class LootTable : ScriptableObject
 
     public int GetGoldReward()
     {
-        return Random.Range(gold.x, gold.y);
+        return Random.Range(gold.x, gold.y+1);
     }
 
     public int GetExpReward()

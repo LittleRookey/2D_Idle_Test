@@ -55,9 +55,7 @@ public class StatBarUI : MonoBehaviour
     
     public void InfoMode()
     {
-        //infoAnim.DORestartAllById("Info");
         infoMode = !infoMode;
-        //this.titleText.SetText(playerStat.mainStats[mainStatType].StatName);
         
         this.statNameText.gameObject.SetActive(!infoMode);
         this.statValueText.gameObject.SetActive(!infoMode);
@@ -66,7 +64,7 @@ public class StatBarUI : MonoBehaviour
         apUsedText.gameObject.SetActive(!infoMode);
         infoText.gameObject.SetActive(infoMode);
 
-        if (infoMode) return;
+        if (!infoMode) return;
 
         string infoString = string.Empty;
         var t_mainStat = playerStat.mainStats[mainStatType];

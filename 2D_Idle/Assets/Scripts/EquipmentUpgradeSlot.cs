@@ -14,16 +14,21 @@ public class EquipmentUpgradeSlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goldUpgradeAmountText;
     [SerializeField] private TextMeshProUGUI badgeText;
     [SerializeField] private Button upgradeButton;
+    [SerializeField] private Slider upgradeStatus;
 
     private bool isSetup;
     public void Setup(EquipmentTier eTier, UnityAction<EquipmentTier> ac = null)
     {
         icon.sprite = eTier.equipmentSprite[0];
+        
         badge.gameObject.SetActive(true);
+        
         badgeText.SetText("x1");
         itemNameText.SetText($"{eTier.equipmentName} +{eTier.totalUpgradeLevel}");
         itemExplanationText.SetText(eTier.itemExplanation);
         goldUpgradeAmountText.SetText(eTier.requiredGold.ToString("N0"));
+        
+        upgradeStatus.value = eTier.currentLevel / eTier.maxLevel;
 
         upgradeButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.AddListener(() => ac(eTier));
@@ -35,6 +40,8 @@ public class EquipmentUpgradeSlot : MonoBehaviour
         itemNameText.SetText($"{eTier.equipmentName} +{eTier.totalUpgradeLevel}");
         itemExplanationText.SetText(eTier.itemExplanation);
         goldUpgradeAmountText.SetText(eTier.requiredGold.ToString("N0"));
+        upgradeStatus.value = eTier.currentLevel / eTier.maxLevel;
+
     }
 
     

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: "1_1_\uC5D0\uADF8\uB098\uC774\uD2B8"
   m_EditorClassIdentifier: 
   _lootID: 
-  gold: {x: 1, y: 3}
-  dropExp: 5
+  gold: {x: 25, y: 40}
+  dropExp: 80
   _lootTable: []

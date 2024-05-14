@@ -4,6 +4,7 @@ using UnityEngine;
 using Litkey.Stat;
 using Litkey.Utility;
 using UnityEngine.Events;
+using DarkTonic.MasterAudio;
 
 public class StatContainer : MonoBehaviour
 {
@@ -348,6 +349,7 @@ public class StatContainer : MonoBehaviour
 
     public void ApplyStat()
     {
+        if (addedStat <= 0) return;
         foreach (var stat in mainStats.Keys)
         {
             var increaseStat = statGiven[stat];
@@ -355,7 +357,7 @@ public class StatContainer : MonoBehaviour
             mainStats[stat].IncreaseStat(increaseStat);
             OnIncreaseStat?.Invoke(stat);
         }
-
+        MasterAudio.PlaySound("띠링");
         this.AbilityPoint -= this.addedStat;
         ClearStatGivenPoints();
         OnApplyStat?.Invoke();
@@ -384,11 +386,11 @@ public class StatContainer : MonoBehaviour
     // => 적체력 - ((아공 - 적방) * (100 - (적군저항 - 아군관통력 / 100)) 
     // 데미지 * ( 
     // 공격자가 부름,
-    public Damage GetDamageAgainst(StatContainer enemyStat)
+    public Damage GetDamageAgainst(StatContainer enemyStat, float multiplier=1f)
     {
 
         float dmg;
-        var m_AttackVal = GetFinalDamage();
+        var m_AttackVal = GetFinalDamage(multiplier);
 
         if (m_AttackVal.isPhysicalDmg)
         {
@@ -411,7 +413,7 @@ public class StatContainer : MonoBehaviour
         return new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg);
     }
 
-    public Damage GetFinalDamage(float multiplier=1)
+    public Damage GetFinalDamage(float multiplier=1f)
     {
         bool isPhysic = Attack.FinalValue >= MagicAttack.FinalValue;
         if (isPhysic)
@@ -490,5 +492,10 @@ public class StatContainer : MonoBehaviour
     public BaseStat GetBaseStat()
     {
         return this.baseStat;
+    }
+
+    public void AddBuffEffect(StatModifier statModifier)
+    {
+        //statModifier.
     }
 }

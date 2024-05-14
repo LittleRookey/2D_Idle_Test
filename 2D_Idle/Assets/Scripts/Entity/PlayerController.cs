@@ -6,6 +6,8 @@ using Litkey.Interface;
 using UnityEngine.Events;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using DarkTonic.MasterAudio;
+using Litkey.Utility;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,7 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private SpriteRenderer playerSprite;
 
-    [SerializeField] private BasicAttack basicAttack;
+    [SerializeField] private PlayerBasicAttack basicAttack;
     // 애니메이션
     private readonly int _isJumping = Animator.StringToHash("isJumping");
     private readonly int _isRunning = Animator.StringToHash("isRunning");
@@ -53,6 +55,9 @@ public class PlayerController : MonoBehaviour
 
     private float startValue = 0f;
     Sequence hitSequence;
+
+    private DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
+
     private enum eBehavior
     {
         idle,
@@ -150,12 +155,35 @@ public class PlayerController : MonoBehaviour
 
     public void Revive()
     {
-        isDead = false;
+        
         // 애니메이션
-        anim.SetTrigger(this._Revive);
+        anim.Play(this._Revive);
+        //Invoke(nameof(), 2f);
+        var currentBar = BarCreator.CreateFillBar(transform.position + Vector3.up * 1.2f, transform, false);
+
+        currentBar.SetOuterColor(Color.black);
+        currentBar.SetInnerColor(Color.red);
+
+        currentBarTween = currentBar.StartFillBar(2f, () =>
+        {
+            // 부활시간 끝나면 리바이브하기
+            isDead = false;
+            //onAttackExit();
+
+            MoveFromReviveToBattleMode();
+            currentBarTween = null;
+            BarCreator.ReturnBar(currentBar);
+
+            OnRevive?.Invoke();
+        });
         // HP
-        OnRevive?.Invoke();
+        
         // 스킬 쿨다운 등등
+    }
+
+    public void MoveFromReviveToBattleMode()
+    {
+        anim.SetTrigger(this._Revive);
     }
 
     public void Turn(bool turnRight)
@@ -331,6 +359,7 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetBool(_Parry, true);
                 isParried = true;
+                MasterAudio.PlaySound("패링성공");
                 // Handle successful parry for the player
             }
             else
@@ -411,16 +440,17 @@ public class PlayerController : MonoBehaviour
     {
         if (basicAttack == null)
         {
-            basicAttack = Resources.Load<BasicAttack>("ScriptableObject/Skills/PlayerBasicAttack");
+            basicAttack = Resources.Load<PlayerBasicAttack>("ScriptableObject/Skills/PlayerBasicAttack");
         }
         // 데미지 계산
         //var dmg = _statContainer.GetFinalDamage();
         //var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+        
 
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);
         //Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
-        
+
     }
 
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Litkey.Utility;
 
 public class RewardContainer : MonoBehaviour
 {
@@ -9,9 +10,13 @@ public class RewardContainer : MonoBehaviour
     Health health;
     LevelSystem levelSystem;
 
+    private readonly string goldPath = "Images/CoinGold";
+    private Sprite goldImage;
+    private string goldPopupText = "°ñµå +";
     private void Awake()
     {
         health = GetComponent<Health>();
+        if (goldImage == null) goldImage = Resources.Load<Sprite>(goldPath);
     }
     public LootTable GetReward()
     {
@@ -32,9 +37,12 @@ public class RewardContainer : MonoBehaviour
     {
         if (attacker == null) return;
         attacker.GainExp(reward.GetExpReward());
-        
 
-        ResourceManager.Instance.GainGold(reward.GetGoldReward());
+        var gainGold = reward.GetGoldReward();
+        var popup = ResourcePopupCreator.CreatePopup(transform.position + Vector3.right * 2f, transform,goldImage, goldPopupText + gainGold.ToString("N0"));
+        //popup.transform.position = transform.position;
+        Debug.Log("popup pos: " + popup.transform.position);
+        ResourceManager.Instance.GainGold(gainGold);
 
         if (reward.HasDropItem())
         {
