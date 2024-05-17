@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TopdownPlayerController : PlayerController
 {
     public Vector2 moveDir;
+
+    public UnityEvent OnAutoOn;
+    public UnityEvent OnAutoOff;
+
 
     protected override void Start()
     {
@@ -40,6 +45,19 @@ public class TopdownPlayerController : PlayerController
         else if (moveDir.x < 0) this.Turn(false);
 
         rb2D.velocity = moveDir * runSpeed;
+    }
+
+    public void Auto()
+    {
+        isAuto = !isAuto;
+        if (isAuto)
+        {
+            OnAutoOn?.Invoke();
+        }
+        else
+        {
+            OnAutoOff?.Invoke();
+        }
     }
 
     protected override void Action()
