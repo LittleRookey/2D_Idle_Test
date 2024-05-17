@@ -26,6 +26,8 @@ public abstract class Skill : SerializedScriptableObject
     [SerializeField] protected string abilityUseSound;
     
     public abstract void ApplyEffect(StatContainer allyStat, StatContainer target);
+
+    public virtual void IncreaseExp(StatContainer allyStat, StatContainer target) { } 
 }
 
 public abstract class PassiveSkillDecorator : Skill

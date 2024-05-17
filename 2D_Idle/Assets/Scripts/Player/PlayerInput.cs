@@ -19,22 +19,31 @@ public class PlayerInput : MonoBehaviour
 
         if (x > 0f)
         {
-            player.Turn(true);
-            player.DOSmoothWalk();
+            Mobile_MoveRight();
         } else if (x < 0f)
         {
-            player.Turn(false);
-            player.DOSmoothWalk();
+            Mobile_MoveLeft();
         } else
         {
-            player.DoIdle();
+            OnStop();
         }
     }
 
-    private void Mobile_MoveRight()
+    public void Mobile_MoveRight()
     {
         player.Turn(true);
         player.DOSmoothWalk();
+    }
+
+    public void Mobile_MoveLeft()
+    {
+        player.Turn(false);
+        player.DOSmoothWalk();
+    }
+
+    public void OnStop()
+    {
+        player.DoIdle();
     }
 
     // Update is called once per frame

@@ -12,21 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56113260e3e72e241841b163d6dfc1a6, type: 3}
   m_Name: "1_2_\uBE14\uB8E8\uD53C\uC26C"
   m_EditorClassIdentifier: 
-  MaxHP: 100
-  Attack: 15
-  MagicAttack: 0
-  Defense: 6
-  MagicDefense: 3
+  MonsterLevel: 30
+  MaxHP: 1600
+  Attack: 0
+  MagicAttack: 80
+  Defense: 15
+  MagicDefense: 25
   AttackSpeed: 1
   MoveSpeed: 1
-  CritChance: 0.05
-  CritDamage: 0.5
-  Precision: 0
-  Evasion: 0
+  CritChance: 0.1
+  CritDamage: 0.6
+  Precision: 55
+  Evasion: 9
   p_penetration: 0
   magic_penetration: 0
   magic_resist: 0
   p_resist: 0
   ExtraGold: 0
   ExtraExp: 0
-  Attack_Interval: 5
+  Attack_Interval: 4

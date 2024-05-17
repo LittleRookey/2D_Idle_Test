@@ -79,10 +79,6 @@ public class MapManager : MonoBehaviour
         mapWidth = actualMap.rect.width/2;
         mapHeight = actualMap.rect.height/2;
 
-        //mapMinX = 0f - (step * mapWidth);
-        //mapMaxX = (step * mapWidth);
-        //mapMinY = 0f - (step * mapHeight);
-        //mapMaxY = (step * mapHeight);
         destinationImage.gameObject.SetActive(false);
 
         mapTitleBG.gameObject.SetActive(true);
@@ -118,7 +114,7 @@ public class MapManager : MonoBehaviour
 
         destBehavior = destinationImage.GetComponent<DestinationBehavior>();
 
-
+        SetCenterReverse();
     }
 
     private void OnEnable()
@@ -151,8 +147,13 @@ public class MapManager : MonoBehaviour
             return;
         }
         SpawnManager.StartTimer();
-
+        if (currentArea != null)
+        {
+            // 만약 전에 진입한 지역이 잇으면 아웃라인끄기
+            currentArea.TurnOutlineOff();
+        }
         currentArea = area;
+        currentArea.TurnOutlineOn();
         currentRegion = area.region;
 
         mapTitleText.color = Color.white;
@@ -260,16 +261,30 @@ public class MapManager : MonoBehaviour
         //var pos = PolygonRandomPosition.GetRandomPositionOf(area.GetComponent<PolygonCollider2D>());
         destinationImage.gameObject.SetActive(true);
 
-        //destinationImage.transform.position = pos;
-
-        ////destinationImage.transform.position.Set(pos.x, pos.y, 0f);
-        //var destImagePos = destinationImage.GetComponent<RectTransform>();
-
-        //var newLocalPos = new Vector3(destImagePos.localPosition.x, destImagePos.localPosition.y, 0f);
-        //destImagePos.localPosition = newLocalPos;
-        //destImagePos.anchoredPosition = new Vector3(destImagePos.anchoredPosition.x, destImagePos.anchoredPosition.y, 0f); 
         SetDestination(newLocalPos);
+    }
 
+    public void SetRandomDestination(eRegion newRegion)
+    {
+        var area = AreaManager.GetAreaOf(newRegion);
+        if (area == null)
+        {
+            Debug.LogError("No Region: " + newRegion);
+            return;
+        }
+
+        var newLocalPos = GetRandomPoint(area);
+        destinationImage.gameObject.SetActive(true);
+
+        SetDestination(newLocalPos);
+    }
+
+    public void SetNextRandomDestination()
+    {
+        var nextRegion = (eRegion)(((int)currentRegion + 1) % 2);
+        SetRandomDestination();
+
+        Debug.Log("next region: " + nextRegion);
     }
 
     private Vector2 GetRandomPoint(Area area)
@@ -373,6 +388,11 @@ public class MapManager : MonoBehaviour
         //moveDir = (Destination - (Vector2)playerMarker.localPosition).normalized;
         Debug.Log("Arrived at destination: " + Destination);
 
+    }
+
+    public void StartMovement()
+    {
+        canMove = true;
     }
 
     private void ClampMap()

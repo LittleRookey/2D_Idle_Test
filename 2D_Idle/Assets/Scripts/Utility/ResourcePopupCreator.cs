@@ -72,8 +72,13 @@ namespace Litkey.Utility
             {
                 barPool.Take(usedBar);
             }
-            catch (ArgumentException)
+            catch (NullReferenceException nl)
             {
+                Debug.Log("Bar is null: " + nl.Message);
+            }
+            catch (ArgumentException arg)
+            {
+                Debug.Log("Argument exception: " + arg.Message);
             }
         }
 

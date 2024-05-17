@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI.Extensions;
 
 public class Area : MonoBehaviour
 {
@@ -11,12 +12,14 @@ public class Area : MonoBehaviour
 
     public UnityAction<Area> OnPlayerEnterArea;
     public bool disableOnStart;
+    [SerializeField] public UILineRenderer uiLineRenderer;
 
     public UnityEvent OnEnterArea;
     private int enterCounter = 0;
     private void Awake()
     {
         if (disableOnStart) enterCounter = 0;
+        if (uiLineRenderer == null) uiLineRenderer = GetComponentInChildren<UILineRenderer>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -30,6 +33,23 @@ public class Area : MonoBehaviour
             OnEnterArea?.Invoke();
         }
     }
+
+    public void TurnOutlineOn()
+    {
+        if(uiLineRenderer == null) uiLineRenderer = GetComponentInChildren<UILineRenderer>();
+        Debug.Log("UILineRenderer: " + uiLineRenderer + "in area: " + areaName);
+        if (uiLineRenderer == null) return;
+
+        uiLineRenderer.gameObject.SetActive(true);
+    }
+    public void TurnOutlineOff()
+    {
+        if (uiLineRenderer == null) uiLineRenderer = GetComponentInChildren<UILineRenderer>();
+
+        if (uiLineRenderer == null) return;
+        uiLineRenderer.gameObject.SetActive(false);
+    }
+
     private void OnValidate()
     {
         areaName = gameObject.name;

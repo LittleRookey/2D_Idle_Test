@@ -20,7 +20,10 @@ public class AreaManager : MonoBehaviour
         for (int i = 0; i < areas.Length; i++)
         {
             regions[areas[i].region].Add(areas[i]);
+            areas[i].TurnOutlineOff();
         }
+
+
 
         regionLength = regions.Count;
     }

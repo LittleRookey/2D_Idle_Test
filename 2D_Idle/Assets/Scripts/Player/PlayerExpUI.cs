@@ -15,11 +15,18 @@ public class PlayerExpUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     public void UpdateExp(float current, float max)
     {
-        float expRate = current / max;
+        try
+        {
+            float expRate = current / max;
 
-        expBar.fillAmount = expRate;
-        //DOTween.To(() => expBar.fillAmount, x => div = x, expRate, 0.2f);
-        expText.SetText($"{(expRate * 100f).ToString("F2")}%");
+            expBar.fillAmount = expRate;
+            //DOTween.To(() => expBar.fillAmount, x => div = x, expRate, 0.2f);
+            expText.SetText($"{(expRate * 100f).ToString("F2")}%");
+
+        } catch(MissingReferenceException msr)
+        {
+            Debug.Log("Missing reference: " + msr);
+        }
     }
 
 

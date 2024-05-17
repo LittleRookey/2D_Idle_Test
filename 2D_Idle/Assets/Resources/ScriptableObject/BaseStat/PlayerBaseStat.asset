@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MonsterLevel: 0
   MaxHP: 100
-  Attack: 10
+  Attack: 25
   MagicAttack: 0
   Defense: 3
   MagicDefense: 0

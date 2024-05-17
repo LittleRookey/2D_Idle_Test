@@ -15,10 +15,7 @@ public class ReturnToPool : MonoBehaviour
     {
         Invoke(nameof(Return), returnTime);
     }
-    private void OnDisable()
-    {
-        Return();
-    }
+
 
     private void Return()
     {
