@@ -6,12 +6,16 @@ public class PlayerInput : MonoBehaviour
 {
     public bool PC;
     public bool Mobile;
+    public bool TopDown;
 
     private PlayerController player;
+    private TopdownPlayerController playerTopdown;
 
+    [SerializeField] private MovementJoystick joystick;
     private void Awake()
     {
         player = GetComponent<PlayerController>();
+        playerTopdown = GetComponent<TopdownPlayerController>();
     }
     private void GetInputPC()
     {
@@ -46,10 +50,28 @@ public class PlayerInput : MonoBehaviour
         player.DoIdle();
     }
 
+    public void MoveJoyStick()
+    {
+        if (joystick == null)
+        {
+            Debug.LogError("Joystick not set up");
+        }
+        playerTopdown.moveDir = joystick.joystickVec;
+        if (playerTopdown.moveDir == Vector2.zero)
+        {
+            playerTopdown.DoIdle();
+            return;
+        }
+        playerTopdown.RunWithNoTarget();
+        playerTopdown.DOSmoothRun();
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (PC) GetInputPC();
+
+        if (TopDown) MoveJoyStick();
 
     }
 }

@@ -13,62 +13,65 @@ public class PlayerController : MonoBehaviour
 {
     // 플레이어 AI
     // 달려가서 평타로 시작
-    [SerializeField] private Animator anim;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float runSpeed;
-    [SerializeField] private float scanDistance = 2f;
-    [SerializeField] private float attackRange = 1.5f;
-    [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private SpriteRenderer playerSprite;
+    [SerializeField] protected Animator anim;
+    [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float runSpeed;
+    [SerializeField] protected float scanDistance = 2f;
+    [SerializeField] protected float attackRange = 1.5f;
+    [SerializeField] protected LayerMask enemyLayer;
+    [SerializeField] protected LayerMask groundLayer;
+    [SerializeField] protected SpriteRenderer playerSprite;
 
-    [SerializeField] private PlayerBasicAttack basicAttack;
+    [SerializeField] protected PlayerBasicAttack basicAttack;
     // 애니메이션
-    private readonly int _isJumping = Animator.StringToHash("isJumping");
-    private readonly int _isRunning = Animator.StringToHash("isRunning");
-    private readonly int _isWalking = Animator.StringToHash("isWalking");
-    private readonly int _isGround = Animator.StringToHash("isGround");
-    private readonly int _AttackState = Animator.StringToHash("AttackState");
-    private readonly int _Attack = Animator.StringToHash("Attack");
-    
-    private readonly int _Dead = Animator.StringToHash("Death");
-    private readonly int _Revive = Animator.StringToHash("Revive");
-    private readonly int _Hit = Animator.StringToHash("Hit");
-    
-    private readonly int _EnterCounter = Animator.StringToHash("EnterCounter");
-    private readonly int _Parry = Animator.StringToHash("Parry");
-    private eBehavior currentBehavior;
-    private bool isGrounded;
+    protected readonly int _isJumping = Animator.StringToHash("isJumping");
+    protected readonly int _isRunning = Animator.StringToHash("isRunning");
+    protected readonly int _isWalking = Animator.StringToHash("isWalking");
+    protected readonly int _isGround = Animator.StringToHash("isGround");
+    protected readonly int _AttackState = Animator.StringToHash("AttackState");
+    protected readonly int _Attack = Animator.StringToHash("Attack");
 
-    private Health Target;
-    private Rigidbody2D rb2D;
+    protected readonly int _Dead = Animator.StringToHash("Death");
+    protected readonly int _Revive = Animator.StringToHash("Revive");
+    protected readonly int _Hit = Animator.StringToHash("Hit");
 
-    private bool canMove;
+    protected readonly int _EnterCounter = Animator.StringToHash("EnterCounter");
+    protected readonly int _Parry = Animator.StringToHash("Parry");
+    protected eBehavior currentBehavior;
+    protected bool isGrounded;
 
-    private StatContainer _statContainer;
-    private LevelSystem _levelSystem;
-    private Health _health;
+    protected Health Target;
+    protected Rigidbody2D rb2D;
+
+    protected bool canMove;
+
+    protected StatContainer _statContainer;
+    protected LevelSystem _levelSystem;
+    protected Health _health;
     public bool isDead;
 
-    private Material playerMat;
+    protected Material playerMat;
     public UnityEvent OnRevive;
 
-    private float startValue = 0f;
-    Sequence hitSequence;
+    protected float startValue = 0f;
+    protected Sequence hitSequence;
 
     private DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
 
-    private enum eBehavior
+    
+    public bool isAuto;
+    protected enum eBehavior
     {
         idle,
         walk, // search for enemy
         run,
+        chase,
         jump,
         attack,
         ability
     }
 
-    private void Awake()
+    protected void Awake()
     {
         rb2D = GetComponent<Rigidbody2D>();
         _statContainer = GetComponent<StatContainer>();
@@ -79,27 +82,27 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         _health.OnDeath.AddListener(Death);
         _health.OnHit.AddListener(HitAnim);
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         _health.OnHit.RemoveListener(HitAnim);
         _health.OnDeath.RemoveListener(Death);
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         
         EnableMovement();
         SwitchState(eBehavior.run);
     }
 
-    private void Move()
+    protected virtual void Move()
     {
         int dir = playerSprite.flipX ? -1 : 1;
         transform.position += Vector3.right * dir * moveSpeed * Time.deltaTime;
@@ -107,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void Run()
+    protected virtual void Run()
     {
         //rb2D.velocity += new Vector2(1 * runSpeed, 0) * Time.deltaTime;
         //rb2D.MovePosition(rb2D.position + Vector2.right * runSpeed * Time.deltaTime);
@@ -116,7 +119,7 @@ public class PlayerController : MonoBehaviour
         transform.position += Vector3.right * dir * runSpeed * Time.deltaTime;
     }
 
-    private void Death(LevelSystem levelSystem)
+    protected void Death(LevelSystem levelSystem)
     {
         if (isDead) return;
         isDead = true;
@@ -131,7 +134,7 @@ public class PlayerController : MonoBehaviour
         anim.Play(this._Dead);
     }
 
-    private void HitAnim()
+    protected void HitAnim()
     {
         //anim.Play(_Hit);
 
@@ -201,7 +204,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Update()
+    protected virtual void Update()
     {
         CheckGrounded(); // 땅에 닿아잇는지를 체크
         
@@ -210,14 +213,14 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void SetTarget(Health enemy)
+    protected void SetTarget(Health enemy)
     {
         Target = enemy;
         Debug.Log("Target set: " + enemy.name);
         
     }
 
-    private void Action()
+    protected virtual void Action()
     {
         if (isDead) return;
 
@@ -271,7 +274,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SwitchState(eBehavior behavior)
+    protected void SwitchState(eBehavior behavior)
     {
         switch (currentBehavior)
         {
@@ -284,6 +287,9 @@ public class PlayerController : MonoBehaviour
             case eBehavior.run:
                 anim.SetBool(_isRunning, false);
 
+                break;
+            case eBehavior.chase:
+                anim.SetBool(_isRunning, false);
                 break;
             case eBehavior.jump:
  
@@ -309,9 +315,10 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool(_isWalking, true);
                 break;
             case eBehavior.run:
-
                 anim.SetBool(_isRunning, true);
-
+                break;
+            case eBehavior.chase:
+                anim.SetBool(_isRunning, true);
                 break;
             case eBehavior.jump:
 
@@ -332,7 +339,11 @@ public class PlayerController : MonoBehaviour
         EnableMovement();
         SwitchState(eBehavior.walk);
     }
-
+    public void DOSmoothRun()
+    {
+        EnableMovement();
+        SwitchState(eBehavior.run);
+    }
     public void DoIdle()
     {
         DisableMovement();
@@ -376,7 +387,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool TargetWithinAttackRange()
+    protected bool TargetWithinAttackRange()
     {
         if (Target == null)
         {
@@ -385,13 +396,13 @@ public class PlayerController : MonoBehaviour
         return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
     }
 
-    private bool HasNoTarget()
+    protected bool HasNoTarget()
     {
         return Target == null;
     }
 
 
-    private bool SearchForTarget()
+    protected bool SearchForTarget()
     {
         var raycastHit = Physics2D.Raycast(transform.position, Vector2.right, scanDistance, enemyLayer);
         Debug.DrawRay(transform.position, Vector2.right * scanDistance, Color.red, 0.3f);
@@ -417,12 +428,12 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    public void DisableMovement()
+    public virtual void DisableMovement()
     {
         canMove = false;
     }
 
-    private void AttackAction()
+    protected void AttackAction()
     {
        
         if (Target.IsDead)
