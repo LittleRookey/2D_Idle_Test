@@ -26,6 +26,17 @@ public class MonsterTable : ScriptableObject
     {
         return monsterTable.GetRandomPick();
     }
+
+    public List<Health> GetAllMonsters()
+    {
+        List<Health> monsters = new List<Health>();
+        for (int i = 0; i < monsterWeights.Length; i++)
+        {
+            monsters.Add(monsterWeights[i].monster);
+        }
+        return monsters;
+    }
+
 #if UNITY_EDITOR
     [Button(ButtonSizes.Large)]
     private void OpenMonsterFolder()

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerBaseStat
   m_EditorClassIdentifier: 
   MonsterLevel: 0
-  MaxHP: 100
-  Attack: 25
+  MaxHP: 10000
+  Attack: 3000
   MagicAttack: 0
   Defense: 3
   MagicDefense: 0

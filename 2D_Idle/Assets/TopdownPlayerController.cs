@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,6 +25,38 @@ public class TopdownPlayerController : PlayerController
         rb2D.velocity = Vector2.zero;
         moveDir = Vector2.zero;
     }
+
+    //protected override void SwitchState(eBehavior behavior)
+    //{
+    //    switch (currentBehavior)
+    //    {
+    //        case eBehavior.idle:
+
+    //            break;
+    //        case eBehavior.walk:
+    //            anim.SetBool(_isWalking, false);
+    //            break;
+    //        case eBehavior.run:
+    //            anim.SetBool(_isRunning, false);
+
+    //            break;
+    //        case eBehavior.chase:
+    //            anim.SetBool(_isRunning, false);
+    //            break;
+    //        case eBehavior.jump:
+
+    //            anim.SetBool(_isJumping, false);
+    //            break;
+    //        case eBehavior.attack:
+    //            //DisableMovement();
+    //            //anim.SetBool(isRunning, true);
+    //            break;
+    //        case eBehavior.ability:
+
+    //            break;
+    //    }
+    //}
+
     public void RunWithNoTarget()
     {
         //Vector2 dir = (Target.transform.position - transform.position).normalized;
@@ -32,10 +65,47 @@ public class TopdownPlayerController : PlayerController
         if (moveDir.x > 0) this.Turn(true);
         else if (moveDir.x < 0) this.Turn(false);
 
-        rb2D.velocity = moveDir * runSpeed;
-        //transform.position += dir * runSpeed * Time.deltaTime;
+        //rb2D.velocity = moveDir * runSpeed;
+        transform.position += (Vector3)moveDir * runSpeed * Time.deltaTime;
     }
 
+    protected override bool SearchForTarget()
+    {
+        // Create a circle around the transform's position with the specified scanDistance radius
+        Vector2 circleCenter = transform.position;
+        float circleRadius = scanDistance;
+
+        // Perform a CircleCastAll to detect any colliders within the circle
+        RaycastHit2D[] raycastHits = Physics2D.CircleCastAll(circleCenter, circleRadius, Vector2.zero, 0f, enemyLayer);
+
+        if (raycastHits.Length > 0)
+        {
+            if (Target == null)
+            {
+                // Sort the raycastHits array by distance from the current transform's position
+                raycastHits = raycastHits.OrderBy(hit => Vector2.Distance(hit.transform.position, transform.position)).ToArray();
+
+                // Iterate through the sorted colliders within the circle
+                foreach (RaycastHit2D hit in raycastHits)
+                {
+                    Health target = hit.transform.GetComponent<Health>();
+                    if (target != null && !target.IsDead)
+                    {
+                        SetTarget(target);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, scanDistance);
+    }
     protected override void Move()
     {
         moveDir = (Target.transform.position - transform.position).normalized;
@@ -43,8 +113,9 @@ public class TopdownPlayerController : PlayerController
         // 방향 전환
         if (moveDir.x > 0) this.Turn(true);
         else if (moveDir.x < 0) this.Turn(false);
-
-        rb2D.velocity = moveDir * runSpeed;
+        Debug.Log("Player Running to Target");
+        //rb2D.velocity = moveDir * runSpeed;
+        transform.position += (Vector3)moveDir * runSpeed * Time.deltaTime;
     }
 
     public void Auto()
@@ -63,7 +134,7 @@ public class TopdownPlayerController : PlayerController
     protected override void Action()
     {
         if (isDead) return;
-
+        Debug.Log("Player in action");
         //if (HasNoTarget())
         //{
         //    SwitchState(eBehavior.walk);
@@ -83,7 +154,11 @@ public class TopdownPlayerController : PlayerController
                         {
                             SwitchState(eBehavior.chase);
                         }
+                    } else
+                    {
+                        SearchForTarget();
                     }
+                    
                 }
                 break;
             case eBehavior.chase: // 타겟이 있을떄만 들어온다
@@ -91,6 +166,7 @@ public class TopdownPlayerController : PlayerController
                 if (canMove)
                     Move();
 
+                Debug.Log(TargetWithinAttackRange());
                 // 적이 공격범위 안까지 오면 공격
                 if (TargetWithinAttackRange())
                 {

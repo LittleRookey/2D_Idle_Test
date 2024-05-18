@@ -9,58 +9,61 @@ using Litkey.Stat;
 
 public class EnemyAI : MonoBehaviour
 {
-    private enum eEnemyBehavior
+    protected enum eEnemyBehavior
     {
         idle,
+        chase,
         attack,
         dead,
         hit,
         stun,
     };
-    [SerializeField] private SpriteRenderer allySprite;
+    [SerializeField] protected SpriteRenderer allySprite;
 
-    [SerializeField] private float scanDistance = 3f;
-    [SerializeField] private float attackRange = 2.5f;
+    [SerializeField] protected float scanDistance = 3f;
+    [SerializeField] protected float attackRange = 2.5f;
 
-    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] protected LayerMask enemyLayer;
 
-    [SerializeField] private EnemyBasicAttack basicAttack;
+    [SerializeField] protected EnemyBasicAttack basicAttack;
 
-    private float attackInterval;
-    private float final_attackInterval;
+    protected float attackInterval;
+    protected float final_attackInterval;
 
-    private float attackTimer;
+    protected float attackTimer;
 
-    private Health Target;
+    protected Health Target;
 
-    private eEnemyBehavior currentBehavior;
+    protected eEnemyBehavior currentBehavior;
 
-    private EnemyAnimationHook anim;
+    protected EnemyAnimationHook anim;
 
-    [HideInInspector] public UnityEvent<Health> OnIdle;
-    [HideInInspector] public UnityEvent<Health> OnAttack;
-    [HideInInspector] public UnityEvent<Health> OnDead;
-    [HideInInspector] public UnityEvent<Health> OnHit;
-    [HideInInspector] public UnityEvent<Health> OnStun;
+    public UnityEvent<Health> OnIdle= new();
+    public UnityEvent<Health> OnAttack = new();
+    [HideInInspector] public UnityEvent<Health> OnChase = new();
+    [HideInInspector] public UnityEvent<Health> OnDead = new();
+    [HideInInspector] public UnityEvent<Health> OnHit = new();
+    [HideInInspector] public UnityEvent<Health> OnStun = new();
 
-    [HideInInspector] public UnityEvent<Health> OnIdleExit;
-    [HideInInspector] public UnityEvent<Health> OnAttackExit;
-    [HideInInspector] public UnityEvent<Health> OnDeadExit;
-    [HideInInspector] public UnityEvent<Health> OnHitExit;
-    [HideInInspector] public UnityEvent<Health> OnStunExit;
+    [HideInInspector] public UnityEvent<Health> OnIdleExit = new();
+    [HideInInspector] public UnityEvent<Health> OnAttackExit = new();
+    [HideInInspector] public UnityEvent<Health> OnChaseExit = new();
+    [HideInInspector] public UnityEvent<Health> OnDeadExit = new();
+    [HideInInspector] public UnityEvent<Health> OnHitExit = new();
+    [HideInInspector] public UnityEvent<Health> OnStunExit = new();
 
-    Dictionary<eEnemyBehavior, UnityEvent<Health>> onStateEnterBeahviors;
-    Dictionary<eEnemyBehavior, UnityEvent<Health>> onStateExitBeahviors;
+    protected Dictionary<eEnemyBehavior, UnityEvent<Health>> onStateEnterBeahviors;
+    protected Dictionary<eEnemyBehavior, UnityEvent<Health>> onStateExitBeahviors;
 
-    private StatContainer _statContainer;
+    protected StatContainer _statContainer;
 
-    private bool stopAttackTimer;
+    protected bool stopAttackTimer;
 
-    private DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
+    protected DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
 
-    private Health health;
+    protected Health health;
 
-    private Material enemyMat;
+    protected Material enemyMat;
 
     private void Awake()
     {
@@ -69,6 +72,7 @@ public class EnemyAI : MonoBehaviour
             { eEnemyBehavior.idle, OnIdle},
             { eEnemyBehavior.attack, OnAttack },
             { eEnemyBehavior.hit, OnHit },
+            {eEnemyBehavior.chase, OnChase },
             { eEnemyBehavior.dead, OnDead },
             { eEnemyBehavior.stun, OnStun },
         };
@@ -77,6 +81,7 @@ public class EnemyAI : MonoBehaviour
         {
             { eEnemyBehavior.idle, OnIdleExit},
             { eEnemyBehavior.attack, OnAttackExit },
+            {eEnemyBehavior.chase, OnChaseExit },
             { eEnemyBehavior.hit, OnHitExit },
             { eEnemyBehavior.dead, OnDeadExit },
             { eEnemyBehavior.stun, OnStunExit },
@@ -122,14 +127,14 @@ public class EnemyAI : MonoBehaviour
         return Target;
     }
 
-    private void SwitchState(eEnemyBehavior behavior)
+    protected void SwitchState(eEnemyBehavior behavior)
     {
         onStateExitBeahviors[currentBehavior]?.Invoke(Target);
         currentBehavior = behavior;
         onStateEnterBeahviors[behavior]?.Invoke(Target);
     }
-    private bool isAttacking;
-    private void Action()
+    protected bool isAttacking;
+    protected void Action()
     {
         switch(currentBehavior)
         {
@@ -140,7 +145,7 @@ public class EnemyAI : MonoBehaviour
 
                 if (!HasNoTarget() && TargetWithinAttackRange() && !isAttacking)
                 {
-
+                    Debug.Log("On Attack Enter");
                     onAttackEnter();
                 }
                 // 적 찾으면 
@@ -218,10 +223,7 @@ public class EnemyAI : MonoBehaviour
         StartCoroutine(ActivateParrying(1));
     }
 
-    private void BarOnEndBehavior()
-    {
 
-    }
     SpriteRenderer shape;
     private IEnumerator ActivateParrying(int targetNum)
     {
@@ -270,7 +272,7 @@ public class EnemyAI : MonoBehaviour
         onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
 
         ShapeCreator.ReturnShape(shape);
-        if (currentBar.gameObject.activeInHierarchy)
+        if (currentBar != null && currentBar.gameObject.activeInHierarchy)
             BarCreator.ReturnBar(currentBar);
     }
 

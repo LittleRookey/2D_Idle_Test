@@ -274,7 +274,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    protected void SwitchState(eBehavior behavior)
+    protected virtual void SwitchState(eBehavior behavior)
     {
         switch (currentBehavior)
         {
@@ -402,7 +402,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    protected bool SearchForTarget()
+    protected virtual bool SearchForTarget()
     {
         var raycastHit = Physics2D.Raycast(transform.position, Vector2.right, scanDistance, enemyLayer);
         Debug.DrawRay(transform.position, Vector2.right * scanDistance, Color.red, 0.3f);
@@ -456,6 +456,7 @@ public class PlayerController : MonoBehaviour
         // 데미지 계산
         //var dmg = _statContainer.GetFinalDamage();
         //var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+        if (Target == null) return;
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
         
 

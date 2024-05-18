@@ -56,6 +56,7 @@ public class PlayerInput : MonoBehaviour
         {
             Debug.LogError("Joystick not set up");
         }
+        if (playerTopdown.isAuto) return;
         playerTopdown.moveDir = joystick.joystickVec;
         if (playerTopdown.moveDir == Vector2.zero)
         {

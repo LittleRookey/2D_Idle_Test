@@ -169,7 +169,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             bCollider.isTrigger = true;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-
+            Debug.Log("attacker is null? " + attacker);
             OnDeath?.Invoke(attacker);
             return true;
         }
@@ -250,7 +250,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     public void OnCreatedInPool()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnGettingFromPool()
