@@ -12,6 +12,30 @@ public class TopdownPlayerController : PlayerController
     public UnityEvent OnAutoOff;
 
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        _statContainer.OnStatSetupComplete.AddListener(UpdateMoveSpeed);
+        _statContainer.OnStatSetupComplete.AddListener(UpdateAttackSpeedOnStart);
+        _statContainer.MoveSpeed.OnValueChanged.AddListener(UpdateSpeed);
+        _statContainer.AttackSpeed.OnValueChanged.AddListener(UpdateAttackSpeedOnChange);
+        
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        _statContainer.OnStatSetupComplete.RemoveListener(UpdateMoveSpeed);
+        _statContainer.OnStatSetupComplete.RemoveListener(UpdateAttackSpeedOnStart);
+        _statContainer.MoveSpeed.OnValueChanged.RemoveListener(UpdateSpeed);
+        _statContainer.AttackSpeed.OnValueChanged.RemoveListener(UpdateAttackSpeedOnChange);
+    }
+
     protected override void Start()
     {
 
@@ -56,6 +80,31 @@ public class TopdownPlayerController : PlayerController
     //            break;
     //    }
     //}
+
+    private void UpdateMoveSpeed(StatContainer statContainer)
+    {
+        this.runSpeed = statContainer.MoveSpeed.FinalValue;
+    }
+
+    private void UpdateSpeed(float speed)
+    {
+        this.runSpeed = speed;
+    }
+
+    private void UpdateAttackSpeedOnStart(StatContainer statContainer)
+    {
+        UpdateAS(statContainer.AttackSpeed.FinalValue);
+    }
+
+    private void UpdateAttackSpeedOnChange(float _as)
+    {
+        UpdateAS(_as);
+    }
+    
+    private void UpdateAS(float _as)
+    {
+        anim.SetFloat(_AttackSpeed, _as);
+    }
 
     public void RunWithNoTarget()
     {
@@ -131,6 +180,21 @@ public class TopdownPlayerController : PlayerController
         }
     }
 
+    protected override void AttackAction()
+    {
+
+        if (Target.IsDead)
+        {
+            Target = null;
+            SwitchState(eBehavior.idle);
+        }
+        else
+        {
+            anim.SetFloat(_AttackState, Random.Range(0, 1f));
+            anim.SetTrigger(_Attack);
+        }
+
+    }
     protected override void Action()
     {
         if (isDead) return;
@@ -145,7 +209,7 @@ public class TopdownPlayerController : PlayerController
             case eBehavior.idle:
                 if (isAuto)
                 {
-                    if (!HasNoTarget() )
+                    if (!HasNoTarget())
                     {
                         if (TargetWithinAttackRange())
                         {

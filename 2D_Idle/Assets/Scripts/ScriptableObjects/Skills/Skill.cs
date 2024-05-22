@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Litkey.Stat;
 
 public enum eSkillRank
 {
@@ -30,23 +31,24 @@ public abstract class Skill : SerializedScriptableObject
     public virtual void IncreaseExp(StatContainer allyStat, StatContainer target) { } 
 }
 
-public abstract class PassiveSkillDecorator : Skill
+public abstract class PassiveSkill : Skill
 {
     [SerializeField] protected Skill decoratedSkill;
-    
+    [SerializeField] protected Dictionary<int, List<StatModifier>> levelUpgrades; // 어떤 레벨 업그레이드들이 있는지 저장
+
+    //private List<SwordMasteryUpgrade> appliedRankUpgrades; // 적용된 랭크 효과들 모음
+
+    public List<StatModifier> AppliedLevelUpgrades => _appliedLevelUpgrades;
+    protected List<StatModifier> _appliedLevelUpgrades; // 적용된 레벨 효과들 모음
     public void Initialize(Skill skill)
     {
         decoratedSkill = skill;
     }
 
-    public override void ApplyEffect(StatContainer allyStat, StatContainer target)
-    {
+    protected abstract void OnRankUp();
+    protected abstract void OnLevelUp();
 
-        decoratedSkill.ApplyEffect(allyStat, target);
-        AddPassiveEffect(allyStat, target);
-    }
-
-    protected abstract void AddPassiveEffect(StatContainer ally, StatContainer target);
+    public abstract void EquipPassiveStat(StatContainer statContainer);
 }
 
 public abstract class ActiveSkill : Skill

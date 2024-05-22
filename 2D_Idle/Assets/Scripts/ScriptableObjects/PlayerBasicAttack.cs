@@ -9,6 +9,9 @@ public class PlayerBasicAttack : BasicAttack
 {
     public override void ApplyEffect(StatContainer allyStat, StatContainer target)
     {
+
+
+        
         var dmg = allyStat.GetDamageAgainst(target);
         MasterAudio.PlaySound("Į�´¼Ҹ�");
         target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg });

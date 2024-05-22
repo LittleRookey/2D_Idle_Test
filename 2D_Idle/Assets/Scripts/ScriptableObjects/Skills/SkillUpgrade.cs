@@ -7,7 +7,6 @@ public abstract class SkillUpgrade : ScriptableObject
 {
     public int requiredLevel;
 
-    public List<StatModifier> statModifiers;
     [Header("업그레이드 설명")]
     [TextArea]
     public string upgradeExplanation;

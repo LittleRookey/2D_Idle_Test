@@ -65,7 +65,9 @@ public class EnemyAI : MonoBehaviour
 
     protected Material enemyMat;
 
-    private void Awake()
+    protected Vector2 moveDir;
+
+    protected void Awake()
     {
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
         {
@@ -91,20 +93,25 @@ public class EnemyAI : MonoBehaviour
         health = GetComponent<Health>();
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
         boxCollider2D = GetComponentInChildren<BoxCollider2D>();
+        if (allySprite == null)
+        {
+            allySprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        }
         enemyMat = allySprite.material;
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         Init();
         OnStun.AddListener(onStunEnter);
         OnStunExit.AddListener(onStunExit);
-        final_attackInterval = Mathf.Max(attackInterval * (1f - (_statContainer.AttackSpeed.FinalValue / attackInterval)), 0.5f);
+
+        UpdateAttackSpeed();
         health.OnDeath.AddListener(OnDeath);
         health.onTakeDamage += OnHitEnter;
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
 
         OnStun.RemoveListener(onStunEnter);
@@ -122,9 +129,23 @@ public class EnemyAI : MonoBehaviour
         
     }
 
+    protected void UpdateAttackSpeed()
+    {
+        attackInterval = _statContainer.GetBaseStat().Attack_Interval;
+
+        final_attackInterval = Mathf.Max(attackInterval * (1f - (_statContainer.AttackSpeed.FinalValue / attackInterval)), 2f);
+    }
+
     public Health GetTarget()
     {
         return Target;
+    }
+    Vector3 right = Vector3.one;
+    Vector3 left = new Vector3(-1f, 1f, 1f);
+    public void Turn(bool turnRight)
+    {
+        
+        allySprite.transform.localScale = turnRight? left : right;
     }
 
     protected void SwitchState(eEnemyBehavior behavior)
@@ -134,7 +155,7 @@ public class EnemyAI : MonoBehaviour
         onStateEnterBeahviors[behavior]?.Invoke(Target);
     }
     protected bool isAttacking;
-    protected void Action()
+    protected virtual void Action()
     {
         switch(currentBehavior)
         {
@@ -189,7 +210,7 @@ public class EnemyAI : MonoBehaviour
     private BoxCollider2D boxCollider2D;
     // 패리 로직: 공격떄 패리박스를 넣음, 타겟이 패리박스가 열렸을떄 isParried를 트루로 만들면 데미지 공식 빗겨가고 패링당한 애니메이션 실행
     // 만약 방어를 그 전에하고 유지하면 데미지 반감, 패링박스 열리고 닫히기전에 하면 패링, 이후에 패링하면 아무것도 없고 데미지공식 그대로 실행
-    private void onAttackEnter()
+    protected virtual void onAttackEnter()
     {
         // 몇초후에 공격 속행
 
@@ -249,19 +270,19 @@ public class EnemyAI : MonoBehaviour
         SwitchState(eEnemyBehavior.idle);
     }
 
-    private void onStunEnter(Health targ)
+    protected void onStunEnter(Health targ)
     {
         currentBarTween?.Pause();
         stopAttackTimer = true;
     }
 
-    private void onStunExit(Health targ)
+    protected void onStunExit(Health targ)
     {
         currentBarTween?.PlayForward();
         stopAttackTimer = false;
     }
 
-    private void OnDeath(LevelSystem targ)
+    protected void OnDeath(LevelSystem targ)
     {
         Target = null;
         SwitchState(eEnemyBehavior.idle);
@@ -302,12 +323,12 @@ public class EnemyAI : MonoBehaviour
             }));
     }
 
-    private bool HasNoTarget()
+    protected bool HasNoTarget()
     {
         return Target == null;
     }
 
-    private bool TargetWithinAttackRange()
+    protected bool TargetWithinAttackRange()
     {
         if (Target == null)
         {
@@ -316,7 +337,7 @@ public class EnemyAI : MonoBehaviour
         return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
     }
 
-    private bool SearchForTarget()
+    protected virtual bool SearchForTarget()
     {
         var raycastHit = Physics2D.Raycast(transform.position, Vector2.left, scanDistance, enemyLayer);
         Debug.DrawRay(transform.position, Vector2.right * scanDistance, Color.red, 0.3f);
@@ -336,7 +357,7 @@ public class EnemyAI : MonoBehaviour
         return false;
     }
 
-    private void SetTarget(Health enemy)
+    protected void SetTarget(Health enemy)
     {
         Target = enemy;
         //Debug.Log("Target set: " + enemy.name);

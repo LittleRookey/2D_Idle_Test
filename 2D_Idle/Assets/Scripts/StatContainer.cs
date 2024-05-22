@@ -150,11 +150,14 @@ public class StatContainer : MonoBehaviour
     protected Dictionary<eMainStatType, int> statGiven;
 
     public UnityEvent<StatContainer> OnStatSetupComplete;
+    public UnityEvent OnEquipSkill;
 
     protected virtual void Awake()
     {
         this.MonsterLevel = baseStat.MonsterLevel;
         SetupStats();
+        additionalStats = new List<StatModifier>();
+        passiveStats = new Dictionary<string, List<StatModifier>>();
 
         if (statGiven == null)
         {
@@ -331,8 +334,36 @@ public class StatContainer : MonoBehaviour
         return total;
     }
 
+    public Dictionary<string, List<StatModifier>> passiveStats;
 
+    public List<StatModifier> additionalStats;
+    public void SumStatModifier(StatModifier statModifier)
+    {
+        additionalStats.Add(statModifier);
+    }
+
+    public void ClearStatModifiers()
+    {
+        additionalStats.Clear();
+    }
+
+    public void OnEquipPassive(PassiveSkill passive)
+    {
+        if (!passiveStats.ContainsKey(passive.skillName))
+        {
+            passiveStats[passive.skillName] = new List<StatModifier>();
+        }
+
+        passiveStats[passive.skillName].Clear();
+        for (int i = 0; i < passive.AppliedLevelUpgrades.Count; i++)
+        {
+            passiveStats[passive.skillName].Add(passive.AppliedLevelUpgrades[i]);
+        }
+        // apply passive rank effects
+        passive.ApplyEffect(this, null);
+    }
     
+
     // addedstat = 0, 1, 5
     // 1, 1, 4
     // 2, 1, 3
@@ -497,5 +528,22 @@ public class StatContainer : MonoBehaviour
     public void AddBuffEffect(StatModifier statModifier)
     {
         //statModifier.
+    }
+
+    // ETC 스텟들을 전부 Equip
+    public void AddETCStat(List<StatModifier> stats)
+    {
+        for (int i = 0; i < stats.Count; i++)
+        {
+            subStats[stats[i].statType].EquipETCStat(stats[i]);
+        }
+    }
+
+    public void RemoveETCStat(List<StatModifier> stats)
+    {
+        for (int i = 0; i < stats.Count; i++)
+        {
+            subStats[stats[i].statType].UnEquipETCStat(stats[i]);
+        }
     }
 }

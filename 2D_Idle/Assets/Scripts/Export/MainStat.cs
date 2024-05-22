@@ -217,7 +217,7 @@ namespace Litkey.Stat
         {
             get
             {
-                return _plusStatValue + _plusEquipValue + _plusBuffValue;
+                return _plusStatValue + _plusEquipValue + _plusBuffValue + _plusEtcValue;
             }
         } 
         // 버프나 장비로 얻은 곱셈 값
@@ -226,7 +226,7 @@ namespace Litkey.Stat
         {
             get
             {
-                return _multipliedStatValue + _multipliedEquipValue + _multipliedBuffValue;
+                return _multipliedStatValue + _multipliedEquipValue + _multipliedBuffValue + _multipliedEtcValue;
             }
         } 
 
@@ -237,12 +237,16 @@ namespace Litkey.Stat
         private float _plusStatValue; // 레벨 스텟으로 추가된 + 스텟
         private float _plusEquipValue; // 장비 스텟으로 추가된 + 스텟
         private float _plusBuffValue; // 버프스텟으로 추가된 + 스텟
+        private float _plusEtcValue; // 도감이나 패시브로 올려진 + 스텟
 
         private float _multipliedStatValue; // 레벨 스텟으로 추가된 * 스텟
         private float _multipliedEquipValue; // 장비 스텟으로 추가된 * 스텟
         private float _multipliedBuffValue; // 버프 스텟으로 추가된 * 스텟
+        private float _multipliedEtcValue; // 도감이나 패시브로 올려진 * 스텟
 
         [HideInInspector] public UnityEvent<float> OnValueChanged = new();
+
+
 
         #region constructors
         // Constructor that has initial value
@@ -384,6 +388,33 @@ namespace Litkey.Stat
             UpdateFinalValue();
         }
 
+        public void EquipETCStat(StatModifier stat)
+        {
+            if (stat.oper == OperatorType.plus)
+            {
+                _plusEtcValue += stat.value;
+            }
+            else if (stat.oper == OperatorType.multiply)
+            {
+                _multipliedEtcValue += stat.value;
+            }
+
+            UpdateFinalValue();
+        }
+        
+        public void UnEquipETCStat(StatModifier stat)
+        {
+            if (stat.oper == OperatorType.plus)
+            {
+                _plusEtcValue -= stat.value;
+            }
+            else if (stat.oper == OperatorType.multiply)
+            {
+                _multipliedEtcValue -= stat.value;
+            }
+            UpdateFinalValue();
+        }
+      
         private float UpdateFinalValue()
         {
             float origin = _finalValue;

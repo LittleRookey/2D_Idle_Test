@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     protected readonly int _AttackState = Animator.StringToHash("AttackState");
     protected readonly int _Attack = Animator.StringToHash("Attack");
 
+    protected readonly int _AttackSpeed = Animator.StringToHash("AttackSpeed");
+
     protected readonly int _Dead = Animator.StringToHash("Death");
     protected readonly int _Revive = Animator.StringToHash("Revive");
     protected readonly int _Hit = Animator.StringToHash("Hit");
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviour
         ability
     }
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         rb2D = GetComponent<Rigidbody2D>();
         _statContainer = GetComponent<StatContainer>();
@@ -82,13 +84,13 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         _health.OnDeath.AddListener(Death);
         _health.OnHit.AddListener(HitAnim);
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         _health.OnHit.RemoveListener(HitAnim);
         _health.OnDeath.RemoveListener(Death);
@@ -296,7 +298,12 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool(_isJumping, false);
                 break;
             case eBehavior.attack:
-  
+                //if (Target.IsDead)
+                //{
+                //    Target = null;
+                //    SwitchState(eBehavior.idle);
+                //    return;
+                //}
                 //anim.SetBool(isRunning, true);
                 break;
             case eBehavior.ability:
@@ -433,7 +440,7 @@ public class PlayerController : MonoBehaviour
         canMove = false;
     }
 
-    protected void AttackAction()
+    protected virtual void AttackAction()
     {
        
         if (Target.IsDead)
@@ -457,7 +464,8 @@ public class PlayerController : MonoBehaviour
         //var dmg = _statContainer.GetFinalDamage();
         //var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
         if (Target == null) return;
-        basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+        if (TargetWithinAttackRange())
+            basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
         
 
         //Target.GetComponent<StatContainer>().Defend(dmg.damage);

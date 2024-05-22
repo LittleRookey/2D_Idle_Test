@@ -17,6 +17,7 @@ public class PlayerHealth : Health
     protected override void OnEnable()
     {
         base.OnEnable();
+
         playerController.OnRevive.AddListener(RefillToMaxHealth);
 
     }

@@ -17,7 +17,9 @@ public class SpawnPoint : MonoBehaviour
 
     Dictionary<string, Pool<Health>> monsterPool;
     public bool startSpawn;
-
+    public bool isLocked;
+    [SerializeField] private float spawnTimer = 5;
+    float timer = 0f;
     private void OnValidate()
     {
         gridSize = Mathf.CeilToInt(spawnRange * 2f / cellSize);
@@ -26,6 +28,7 @@ public class SpawnPoint : MonoBehaviour
 
     private void Awake()
     {
+        timer = spawnTimer;
         currentNumber = 0;
         spawnedEnemy = new List<Health>();
 
@@ -43,13 +46,28 @@ public class SpawnPoint : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Update() 
     {
+        if (isLocked) return;
+
+        if (currentNumber < maxMonsterNum)
+        {
+            timer += Time.deltaTime;
+            if (timer >= spawnTimer)
+            {
+                timer = 0f;
+                startSpawn = true;
+            }
+        }
         if (!startSpawn) return;
         // Spawn monsters if the current number is less than the maximum
         if (currentNumber < maxMonsterNum)
         {
+           
             SpawnMonster();
+        } else
+        {
+            startSpawn = false;
         }
     }
 
