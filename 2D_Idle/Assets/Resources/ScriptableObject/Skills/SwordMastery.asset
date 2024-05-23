@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7fa354ed35d080f4f87c4ee98c09c5f0, type: 3}
   m_Name: SwordMastery
@@ -99,6 +99,6 @@ MonoBehaviour:
   startRank: 0
   currentRank: 0
   maxRank: 6
-  Level: {fileID: 11400000, guid: 1b01ac18c664d594ba584196f8845d84, type: 2}
+  Level: {fileID: 11400000, guid: 864808605fb9fb448955bce82e9981b1, type: 2}
   abilityUseSound: 
   decoratedSkill: {fileID: 11400000}

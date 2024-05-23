@@ -50,7 +50,7 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
-    - _Steps: 1.5
+    - _Steps: 5
     - _Thickness: 2
     - _UseUIAlphaClip: 0
     - _Width: 100

@@ -21,7 +21,7 @@ public class UnitLevel : ScriptableObject
 {
     [SerializeField] public int maxLevel = 100;
     public bool showLog;
-    public int level { get; private set; } = 0;
+    public int level { get; private set; } = 1;
 
     public float CurrentExp => currentExp;
     public float MaxExp

@@ -23,7 +23,7 @@ public abstract class Skill : SerializedScriptableObject
     public eSkillRank currentRank;
     public eSkillRank maxRank;
     
-    public UnitLevel Level;
+    public SkillLevel Level;
     [SerializeField] protected string abilityUseSound;
     
     public abstract void ApplyEffect(StatContainer allyStat, StatContainer target);
@@ -33,16 +33,15 @@ public abstract class Skill : SerializedScriptableObject
 
 public abstract class PassiveSkill : Skill
 {
-    [SerializeField] protected Skill decoratedSkill;
     [SerializeField] protected Dictionary<int, List<StatModifier>> levelUpgrades; // 어떤 레벨 업그레이드들이 있는지 저장
 
     //private List<SwordMasteryUpgrade> appliedRankUpgrades; // 적용된 랭크 효과들 모음
 
     public List<StatModifier> AppliedLevelUpgrades => _appliedLevelUpgrades;
     protected List<StatModifier> _appliedLevelUpgrades; // 적용된 레벨 효과들 모음
-    public void Initialize(Skill skill)
+    public virtual void Initialize()
     {
-        decoratedSkill = skill;
+        
     }
 
     protected abstract void OnRankUp();

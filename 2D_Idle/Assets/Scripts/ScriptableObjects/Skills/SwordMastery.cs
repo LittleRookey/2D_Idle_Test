@@ -18,11 +18,16 @@ public class SwordMastery : PassiveSkill
     private StatContainer equippedStatContainer;
     private void Awake()
     {
-        //appliedRankUpgrades = new List<SwordMasteryUpgrade>();
-        _appliedLevelUpgrades = new List<StatModifier>();
-        
+        //Init();
     }
 
+    private void OnEnable()
+    {
+        // 레벨 로드하고 
+        OnLevelUp();
+
+
+    }
     protected override void OnRankUp()
     {
         //appliedRankUpgrades.Clear();
@@ -40,6 +45,7 @@ public class SwordMastery : PassiveSkill
     // 스킬 레벨업 했을떄 불림
     protected override void OnLevelUp()
     {
+        _appliedLevelUpgrades.Clear();
         int currentLevel = this.Level.level;
         for (int i = 0; i < currentLevel; i++)
         {
@@ -51,8 +57,37 @@ public class SwordMastery : PassiveSkill
 
     }
 
+
+    public override void Initialize()
+    {
+        Init();
+
+    }
+    public void Init()
+    {
+        _appliedLevelUpgrades = new List<StatModifier>();
+        this.Level.SetLevel(1,0f);
+
+        int currentLevel = this.Level.level;
+        Debug.Log("Sword Mastery init level: " + currentLevel);
+        for (int i = 0; i < currentLevel; i++)
+        {
+            Debug.Log("Sword Mastery init: " + levelUpgrades.ContainsKey(i));
+            if (levelUpgrades.ContainsKey(i))
+            {
+                CombineStats(levelUpgrades[i]);
+            }
+        }
+    }
+
+    //public List<StatModifier> GetPassiveStats()
+    //{
+
+    //}
+   
     private void CombineStats(List<StatModifier> stats)
     {
+        Debug.Log("Combined stats");
         for (int i = 0; i < stats.Count; i++)
         {
             _appliedLevelUpgrades.Add(stats[i]);
@@ -68,8 +103,9 @@ public class SwordMastery : PassiveSkill
     public override void EquipPassiveStat(StatContainer statContainer)
     {
         if (equippedStatContainer == null) equippedStatContainer = statContainer;
-
+        Debug.Log("Equip Stat called from Sword master");
         // 전에 있던 스텟들을 제거
+        Debug.Log("AppliedLevelUpgrades: " + _appliedLevelUpgrades.Count);
         statContainer.AddETCStat(_appliedLevelUpgrades);
         // 스텟 
         

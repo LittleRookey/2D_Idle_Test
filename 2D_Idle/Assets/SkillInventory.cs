@@ -22,6 +22,7 @@ public class SkillInventory : MonoBehaviour
         skillInventory.Add(skill);
         if (skill is PassiveSkill passive)
         {
+            passive.Initialize();
             playerStat.OnEquipPassive(passive);
         }
     }

@@ -360,7 +360,8 @@ public class StatContainer : MonoBehaviour
             passiveStats[passive.skillName].Add(passive.AppliedLevelUpgrades[i]);
         }
         // apply passive rank effects
-        passive.ApplyEffect(this, null);
+        //passive.ApplyEffect(this, null);
+        passive.EquipPassiveStat(this);
     }
     
 
