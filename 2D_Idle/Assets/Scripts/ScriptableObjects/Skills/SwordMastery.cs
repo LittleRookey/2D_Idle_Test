@@ -2,59 +2,59 @@ using Litkey.Stat;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "SwordMastery", menuName = "Litkey/Skills/SwordMastery")]
 public class SwordMastery : PassiveSkill
 {
-    //public Dictionary<eSkillRank, SwordMasteryUpgrade> rankUpgrades => _rankUpgrades; 
-    //[SerializeField] private Dictionary<eSkillRank, SwordMasteryUpgrade> _rankUpgrades; // 어떤 랭크 업그레이드들이 있는지 저장 
-
-    
-    //private List<SwordMasteryUpgrade> appliedRankUpgrades; // 적용된 랭크 효과들 모음
-
-
-    private List<StatModifier> previousAppliedLevelUpgrades; // 전에 적용된 스텟들;
-
     private StatContainer equippedStatContainer;
-    private void Awake()
-    {
-        //Init();
-    }
+
+    [SerializeField] private PlayerBasicAttack playerAttack;
+
 
     private void OnEnable()
     {
         // 레벨 로드하고 
         OnLevelUp();
 
-
+        this.Level.OnLevelUp += LevelUp;
     }
-    protected override void OnRankUp()
+
+    private void OnDisable()
     {
-        //appliedRankUpgrades.Clear();
+        this.Level.OnLevelUp -= LevelUp;
+    }
+    protected override void OnRankUp(eSkillRank rank)
+    {
+        if (rankUpgrades.ContainsKey(rank))
+        {
+            for (int i = 0; i < rankUpgrades[rank].Count; i++)
+            {
+                rankUpgrades[rank][i].Unlock();
+                rankUpgrades[rank][i].AddEffect(this);
+            }
 
-        //currentRank++;
-        //foreach (var upgrade in rankUpgrades.Values)
-        //{
-        //    if ((int)upgrade.rankToApply <= (int)currentRank)
-        //    {
-        //        appliedRankUpgrades.Add(upgrade);
-        //    }
-        //}
+
+        }
     }
 
+    private void LevelUp(float cur, float max) => OnLevelUp();
     // 스킬 레벨업 했을떄 불림
     protected override void OnLevelUp()
     {
+        if (this.equippedStatContainer != null)
+            this.equippedStatContainer.UnEquipStat(this);
+
         _appliedLevelUpgrades.Clear();
         int currentLevel = this.Level.level;
         for (int i = 0; i < currentLevel; i++)
         {
-            if (levelUpgrades.ContainsKey(i))
+            if (levelUpgrades[currentRank].ContainsKey(i))
             {
-                CombineStats(levelUpgrades[i]);
+                CombineStats(levelUpgrades[currentRank][i]);
             }
         }
-
+        OnSkillLevelUp?.Invoke(this);
     }
 
 
@@ -72,10 +72,10 @@ public class SwordMastery : PassiveSkill
         Debug.Log("Sword Mastery init level: " + currentLevel);
         for (int i = 0; i < currentLevel; i++)
         {
-            Debug.Log("Sword Mastery init: " + levelUpgrades.ContainsKey(i));
-            if (levelUpgrades.ContainsKey(i))
+            //Debug.Log("Sword Mastery init: " + levelUpgrades[currentRank].ContainsKey(i));
+            if (levelUpgrades[currentRank].ContainsKey(i))
             {
-                CombineStats(levelUpgrades[i]);
+                CombineStats(levelUpgrades[currentRank][i]);
             }
         }
     }
@@ -87,7 +87,7 @@ public class SwordMastery : PassiveSkill
    
     private void CombineStats(List<StatModifier> stats)
     {
-        Debug.Log("Combined stats");
+        //Debug.Log("Combined stats");
         for (int i = 0; i < stats.Count; i++)
         {
             _appliedLevelUpgrades.Add(stats[i]);

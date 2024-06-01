@@ -2,19 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Litkey.Character.Cooldowns
 {
     public interface IHasCooldown
     {
-        int ID { get; }
+        string ID { get; }
         float CooldownDuration { get; }
     }
 
     public class CooldownSystem : MonoBehaviour
     {
-        [SerializeField]
-        private readonly List<CooldownData> cooldowns = new List<CooldownData>();
+        [ShowInInspector]
+        public List<CooldownData> cooldowns = new List<CooldownData>();
 
         private void Update() => ProcessCooldowns();
 
@@ -25,7 +26,7 @@ namespace Litkey.Character.Cooldowns
         }
 
         // checks if the given id is in process of cooldown
-        public bool IsOnCooldown(int id)
+        public bool IsOnCooldown(string id)
         {
             foreach (CooldownData cooldown in cooldowns)
             {
@@ -34,7 +35,7 @@ namespace Litkey.Character.Cooldowns
             return false;
         }
 
-        public float GetRemainingDuration(int id)
+        public float GetRemainingDuration(string id)
         {
             foreach (CooldownData cooldown in cooldowns)
             {
@@ -63,9 +64,10 @@ namespace Litkey.Character.Cooldowns
         }
     }
 
+    [System.Serializable]
     public class CooldownData
     {
-        public int ID { get; }
+        public string ID { get; }
         public float RemainingTime { get; private set; }
         public CooldownData(IHasCooldown cooldown)
         {

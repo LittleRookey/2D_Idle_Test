@@ -25,15 +25,15 @@ namespace Litkey.Stat
         public void InitStatColor()
         {
             statDatabase.Clear();
-            statDatabase.Add(new StatData { statType = eSubStatType.health, color = new Color32(255, 0, 0, 255) }); // Red
-            statDatabase.Add(new StatData { statType = eSubStatType.attack, color = new Color32(255, 128, 0, 255) }); // Orange
-            statDatabase.Add(new StatData { statType = eSubStatType.magicAttack, color = new Color32(0, 128, 255, 255) }); // Blue
-            statDatabase.Add(new StatData { statType = eSubStatType.defense, color = new Color32(0, 255, 0, 255) }); // Green
-            statDatabase.Add(new StatData { statType = eSubStatType.magicDefense, color = new Color32(128, 0, 255, 255) }); // Purple
-            statDatabase.Add(new StatData { statType = eSubStatType.attackSpeed, color = new Color32(255, 255, 0, 255) }); // Yellow
-            statDatabase.Add(new StatData { statType = eSubStatType.moveSpeed, color = new Color32(255, 128, 255, 255) }); // Pink
-            statDatabase.Add(new StatData { statType = eSubStatType.critChance, color = new Color32(255, 255, 255, 255) }); // White
-            statDatabase.Add(new StatData { statType = eSubStatType.critDamage, color = new Color32(128, 128, 128, 255) }); // Gray
+            statDatabase.Add(new StatData { statType = eSubStatType.체력, color = new Color32(255, 0, 0, 255) }); // Red
+            statDatabase.Add(new StatData { statType = eSubStatType.물리공격력, color = new Color32(255, 128, 0, 255) }); // Orange
+            statDatabase.Add(new StatData { statType = eSubStatType.마법공격력, color = new Color32(0, 128, 255, 255) }); // Blue
+            statDatabase.Add(new StatData { statType = eSubStatType.물리방어력, color = new Color32(0, 255, 0, 255) }); // Green
+            statDatabase.Add(new StatData { statType = eSubStatType.마법방어력, color = new Color32(128, 0, 255, 255) }); // Purple
+            statDatabase.Add(new StatData { statType = eSubStatType.공격속도, color = new Color32(255, 255, 0, 255) }); // Yellow
+            statDatabase.Add(new StatData { statType = eSubStatType.이동속도, color = new Color32(255, 128, 255, 255) }); // Pink
+            statDatabase.Add(new StatData { statType = eSubStatType.크리확률, color = new Color32(255, 255, 255, 255) }); // White
+            statDatabase.Add(new StatData { statType = eSubStatType.크리데미지, color = new Color32(128, 128, 128, 255) }); // Gray
             statDatabase.Add(new StatData { statType = eSubStatType.추가골드, color = new Color32(255, 215, 0, 255) }); // Gold
             statDatabase.Add(new StatData { statType = eSubStatType.추가경험치, color = new Color32(0, 255, 255, 255) }); // Cyan
             statDatabase.Add(new StatData { statType = eSubStatType.명중, color = new Color32(128, 255, 0, 255) }); // Lime

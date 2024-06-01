@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class RarityColor : MonoBehaviour
+
+[CreateAssetMenu(menuName ="Litkey/SkillRarity")]
+public class RarityColor : SerializedScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Dictionary<eSkillRank, Color> rankColor;
 
-    // Update is called once per frame
-    void Update()
+    public Color GetSkillColor(eSkillRank rank)
     {
-        
+        return rankColor[rank];
     }
 }

@@ -10,6 +10,6 @@ public class EnemyBasicAttack : BasicAttack
     {
         var dmg = allyStat.GetDamageAgainst(target);
 
-        target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg });
+        target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg }, false);
     }
 }

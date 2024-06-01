@@ -108,20 +108,20 @@ public class StatContainer : MonoBehaviour
             if (_subStats == null || _subStats.Count == 0)
             {
                 _subStats = new Dictionary<eSubStatType, SubStat>() {
-                    { eSubStatType.health, this.HP },
-                    { eSubStatType.attack, this.Attack },
-                    { eSubStatType.magicAttack, this.MagicAttack },
-                    { eSubStatType.defense, this.Defense },
-                    { eSubStatType.magicDefense, this.MagicDefense },
+                    { eSubStatType.체력, this.HP },
+                    { eSubStatType.물리공격력, this.Attack },
+                    { eSubStatType.마법공격력, this.MagicAttack },
+                    { eSubStatType.물리방어력, this.Defense },
+                    { eSubStatType.마법방어력, this.MagicDefense },
                     //{ eSubStatType.attackRange, this.},
                     //{ eSubStatType.cc_Resistance, this. },
-                    { eSubStatType.critChance, this.CritChance },
-                    { eSubStatType.critDamage, this.CritDamage },
-                    { eSubStatType.attackSpeed, this.AttackSpeed },
+                    { eSubStatType.크리확률, this.CritChance },
+                    { eSubStatType.크리데미지, this.CritDamage },
+                    { eSubStatType.공격속도, this.AttackSpeed },
                     //{ eSubStatType.healthRegen, this. },
                     //{ eSubStatType.mana, this. },
                     //{ eSubStatType.manaRegen, this. },
-                    { eSubStatType.moveSpeed, this.MoveSpeed },
+                    { eSubStatType.이동속도, this.MoveSpeed },
                     { eSubStatType.물리관통력, this.p_penetration },
                     { eSubStatType.마법관통력, this.m_penetration },
                     { eSubStatType.명중, this.Precision },
@@ -182,20 +182,20 @@ public class StatContainer : MonoBehaviour
         if (_subStats == null)
         {
             _subStats = new Dictionary<eSubStatType, SubStat>() {
-                    { eSubStatType.health, this.HP },
-                    { eSubStatType.attack, this.Attack },
-                    { eSubStatType.magicAttack, this.MagicAttack },
-                    { eSubStatType.defense, this.Defense },
-                    { eSubStatType.magicDefense, this.MagicDefense },
+                    { eSubStatType.체력, this.HP },
+                    { eSubStatType.물리공격력, this.Attack },
+                    { eSubStatType.마법공격력, this.MagicAttack },
+                    { eSubStatType.물리방어력, this.Defense },
+                    { eSubStatType.마법방어력, this.MagicDefense },
                     //{ eSubStatType.attackRange, this.},
                     //{ eSubStatType.cc_Resistance, this. },
-                    { eSubStatType.critChance, this.CritChance },
-                    { eSubStatType.critDamage, this.CritDamage },
-                    { eSubStatType.attackSpeed, this.AttackSpeed },
+                    { eSubStatType.크리확률, this.CritChance },
+                    { eSubStatType.크리데미지, this.CritDamage },
+                    { eSubStatType.공격속도, this.AttackSpeed },
                     //{ eSubStatType.healthRegen, this. },
                     //{ eSubStatType.mana, this. },
                     //{ eSubStatType.manaRegen, this. },
-                    { eSubStatType.moveSpeed, this.MoveSpeed },
+                    { eSubStatType.이동속도, this.MoveSpeed },
                     { eSubStatType.물리관통력, this.p_penetration },
                     { eSubStatType.마법관통력, this.m_penetration },
                     { eSubStatType.명중, this.Precision },
@@ -238,18 +238,18 @@ public class StatContainer : MonoBehaviour
         Sensation = new MainStat("감각", 0, eMainStatType.감각);
         Int = new MainStat("지혜", 0, eMainStatType.지혜);
 
-        HP = new SubStat("체력", baseStat.MaxHP, eSubStatType.health).SetMaxUIValue(1000f);
-        Attack = new SubStat("공격력", baseStat.Attack, eSubStatType.attack).SetMaxUIValue(100f);
-        MagicAttack = new SubStat("마법 공격력", baseStat.MagicAttack, eSubStatType.magicAttack).SetMaxUIValue(100f);
+        HP = new SubStat("체력", baseStat.MaxHP, eSubStatType.체력).SetMaxUIValue(1000f);
+        Attack = new SubStat("공격력", baseStat.Attack, eSubStatType.물리공격력).SetMaxUIValue(100f);
+        MagicAttack = new SubStat("마법 공격력", baseStat.MagicAttack, eSubStatType.마법공격력).SetMaxUIValue(100f);
 
-        Defense = new SubStat("방어력", baseStat.Defense, eSubStatType.defense).SetMaxUIValue(100f);
-        MagicDefense = new SubStat("마법 방어력", baseStat.MagicDefense, eSubStatType.magicDefense).SetMaxUIValue(100f);
+        Defense = new SubStat("방어력", baseStat.Defense, eSubStatType.물리방어력).SetMaxUIValue(100f);
+        MagicDefense = new SubStat("마법 방어력", baseStat.MagicDefense, eSubStatType.마법방어력).SetMaxUIValue(100f);
 
-        AttackSpeed = new SubStat("공격속도", baseStat.AttackSpeed, eSubStatType.attackSpeed, true).SetMaxUIValue(0.3f);
-        MoveSpeed = new SubStat("이동속도", baseStat.MoveSpeed, eSubStatType.moveSpeed, true).SetMaxUIValue(0.3f);
+        AttackSpeed = new SubStat("공격속도", baseStat.AttackSpeed, eSubStatType.공격속도, true).SetMaxUIValue(0.3f);
+        MoveSpeed = new SubStat("이동속도", baseStat.MoveSpeed, eSubStatType.이동속도, true).SetMaxUIValue(0.3f);
 
-        CritChance = new SubStat("크리티컬 확률", baseStat.CritChance, eSubStatType.critChance, true).SetMaxUIValue(1f);
-        CritDamage = new SubStat("크리티컬 데미지", baseStat.CritDamage, eSubStatType.critDamage, true).SetMaxUIValue(1f);
+        CritChance = new SubStat("크리티컬 확률", baseStat.CritChance, eSubStatType.크리확률, true).SetMaxUIValue(1f);
+        CritDamage = new SubStat("크리티컬 데미지", baseStat.CritDamage, eSubStatType.크리데미지, true).SetMaxUIValue(1f);
 
         ExtraGold = new SubStat("골드 추가흭득량", baseStat.ExtraGold, eSubStatType.추가골드, true).SetMaxUIValue(1f);
         ExtraExp = new SubStat("경험치 추가흭득량", baseStat.ExtraExp, eSubStatType.추가경험치, true).SetMaxUIValue(1f);
@@ -353,7 +353,11 @@ public class StatContainer : MonoBehaviour
         {
             passiveStats[passive.skillName] = new List<StatModifier>();
         }
+        if (passiveStats[passive.skillName].Count > 0)
+        {
+            RemoveETCStat(passiveStats[passive.skillName]);
 
+        }
         passiveStats[passive.skillName].Clear();
         for (int i = 0; i < passive.AppliedLevelUpgrades.Count; i++)
         {
@@ -361,10 +365,15 @@ public class StatContainer : MonoBehaviour
         }
         // apply passive rank effects
         //passive.ApplyEffect(this, null);
+        
         passive.EquipPassiveStat(this);
     }
     
 
+    public void UnEquipStat(PassiveSkill skill)
+    {
+
+    }
     // addedstat = 0, 1, 5
     // 1, 1, 4
     // 2, 1, 3
@@ -429,23 +438,57 @@ public class StatContainer : MonoBehaviour
             float attackDmg = (m_AttackVal.damage * (1f + (p_penetration.FinalValue - enemyStat.p_resist.FinalValue))) 
                 - (enemyStat.Defense.FinalValue * 1f + (enemyStat.p_resist.FinalValue - p_penetration.FinalValue));
 
-
-            dmg = (Mathf.Clamp(attackDmg, 1f, 999999999));
+            dmg = GetRandomExtentDamage(attackDmg);
+            dmg = (Mathf.Clamp(attackDmg, 1f, float.MaxValue));
 
         }
         else
         {
             // magic dmg
-            //float attackDmg = m_AttackVal.damage - enemyStat.MagicDefense.FinalValue;
-            //dmg = (Mathf.Clamp(attackDmg, 1f, 999999999) * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue) / 100f));
             float attackDmg = (m_AttackVal.damage * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue)))
                 - (enemyStat.MagicDefense.FinalValue * 1f + (enemyStat.m_resist.FinalValue - m_penetration.FinalValue));
-            dmg = (Mathf.Clamp(attackDmg, 1f, 999999999));
+
+            dmg = GetRandomExtentDamage(attackDmg);
+            dmg = Mathf.Clamp(attackDmg, 1f, float.MaxValue);
         }
         return new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg);
     }
 
-    public Damage GetFinalDamage(float multiplier=1f)
+    public List<Damage> GetDamagesAgainst(StatContainer enemyStat, int damageCount, float multiplier = 1f)
+    {
+        List<Damage> damages = new List<Damage>();
+        for (int i = 0; i < damageCount; i++)
+        {
+            float dmg;
+            var m_AttackVal = GetFinalDamage(multiplier);
+
+            if (m_AttackVal.isPhysicalDmg)
+            {
+                float attackDmg = (m_AttackVal.damage * (1f + (p_penetration.FinalValue - enemyStat.p_resist.FinalValue)))
+                    - (enemyStat.Defense.FinalValue * 1f + (enemyStat.p_resist.FinalValue - p_penetration.FinalValue));
+
+
+                dmg = GetRandomExtentDamage(attackDmg);
+                dmg = (Mathf.Clamp(attackDmg, 1f, float.MaxValue));
+            }
+            else
+            {
+                // magic dmg
+                //float attackDmg = m_AttackVal.damage - enemyStat.MagicDefense.FinalValue;
+                //dmg = (Mathf.Clamp(attackDmg, 1f, 999999999) * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue) / 100f));
+                float attackDmg = (m_AttackVal.damage * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue)))
+                    - (enemyStat.MagicDefense.FinalValue * 1f + (enemyStat.m_resist.FinalValue - m_penetration.FinalValue));
+
+                dmg = GetRandomExtentDamage(attackDmg);
+                dmg = (Mathf.Clamp(attackDmg, 1f, float.MaxValue));
+            }
+            damages.Add(new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg));
+            
+        }
+        return damages;
+    }
+
+    private Damage GetFinalDamage(float multiplier=1f)
     {
         bool isPhysic = Attack.FinalValue >= MagicAttack.FinalValue;
         if (isPhysic)
@@ -510,6 +553,11 @@ public class StatContainer : MonoBehaviour
         return Mathf.Max(1f, inComingDamage - Defense.FinalValue);
     }
     #endregion
+
+    public float GetRandomExtentDamage(float dmg)
+    {
+        return Random.Range(dmg * 0.97f, dmg * 1.03f);
+    }
 
     public void AddMaxHealth(float val)
     {

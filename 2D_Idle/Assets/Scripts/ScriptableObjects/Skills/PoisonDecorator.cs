@@ -14,7 +14,7 @@ public class PoisonDecorator : PassiveSkill
         throw new NotImplementedException();
     }
 
-    protected override void OnRankUp()
+    protected override void OnRankUp(eSkillRank rank)
     {
         throw new NotImplementedException();
     }

@@ -21,7 +21,7 @@ public class UnitLevel : ScriptableObject
 {
     [SerializeField] public int maxLevel = 100;
     public bool showLog;
-    public int level { get; private set; } = 1;
+    public int level { get; protected set; } = 1;
 
     public float CurrentExp => currentExp;
     public float MaxExp
@@ -35,8 +35,8 @@ public class UnitLevel : ScriptableObject
 
 
 
-    private float currentExp;
-    private float maxExp = 100f;
+    protected float currentExp;
+    protected float maxExp = 100f;
 
     public AnimationCurve curve;
 
@@ -44,13 +44,13 @@ public class UnitLevel : ScriptableObject
     public float extraExpPerLevel = 50;
     [ListDrawerSettings(ShowIndexLabels = true)]
     public List<float> MaxExpByLevel = new List<float>();
-    [SerializeField] private float initMaxExp = 100f;
+    [SerializeField] protected float initMaxExp = 100f;
 
     //public Queue<UnityAction> OnLevelUp;
     public UnityAction<float, float> OnLevelUp;
     public UnityAction<float, float> OnGainExp;
     public UnityAction<float, float> OnInitSetup;
-    public bool GainExp(int value)
+    public virtual bool GainExp(int value)
     {
         bool levelUp = false;
         currentExp += value;
@@ -70,10 +70,14 @@ public class UnitLevel : ScriptableObject
         return currentExp;
     }
 
+    [Button("Levelup")]
     public virtual void Grow()
     {
         level += 1;
-
+        if (level >= maxLevel)
+        {
+            OnReachMaxLevel();
+        }
         float fin_maxExp = MaxExpByLevel[level - 1];
 
         maxExp = Mathf.Round(fin_maxExp);
@@ -90,7 +94,7 @@ public class UnitLevel : ScriptableObject
         OnInitSetup?.Invoke(currentExp, maxExp);
     }
 
-    public void Init()
+    public virtual void Init()
     {
         this.maxLevel = 100;
         this.maxExp = 100f;
@@ -137,10 +141,13 @@ public class UnitLevel : ScriptableObject
         return currentExp / maxExp;
     }
 
+    public virtual void OnReachMaxLevel()
+    {
+
+    }
     public UnitLevel Clone()
     {
-        Init();
-        return this.Clone();
+        return this.MemberwiseClone() as UnitLevel;
     }
 }
 

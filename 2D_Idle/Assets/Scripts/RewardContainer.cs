@@ -39,9 +39,10 @@ public class RewardContainer : MonoBehaviour
         attacker.GainExp(reward.GetExpReward());
 
         var gainGold = reward.GetGoldReward();
-        var popup = ResourcePopupCreator.CreatePopup(transform.position + Vector3.right * 2f, transform,goldImage, goldPopupText + gainGold.ToString("N0"));
-        //popup.transform.position = transform.position;
-        Debug.Log("popup pos: " + popup.transform.position);
+        Debug.Log("Reward Dropper name + pos: " + gameObject.name + " // " + transform.position);
+        var popup = ResourcePopupCreator.CreatePopup(transform.position, null, goldImage, goldPopupText + gainGold.ToString("N0"));
+        //popup.GetComponent<RectTransform>().anchoredPosition = transform.position;
+        //Debug.Log("popup pos: " + popup.transform.position);
         ResourceManager.Instance.GainGold(gainGold);
 
         if (reward.HasDropItem())

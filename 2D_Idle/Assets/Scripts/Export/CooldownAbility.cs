@@ -6,7 +6,7 @@ using DarkTonic.MasterAudio;
 using Litkey.Character.Cooldowns;
 
 [System.Serializable]
-public class CooldownAbility : Ability, IHasCooldown
+public class CooldownAbility : Ability
 {
     [Header("Cooldown Ability")]
     [SerializeField] private int SkillID;

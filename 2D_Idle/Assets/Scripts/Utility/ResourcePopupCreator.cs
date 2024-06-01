@@ -19,7 +19,7 @@ namespace Litkey.Utility
 
             var newBar = barPool.Get();
 
-            Debug.Log("New ResourceUI is null?:: " + newBar == null);
+            //Debug.Log("New ResourceUI is null?:: " + newBar == null);
 
             if (newBar == null)
             {
@@ -31,9 +31,9 @@ namespace Litkey.Utility
             }
 
 
-            newBar.transform.position = spawnPosition;
-            newBar.transform.parent = parent;
-            Debug.Log("Spawned at position: " + spawnPosition);
+            //newBar.transform.parent = parent;
+            newBar.transform.GetComponent<RectTransform>().anchoredPosition = Camera.main.WorldToViewportPoint(spawnPosition);
+            //Debug.Log("Spawned at position: " + spawnPosition);
 
             newBar.SetResourceInfo(resourceIcon, resourceText);
 
@@ -58,7 +58,7 @@ namespace Litkey.Utility
                 newBar = barPool.Get();
             }
 
-            newBar.transform.position = spawnPosition;
+            newBar.transform.GetComponent<RectTransform>().anchoredPosition = spawnPosition;
 
             newBar.SetResourceInfo(resourceIcon, resourceText, textColor);
 
@@ -74,11 +74,11 @@ namespace Litkey.Utility
             }
             catch (NullReferenceException nl)
             {
-                Debug.Log("Bar is null: " + nl.Message);
+                //Debug.Log("Bar is null: " + nl.Message);
             }
             catch (ArgumentException arg)
             {
-                Debug.Log("Argument exception: " + arg.Message);
+                //Debug.Log("Argument exception: " + arg.Message);
             }
         }
 

@@ -14,7 +14,7 @@ public class PlayerBasicAttack : BasicAttack
         
         var dmg = allyStat.GetDamageAgainst(target);
         MasterAudio.PlaySound("Į�´¼Ҹ�");
-        target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg });
+        target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);
         OnApplyEffect?.Invoke();
     }
 }

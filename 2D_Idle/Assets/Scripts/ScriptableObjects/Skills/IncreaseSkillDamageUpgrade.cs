@@ -11,7 +11,7 @@ public class IncreaseSkillDamageUpgrade : SkillUpgrade
     {
         if (skill is ActiveSkill activeSkill)
         {
-            activeSkill.damage += additionalDamage;
+            activeSkill.baseSkillDamage += additionalDamage;
         }
     }
 }

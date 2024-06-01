@@ -65,7 +65,7 @@ public class PlayerData
     {
         this.level = unitLevel.level;
         this.currentExp = unitLevel.CurrentExp;
-        Debug.Log($"Set level with level {this.level} with exp {this.currentExp}");
+        //Debug.Log($"Set level with level {this.level} with exp {this.currentExp}");
 
     }
 

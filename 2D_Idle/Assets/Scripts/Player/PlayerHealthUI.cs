@@ -33,8 +33,6 @@ namespace Litkey.UI
 			borderMat = hpBorderImage.material;
 			Hp = targetHealth.CurrentHealth;
 			MaxHp = targetHealth.MaxHealth;
-			Debug.Log(Hp);
-			Debug.Log(MaxHp);
 			UpdateHealth(Hp, MaxHp);
 			Sp = 0;
 		}

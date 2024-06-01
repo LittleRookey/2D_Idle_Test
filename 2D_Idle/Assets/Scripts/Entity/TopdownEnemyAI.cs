@@ -64,7 +64,7 @@ public class TopdownEnemyAI : EnemyAI
         // 방향 전환
         if (moveDir.x > 0) this.Turn(true);
         else if (moveDir.x < 0) this.Turn(false);
-        Debug.Log("Player Running to Target");
+        //Debug.Log("Player Running to Target");
         //rb2D.velocity = moveDir * runSpeed;
         transform.position += (Vector3)moveDir * moveSpeed * Time.deltaTime;
 

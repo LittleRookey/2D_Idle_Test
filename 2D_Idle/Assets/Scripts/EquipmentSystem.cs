@@ -76,7 +76,7 @@ public class EquipmentSystem : MonoBehaviour, ILoadable, ISavable
         playerData = gameData.dataSettings.playerData;
         this.weapon.Initialize(playerData.weapon);
         this.topArmor.Initialize(playerData.topArmor);
-        Debug.Log("WEquipments Initialized");
+        //Debug.Log("WEquipments Initialized");
     }
 
     // °ñµå

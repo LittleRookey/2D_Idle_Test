@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Litkey.InventorySystem;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace Litkey.Stat
 {
@@ -89,7 +90,7 @@ namespace Litkey.Stat
         {
             if (addedVal <= 0) return;
             LevelAddedStats += addedVal;
-            Debug.Log(StatName + ": " + LevelAddedStats);
+            //Debug.Log(StatName + ": " + LevelAddedStats);
 
             UpdateValue();
         }
@@ -580,11 +581,70 @@ namespace Litkey.Stat
             int randNum = Random.Range(0, totalLength);
             return (eSubStatType)randNum;
         }
+
+        public static Dictionary<eSubStatType, float> GetSumOfStats(List<StatModifier> stats)
+        {
+            Dictionary<eSubStatType, float> statsSum = new Dictionary<eSubStatType, float>();
+            for (int i = 0; i < stats.Count; i++)
+            {
+                if (!statsSum.ContainsKey(stats[i].statType))
+                {
+                    statsSum[stats[i].statType] = 0f;
+                }
+
+                if (stats[i].oper == OperatorType.plus)
+                {
+
+                    statsSum[stats[i].statType] += stats[i].value;
+                } else if (stats[i].oper == OperatorType.subtract)
+                {
+                    
+                    statsSum[stats[i].statType] -= stats[i].value;
+                }
+                //else if (stats[i].oper == OperatorType.multiply)
+                //{
+
+                //}
+                //{
+
+                //}   //else if (stats[i].oper == OperatorType.divide)
+             
+            }
+            return statsSum;
+        }
+
+        public static Dictionary<eSubStatType, float> GetSumOfStats(Dictionary<int, List<StatModifier>> stats)
+        {
+
+            Dictionary<eSubStatType, float> statsSum = new Dictionary<eSubStatType, float>();
+            
+            foreach(var loStats in stats.Values)
+            {
+                // statsSum += GetSUmOfStats(LoStat)
+                statsSum = CombineDictionaryStats(statsSum, GetSumOfStats(loStats));
+            }
+            return statsSum;
+        }
+
+        private static Dictionary<eSubStatType, float> CombineDictionaryStats(Dictionary<eSubStatType, float> statsA, Dictionary<eSubStatType, float> statsB)
+        {
+            Dictionary<eSubStatType, float> combinedDict = statsA;
+            foreach(var keyB in statsB.Keys)
+            {
+                if (!combinedDict.ContainsKey(keyB))
+                {
+                    combinedDict[keyB] = 0f;
+                }
+                combinedDict[keyB] += statsB[keyB];
+            }
+            return combinedDict;
+        }
     }
 
     [System.Serializable]
     public class StatModifier
     {
+
         public eSubStatType statType;
         public float value;
         public OperatorType oper;
@@ -605,6 +665,11 @@ namespace Litkey.Stat
         {
             return this.statType == subStat.statType;
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 
 }
@@ -619,20 +684,20 @@ public enum eMainStatType
 
 public enum eSubStatType
 {
-    health,
-    mana,
-    healthRegen,
-    manaRegen,
-    attack,
-    magicAttack,
-    critChance,
-    defense,
-    magicDefense,
-    attackSpeed,
-    cc_Resistance,
-    moveSpeed,
-    attackRange,
-    critDamage,
+    체력,
+    마나,
+    체력재생,
+    마나재생,
+    물리공격력,
+    마법공격력,
+    크리확률,
+    물리방어력,
+    마법방어력,
+    공격속도,
+    군중제어저항,  
+    이동속도,
+    공격범위,
+    크리데미지,
     물리저항,
     마법저항,
     물리관통력,
@@ -644,5 +709,7 @@ public enum eSubStatType
     받는피해증가,
     받는피해감소,
     추가골드,
-    추가경험치
+    추가경험치,
+    스킬데미지,
+
 };

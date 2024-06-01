@@ -65,6 +65,9 @@ public class PlayerInput : MonoBehaviour
         }
         playerTopdown.RunWithNoTarget();
         playerTopdown.DOSmoothRun();
+        playerTopdown.RemoveTarget();
+
+
     }
 
     // Update is called once per frame

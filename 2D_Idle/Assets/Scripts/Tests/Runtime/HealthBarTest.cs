@@ -130,7 +130,7 @@ namespace ACF.Tests
 
 			separator.material.SetFloat(floatSteps, Hp/300f);
 			orientation.gameObject.SetActive(true);
-			Debug.Log("HealthBar Reset");
+
 		}
 		public void UpdateHealth(float current, float max)
 		{

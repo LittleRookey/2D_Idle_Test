@@ -15,19 +15,225 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 64b0d687cbc059c4da5c87c92d7e43ab, type: 2}
+    - {fileID: 11400000, guid: bfb79c63ef1074e4c8865976ea99fb14, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: levelUpgrades
+    - Name: rankUpgrades
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[Litkey.Stat.StatModifier,
+      Data: 0|System.Collections.Generic.Dictionary`2[[eSkillRank, Assembly-CSharp],[System.Collections.Generic.List`1[[Decorator,
         Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[eSkillRank, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Decorator, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[Decorator, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: levelUpgrades
+      Entry: 7
+      Data: 4|System.Collections.Generic.Dictionary`2[[eSkillRank, Assembly-CSharp],[System.Collections.Generic.Dictionary`2[[System.Int32,
+        mscorlib],[System.Collections.Generic.List`1[[Litkey.Stat.StatModifier, Assembly-CSharp]],
+        mscorlib]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 5|System.Collections.Generic.EnumEqualityComparer`1[[eSkillRank, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 6|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[Litkey.Stat.StatModifier,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 7|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[Litkey.Stat.StatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 9|Litkey.Stat.StatModifier, Assembly-CSharp
+    - Name: statType
+      Entry: 3
+      Data: 4
+    - Name: value
+      Entry: 4
+      Data: 2
+    - Name: oper
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[Litkey.Stat.StatModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 11|Litkey.Stat.StatModifier, Assembly-CSharp
+    - Name: statType
+      Entry: 3
+      Data: 0
+    - Name: value
+      Entry: 4
+      Data: 5
+    - Name: oper
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 12|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[Litkey.Stat.StatModifier,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 13|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
         mscorlib]], mscorlib
     - Name: 
       Entry: 8
@@ -43,20 +249,20 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[Litkey.Stat.StatModifier, Assembly-CSharp]],
+      Data: 14|System.Collections.Generic.List`1[[Litkey.Stat.StatModifier, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
-      Data: 3|Litkey.Stat.StatModifier, Assembly-CSharp
+      Data: 15|Litkey.Stat.StatModifier, Assembly-CSharp
     - Name: statType
       Entry: 3
-      Data: 0
+      Data: 9
     - Name: value
       Entry: 4
-      Data: 1000
+      Data: 0.01
     - Name: oper
       Entry: 3
       Data: 0
@@ -64,17 +270,11 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 4|Litkey.Stat.StatModifier, Assembly-CSharp
-    - Name: statType
-      Entry: 3
-      Data: 4
-    - Name: value
-      Entry: 4
-      Data: 1000
-    - Name: oper
-      Entry: 3
-      Data: 0
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -95,10 +295,13 @@ MonoBehaviour:
       Data: 
   _icon: {fileID: 21300000, guid: 9ff8ce23668f16744be6c205147479ba, type: 3}
   skillName: "\uC0BC\uC7AC\uAC80\uBC95"
-  skillLevel: 0
   startRank: 0
   currentRank: 0
-  maxRank: 6
+  maxRank: 8
+  baseSkillDamage: 65
   Level: {fileID: 11400000, guid: 864808605fb9fb448955bce82e9981b1, type: 2}
   abilityUseSound: 
-  decoratedSkill: {fileID: 11400000}
+  skillExplanation: "\uAC00\uC7A5 \uAE30\uBCF8\uC801\uC778 \uAC80\uBC95\uC785\uB2C8\uB2E4"
+  OnSkillLevelUp:
+    m_PersistentCalls:
+      m_Calls: []

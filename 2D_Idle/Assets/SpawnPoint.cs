@@ -9,12 +9,12 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] private int maxMonsterNum;
     [SerializeField] private float spawnRange;
     [SerializeField] private float cellSize = 1f; // Size of each cell in the grid
+    public bool isXZ; // 3D¿ë
 
     private int currentNumber;
     private List<Health> spawnedEnemy;
     private bool[,] grid; // 2D grid to track occupied cells
     private int gridSize; // Size of the grid
-
     Dictionary<string, Pool<Health>> monsterPool;
     public bool startSpawn;
     public bool isLocked;
@@ -101,7 +101,8 @@ public class SpawnPoint : MonoBehaviour
                 // Convert grid coordinates to local position
                 float localX = (x - gridSize / 2) * cellSize;
                 float localY = (y - gridSize / 2) * cellSize;
-                return new Vector3(localX, localY, 0f);
+                if (isXZ) return new Vector3(localX, 0, localY);
+                else return new Vector3(localX, localY, 0f);
             }
         }
 
@@ -119,6 +120,7 @@ public class SpawnPoint : MonoBehaviour
     {
         int x = Mathf.RoundToInt((localPosition.x + spawnRange) / cellSize);
         int y = Mathf.RoundToInt((localPosition.y + spawnRange) / cellSize);
+        if (isXZ) y = Mathf.RoundToInt((localPosition.z + spawnRange) / cellSize);
         grid[x, y] = true;
     }
 
@@ -206,6 +208,7 @@ public class SpawnPoint : MonoBehaviour
     {
         float localX = (x - gridSize / 2) * cellSize;
         float localY = (y - gridSize / 2) * cellSize;
-        return new Vector3(localX, localY, 0f);
+        if (isXZ) return new Vector3(localX, 0f, localY);
+        else return new Vector3(localX, localY, 0f);
     }
 }

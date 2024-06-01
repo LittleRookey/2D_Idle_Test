@@ -218,8 +218,13 @@ public class PlayerController : MonoBehaviour
     protected void SetTarget(Health enemy)
     {
         Target = enemy;
-        Debug.Log("Target set: " + enemy.name);
+        //Debug.Log("Target set: " + enemy.name);
         
+    }
+
+    public Health GetTarget()
+    {
+        return Target;
     }
 
     protected virtual void Action()
@@ -326,6 +331,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case eBehavior.chase:
                 anim.SetBool(_isRunning, true);
+                //canMove = true;
                 break;
             case eBehavior.jump:
 
@@ -333,6 +339,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case eBehavior.attack:
                 canMove = false;
+                anim.SetBool(_isRunning, false);
                 //anim.SetBool(isRunning, true);
                 break;
             case eBehavior.ability:

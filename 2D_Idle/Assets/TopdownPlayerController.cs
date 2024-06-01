@@ -11,10 +11,12 @@ public class TopdownPlayerController : PlayerController
     public UnityEvent OnAutoOn;
     public UnityEvent OnAutoOff;
 
+    private SkillContainer skillContainer;
 
     protected override void Awake()
     {
         base.Awake();
+        skillContainer = GetComponent<SkillContainer>();
     }
 
     protected override void OnEnable()
@@ -101,6 +103,10 @@ public class TopdownPlayerController : PlayerController
         UpdateAS(_as);
     }
     
+    public void RemoveTarget()
+    {
+        Target = null;
+    }
     private void UpdateAS(float _as)
     {
         anim.SetFloat(_AttackSpeed, _as);
@@ -162,7 +168,7 @@ public class TopdownPlayerController : PlayerController
         // 방향 전환
         if (moveDir.x > 0) this.Turn(true);
         else if (moveDir.x < 0) this.Turn(false);
-        Debug.Log("Player Running to Target");
+        //Debug.Log("Player Running to Target");
         //rb2D.velocity = moveDir * runSpeed;
         transform.position += (Vector3)moveDir * runSpeed * Time.deltaTime;
     }
@@ -190,6 +196,9 @@ public class TopdownPlayerController : PlayerController
         }
         else
         {
+            // 스킬 쓸만한게 있으면 스킬을 쓴다
+
+            // 스킬 쓸만한게 없으면 일반 공격
             anim.SetFloat(_AttackState, Random.Range(0, 1f));
             anim.SetTrigger(_Attack);
         }
@@ -198,12 +207,18 @@ public class TopdownPlayerController : PlayerController
     protected override void Action()
     {
         if (isDead) return;
-        Debug.Log("Player in action");
+        //Debug.Log("Player in action");
         //if (HasNoTarget())
         //{
         //    SwitchState(eBehavior.walk);
         //    return;
         //}
+        var usableSkill = skillContainer.FindUsableSkill();
+        if (usableSkill != null && TargetWithinAttackRange())
+        {
+            AbilityAction(usableSkill);
+        }
+
         switch (currentBehavior)
         {
             case eBehavior.idle:
@@ -230,7 +245,7 @@ public class TopdownPlayerController : PlayerController
                 if (canMove)
                     Move();
 
-                Debug.Log(TargetWithinAttackRange());
+                //Debug.Log(TargetWithinAttackRange());
                 // 적이 공격범위 안까지 오면 공격
                 if (TargetWithinAttackRange())
                 {
@@ -252,11 +267,24 @@ public class TopdownPlayerController : PlayerController
                 anim.SetBool(_isJumping, true);
                 break;
             case eBehavior.attack:
-                AttackAction();
-
+                if (TargetWithinAttackRange())
+                    AttackAction();
+                else
+                    SwitchState(eBehavior.chase);
                 break;
             case eBehavior.ability:
                 break;
         }
+    }
+
+
+    public void AbilityAction(ActiveSkill usableSkill)
+    {
+        //if (skillContainer == null) skillContainer = GetComponent<SkillContainer>();
+        //usableSkill.Use(_statContainer, Target);
+        skillContainer.UseActiveSkill(usableSkill, Target);
+
+        //SwitchState(eBehavior.idle);
+        //skillContainer.
     }
 }

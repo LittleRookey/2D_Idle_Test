@@ -12,8 +12,113 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89d2412f93377604080b6e7bb963e1f9, type: 3}
   m_Name: PlayerBasicAttack
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 64b0d687cbc059c4da5c87c92d7e43ab, type: 2}
+    - {fileID: 11400000, guid: bfb79c63ef1074e4c8865976ea99fb14, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: rankUpgrades
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[eSkillRank, Assembly-CSharp],[System.Collections.Generic.List`1[[Decorator,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[eSkillRank, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[Decorator, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[Decorator, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _icon: {fileID: 0}
-  skillName: 
-  skillLevel: 0
+  skillName: "\uAE30\uBCF8\uACF5\uACA9"
+  startRank: 0
+  currentRank: 0
+  maxRank: 5
+  baseSkillDamage: 75
+  Level: {fileID: 0}
   abilityUseSound: 
+  skillExplanation: 
   damagePercent: 0
+  OnApplyEffect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 034f768b0d134d14c8828357656267f6, type: 2}
+        m_TargetAssemblyTypeName: Skill, Assembly-CSharp
+        m_MethodName: IncreaseOneExp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

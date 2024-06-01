@@ -29,7 +29,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     protected DamageNumberMesh missText;
     protected DamageNumberMesh critDamageText;
 
-    protected Vector3 dmgOffset = new Vector3(0f, 0.5f, 0f);
+    protected Vector3 dmgOffset = new Vector3(0f, 0.3f, 0f);
 
     protected BoxCollider2D bCollider;
     protected Rigidbody2D rb;
@@ -52,6 +52,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     protected virtual void Awake()
     {
         isDead = false;
+        dmgOffset = new Vector3(0f, 0.55f, 0f);
         bCollider = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -77,7 +78,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     protected void UpdateMaxHealth(float mH)
     {
-        Debug.Log("Updated Max Health from @@@@@");
+
         float prevMaxHealth = maxHealth;
         maxHealth = mH;
         AddCurrentHealth(maxHealth - prevMaxHealth);
@@ -93,14 +94,14 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     protected void UpdateHealth(StatContainer stat)
     {
         float originMax = maxHealth;
-        Debug.Log(_statContainer.HP);
-        Debug.Log("Health에서 스텟 불러옴: " + _statContainer.HP.FinalValue);
-        maxHealth = stat.subStats[eSubStatType.health].FinalValue;
-        Debug.Log($"originMaxHealth: {originMax}\ncurrentHealth: {currentHealth}\nnewMax: {maxHealth}\nnewMax - originMax: {maxHealth - originMax}");
+        //Debug.Log(_statContainer.HP);
+        //Debug.Log("Health에서 스텟 불러옴: " + _statContainer.HP.FinalValue);
+        maxHealth = stat.subStats[eSubStatType.체력].FinalValue;
+        //Debug.Log($"originMaxHealth: {originMax}\ncurrentHealth: {currentHealth}\nnewMax: {maxHealth}\nnewMax - originMax: {maxHealth - originMax}");
         currentHealth += (maxHealth - originMax);
 
         onTakeDamage?.Invoke(currentHealth, maxHealth);
-        Debug.Log("Health에서 스텟 업데이트: " + currentHealth + " / " + maxHealth );
+        //Debug.Log("Health에서 스텟 업데이트: " + currentHealth + " / " + maxHealth );
     }
 
     // return true when enemy death
@@ -134,33 +135,36 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     /// <param name="damages"></param>
     /// <returns></returns>
     [Button("TakeDamage")]
-    public virtual bool TakeDamage(LevelSystem attacker, List<Damage> damages)
+    public virtual bool TakeDamage(LevelSystem attacker, List<Damage> damages, bool showDmgText=true)
     {
-        if (isDead) return true;
         var attackerStat = attacker.GetComponent<StatContainer>();
+        bool[] Hit = new bool[damages.Count];
         // 명중 회피 계산하기
-        if (!attackerStat.CalculateHit(_statContainer))
-        {
-            // 회피 텍스트, 회피 모션취하기
-            ShowMissText();
-            return false;
-        }
-        // 명중 통과하면 데미지 계산
-        List<Damage> finalDamages = new List<Damage>();
         for (int i = 0; i < damages.Count; i++)
         {
-            var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
+            Hit[i] = attackerStat.CalculateHit(_statContainer);
+        }
+        //if (!attackerStat.CalculateHit(_statContainer))
+        //{
+        //    // 회피 텍스트, 회피 모션취하기
+        //    ShowMissText();
+        //    return false;
+        //}
+        if (showDmgText)
+            StartCoroutine(ShowDmgText(damages, Hit));
 
-            //var dmg = _statContainer.Defend(damages[i].damage);
-            finalDamages.Add(damageInfo);
-            //currentHealth -= dmg;
-            currentHealth -= damageInfo.damage;
+        // 명중 통과하면 데미지 계산
+        for (int i = 0; i < damages.Count; i++)
+        {
+            if (!Hit[i])
+            {
+                // 빗나갔을떄 미스 넘어가기
+                continue;
+            }
+            currentHealth -= damages[i].damage;
             onTakeDamage?.Invoke(currentHealth, maxHealth);
         }
-
         //OnHit?.Invoke();
-
-        StartCoroutine(ShowDmgText(finalDamages));
 
         if (currentHealth <= 0f)
         {
@@ -169,7 +173,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             bCollider.isTrigger = true;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-            Debug.Log("attacker is null? " + attacker);
+            //Debug.Log("attacker is null? " + attacker);
             OnDeath?.Invoke(attacker);
             return true;
         }
@@ -182,32 +186,38 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     /// <param name="attacker"></param>
     /// <param name="damages"></param>
     /// <returns></returns>
-    public virtual bool TakeDamage(StatContainer attacker, List<Damage> damages)
+    public virtual bool TakeDamage(StatContainer attacker, List<Damage> damages, bool showDmgText=true)
     {
         if (isDead) return true;
         var attackerStat = attacker;
+        bool[] Hit = new bool[damages.Count];
         // 명중 회피 계산하기
-        if (!attackerStat.CalculateHit(_statContainer))
-        {
-            // 회피 텍스트, 회피 모션취하기
-            ShowMissText();
-            return false;
-        }
-        // 명중 통과하면 데미지 계산
-        List<Damage> finalDamages = new List<Damage>();
         for (int i = 0; i < damages.Count; i++)
         {
-            var damageInfo = attackerStat.GetDamageAgainst(_statContainer);
+            Hit[i] = attackerStat.CalculateHit(_statContainer);
+        }
+        //if (!attackerStat.CalculateHit(_statContainer))
+        //{
+        //    // 회피 텍스트, 회피 모션취하기
+        //    ShowMissText();
+        //    return false;
+        //}
+        if (showDmgText)
+            StartCoroutine(ShowDmgText(damages, Hit));
 
-            //var dmg = _statContainer.Defend(damages[i].damage);
-            finalDamages.Add(damageInfo);
-            //currentHealth -= dmg;
-            currentHealth -= damageInfo.damage;
+        // 명중 통과하면 데미지 계산
+        for (int i = 0; i < damages.Count; i++)
+        {
+            if (!Hit[i])
+            {
+                // 빗나갔을떄 미스 넘어가기
+                continue;
+            }
+            currentHealth -= damages[i].damage;
             onTakeDamage?.Invoke(currentHealth, maxHealth);
         }
 
         OnHit?.Invoke();
-        StartCoroutine(ShowDmgText(finalDamages));
 
         if (currentHealth <= 0f)
         {
@@ -229,20 +239,35 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         missText.Spawn(transform.position + Vector3.up + dmgOffset);
     }
 
-    protected IEnumerator ShowDmgText(List<Damage> damages) 
+    protected virtual IEnumerator ShowDmgText(List<Damage> damages, bool[] misses) 
     {
-        WaitForSeconds delay = new WaitForSeconds(0.15f);
-        for (int i = 0; i < damages.Count; i++)
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        if (misses != null)
         {
-            if (damages[i].isCrit)
+            //Debug.Log("Show damage text count: " + damages.Count);
+            for (int i = 0; i < damages.Count; i++)
             {
-                critDamageText.Spawn(transform.position + Vector3.up + dmgOffset * (i + 1), damages[i].damage);
+                if (!misses[i])
+                {
+                    ShowMissText();
+                    yield return delay;
+                    continue;
+                }
+
+                if (damages[i].isCrit)
+                {
+                    var spawnPos = transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1);
+                    //Debug.Log("Show damage text position: " + spawnPos);
+                    critDamageText.Spawn(transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1), damages[i].damage);
+                }
+                else
+                {
+                    var spawnPos = transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1);
+                    Debug.Log("Show damage text position: " + spawnPos);
+                    dmg.Spawn(spawnPos, damages[i].damage);
+                }
+                yield return delay;
             }
-            else
-            {
-                dmg.Spawn(transform.position + Vector3.up + dmgOffset * (i + 1), damages[i].damage);
-            }
-            yield return delay;
         }
     }
 
@@ -262,7 +287,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         OnReturnFromPool?.Invoke();
-        Debug.Log("@@@@@@GETFROMPOOL");
+
     }
 
     public void AddCurrentHealth(float value)
