@@ -7,6 +7,7 @@ using Redcode.Pools;
 using Litkey.Stat;
 using Sirenix.OdinInspector;
 using Litkey.Interface;
+using DarkTonic.MasterAudio;
 
 public class Health : MonoBehaviour, IPoolObject, IParryable
 {
@@ -186,7 +187,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     /// <param name="attacker"></param>
     /// <param name="damages"></param>
     /// <returns></returns>
-    public virtual bool TakeDamage(StatContainer attacker, List<Damage> damages, bool showDmgText=true)
+    public virtual bool TakeDamage(StatContainer attacker, List<Damage> damages, bool showDmgText=true, bool sfxOn=false)
     {
         if (isDead) return true;
         var attackerStat = attacker;
@@ -204,6 +205,8 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         //}
         if (showDmgText)
             StartCoroutine(ShowDmgText(damages, Hit));
+        if (sfxOn)
+            StartCoroutine(PlaySounds(damages.Count, "칼맞는소리"));
 
         // 명중 통과하면 데미지 계산
         for (int i = 0; i < damages.Count; i++)
@@ -215,6 +218,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             }
             currentHealth -= damages[i].damage;
             onTakeDamage?.Invoke(currentHealth, maxHealth);
+            
         }
 
         OnHit?.Invoke();
@@ -237,6 +241,16 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     protected void ShowMissText()
     {
         missText.Spawn(transform.position + Vector3.up + dmgOffset);
+    }
+
+    protected virtual IEnumerator PlaySounds(int soundCount, string soundString)
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.15f);
+        for (int i = 0; i < soundCount; i++)
+        {
+            MasterAudio.PlaySound(soundString);
+            yield return delay;
+        }
     }
 
     protected virtual IEnumerator ShowDmgText(List<Damage> damages, bool[] misses) 

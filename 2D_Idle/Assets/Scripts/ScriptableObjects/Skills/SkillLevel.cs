@@ -15,6 +15,7 @@ public class SkillLevel : UnitLevel
 
     private void Awake()
     {
+        level = 0;
         currentExp = 0;
     }
 

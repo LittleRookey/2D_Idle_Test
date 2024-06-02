@@ -1,3 +1,4 @@
+using DarkTonic.MasterAudio;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -199,6 +200,7 @@ public class TopdownPlayerController : PlayerController
             // 스킬 쓸만한게 있으면 스킬을 쓴다
 
             // 스킬 쓸만한게 없으면 일반 공격
+
             anim.SetFloat(_AttackState, Random.Range(0, 1f));
             anim.SetTrigger(_Attack);
         }

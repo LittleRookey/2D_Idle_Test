@@ -43,6 +43,7 @@ public class EquipmentSystem : MonoBehaviour, ILoadable, ISavable
     {
         gameData.OnGameDataLoaded.RemoveListener(Load);
     }
+
     public bool UpgradeWeapon(EquipmentTier eTier)
     {
         if (ResourceManager.Instance.HasGold(eTier.requiredGold))

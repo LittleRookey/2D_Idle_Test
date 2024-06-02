@@ -18,8 +18,10 @@ public class ExtraSlash : ActiveSkill
     {
         base.Awake();
         skillRangePool = Pool.Create<RangeSkillArea>(skillRange).NonLazy();
-
+        
     }
+
+    
     public override void ApplyEffect(StatContainer allyStat, StatContainer target)
     {
         
@@ -62,14 +64,12 @@ public class ExtraSlash : ActiveSkill
         {
             range.SetRange(TimeTilActive, 1f, SearchAttack);
         }
-        Debug.Log("Range is null? " + range == null);
-        Debug.Log("Range is active? " + range.gameObject.activeInHierarchy);
+
         range.gameObject.SetActive(true);
         range.StartRange();
 
         void SearchAttack()
         {
-            Debug.Log("Called? SearchAttack");
             // Get all colliders within a circle area around the skill user
             Collider2D[] overlappedColliders = Physics2D.OverlapCircleAll(userPosition, skillRadius, enemyLayer);
 
@@ -90,7 +90,6 @@ public class ExtraSlash : ActiveSkill
             targetEnemies.Sort((a, b) => Vector2.Distance(a.transform.position, ally.transform.position)
                 .CompareTo(Vector2.Distance(b.transform.position, ally.transform.position)));
 
-            Debug.Log("extra slash target number: " + targetEnemies.Count);
 
             // Get the position of the enemy
             if (targetEnemies.Count > 0)
@@ -115,9 +114,11 @@ public class ExtraSlash : ActiveSkill
 
                 var dmgs = ally.GetDamagesAgainst(targetEnemies[i].GetComponent<StatContainer>(), attackNumber, finalDamage / 100f);
 
-                Debug.Log("ExtraSlash attack count: " + dmgs.Count);
-                targetEnemies[i].TakeDamage(ally, dmgs);
+                targetEnemies[i].TakeDamage(ally, dmgs, true, true);
             }
+
+            OnSkillUse?.Invoke();
+
             skillRangePool.Take(range);
         }
         

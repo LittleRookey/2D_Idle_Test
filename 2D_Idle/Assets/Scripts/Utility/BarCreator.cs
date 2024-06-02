@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Redcode.Pools;
 using System;
+using Litkey.InventorySystem;
 
 namespace Litkey.Utility 
 { 
@@ -196,5 +197,96 @@ namespace Litkey.Utility
         }
     }
 
+
+    public class DropItemCreator
+    {
+        private static readonly string dropItemPath = "Prefabs/UI/DropItem";
+
+        private static Pool<DropItem> dropItemPool;
+
+        private static readonly string goldName = "°ñµå";
+
+        private static readonly string goldSpritePath = "Images/icons_items_coin";
+        private static Sprite goldImage;
+
+        private static readonly float returnTime = 1.5f;
+        public static DropItem CreateDrop(Vector3 spawnPosition, ItemData item, int count, Color textColor)
+        {
+            CheckPoolExists();
+
+            var newBar = dropItemPool.Get();
+
+            Debug.Log("New Shape is null?:: " + newBar == null);
+            if (newBar == null)
+            {
+                dropItemPool.Clear();
+                dropItemPool = null;
+                var bar = Resources.Load<DropItem>(dropItemPath);
+                dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
+                newBar = dropItemPool.Get();
+            }
+            newBar.SetDropItem(item.IconSprite, item.Name, count, textColor);
+            newBar.transform.position = spawnPosition;
+            
+            newBar.gameObject.SetActive(true);
+            
+            newBar.CreateBouncingEffect();
+
+            return newBar;
+        }
+
+        public static DropItem CreateGoldDrop(Vector3 spawnPosition, int count)
+        {
+            CheckPoolExists();
+
+            var newBar = dropItemPool.Get();
+
+            Debug.Log("New Shape is null?:: " + newBar == null);
+            if (newBar == null)
+            {
+                dropItemPool.Clear();
+                dropItemPool = null;
+                var bar = Resources.Load<DropItem>(dropItemPath);
+                goldImage = Resources.Load<Sprite>(goldSpritePath);
+                dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
+                newBar = dropItemPool.Get();
+            }
+            newBar.SetDropItem(goldImage, goldName, count, Color.white, true);
+            newBar.transform.position = spawnPosition;
+
+            newBar.gameObject.SetActive(true);
+
+            newBar.CreateBouncingEffect();
+
+            return newBar;
+        }
+
+        public static void ReturnDrop(DropItem usedBar)
+        {
+            try
+            {
+                dropItemPool.Take(usedBar);
+            }
+            catch (NullReferenceException nl)
+            {
+                Debug.Log("DropItem is null: " + nl.Message);
+            }
+            catch (ArgumentException arg)
+            {
+                Debug.Log("Argument exception: " + arg.Message);
+            }
+        }
+
+
+        private static void CheckPoolExists()
+        {
+            if (dropItemPool == null)
+            {
+                var bar = Resources.Load<DropItem>(dropItemPath);
+                goldImage = Resources.Load<Sprite>(goldSpritePath);
+                dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
+            }
+        }
+    }
 
 }

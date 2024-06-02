@@ -11,10 +11,8 @@ namespace Litkey.InventorySystem
         매직 = 2,
         유니크 = 3,
         레전드 = 4,
-        신화 = 5,
-        초월 = 6
-
-
+        초월 = 5,
+        신화 = 6,
     };
 
     public enum eEquipmentParts

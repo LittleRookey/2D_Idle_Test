@@ -53,7 +53,8 @@ public abstract class Skill : SerializedScriptableObject
 
     public void IncreaseOneExp()
     {
-        this.Level.GainExp(1);
+        if (this.Level != null)
+            this.Level.GainExp(1);
     }
 
     public eSkillRank GetMaxUpgradeRank()
@@ -117,9 +118,19 @@ public abstract class ActiveSkill : Skill, IHasCooldown
 
     public float CooldownDuration => cooldown;
 
+    public UnityEvent OnSkillUse;
     public UnityEvent<ActiveSkill> OnSkillLevelUp;
 
     public abstract void Use(StatContainer ally, Health target);
+
+    private void OnEnable()
+    {
+        OnSkillUse.AddListener(IncreaseOneExp);
+    }
+    private void OnDisable()
+    {
+        OnSkillUse.RemoveListener(IncreaseOneExp);
+    }
 
     public override float GetTotalDamage(eSkillRank topRank)
     {

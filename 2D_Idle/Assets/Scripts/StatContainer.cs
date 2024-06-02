@@ -439,7 +439,7 @@ public class StatContainer : MonoBehaviour
                 - (enemyStat.Defense.FinalValue * 1f + (enemyStat.p_resist.FinalValue - p_penetration.FinalValue));
 
             dmg = GetRandomExtentDamage(attackDmg);
-            dmg = (Mathf.Clamp(attackDmg, 1f, float.MaxValue));
+            dmg = (Mathf.Clamp(dmg, 1f, float.MaxValue));
 
         }
         else
@@ -449,7 +449,7 @@ public class StatContainer : MonoBehaviour
                 - (enemyStat.MagicDefense.FinalValue * 1f + (enemyStat.m_resist.FinalValue - m_penetration.FinalValue));
 
             dmg = GetRandomExtentDamage(attackDmg);
-            dmg = Mathf.Clamp(attackDmg, 1f, float.MaxValue);
+            dmg = Mathf.Clamp(dmg, 1f, float.MaxValue);
         }
         return new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg);
     }
@@ -469,7 +469,7 @@ public class StatContainer : MonoBehaviour
 
 
                 dmg = GetRandomExtentDamage(attackDmg);
-                dmg = (Mathf.Clamp(attackDmg, 1f, float.MaxValue));
+                dmg = (Mathf.Clamp(dmg, 1f, float.MaxValue));
             }
             else
             {
@@ -480,7 +480,7 @@ public class StatContainer : MonoBehaviour
                     - (enemyStat.MagicDefense.FinalValue * 1f + (enemyStat.m_resist.FinalValue - m_penetration.FinalValue));
 
                 dmg = GetRandomExtentDamage(attackDmg);
-                dmg = (Mathf.Clamp(attackDmg, 1f, float.MaxValue));
+                dmg = (Mathf.Clamp(dmg, 1f, float.MaxValue));
             }
             damages.Add(new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg));
             
