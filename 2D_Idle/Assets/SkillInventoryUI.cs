@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Litkey.Utility;
 using Redcode.Pools;
 using DG.Tweening;
+using Litkey.Skill;
 
 
 public class SkillInventoryUI : MonoBehaviour
@@ -88,7 +89,12 @@ public class SkillInventoryUI : MonoBehaviour
         windowTransform.gameObject.SetActive(false);
 
         if (currentSkill != null)
+        {
             currentSkill.Level.OnGainExp -= UpdateSkillExp;
+            currentSkill.Level.OnLevelUp -= UpdateSkillLevel;
+            currentSkill.Level.OnLevelUp -= UpdateSkillExp;
+            currentSkill.Level.OnLevelUp -= UpdateSkillOnLevelUp;
+        }
 
         currentSkill = null;
     }
@@ -157,6 +163,12 @@ public class SkillInventoryUI : MonoBehaviour
     {
         skillTitleText.SetText($"{currentSkill.skillName} +{currentSkill.skillLevel}");
     }
+
+    private void UpdateSkillOnLevelUp(float x, float y)
+    {
+        skillDamageText.SetText($"{currentSkill.GetTotalDamage()}%");
+    }
+
     private List<SkillDescriptionUI> descriptions;
     public void ShowSkillInfo(Skill skill)
     {
@@ -167,6 +179,9 @@ public class SkillInventoryUI : MonoBehaviour
         // 전에 잇던 스킬 등록 해제
         currentSkill.Level.OnGainExp -= UpdateSkillExp;
         currentSkill.Level.OnLevelUp -= UpdateSkillLevel;
+        currentSkill.Level.OnLevelUp -= UpdateSkillExp;
+        currentSkill.Level.OnLevelUp -= UpdateSkillOnLevelUp;
+        
         // 새 스킬 등록
         currentSkill = skill;
 
@@ -174,6 +189,8 @@ public class SkillInventoryUI : MonoBehaviour
         var skillLevel = currentSkill.Level;
         skillLevel.OnGainExp += UpdateSkillExp;
         currentSkill.Level.OnLevelUp += UpdateSkillLevel;
+        currentSkill.Level.OnLevelUp += UpdateSkillExp;
+        currentSkill.Level.OnLevelUp += UpdateSkillOnLevelUp;
 
         skillIcon.sprite = skill._icon;
 
@@ -188,7 +205,7 @@ public class SkillInventoryUI : MonoBehaviour
 
         if (skill is ActiveSkill activeSkill)
         {
-            skillDamageText.SetText($"{activeSkill.GetTotalDamage(activeSkill.currentRank)}%");
+            skillDamageText.SetText($"{activeSkill.GetTotalDamage()}%");
             cooldownText.SetText($"{activeSkill.cooldown}초");
             for (int i = (int)activeSkill.startRank; i < (int)activeSkill.GetMaxUpgradeRank(); i++)
             {
@@ -220,8 +237,6 @@ public class SkillInventoryUI : MonoBehaviour
             }
 
         }
-
-        // 스킬 description 랭크에따라 보이기
     }
 
     

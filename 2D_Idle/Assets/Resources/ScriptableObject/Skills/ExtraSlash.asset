@@ -25,12 +25,12 @@ MonoBehaviour:
     SerializationNodes:
     - Name: rankUpgrades
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[eSkillRank, Assembly-CSharp],[System.Collections.Generic.List`1[[Decorator,
+      Data: 0|System.Collections.Generic.Dictionary`2[[Litkey.Skill.eSkillRank, Assembly-CSharp],[System.Collections.Generic.List`1[[Litkey.Skill.Decorator,
         Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[eSkillRank, Assembly-CSharp]],
-        mscorlib
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Litkey.Skill.eSkillRank,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -51,7 +51,8 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[Decorator, Assembly-CSharp]], mscorlib
+      Data: 2|System.Collections.Generic.List`1[[Litkey.Skill.Decorator, Assembly-CSharp]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -75,7 +76,8 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Decorator, Assembly-CSharp]], mscorlib
+      Data: 3|System.Collections.Generic.List`1[[Litkey.Skill.Decorator, Assembly-CSharp]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -99,21 +101,11 @@ MonoBehaviour:
       Data: 
     - Name: skillDamagePerLevel
       Entry: 7
-      Data: 4|System.Collections.Generic.Dictionary`2[[eSkillRank, Assembly-CSharp],[System.Collections.Generic.Dictionary`2[[System.Int32,
+      Data: 4|System.Collections.Generic.Dictionary`2[[Litkey.Skill.eSkillRank, Assembly-CSharp],[System.Collections.Generic.Dictionary`2[[System.Int32,
         mscorlib],[System.Single, mscorlib]], mscorlib]], mscorlib
     - Name: comparer
-      Entry: 7
-      Data: 5|System.Collections.Generic.EnumEqualityComparer`1[[eSkillRank, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Entry: 9
+      Data: 1
     - Name: 
       Entry: 12
       Data: 1
@@ -125,11 +117,11 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Single,
+      Data: 5|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Single,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 7|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+      Data: 6|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
         mscorlib]], mscorlib
     - Name: 
       Entry: 8
@@ -169,7 +161,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -181,7 +173,7 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -193,7 +185,7 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -205,7 +197,7 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -217,7 +209,7 @@ MonoBehaviour:
       Data: 7
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -229,7 +221,7 @@ MonoBehaviour:
       Data: 8
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -241,7 +233,7 @@ MonoBehaviour:
       Data: 9
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -253,7 +245,7 @@ MonoBehaviour:
       Data: 10
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -265,7 +257,7 @@ MonoBehaviour:
       Data: 11
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -277,7 +269,7 @@ MonoBehaviour:
       Data: 12
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -289,7 +281,7 @@ MonoBehaviour:
       Data: 13
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -301,7 +293,7 @@ MonoBehaviour:
       Data: 14
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -313,7 +305,7 @@ MonoBehaviour:
       Data: 15
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -325,7 +317,7 @@ MonoBehaviour:
       Data: 16
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -337,7 +329,7 @@ MonoBehaviour:
       Data: 17
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -349,7 +341,7 @@ MonoBehaviour:
       Data: 18
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -361,7 +353,7 @@ MonoBehaviour:
       Data: 19
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
@@ -373,7 +365,7 @@ MonoBehaviour:
       Data: 20
     - Name: $v
       Entry: 4
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -394,11 +386,11 @@ MonoBehaviour:
       Data: 
     - Name: skillDamagePerRank
       Entry: 7
-      Data: 8|System.Collections.Generic.Dictionary`2[[eSkillRank, Assembly-CSharp],[System.Single,
+      Data: 7|System.Collections.Generic.Dictionary`2[[Litkey.Skill.eSkillRank, Assembly-CSharp],[System.Single,
         mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 5
+      Data: 1
     - Name: 
       Entry: 12
       Data: 1
@@ -422,14 +414,14 @@ MonoBehaviour:
       Data: 
     - Name: SkillConditions
       Entry: 7
-      Data: 9|System.Collections.Generic.List`1[[SkillCondition, Assembly-CSharp]],
+      Data: 8|System.Collections.Generic.List`1[[SkillCondition, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 10|MultipleTargetsCondition, Assembly-CSharp
+      Data: 9|MultipleTargetsCondition, Assembly-CSharp
     - Name: Name
       Entry: 6
       Data: 
@@ -447,7 +439,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 11|TargetExists, Assembly-CSharp
+      Data: 10|TargetExists, Assembly-CSharp
     - Name: Name
       Entry: 6
       Data: 
@@ -472,6 +464,9 @@ MonoBehaviour:
   Level: {fileID: 11400000, guid: 6a78cb49f6871524eb8fc968f88ee594, type: 2}
   abilityUseSound: 
   skillExplanation: "\uC801\uC744 \uB450\uBC88 \uBCA4\uB2E4"
+  OnIncreaseExp:
+    m_PersistentCalls:
+      m_Calls: []
   cooldown: 3
   TimeTilActive: 0.25
   targetNumber: 2
@@ -479,6 +474,9 @@ MonoBehaviour:
   animationName: 
   skillEffect: {fileID: 4214304940546854769, guid: 695ff324093e91743a8abf684fa028de, type: 3}
   totalScore: 0
+  OnSkillUse:
+    m_PersistentCalls:
+      m_Calls: []
   OnSkillLevelUp:
     m_PersistentCalls:
       m_Calls: []

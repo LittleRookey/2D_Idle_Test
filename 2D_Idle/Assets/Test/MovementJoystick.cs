@@ -28,6 +28,8 @@ public class MovementJoystick : MonoBehaviour, IDragHandler, IEndDragHandler, IB
 
     public bool disalbeOnStart;
     public bool disableOnTouchRelease;
+
+    public bool isMovingJoystick;
     void Start()
     {
         nextPos = Vector2.zero;
@@ -115,7 +117,7 @@ public class MovementJoystick : MonoBehaviour, IDragHandler, IEndDragHandler, IB
         movementDirection = Vector2.zero;
         joyStick.anchoredPosition = Vector2.zero;
         joyStickBG.anchoredPosition = joystickOriginalPos;
-
+        isMovingJoystick = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -128,7 +130,7 @@ public class MovementJoystick : MonoBehaviour, IDragHandler, IEndDragHandler, IB
 
         joyStickBG.anchoredPosition = Vector2.zero;
         joyStick.anchoredPosition = joyStickBG.anchoredPosition;
-        
+        isMovingJoystick = true;
         joyStickBG.gameObject.SetActive(true);
     }
 }

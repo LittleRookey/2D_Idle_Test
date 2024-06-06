@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "IncreaseTargetNumber", menuName = "Litkey/SkillDecorators/IncreaseTargetNumber")]
-public class TargetNumberUpgrade : Decorator
+namespace Litkey.Skill
 {
-    [SerializeField] private int additionalTargetNumber = 1;
-    public override void AddEffect(Skill skill)
+    [CreateAssetMenu(fileName = "IncreaseTargetNumber", menuName = "Litkey/SkillDecorators/IncreaseTargetNumber")]
+    public class TargetNumberUpgrade : Decorator
     {
-        if (!isUnlocked) return;
-        if (skill is ActiveSkill activeSkill)
+        [SerializeField] private int additionalTargetNumber = 1;
+        public override void AddEffect(Skill skill)
         {
-            activeSkill.IncreaseTargetNumber(additionalTargetNumber);
-        }
+            if (!isUnlocked) return;
+            if (skill is ActiveSkill activeSkill)
+            {
+                activeSkill.IncreaseTargetNumber(additionalTargetNumber);
+            }
+        } 
     }
-
-  
 }

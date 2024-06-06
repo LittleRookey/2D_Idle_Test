@@ -4,6 +4,8 @@ using UnityEngine;
 using Redcode.Pools;
 using System;
 using Litkey.InventorySystem;
+using DamageNumbersPro;
+using Litkey.Stat;
 
 namespace Litkey.Utility 
 { 
@@ -289,4 +291,62 @@ namespace Litkey.Utility
         }
     }
 
+
+    public class DamagePopup
+    {
+        private static readonly string baseDMGTextPath = "Prefabs/BaseDamage";
+        private static readonly string missTextPath = "Prefabs/Miss";
+        private static readonly string critDMGTextPath = "Prefabs/CriticalDamage";
+
+        protected static DamageNumberMesh dmg;
+        protected static DamageNumberMesh missText;
+        protected static DamageNumberMesh critDamageText;
+        protected static Vector3 dmgOffset = new Vector3(0f, 0.6f, 0f);
+
+
+        public static IEnumerator ShowDmgText(Vector3 spawnPosition, List<Damage> damages, bool[] misses)
+        {
+            CheckPoolExists();
+            WaitForSeconds delay = new WaitForSeconds(0.1f);
+            if (misses != null)
+            {
+                //Debug.Log("Show damage text count: " + damages.Count);
+                for (int i = 0; i < damages.Count; i++)
+                {
+                    var spawnPos = spawnPosition + Vector3.up * 0.7f + dmgOffset * (i + 1);
+                    if (!misses[i])
+                    {
+                        ShowMissText(spawnPos);
+                        yield return delay;
+                        continue;
+                    }
+
+                    if (damages[i].isCrit)
+                    {
+                        critDamageText.Spawn(spawnPos, damages[i].damage);
+                    }
+                    else
+                    {
+                        dmg.Spawn(spawnPos, damages[i].damage);
+                    }
+                    yield return delay;
+                }
+            }
+        }
+
+        protected static void ShowMissText(Vector3 spawnPosition)
+        {
+            missText.Spawn(spawnPosition);
+        }
+
+        private static void CheckPoolExists()
+        {
+            if (dmg == null || missText == null || critDamageText == null)
+            {
+                dmg = Resources.Load<DamageNumberMesh>(baseDMGTextPath);
+                missText = Resources.Load<DamageNumberMesh>(missTextPath);
+                critDamageText = Resources.Load<DamageNumberMesh>(critDMGTextPath);
+            }
+        }
+    }
 }

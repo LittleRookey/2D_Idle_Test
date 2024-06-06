@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56113260e3e72e241841b163d6dfc1a6, type: 3}
   m_Name: "1_6_\uB370\uBE4C\uB3C5"
   m_EditorClassIdentifier: 
-  MaxHP: 100
-  Attack: 15
+  MonsterLevel: 0
+  MaxHP: 130
+  Attack: 20
   MagicAttack: 0
-  Defense: 6
+  Defense: 10
   MagicDefense: 3
   AttackSpeed: 1
   MoveSpeed: 1

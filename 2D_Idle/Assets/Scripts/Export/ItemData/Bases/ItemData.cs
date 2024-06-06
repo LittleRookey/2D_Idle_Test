@@ -1,16 +1,17 @@
 using Litkey.Interface;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 
 namespace Litkey.InventorySystem
 {
     public enum EquipmentRarity
     {
-        노말 = 0,
-        레어 = 1,
-        매직 = 2,
-        유니크 = 3,
-        레전드 = 4,
+        일반 = 0,
+        고급 = 1,
+        희귀 = 2,
+        영웅 = 3,
+        전설 = 4,
         초월 = 5,
         신화 = 6,
     };
@@ -23,7 +24,8 @@ namespace Litkey.InventorySystem
         shoe,
         Weapon,
         Subweapon,
-        Accessory
+        Accessory,
+        Glove,
     }
     /*
         [상속 구조]
@@ -37,7 +39,6 @@ namespace Litkey.InventorySystem
     [System.Serializable]
     public abstract class ItemData : ScriptableObject, IRewardable<ItemData>
     {
-        public int intID;
         
         public string Name => _name;
         public string Tooltip => _tooltip;
@@ -47,14 +48,26 @@ namespace Litkey.InventorySystem
         public EquipmentRarity rarity => _rarity;
         public int Weight => _weight;
 
+        [HorizontalGroup("Item Data", 100)]
+        [PreviewField(100f)]
+        [HideLabel]
+        [SerializeField] private Sprite _iconSprite; // 아이템 아이콘
+        
+        [VerticalGroup("Item Data/Info")]
+        [SerializeField] private string _name;    // 아이템 이름
+
+        [VerticalGroup("Item Data/Info")] public int intID;
+
+        [VerticalGroup("Item Data/Info")]
         /// <summary> 최대 내구도 </summary>
-        [SerializeField] private EquipmentRarity _rarity = EquipmentRarity.노말;
+        [SerializeField] private EquipmentRarity _rarity = EquipmentRarity.일반;
+        [VerticalGroup("Item Data/Info")]
         [SerializeField] private int _weight = 0;
         //protected string _id;
-        [SerializeField] private string _name;    // 아이템 이름
-        [Multiline]
+        [VerticalGroup("Item Data/Info")]
+        [TextArea]
         [SerializeField] private string _tooltip; // 아이템 설명
-        [SerializeField] private Sprite _iconSprite; // 아이템 아이콘
+        
 
         /// <summary> 타입에 맞는 새로운 아이템 생성 </summary>
         public abstract Item CreateItem();

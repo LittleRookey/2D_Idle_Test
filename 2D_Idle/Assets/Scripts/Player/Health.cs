@@ -8,6 +8,7 @@ using Litkey.Stat;
 using Sirenix.OdinInspector;
 using Litkey.Interface;
 using DarkTonic.MasterAudio;
+using Litkey.Utility;
 
 public class Health : MonoBehaviour, IPoolObject, IParryable
 {
@@ -30,7 +31,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     protected DamageNumberMesh missText;
     protected DamageNumberMesh critDamageText;
 
-    protected Vector3 dmgOffset = new Vector3(0f, 0.3f, 0f);
+    protected Vector3 dmgOffset = new Vector3(0f, 0.6f, 0f);
 
     protected BoxCollider2D bCollider;
     protected Rigidbody2D rb;
@@ -60,9 +61,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         _statContainer = GetComponent<StatContainer>();
         _statContainer.OnStatSetupComplete.AddListener(UpdateHealth);
 
-        dmg = Resources.Load<DamageNumberMesh>("Prefabs/BaseDamage");
-        missText = Resources.Load<DamageNumberMesh>("Prefabs/Miss");
-        critDamageText = Resources.Load<DamageNumberMesh>("Prefabs/CriticalDamage");
+        
     }
 
     protected virtual void OnEnable()
@@ -152,7 +151,8 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         //    return false;
         //}
         if (showDmgText)
-            StartCoroutine(ShowDmgText(damages, Hit));
+            StartCoroutine(DamagePopup.ShowDmgText(transform.position, damages, Hit));
+        //StartCoroutine(ShowDmgText(damages, Hit));
 
         // 명중 통과하면 데미지 계산
         for (int i = 0; i < damages.Count; i++)
@@ -204,7 +204,11 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         //    return false;
         //}
         if (showDmgText)
-            StartCoroutine(ShowDmgText(damages, Hit));
+        {
+            StartCoroutine(DamagePopup.ShowDmgText(transform.position, damages, Hit));
+            //StartCoroutine(ShowDmgText(damages, Hit));
+        }
+
         if (sfxOn)
             StartCoroutine(PlaySounds(damages.Count, "칼맞는소리"));
 
@@ -253,37 +257,37 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         }
     }
 
-    protected virtual IEnumerator ShowDmgText(List<Damage> damages, bool[] misses) 
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        if (misses != null)
-        {
-            //Debug.Log("Show damage text count: " + damages.Count);
-            for (int i = 0; i < damages.Count; i++)
-            {
-                if (!misses[i])
-                {
-                    ShowMissText();
-                    yield return delay;
-                    continue;
-                }
+    //protected virtual IEnumerator ShowDmgText(List<Damage> damages, bool[] misses) 
+    //{
+    //    WaitForSeconds delay = new WaitForSeconds(0.1f);
+    //    if (misses != null)
+    //    {
+    //        //Debug.Log("Show damage text count: " + damages.Count);
+    //        for (int i = 0; i < damages.Count; i++)
+    //        {
+    //            if (!misses[i])
+    //            {
+    //                ShowMissText();
+    //                yield return delay;
+    //                continue;
+    //            }
 
-                if (damages[i].isCrit)
-                {
-                    var spawnPos = transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1);
-                    //Debug.Log("Show damage text position: " + spawnPos);
-                    critDamageText.Spawn(transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1), damages[i].damage);
-                }
-                else
-                {
-                    var spawnPos = transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1);
-                    Debug.Log("Show damage text position: " + spawnPos);
-                    dmg.Spawn(spawnPos, damages[i].damage);
-                }
-                yield return delay;
-            }
-        }
-    }
+    //            if (damages[i].isCrit)
+    //            {
+    //                var spawnPos = transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1);
+    //                //Debug.Log("Show damage text position: " + spawnPos);
+    //                critDamageText.Spawn(transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1), damages[i].damage);
+    //            }
+    //            else
+    //            {
+    //                var spawnPos = transform.position + Vector3.up * 0.7f + dmgOffset * (i + 1);
+    //                Debug.Log("Show damage text position: " + spawnPos);
+    //                dmg.Spawn(spawnPos, damages[i].damage);
+    //            }
+    //            yield return delay;
+    //        }
+    //    }
+    //}
 
 
 

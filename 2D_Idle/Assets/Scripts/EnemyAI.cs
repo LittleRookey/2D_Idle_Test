@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 using Litkey.Stat;
+using Litkey.Skill;
 
 public class EnemyAI : MonoBehaviour
 {

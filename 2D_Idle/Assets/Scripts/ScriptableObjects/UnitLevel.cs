@@ -21,7 +21,7 @@ public class UnitLevel : ScriptableObject
 {
     [SerializeField] public int maxLevel = 100;
     public bool showLog;
-    public int level { get; protected set; } = 1;
+    [ShowInInspector] public int level { get; protected set; } = 1;
 
     public float CurrentExp => currentExp;
     public float MaxExp
@@ -33,20 +33,19 @@ public class UnitLevel : ScriptableObject
         }
     }
 
+    public AnimationCurve curve;
 
-
-    protected float currentExp;
+    [SerializeField] protected float currentExp;
     protected float maxExp = 100f;
 
-    public AnimationCurve curve;
 
     public float growthFactor = 1.1f;
     public float extraExpPerLevel = 50;
+
     [ListDrawerSettings(ShowIndexLabels = true)]
     public List<float> MaxExpByLevel = new List<float>();
     [SerializeField] protected float initMaxExp = 100f;
 
-    //public Queue<UnityAction> OnLevelUp;
     public UnityAction<float, float> OnLevelUp;
     public UnityAction<float, float> OnGainExp;
     public UnityAction<float, float> OnInitSetup;
@@ -94,11 +93,12 @@ public class UnitLevel : ScriptableObject
         OnInitSetup?.Invoke(currentExp, maxExp);
     }
 
+    [Button("Initialize")]
     public virtual void Init()
     {
-        this.maxLevel = 100;
-        this.maxExp = 100f;
-        this.initMaxExp = this.maxExp;
+        this.level = 1;
+        this.currentExp = 0f;
+        //this.initMaxExp = this.maxExp;
         
         UpdateMaxExpsPerLevel();
     }
@@ -106,7 +106,7 @@ public class UnitLevel : ScriptableObject
     public void UpdateMaxExpsPerLevel()
     {
         MaxExpByLevel.Clear();
-        //float growthFactor = 1.1f;
+
         float _maxExp = initMaxExp;
         MaxExpByLevel.Add(Mathf.Round(_maxExp));
 
@@ -114,7 +114,7 @@ public class UnitLevel : ScriptableObject
         {
             int _level = i + 1;
             float growth = 1 + curve.Evaluate((float)_level / (float)maxLevel);
-            //_maxExp *= growth;
+
             float fin_maxExp = (_maxExp + (extraExpPerLevel*i)) * Mathf.Pow(growthFactor, _level) * growth;
             MaxExpByLevel.Add(Mathf.Round(fin_maxExp));
         }
@@ -141,76 +141,6 @@ public class UnitLevel : ScriptableObject
         return currentExp / maxExp;
     }
 
-    public virtual void OnReachMaxLevel()
-    {
+    public virtual void OnReachMaxLevel() { }
 
-    }
-    public UnitLevel Clone()
-    {
-        return this.MemberwiseClone() as UnitLevel;
-    }
 }
-
-//[System.Serializable]
-//public class SkillLevel : AbilityLevel
-//{
-//    public int SkillID = 0;
-
-//    public List<SkillGrowthData> skillGrowthDatas;
-
-//    //public onSkillUpgrade onSkillUpgraded;
-
-//    //public delegate void onSkillUpgrade();
-//    public UnityAction<int, SkillGrowthData> OnSkillGrowth;
-//    //public SkillLevel(int maxLevel, AnimationCurve animCurve, float growthFactor = 1.1f) : base(maxLevel, maxExp, animCurve, growthFactor)
-//    //{
-//    //    maxExp = 100f;
-//    //}
-
-//    public SkillLevel(int maxLevel, float maxExp, AnimationCurve animCurve, float growthFactor = 1.1f) : base(maxLevel, maxExp, animCurve, growthFactor)
-//    {
-
-//    }
-
-
-//    [Button("Grow")]
-//    public override void Grow()
-//    {
-//        base.Grow();
-
-//        // check for skill upgrades
-//        foreach (SkillGrowthData sk in skillGrowthDatas)
-//        {
-//            Debug.Log((sk.level == level) + sk.level.ToString() + " " + level.ToString());
-//            if (sk.level == level)
-//            { // 
-//                OnSkillGrowth?.Invoke(SkillID, sk);
-
-//            }
-//        }
-//    }
-//}
-
-//[System.Serializable]
-//public class SkillGrowthData
-//{
-//    public int level; // when reach this level, run certian function
-
-//    //public Ability ability; // 
-
-//    //public onUpgrade OnUpgrade;
-
-//    public int addedProjectileNumber;
-//    public float addedSkillDamagePercent;
-
-//    public float addedReducedCooldownTime;
-//    public SkillGrowthData(int level, int addedProjectileNumber, float addedSkillDamagePercent, float addedReducedCooldownTime)
-//    {
-//        this.level = level;
-//        this.addedProjectileNumber = addedProjectileNumber;
-//        this.addedSkillDamagePercent = addedSkillDamagePercent;
-//        this.addedReducedCooldownTime = addedReducedCooldownTime;
-//    }
-
-//    //public delegate void onUpgrade();
-//}

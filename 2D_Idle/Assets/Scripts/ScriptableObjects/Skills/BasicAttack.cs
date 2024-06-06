@@ -3,24 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-[CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/BasicAttack")]
-public class BasicAttack : Skill
+
+namespace Litkey.Skill
 {
-    [Range(0, 10)]
-    public float damagePercent;
-
-    public UnityEvent OnApplyEffect;
-
-    public override void ApplyEffect(StatContainer allyStat, StatContainer target)
+    [CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/BasicAttack")]
+    public class BasicAttack : Skill
     {
+        [Range(0, 10)]
+        public float damagePercent;
 
-        var dmg = allyStat.GetDamageAgainst(target);
+        public UnityEvent OnApplyEffect;
 
-        target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg });
-        OnApplyEffect?.Invoke();
+        public override void ApplyEffect(StatContainer allyStat, StatContainer target)
+        {
+
+            var dmg = allyStat.GetDamageAgainst(target);
+
+            target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg });
+            OnApplyEffect?.Invoke();
+        }
     }
-
-   
 }
 
 

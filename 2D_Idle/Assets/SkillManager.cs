@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Litkey.Skill;
 
 public class SkillManager : MonoBehaviour
 {
+    public static SkillManager Instance;
+
     [SerializeField] private List<Skill> skills; // 기본적인 스킬들이 내장되어잇음
 
     private Dictionary<string, Skill> skillDict;
 
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
         skillDict = new Dictionary<string, Skill>();
         for (int i = 0; i < skills.Count; i++)
         {
@@ -29,9 +35,4 @@ public class SkillManager : MonoBehaviour
         return skillDict[skillName];
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

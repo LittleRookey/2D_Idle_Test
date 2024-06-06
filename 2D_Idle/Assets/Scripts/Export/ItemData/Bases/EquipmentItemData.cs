@@ -2,6 +2,7 @@ using UnityEngine;
 using Litkey.Stat;
 
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace Litkey.InventorySystem
 {
@@ -33,31 +34,42 @@ namespace Litkey.InventorySystem
 
     }
     
+    [InlineEditor]
     /// <summary> 장비 아이템 </summary>
     public abstract class EquipmentItemData : ItemData, IEquippable
     {
         public int MaxDurability => _maxDurability;
+        [VerticalGroup("Item Data/Info")]
         [SerializeField] private int _maxDurability = 100;
-        [SerializeField] protected StatModifier[] stats;
+        [TableList]
+        [SerializeField] protected StatModifier[] baseStats;
         //public bool IsEquipped => _isEquipped;
         //protected bool _isEquipped = false;
+        [VerticalGroup("Item Data/Info")]
         [SerializeField] protected eEquipmentParts _parts;
         protected int upgradeNum = 0;
+
+       
         public int UpgradeNum => upgradeNum;
         public StatModifier[] GetStats()
         {
-            return stats;
+            return baseStats;
         }
 
         public List<StatModifier> GetStats(eSubStatType statType)
         {
             List<StatModifier> statTypes = new List<StatModifier>();
-            for (int i = 0; i < stats.Length; i++)
+            for (int i = 0; i < baseStats.Length; i++)
             {
-                if (stats[i].IsStatType(statType)) statTypes.Add(stats[i]);
+                if (baseStats[i].IsStatType(statType)) statTypes.Add(baseStats[i]);
             }
 
             return statTypes;
+        }
+
+        public void SetParts(eEquipmentParts parts)
+        {
+            this._parts = parts;
         }
 
         public bool Equip()

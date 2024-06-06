@@ -8,6 +8,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using DarkTonic.MasterAudio;
 using Litkey.Utility;
+using Litkey.Skill;
 
 public class PlayerController : MonoBehaviour
 {

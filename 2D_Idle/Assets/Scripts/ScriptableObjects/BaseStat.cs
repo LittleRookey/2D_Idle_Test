@@ -1,48 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Litkey.Stat
 {
 
+    [InlineEditor]
     [CreateAssetMenu(fileName ="BaseStat", menuName ="Litkey/BaseStat")]
     public class BaseStat : ScriptableObject
     {
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public int MonsterLevel;
-        [Header("±‚∫ªΩ∫≈›")]
+
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float MaxHP;
-
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float Attack;
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float MagicAttack;
-
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float Defense;
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float MagicDefense;
-
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float AttackSpeed;
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float MoveSpeed;
         [Range(0f, 1f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float CritChance;
         [Range(0f, 1f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float CritDamage;
         [Range(0, 100f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float Precision;
         [Range(0, 100f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float Evasion;
 
         [Range(0, 100f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float p_penetration; // %
         [Range(0, 100f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float magic_penetration; // %
 
         [Range(0, 100f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float magic_resist; // %
         [Range(0, 100f)]
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float p_resist; // %
-
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float ExtraGold; // %
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float ExtraExp; // %
 
-        [Header("∏ÛΩ∫≈Õ Ω∫≈›")]
+
         public float Attack_Interval;
         //[Space]
         //public float MaxHP_Plus;

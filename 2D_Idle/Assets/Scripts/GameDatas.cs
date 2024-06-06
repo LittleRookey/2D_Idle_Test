@@ -9,6 +9,8 @@ using UnityEngine;
 using CodeStage.AntiCheat.ObscuredTypes;
 using Sirenix.OdinInspector;
 using UnityEngine.Events;
+using System.Linq;
+using Litkey.Skill;
 
 [System.Serializable]
 public class GameData
@@ -44,6 +46,8 @@ public class PlayerData
     public EquipmentUpgradeStatus topArmor;
 
 
+    public Dictionary<string, SkillData> skillDatas;
+
     public PlayerData()
     {
         level = 1;
@@ -54,6 +58,9 @@ public class PlayerData
         AVILevel = 0;
         SensationLevel = 0;
         IntLevel = 0;
+
+        skillDatas = new Dictionary<string, SkillData>();
+
         weapon = new EquipmentUpgradeStatus();
         topArmor = new EquipmentUpgradeStatus();
     }
@@ -81,6 +88,48 @@ public class PlayerData
         this.AVILevel = statContainer.Avi.LevelAddedStats;
         this.SensationLevel = statContainer.Sensation.LevelAddedStats;
         this.IntLevel = statContainer.Int.LevelAddedStats;
+    }
+    public void SaveSkills(List<Skill> skills)
+    {
+        for (int i = 0; i < skills.Count; i++)
+        {
+            SaveSkill(skills[i]);
+        }
+    }
+    public void SaveSkill(Skill skill)
+    {
+        if (!skillDatas.ContainsKey(skill.skillName))
+        {
+            skillDatas.Add(skill.skillName, new SkillData(skill));
+        }
+        skillDatas[skill.skillName].SetSkillData(skill);
+    }
+
+    public List<SkillData> GetSkillDatas()
+    {
+        return skillDatas.Values.ToList();
+    }
+}
+
+[System.Serializable]
+public class SkillData
+{
+    public string skillName;
+    public int skillLevel;
+    public float currentExp;
+
+    public SkillData(Skill skill)
+    {
+        this.skillName = skill.skillName;
+        this.skillLevel = skill.skillLevel;
+        this.currentExp = skill.Level.CurrentExp;
+    }
+
+    public void SetSkillData(Skill skill)
+    {
+        this.skillName = skill.skillName;
+        this.skillLevel = skill.skillLevel;
+        this.currentExp = skill.Level.CurrentExp;
     }
 }
 
@@ -279,7 +328,6 @@ public class GameDatas : ScriptableObject
                                                             DataSource.ReadCacheOrNetwork,
                                                             ConflictResolutionStrategy.UseLastKnownGood,
                                                             DeleteSaveGame);
-
     }
 
     private void DeleteSaveGame(SavedGameRequestStatus status, ISavedGameMetadata data)
@@ -300,7 +348,6 @@ public class GameDatas : ScriptableObject
             Debug.Log("삭제 실패");
         }
     }
-
 
     public void DetectCheat()
     {

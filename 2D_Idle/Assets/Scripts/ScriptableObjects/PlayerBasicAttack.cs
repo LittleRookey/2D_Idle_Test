@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using DarkTonic.MasterAudio;
 
-[CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/PlayerBasicAttack")]
-public class PlayerBasicAttack : BasicAttack
+namespace Litkey.Skill
 {
-    public override void ApplyEffect(StatContainer allyStat, StatContainer target)
+    [CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/PlayerBasicAttack")]
+    public class PlayerBasicAttack : BasicAttack
     {
-
-
-        
-        var dmg = allyStat.GetDamageAgainst(target);
-        MasterAudio.PlaySound("漠嘎绰家府");
-        target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);
-        OnApplyEffect?.Invoke();
+        public override void ApplyEffect(StatContainer allyStat, StatContainer target)
+        {
+            var dmg = allyStat.GetDamageAgainst(target);
+            MasterAudio.PlaySound("漠嘎绰家府");
+            target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);
+            OnApplyEffect?.Invoke();
+        }
     }
 }

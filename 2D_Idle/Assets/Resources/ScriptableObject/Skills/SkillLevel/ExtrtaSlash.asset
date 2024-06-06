@@ -38,33 +38,34 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  currentExp: 54
   growthFactor: 1.1
   extraExpPerLevel: 50
   MaxExpByLevel:
-  - 100
-  - 187
-  - 282
-  - 404
-  - 559
-  - 754
-  - 999
-  - 1304
-  - 1680
-  - 2140
-  - 2696
-  - 3362
-  - 4152
-  - 5081
-  - 6161
-  - 7405
-  - 8822
-  - 10416
-  - 12187
-  - 14128
-  initMaxExp: 100
+  - 10
+  - 75
+  - 155
+  - 259
+  - 391
+  - 560
+  - 774
+  - 1043
+  - 1378
+  - 1790
+  - 2291
+  - 2896
+  - 3618
+  - 4471
+  - 5468
+  - 6621
+  - 7940
+  - 9429
+  - 11091
+  - 12917
+  initMaxExp: 10
   skillName: SwordMastery
   extraLevelOnRankup: 0
-  isMaxLevel: 0
+  isMaxLevel: 1
   OnLevelMax:
     m_PersistentCalls:
       m_Calls: []

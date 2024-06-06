@@ -5,6 +5,7 @@ using Litkey.Stat;
 using Litkey.Utility;
 using UnityEngine.Events;
 using DarkTonic.MasterAudio;
+using Litkey.Skill;
 
 public class StatContainer : MonoBehaviour
 {
@@ -144,10 +145,13 @@ public class StatContainer : MonoBehaviour
 
     [HideInInspector] public UnityEvent<eMainStatType> OnIncreaseStat = new();
     [HideInInspector] public UnityEvent<eMainStatType, int> OnTryIncreaseStat = new();
-    [HideInInspector] public UnityEvent OnApplyStat;
-    [HideInInspector] public UnityEvent OnCancelStat;
+    [HideInInspector] public UnityEvent OnApplyStat; // 스텟 찍기 완료시
+    [HideInInspector] public UnityEvent OnCancelStat; // 스텟 찍기 취소시
 
-    protected Dictionary<eMainStatType, int> statGiven;
+    protected Dictionary<eMainStatType, int> statGiven; // 능력치 찍을떄 현재 찍은 스텟들
+
+    public Dictionary<string, List<StatModifier>> passiveStats;
+    public List<StatModifier> additionalStats;
 
     public UnityEvent<StatContainer> OnStatSetupComplete;
     public UnityEvent OnEquipSkill;
@@ -334,9 +338,7 @@ public class StatContainer : MonoBehaviour
         return total;
     }
 
-    public Dictionary<string, List<StatModifier>> passiveStats;
 
-    public List<StatModifier> additionalStats;
     public void SumStatModifier(StatModifier statModifier)
     {
         additionalStats.Add(statModifier);
@@ -405,6 +407,7 @@ public class StatContainer : MonoBehaviour
         OnStatSetupComplete?.Invoke(this);
     }
 
+    // 스텟찍기 초기화
     protected void ClearStatGivenPoints()
     {
         foreach (var stat in mainStats.Keys)
@@ -488,6 +491,11 @@ public class StatContainer : MonoBehaviour
         return damages;
     }
 
+    /// <summary>
+    ///  현재 공격력을 가져오고 치명타면 치명타데미지를 가져온다
+    /// </summary>
+    /// <param name="multiplier"></param>
+    /// <returns></returns>    
     private Damage GetFinalDamage(float multiplier=1f)
     {
         bool isPhysic = Attack.FinalValue >= MagicAttack.FinalValue;
@@ -508,7 +516,8 @@ public class StatContainer : MonoBehaviour
             return new Damage(MagicAttack.FinalValue * multiplier, false, false);
         }
     }
-
+    
+    // 스킬쓸때 데미지용
     public Damage GetSkillDamage(float skillDmgPercent, bool isPhysic)
     {
         if (ProbabilityCheck.GetThisChanceResult(CritChance.FinalValue))
@@ -548,16 +557,13 @@ public class StatContainer : MonoBehaviour
         return ProbabilityCheck.GetThisChanceResult(hitChance);
     }
 
-    public float Defend(float inComingDamage)
-    {
-        return Mathf.Max(1f, inComingDamage - Defense.FinalValue);
-    }
-    #endregion
 
     public float GetRandomExtentDamage(float dmg)
     {
         return Random.Range(dmg * 0.97f, dmg * 1.03f);
     }
+
+    #endregion
 
     public void AddMaxHealth(float val)
     {
@@ -576,10 +582,11 @@ public class StatContainer : MonoBehaviour
 
     public void AddBuffEffect(StatModifier statModifier)
     {
-        //statModifier.
+        // TODO
     }
 
     // ETC 스텟들을 전부 Equip
+    // 스킬 레벨업으로 인해 증가된 스텟들 장착
     public void AddETCStat(List<StatModifier> stats)
     {
         for (int i = 0; i < stats.Count; i++)
@@ -588,6 +595,7 @@ public class StatContainer : MonoBehaviour
         }
     }
 
+    // 스킬 레벨업으로 인해 증가된 스텟들 해제
     public void RemoveETCStat(List<StatModifier> stats)
     {
         for (int i = 0; i < stats.Count; i++)

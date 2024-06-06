@@ -46,10 +46,8 @@ public class PlayerStatContainer : StatContainer, ILoadable, ISavable
         ClearMainStats();
         ClearStatGivenPoints();
 
-        //SaveManager.Instance.    
         playerData = gameDatas.dataSettings.playerData;
-        //Debug.Log(gameDatas.dataSettings);
-        //Debug.Log(gameDatas.dataSettings.playerData);
+
         this.Strength.IncreaseStat(playerData.StrengthLevel);
         this.Avi.IncreaseStat(playerData.AVILevel);
         this.Vit.IncreaseStat(playerData.VitLevel);

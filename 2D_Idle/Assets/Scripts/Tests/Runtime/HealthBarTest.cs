@@ -144,7 +144,7 @@ namespace ACF.Tests
 					hpShieldRatio = Hp / (Hp + Sp);
 
 					sp.transform.localScale = newSPVec;
-					step = (Hp) / 300f;
+					step = (Hp) / 100f;
 					newHPVec.x = Hp / (Hp + Sp);
 					hp.transform.localScale = newHPVec;
 					//hp.fillAmount = Hp / (Hp + Sp);
@@ -154,7 +154,7 @@ namespace ACF.Tests
 					newSPVec.x = (Hp + Sp) / MaxHp;
 					sp.transform.localScale = newSPVec;
 					hpShieldRatio = Hp / MaxHp;
-					step = Hp / 300f;
+					step = Hp / 100f;
 
 					newHPVec.x = Hp / MaxHp;
 					hp.transform.localScale = newHPVec;
@@ -164,7 +164,7 @@ namespace ACF.Tests
 			{
 				newSPVec.x = 0f;
 				sp.transform.localScale = newSPVec;
-				step = MaxHp / 300f;
+				step = MaxHp / 100f;
 				hpShieldRatio = 1f;
 
 				newHPVec.x = current / max;

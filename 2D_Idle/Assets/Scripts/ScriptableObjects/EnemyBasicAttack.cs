@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/EnemyBasicAttack")]
-public class EnemyBasicAttack : BasicAttack
+namespace Litkey.Skill
 {
-    public override void ApplyEffect(StatContainer allyStat, StatContainer target)
+    [CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/EnemyBasicAttack")]
+    public class EnemyBasicAttack : BasicAttack
     {
-        var dmg = allyStat.GetDamageAgainst(target);
+        public override void ApplyEffect(StatContainer allyStat, StatContainer target)
+        {
+            var dmg = allyStat.GetDamageAgainst(target);
 
-        target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg }, false);
+            target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg }, false);
+        }
     }
 }

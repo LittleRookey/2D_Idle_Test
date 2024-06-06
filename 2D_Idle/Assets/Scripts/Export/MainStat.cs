@@ -644,10 +644,18 @@ namespace Litkey.Stat
     [System.Serializable]
     public class StatModifier
     {
-
+        [BoxGroup("Stat Details")]
+        [LabelText("Stat Type")]
         public eSubStatType statType;
-        public float value;
+
+        [BoxGroup("Stat Details")]
+        [LabelText("Operator Type")]
         public OperatorType oper;
+
+
+        [BoxGroup("Stat Details")]
+        [LabelText("Value")]
+        public float value;
 
         public bool Compare(StatModifier stat)
         {

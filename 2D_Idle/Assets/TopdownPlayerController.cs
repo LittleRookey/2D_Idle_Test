@@ -1,4 +1,5 @@
 using DarkTonic.MasterAudio;
+using Litkey.Skill;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,15 @@ public class TopdownPlayerController : PlayerController
 
     private SkillContainer skillContainer;
 
+    public bool CanMove => canMove;
+
+    private PlayerInput playerInput;
+
     protected override void Awake()
     {
         base.Awake();
         skillContainer = GetComponent<SkillContainer>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     protected override void OnEnable()
@@ -29,7 +35,6 @@ public class TopdownPlayerController : PlayerController
         _statContainer.AttackSpeed.OnValueChanged.AddListener(UpdateAttackSpeedOnChange);
         
     }
-
     protected override void OnDisable()
     {
         base.OnDisable();
@@ -46,6 +51,7 @@ public class TopdownPlayerController : PlayerController
 
     }
 
+    
     public override void DisableMovement()
     {
         base.DisableMovement();
@@ -164,14 +170,16 @@ public class TopdownPlayerController : PlayerController
     }
     protected override void Move()
     {
-        moveDir = (Target.transform.position - transform.position).normalized;
+        if (!playerInput.IsMovingJoystick && isAuto)
+            moveDir = (Target.transform.position - transform.position).normalized;
 
         // 방향 전환
         if (moveDir.x > 0) this.Turn(true);
         else if (moveDir.x < 0) this.Turn(false);
         //Debug.Log("Player Running to Target");
         //rb2D.velocity = moveDir * runSpeed;
-        transform.position += (Vector3)moveDir * runSpeed * Time.deltaTime;
+        if (canMove)
+            transform.position += (Vector3)moveDir * runSpeed * Time.deltaTime;
     }
 
     public void Auto()
@@ -226,6 +234,7 @@ public class TopdownPlayerController : PlayerController
             case eBehavior.idle:
                 if (isAuto)
                 {
+                    if (playerInput.IsMovingJoystick) return;
                     if (!HasNoTarget())
                     {
                         if (TargetWithinAttackRange())
@@ -244,6 +253,7 @@ public class TopdownPlayerController : PlayerController
                 break;
             case eBehavior.chase: // 타겟이 있을떄만 들어온다
                 // 적을 찾으면 적을향해 달려간다, 공격범위까지
+                if (playerInput.IsMovingJoystick) return;
                 if (canMove)
                     Move();
 
@@ -256,6 +266,7 @@ public class TopdownPlayerController : PlayerController
 
                 break;
             case eBehavior.run: //  주로 움직일떄 사용
+                if (playerInput.IsMovingJoystick) return;
                 if (canMove)
                     RunWithNoTarget();
 
@@ -269,6 +280,7 @@ public class TopdownPlayerController : PlayerController
                 anim.SetBool(_isJumping, true);
                 break;
             case eBehavior.attack:
+                if (playerInput.IsMovingJoystick) return;
                 if (TargetWithinAttackRange())
                     AttackAction();
                 else

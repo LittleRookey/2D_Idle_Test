@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour
     private PlayerController player;
     private TopdownPlayerController playerTopdown;
 
+    public bool IsMovingJoystick => joystick.isMovingJoystick;
     [SerializeField] private MovementJoystick joystick;
     private void Awake()
     {
@@ -56,9 +57,11 @@ public class PlayerInput : MonoBehaviour
         {
             Debug.LogError("Joystick not set up");
         }
-        if (playerTopdown.isAuto) return;
+        if (playerTopdown.isAuto && !joystick.isMovingJoystick) return;
+        //if (!playerTopdown.CanMove) return;
+
         playerTopdown.moveDir = joystick.joystickVec;
-        if (playerTopdown.moveDir == Vector2.zero)
+        if (joystick.joystickVec == Vector2.zero)
         {
             playerTopdown.DoIdle();
             return;

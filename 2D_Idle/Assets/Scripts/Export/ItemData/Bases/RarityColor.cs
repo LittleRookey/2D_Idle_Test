@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-
-[CreateAssetMenu(menuName ="Litkey/SkillRarity")]
-public class RarityColor : SerializedScriptableObject
+namespace Litkey.Skill
 {
-    [SerializeField] private Dictionary<eSkillRank, Color> rankColor;
-
-    public Color GetSkillColor(eSkillRank rank)
+    [CreateAssetMenu(menuName ="Litkey/SkillRarity")]
+    public class RarityColor : SerializedScriptableObject
     {
-        return rankColor[rank];
+        [SerializeField] private Dictionary<eSkillRank, Color> rankColor;
+
+        public Color GetSkillColor(eSkillRank rank)
+        {
+            return rankColor[rank];
+        }
     }
 }

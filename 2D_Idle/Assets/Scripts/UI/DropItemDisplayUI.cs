@@ -72,7 +72,7 @@ public class DropItemDisplayUI : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         FadeOutColor();
         yield return new WaitForSeconds(0.5f);
         OnFadeOut?.Invoke(this);

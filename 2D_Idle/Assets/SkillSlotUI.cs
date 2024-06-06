@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Litkey.Skill;
 
 public class SkillSlotUI : MonoBehaviour
 {

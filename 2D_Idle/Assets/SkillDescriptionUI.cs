@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Litkey.Stat;
+using Litkey.Skill;
 
 public class SkillDescriptionUI : MonoBehaviour
 {

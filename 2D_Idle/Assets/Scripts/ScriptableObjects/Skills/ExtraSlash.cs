@@ -9,18 +9,6 @@ using Litkey.Skill;
 public class ExtraSlash : ActiveSkill
 {
     public float skillRadius;
-    public RangeSkillArea skillRange;
-    public LayerMask enemyLayer;
-
-    private Pool<RangeSkillArea> skillRangePool;
-    
-    protected override void Awake()
-    {
-        base.Awake();
-        skillRangePool = Pool.Create<RangeSkillArea>(skillRange).NonLazy();
-        
-    }
-
     
     public override void ApplyEffect(StatContainer allyStat, StatContainer target)
     {
