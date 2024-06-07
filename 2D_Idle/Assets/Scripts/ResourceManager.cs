@@ -59,7 +59,7 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
         Save();
     }
 
-    public void DisplayItem(ItemData item, int count, UnityAction OnEnd)
+    public void DisplayItem(ItemData item, int count, UnityAction OnEnd=null)
     {
         var dropUI = dropItemDisplayPool.Get();
         dropUI.SetItemUI(item, count, (DropItemDisplayUI dUI) =>
@@ -69,7 +69,7 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
         });
     }
 
-    public void DisplayGold(int count, UnityAction OnEnd)
+    public void DisplayGold(int count, UnityAction OnEnd=null)
     {
         var dropUI = dropItemDisplayPool.Get();
         dropUI.gameObject.SetActive(true);

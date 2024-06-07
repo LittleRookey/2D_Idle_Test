@@ -11,7 +11,6 @@ namespace Litkey.InventorySystem
         public override Item CreateItem()
         {
             //string _id = UniqueIDGenerator.GenerateUnqiueIDDateTime(Name);
-            itemType = "¹æ¾î±¸";
             var item = new ArmorItem(this, intID.ToString());
             //ResourceManager.Instance.MakeRandomStats(item);
             return item;

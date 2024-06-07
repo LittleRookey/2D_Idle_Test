@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba0b736a76e03f4193267e8ccf03893, type: 3}
+  m_Name: "\uC0AC\uAC01 \uB098\uBB34 \uBC29\uD328"
+  m_EditorClassIdentifier: 
+  itemType: 
+  _iconSprite: {fileID: -537990477, guid: 89daeb3747568f644a749291a93ba8ca, type: 3}
+  _name: "\uC0AC\uAC01 \uB098\uBB34 \uBC29\uD328"
+  intID: 19
+  _rarity: 0
+  _weight: 0
+  _tooltip: "\uB2E8\uB2E8\uD55C \uB098\uBB34\uB85C \uB9CC\uB4E0 \uC0AC\uAC01\uD615
+    \uBC29\uD328\uC774\uB2E4. \uC801\uC808\uD55C \uBC29\uC5B4\uB825\uC744 \uAC00\uC9C0\uACE0
+    \uC788\uB2E4"
+  _maxDurability: 100
+  baseStats:
+  - statType: 7
+    oper: 0
+    value: 25
+  _parts: 5

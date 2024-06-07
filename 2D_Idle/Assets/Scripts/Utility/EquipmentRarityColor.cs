@@ -7,9 +7,9 @@ using Sirenix.OdinInspector;
 [CreateAssetMenu(menuName = "Litkey/EquipmentRarity")]
 public class EquipmentRarityColor : SerializedScriptableObject
 {
-    [SerializeField] private Dictionary<EquipmentRarity, Color> rankColor;
+    [SerializeField] private Dictionary<ItemRarity, Color> rankColor;
 
-    public Color GetColor(EquipmentRarity rarity)
+    public Color GetColor(ItemRarity rarity)
     {
         return rankColor[rarity];
     }

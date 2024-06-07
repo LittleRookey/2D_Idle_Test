@@ -1,5 +1,7 @@
 
 
+using Litkey.Interface;
+
 namespace Litkey.InventorySystem
 {
     /*
@@ -9,7 +11,7 @@ namespace Litkey.InventorySystem
             - CountableItem : 수량이 존재하는 아이템
     */
     [System.Serializable]
-    public abstract class Item
+    public abstract class Item 
     {
         public ItemData Data { get; private set; }
         public string ID => _id; // 유니크 아이디

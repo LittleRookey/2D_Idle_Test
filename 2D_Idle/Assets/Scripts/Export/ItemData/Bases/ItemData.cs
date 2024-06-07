@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 namespace Litkey.InventorySystem
 {
-    public enum EquipmentRarity
+    public enum ItemRarity
     {
         일반 = 0,
         고급 = 1,
@@ -37,15 +37,13 @@ namespace Litkey.InventorySystem
                 - ArmorItemData
     */
     [System.Serializable]
-    public abstract class ItemData : ScriptableObject, IRewardable<ItemData>
+    public abstract class ItemData : ScriptableObject
     {
         
         public string Name => _name;
         public string Tooltip => _tooltip;
         public Sprite IconSprite => _iconSprite;
-        [HideInInspector]
-        public string itemType;
-        public EquipmentRarity rarity => _rarity;
+        public ItemRarity rarity => _rarity;
         public int Weight => _weight;
 
         [HorizontalGroup("Item Data", 100)]
@@ -60,7 +58,7 @@ namespace Litkey.InventorySystem
 
         [VerticalGroup("Item Data/Info")]
         /// <summary> 최대 내구도 </summary>
-        [SerializeField] private EquipmentRarity _rarity = EquipmentRarity.일반;
+        [SerializeField] private ItemRarity _rarity = ItemRarity.일반;
         [VerticalGroup("Item Data/Info")]
         [SerializeField] private int _weight = 0;
         //protected string _id;
@@ -79,7 +77,7 @@ namespace Litkey.InventorySystem
                 (this is AccessoryItemData);
         }
 
-        public virtual ItemData GetReward() { return this; }
+        //public virtual ItemData GetReward() { return this; }
 
     }
 

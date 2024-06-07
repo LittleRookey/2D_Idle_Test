@@ -13,7 +13,7 @@ public class LootTable : ScriptableObject
     [System.Serializable]
     public class ItemDrop
     {
-        public IRewardable<ItemData> item;
+        public ItemData item;
         [Range(0f, 100f)]
         public float dropRate;
         public Vector2Int dropCount = Vector2Int.one;
@@ -62,15 +62,17 @@ public class LootTable : ScriptableObject
             if (ProbabilityCheck.GetThisChanceResult_Percentage(_lootTable[i].dropRate))
             {
                 int count = Random.Range(_lootTable[i].dropCount.x, _lootTable[i].dropCount.y);
-                var item = _lootTable[i].item.GetReward().CreateItem();
-               if (item is CountableItem countableItem)
+                var itemData = _lootTable[i].item;
+                if (itemData is CountableItemData countableItemData)
                 {
-                    countableItem.SetAmount(count);
-                    itemDrops.Add(countableItem);
+                    var dropItem = countableItemData.CreateItem() as CountableItem;
+                    itemDrops.Add(dropItem);
+                    dropItem.SetAmount(count);
                 }
-               else if (item is EquipmentItem equipItem)
+                else if (itemData is EquipmentItemData equipItemData)
                 {
-                    itemDrops.Add(equipItem);
+
+                    itemDrops.Add(equipItemData.CreateItem());
                 }
                 
            
@@ -79,38 +81,6 @@ public class LootTable : ScriptableObject
         return itemDrops;
 
     }
-
-    //public IDroppable DropItem(Transform dropTransform)
-    //{
-
-    //    if (_lootTable.Length <= 0) return null;
-    //    int count = 1;
-    //    foreach (ItemDrop itdp in _lootTable)
-    //    {
-    //        bool dropSuccess = ProbabilityCheck.GetThisChanceResult_Percentage(itdp.dropRate);
-    //        if (dropSuccess)
-    //        {
-    //            int dropNum = Random.Range(itdp.dropCount.x, itdp.dropCount.y);
-
-    //            //JumpDrop jd = DropItemManager.Instance.GetEmptyDrop();
-    //            //jd.transform.position = dropTransform.position;
-
-    //            //float dropTime = DropItemManager.Instance.dropIntervalTime * count;
-    //            //jd.SetItem(itdp.item, itdp.item.rarity, dropNum, dropTime);
-
-    //            count += 1;
-
-    //            //FunctionTimer.Create(() => jd.gameObject.SetActive(true), dropTime);
-    //            return itdp.item;
-
-    //        }
-    //    }
-    //    //JumpDrop jdrop = DropItemManager.Instance.GetEmptyDrop();
-    //    //jdrop.transform.position = dropTransform.position;
-    //    //jdrop.SetCoin(Random.Range(gold.x, gold.y + 1));
-
-
-    //}
 
 
 }

@@ -20,7 +20,7 @@ public abstract class Ability : ScriptableObject
 
     [Header("Main Ability Settings")]
     public Sprite _icon;
-    public EquipmentRarity rarity;
+    public ItemRarity rarity;
     //public bool isPlayer; // is player's ability
     public new string name; // ability name
     public float coolDownTime; // cooldown time for ability

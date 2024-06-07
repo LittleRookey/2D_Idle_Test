@@ -8,6 +8,5 @@ namespace Litkey.InventorySystem
         public int MaxAmount => _maxAmount;
         [SerializeField] private int _maxAmount = 999;
 
-
     }
 }

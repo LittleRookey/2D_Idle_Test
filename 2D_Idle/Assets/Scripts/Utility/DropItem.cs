@@ -56,7 +56,7 @@ public class DropItem : MonoBehaviour
             this.itemText.text = itemName + num + itemCount;
         StartCoroutine(ReturnToPool());
     }
-    public void SetDropItem(Sprite icon, string itemName, int itemCount, EquipmentRarity rarity, ItemData itemData)
+    public void SetDropItem(Sprite icon, string itemName, int itemCount, ItemRarity rarity, ItemData itemData)
     {
         this.itemData = itemData;
 
@@ -72,17 +72,19 @@ public class DropItem : MonoBehaviour
         StartCoroutine(ReturnToPool());
     }
 
-    public void SetDropItem(Sprite icon, string itemName, int itemCount, Color textColor)
+    public void SetDropItem(Sprite icon, ItemData itemData, int itemCount, Color textColor)
     {
         this.icon.sprite = icon;
-        this.itemName = itemName;
+        this.itemName = itemData.Name;
         this.itemCount = itemCount;
         this.itemText.text = itemName;
         this.textColor = textColor;
         this.itemText.color = this.textColor;
 
         if (itemCount > 1)
-            this.itemText.text = itemName + num + itemCount;
+            this.itemText.SetText($"{TMProUtility.GetColorText($"[{itemData.rarity.ToString()}]", textColor)} {itemData.Name} x{itemCount}");
+        else
+            this.itemText.SetText($"{TMProUtility.GetColorText($"[{itemData.rarity.ToString()}]", textColor)} {itemData.Name}");
         StartCoroutine(ReturnToPool());
     }
 
@@ -115,7 +117,7 @@ public class DropItem : MonoBehaviour
             this.itemText.text = itemName + num + itemCount;
     }
 
-    public void SetDropItem(Sprite icon, string itemName, int itemCount, EquipmentRarity rarity, GameObject onDropEffect)
+    public void SetDropItem(Sprite icon, string itemName, int itemCount, ItemRarity rarity, GameObject onDropEffect)
     {
         this.icon.sprite = icon;
         this.itemName = itemName;

@@ -15,4 +15,7 @@ MonoBehaviour:
   _lootID: 
   gold: {x: 2, y: 5}
   dropExp: 8
-  _lootTable: []
+  _lootTable:
+  - item: {fileID: 11400000, guid: 4c0bf16a02219e149b7a4f095b2e1622, type: 2}
+    dropRate: 100
+    dropCount: {x: 1, y: 1}

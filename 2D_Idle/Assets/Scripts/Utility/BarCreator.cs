@@ -209,6 +209,10 @@ namespace Litkey.Utility
         private static readonly string goldName = "°ñµå";
 
         private static readonly string goldSpritePath = "Images/icons_items_coin";
+        private static readonly string equipmentRarityColorPath = "ScriptableObject/EquipmentRarityColor";
+
+        private static EquipmentRarityColor rarityColor;
+
         private static Sprite goldImage;
 
         private static readonly float returnTime = 1.5f;
@@ -224,6 +228,7 @@ namespace Litkey.Utility
                 dropItemPool.Clear();
                 dropItemPool = null;
                 var bar = Resources.Load<DropItem>(dropItemPath);
+                rarityColor = Resources.Load<EquipmentRarityColor>(equipmentRarityColorPath);
                 dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
                 newBar = dropItemPool.Get();
             }
@@ -237,6 +242,32 @@ namespace Litkey.Utility
             return newBar;
         }
 
+        public static DropItem CreateDrop(Vector3 spawnPosition, ItemData item, int count)
+        {
+            CheckPoolExists();
+
+            var newBar = dropItemPool.Get();
+
+            Debug.Log("New Shape is null?:: " + newBar == null);
+            if (newBar == null)
+            {
+                dropItemPool.Clear();
+                dropItemPool = null;
+                var bar = Resources.Load<DropItem>(dropItemPath);
+                rarityColor = Resources.Load<EquipmentRarityColor>(equipmentRarityColorPath);
+                dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
+                newBar = dropItemPool.Get();
+            }
+            newBar.SetDropItem(item.IconSprite, item, count, rarityColor.GetColor(item.rarity));
+            newBar.transform.position = spawnPosition;
+
+            newBar.gameObject.SetActive(true);
+
+            newBar.CreateBouncingEffect();
+
+            return newBar;
+
+        }
         public static DropItem CreateGoldDrop(Vector3 spawnPosition, int count)
         {
             CheckPoolExists();
@@ -250,6 +281,7 @@ namespace Litkey.Utility
                 dropItemPool = null;
                 var bar = Resources.Load<DropItem>(dropItemPath);
                 goldImage = Resources.Load<Sprite>(goldSpritePath);
+                rarityColor = Resources.Load<EquipmentRarityColor>(equipmentRarityColorPath);
                 dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
                 newBar = dropItemPool.Get();
             }
@@ -286,6 +318,7 @@ namespace Litkey.Utility
             {
                 var bar = Resources.Load<DropItem>(dropItemPath);
                 goldImage = Resources.Load<Sprite>(goldSpritePath);
+                rarityColor = Resources.Load<EquipmentRarityColor>(equipmentRarityColorPath);
                 dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
             }
         }
