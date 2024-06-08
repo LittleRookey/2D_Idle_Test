@@ -311,7 +311,7 @@ namespace Litkey.Stat
         /// </summary>
         /// <param name="equipmentID">장비 고유 아이디</param>
         /// <param name="stat">장비의 스텟 하나</param>
-        public void AddEquipValue(string equipmentID, StatModifier stat)
+        public void EquipValue(string equipmentID, StatModifier stat)
         {
             if (!equipStats.ContainsKey(equipmentID))
             {
@@ -321,9 +321,7 @@ namespace Litkey.Stat
             equipStats[equipmentID].Add(stat);
 
             if (stat.oper == OperatorType.plus) _plusEquipValue += stat.value;
-            else if (stat.oper == OperatorType.subtract) _plusEquipValue -= stat.value;
             else if (stat.oper == OperatorType.multiply) _multipliedEquipValue += stat.value;
-            else if (stat.oper == OperatorType.divide) _multipliedEquipValue -= stat.value;
 
             UpdateFinalValue();
         }

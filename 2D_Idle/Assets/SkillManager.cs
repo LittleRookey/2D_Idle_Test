@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Litkey.Skill;
+using Sirenix.OdinInspector;
 
 public class SkillManager : MonoBehaviour
 {
     public static SkillManager Instance;
 
-    [SerializeField] private List<Skill> skills; // 기본적인 스킬들이 내장되어잇음
+    [TableList]
+    public List<Skill> skills; // 기본적인 스킬들이 내장되어잇음
 
     private Dictionary<string, Skill> skillDict;
 

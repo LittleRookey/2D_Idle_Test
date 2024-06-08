@@ -67,15 +67,53 @@ namespace Litkey.InventorySystem
         [ShowInInspector, DictionaryDrawerSettings(KeyLabel = "Item Type", ValueLabel = "Items")]
         private Dictionary<eItemType, List<Item>> _itemsByType; // 각 아이템별 정보를 저장한다
 
-        public UnityEvent<List<Item>> OnGainItem;
+        public UnityEvent<Item> OnGainItem;
+
+        [SerializeField] private EquipmentSlot weaponSlot;
+        [SerializeField] private EquipmentSlot subWeaponSlot;
+        [SerializeField] private EquipmentSlot helmetSlot;
+        [SerializeField] private EquipmentSlot topArmorSlot;
+        [SerializeField] private EquipmentSlot gloveSlot;
+        [SerializeField] private EquipmentSlot bottomArmorSlot;
+        [SerializeField] private EquipmentSlot shoeArmorSlot;
+
+        private Dictionary<eEquipmentParts, EquipmentSlot> equipmentSlots;
+
+        private void Awake()
+        {
+            equipmentSlots = new Dictionary<eEquipmentParts, EquipmentSlot>()
+            {
+                { eEquipmentParts.Weapon, weaponSlot },
+                { eEquipmentParts.Subweapon, subWeaponSlot },
+                { eEquipmentParts.helmet, helmetSlot},
+                { eEquipmentParts.body, topArmorSlot },
+                { eEquipmentParts.pants, bottomArmorSlot },
+                { eEquipmentParts.shoe, shoeArmorSlot },
+                { eEquipmentParts.Glove, gloveSlot },
+            };
+        }
+
+        #region EquipmentSlot
+
+        public void EquipItem(EquipmentItem item2Equip)
+        {
+            equipmentSlots[item2Equip.EquipmentData.Parts].EquipItem(item2Equip);
+        }
+
+        public void UnEquipItem(eEquipmentParts parts)
+        {
+            equipmentSlots[parts].UnEquipItem();
+        }
+
+        #endregion
+
+        #region Inventory
 
         public void InitInventory()
         {
             _inventory = new List<Item>();
 
             _itemsByType = new Dictionary<eItemType, List<Item>>();
-
-
         }
 
         [Button("AddItem")]
@@ -128,7 +166,7 @@ namespace Litkey.InventorySystem
                     etcItems.Add(countableItem);
                 }
             }
-            OnGainItem?.Invoke(_inventory);
+            OnGainItem?.Invoke(item);
         }
 
         public void AddToInventory(List<Item> items)
@@ -180,15 +218,17 @@ namespace Litkey.InventorySystem
                         etcItems.Add(countableItem);
                     }
                 }
+                OnGainItem?.Invoke(item);
             }
 
-            OnGainItem?.Invoke(_inventory);
         }
 
         public List<Item> GetItems()
         {
             return _inventory;
         }
+
+        #endregion
 
     }
 }

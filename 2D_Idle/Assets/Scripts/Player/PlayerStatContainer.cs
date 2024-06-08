@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Litkey.Interface;
+using Litkey.InventorySystem;
 
 public class PlayerStatContainer : StatContainer, ILoadable, ISavable
 {
@@ -64,5 +65,25 @@ public class PlayerStatContainer : StatContainer, ILoadable, ISavable
         playerData.SetStat(this);
 
         gameDatas.SaveDataLocal();
+    }
+
+    public void EquipEquipment(EquipmentItem equipItem)
+    {
+        var baseStats = equipItem.EquipmentData.GetStats();
+        
+        foreach(var stat in baseStats)
+        {
+            subStats[stat.statType].EquipValue(equipItem.ID, stat);
+        }
+    }
+
+    public void UnEquipEquipment(EquipmentItem equipItem)
+    {
+        var baseStats = equipItem.EquipmentData.GetStats();
+
+        foreach (var stat in baseStats)
+        {
+            subStats[stat.statType].UnEquipValue(equipItem.ID, stat);
+        }
     }
 }

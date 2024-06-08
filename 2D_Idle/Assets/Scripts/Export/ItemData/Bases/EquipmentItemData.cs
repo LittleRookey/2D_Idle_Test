@@ -47,6 +47,8 @@ namespace Litkey.InventorySystem
         //protected bool _isEquipped = false;
         [VerticalGroup("Item Data/Info")]
         [SerializeField] protected eEquipmentParts _parts;
+        public eEquipmentParts Parts => _parts;
+
         protected int upgradeNum = 0;
 
        

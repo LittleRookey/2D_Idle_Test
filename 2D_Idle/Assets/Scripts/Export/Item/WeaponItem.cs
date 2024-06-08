@@ -11,6 +11,7 @@ namespace Litkey.InventorySystem
     {
         public WeaponItem(WeaponItemData data, string id) : base(data, id) { }
 
+        public WeaponItem(WeaponItemData data, ItemSaveData saveData) : base(data, saveData.ID) { }
 
     }
 

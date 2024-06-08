@@ -34,3 +34,13 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  OnGainItem:
+    m_PersistentCalls:
+      m_Calls: []
+  weaponSlot: {fileID: 11400000, guid: aeb4f5f7173ae0a439d8cd4763f76af8, type: 2}
+  subWeaponSlot: {fileID: 11400000, guid: dade469a3e80fd5429d6f8b5b347fe7a, type: 2}
+  helmetSlot: {fileID: 11400000, guid: 5948fed098e3ce447954d66cdfec97be, type: 2}
+  topArmorSlot: {fileID: 11400000, guid: 60bb6cbec63f0904fbb578c9c694ced9, type: 2}
+  gloveSlot: {fileID: 11400000, guid: 73a0ea297c71302458ec8e2df11ad983, type: 2}
+  bottomArmorSlot: {fileID: 11400000, guid: 349b60207ba7c5c4f83bbd858324ad46, type: 2}
+  shoeArmorSlot: {fileID: 11400000, guid: ab3483c539be2f347a595a474ef01c76, type: 2}

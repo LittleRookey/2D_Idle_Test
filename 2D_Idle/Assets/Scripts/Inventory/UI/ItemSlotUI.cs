@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using System;
 
 namespace Litkey.InventorySystem
 {
@@ -14,6 +15,7 @@ namespace Litkey.InventorySystem
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private TextMeshProUGUI amountText;
         [SerializeField] private TextMeshProUGUI useText;
+        [SerializeField] private Button slotButton;
 
         [SerializeField] private Image equippedImage;
         [SerializeField] private Image highlightImage;
@@ -21,16 +23,39 @@ namespace Litkey.InventorySystem
 
         [SerializeField] private float highlightAlpha;
         [SerializeField] private EquipmentRarityColor eRarityColor;
-
         public UnityEvent OnSlotClick;
-
+        public UnityEvent OnFirstClick;
+        private bool isFirstClick;
 
         private void SlotClicked()
         {
-            useBG.gameObject.SetActive(true);
-            highlightImage.gameObject.SetActive(true);
-            itemNameBG.gameObject.SetActive(true);
+            if (isFirstClick)
+            {
+                // 첫 번째 클릭: 상태 저장
+                isFirstClick = false;
+                useBG.gameObject.SetActive(true);
+                highlightImage.gameObject.SetActive(true);
+                itemNameBG.gameObject.SetActive(true);
+                OnFirstClick?.Invoke();
+                
+            }
+            else
+            {
+                // 두 번째 클릭: 아이템 장착
+                OnSlotClick?.Invoke(); // 슬롯 클릭 이벤트 호출
+                ResetClickState();
+
+            }
         }
+
+        public void ResetClickState()
+        {
+            isFirstClick = true;
+            useBG.gameObject.SetActive(false);
+            highlightImage.gameObject.SetActive(false);
+            itemNameBG.gameObject.SetActive(false);
+        }
+
         public void SetSlot(Item item, UnityAction clickAction=null)
         {
             if (item is EquipmentItem equipItem)
@@ -51,8 +76,43 @@ namespace Litkey.InventorySystem
                 useText.SetText($"장착");
 
                 equippedImage.gameObject.SetActive(false);
-                
+
+                if (clickAction != null)
+                {
+                    OnFirstClick.RemoveAllListeners();
+                    OnSlotClick.RemoveAllListeners();
+                    OnSlotClick.AddListener(clickAction);
+                }
             }
+            else if (item is CountableItem countableItem)
+            {
+                iconImage.sprite = countableItem.CountableData.IconSprite;
+                var rarityColor = eRarityColor.GetColor(countableItem.CountableData.rarity);
+
+                slotBG.color = rarityColor;
+
+                itemNameText.color = rarityColor;
+                itemNameText.SetText($"{TMProUtility.GetColorText($"[{countableItem.CountableData.rarity.ToString()}]", rarityColor)} {countableItem.CountableData.Name}");
+
+                highlightImage.gameObject.SetActive(false);
+                itemNameBG.gameObject.SetActive(false);
+                amountText.gameObject.SetActive(false);
+                useBG.gameObject.SetActive(false);
+
+                useText.SetText($"사용");
+
+                equippedImage.gameObject.SetActive(false);
+
+                if (clickAction != null)
+                {
+                    OnFirstClick.RemoveAllListeners();
+                    OnSlotClick.RemoveAllListeners();
+                    OnSlotClick.AddListener(clickAction);
+                }
+            }
+            slotButton.onClick.RemoveAllListeners();
+            isFirstClick = true;
+            slotButton.onClick.AddListener(SlotClicked);
         }
 
         public void ClearSlot()
@@ -70,6 +130,17 @@ namespace Litkey.InventorySystem
             amountText.gameObject.SetActive(false);
             useBG.gameObject.SetActive(false);
 
+            equippedImage.gameObject.SetActive(false);
+            ResetClickState();
+        }
+
+        public void SetEquipped()
+        {
+            equippedImage.gameObject.SetActive(true);
+        }
+
+        public void SetUnEquipped()
+        {
             equippedImage.gameObject.SetActive(false);
         }
     }

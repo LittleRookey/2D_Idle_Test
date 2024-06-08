@@ -21,8 +21,10 @@ namespace Litkey.Skill
         ºÒ¸ê,
         ½ÅÈ­,
     }
+    [System.Serializable]
     public abstract class Skill : SerializedScriptableObject
     {
+        [PreviewField]
         public Sprite _icon;
         public string skillName;
         public int skillLevel => Level.level;
@@ -51,7 +53,7 @@ namespace Litkey.Skill
 
         protected virtual void Awake() 
         {
-            Level = Instantiate(Resources.Load<SkillLevel>(skillLevelPath));
+            //Level = Instantiate(Resources.Load<SkillLevel>(skillLevelPath));
         }
 
         protected virtual void OnEnable() { }
