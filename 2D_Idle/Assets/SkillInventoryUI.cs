@@ -231,7 +231,7 @@ public class SkillInventoryUI : MonoBehaviour
                 if (!passiveSkill.LevelUpgrades.ContainsKey(currentRank)) continue;
                 var descriptionUI = descriptionsPool.Get();
                 descriptionUI.UpdateDescription(passiveSkill, currentRank);
-                Debug.Log("currentRank: " + currentRank);
+                //Debug.Log("currentRank: " + currentRank);
                 descriptionUI.gameObject.SetActive(true);
                 descriptions.Add(descriptionUI);
             }

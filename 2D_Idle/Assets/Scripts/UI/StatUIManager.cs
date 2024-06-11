@@ -168,7 +168,7 @@ public class StatUIManager : MonoBehaviour
     //public void Try
     public void UpdateStats()
     {
-        Debug.Log("abilityPoint: "+playerStat.AbilityPoint);
+        //Debug.Log("abilityPoint: "+playerStat.AbilityPoint);
         apText.SetText($"{TMProUtility.GetColorText("AP: ", Color.green)}{playerStat.AbilityPoint}");
         //Debug.Log(playerStat.mainStats.Keys.Count);
         foreach (var mainStatType in playerStat.mainStats.Keys)

@@ -460,6 +460,7 @@ public class PlayerController : MonoBehaviour
             anim.SetFloat(_AttackState, Random.Range(0, 1f));
             anim.SetTrigger(_Attack);
         }
+        MasterAudio.PlaySound("일반검베기");
     }
 
     public void DamageAction()

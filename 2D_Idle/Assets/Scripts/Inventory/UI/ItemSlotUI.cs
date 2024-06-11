@@ -130,8 +130,8 @@ namespace Litkey.InventorySystem
             amountText.gameObject.SetActive(false);
             useBG.gameObject.SetActive(false);
 
-            equippedImage.gameObject.SetActive(false);
             ResetClickState();
+            SetUnEquipped();
         }
 
         public void SetEquipped()

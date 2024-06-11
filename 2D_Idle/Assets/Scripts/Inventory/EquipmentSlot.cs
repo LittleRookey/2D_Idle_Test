@@ -1,4 +1,5 @@
 using Litkey.InventorySystem;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.Events;
 namespace Litkey.InventorySystem
 {
     [CreateAssetMenu(menuName ="Litkey/EquipmentSlot")]
-    public class EquipmentSlot : ScriptableObject
+    public class EquipmentSlot : SerializedScriptableObject
     {
         [SerializeField] private EquipmentItem equippedItem;
         [SerializeField] private eEquipmentParts parts;
@@ -42,7 +43,7 @@ namespace Litkey.InventorySystem
             OnEquip?.Invoke(this.equippedItem);
 
             // Ω∫≈» ¿Â¬¯«œ±‚
-            statContainer.EquipEquipment(this.equippedItem);
+            //statContainer.EquipEquipment(this.equippedItem.ID, this.equippedItem.EquipmentData.GetStats());
         }
 
         public void UnEquipItem()
@@ -54,7 +55,7 @@ namespace Litkey.InventorySystem
             }
 
             // Ω∫≈› ª©±‚
-            statContainer.UnEquipEquipment(this.equippedItem);
+            //statContainer.UnEquipEquipment(this.equippedItem);
 
             OnUnEquip?.Invoke(this.equippedItem);
 

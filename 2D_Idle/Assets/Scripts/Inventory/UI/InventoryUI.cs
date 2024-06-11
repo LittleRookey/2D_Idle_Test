@@ -49,6 +49,20 @@ namespace Litkey.InventorySystem
         public Dictionary<int, Item> itemIndex; // 슬롯별 인덱스의 아이템 저장
         private ItemSlotUI currentSelectedSlot = null; // 현재 선택된 슬롯
 
+        [ShowInInspector]
+        public Dictionary<eEquipmentParts, int> equippedItemIndex; // 각 슬롯별 아이템 인벤토리의 장착한 아이템 인덱스를 저장
+
+        [SerializeField] private PlayerStatContainer playerStatContainer; 
+
+        private void Awake()
+        {
+            equippedItemIndex = new Dictionary<eEquipmentParts, int>();
+            foreach (var parts in (eEquipmentParts[])Enum.GetValues(typeof(eEquipmentParts)))
+            {
+                equippedItemIndex.Add(parts, -1);
+            }
+        }
+        // 아이템 슬롯
         private void OnEnable()
         {
             _inventory.OnGainItem.AddListener(AddItemUI);
@@ -187,7 +201,11 @@ namespace Litkey.InventorySystem
             currentSelectedSlot = slot;
         }
 
-        // 슬롯이 2번 눌렷을때
+        // 장착한 장비를 장착햇을떄
+        // 슬롯이 2번 눌렷을때 누른곳의 인덱스의 아이템이 장착돼있으면 스텟해제, 장착해제
+        // // 새로운 아이템 눌럿을떄 
+        // 전에 끼고잇는 아이템 스텟해제 슬롯해제
+        // 새로운 아이템 스텟장착, 슬롯 장착
         private void OnSlotSecondClick(int slotIndex, ItemSlotUI slot)
         {
             if (itemIndex.TryGetValue(slotIndex, out Item item))
@@ -195,10 +213,56 @@ namespace Litkey.InventorySystem
                 if (item is EquipmentItem equipmentItem)
                 {
                     // 아이템 장착 로직 추가
-                    _inventory.EquipItem(equipmentItem);
-                    slot.SetEquipped();
+                    int equippedIndex = equippedItemIndex[equipmentItem.EquipmentData.Parts];
+                    if (equippedIndex != -1)
+                    {
+                        // 이미 장착한 템이 있고 이게 같은 인덱스면 
+                        if (equippedIndex == slotIndex)
+                        {
+                            // 슬롯이 2번 눌렷을때 누른곳의 인덱스의 아이템이 장착돼있으면 스텟해제, 장착해제
+                            // 슬롯 해제
+                            itemSlots[equippedIndex].SetUnEquipped();
+                            // 장착슬롯 해제
+                            _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts); 
+                            // 스텟해제
+                            playerStatContainer.UnEquipEquipment(equipmentItem);
+                            equippedItemIndex[equipmentItem.EquipmentData.Parts] = -1;
+
+                        }
+                        else
+                        {
+                            // 다른 인덱스면 전 장비를 해제, 그리고 장착
+                            if (itemIndex[equippedIndex] is EquipmentItem equipItem)
+                            {
+                                // 스텟해제
+                                playerStatContainer.UnEquipEquipment(equipItem);
+                            } else
+                            {
+                                Debug.LogError($"Item index at {equippedIndex} is not equipment item");
+                            }
+                            itemSlots[equippedIndex].SetUnEquipped(); // 전장비 해제
+                            _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts);
+                            // 새 장비를 장착, 슬롯 장착
+
+
+                            _inventory.EquipItem(equipmentItem); // 장착 슬롯 장착
+                            playerStatContainer.EquipEquipment(equipmentItem); // 스텟 장착
+
+                            equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // 인덱스저장
+                            itemSlots[slotIndex].SetEquipped(); // 슬롯장착
+                        }
+                        
+                    } else
+                    {
+                        // 해당 슬롯에 아무 장비도 없을떄
+                        _inventory.EquipItem(equipmentItem); // 장착 슬롯 장착
+                        playerStatContainer.EquipEquipment(equipmentItem); // 스텟 장착
+
+                        equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // 인덱스저장
+                        itemSlots[slotIndex].SetEquipped(); // 슬롯장착
+                    }
                 }
-                else
+                else 
                 {
                     // 아이템 사용 로직 추가 (필요한 경우)
                     Debug.Log($"아이템 {item.Data.Name} 사용");

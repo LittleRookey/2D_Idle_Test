@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using Litkey.InventorySystem;
 using System.Linq;
 using Sirenix.OdinInspector;
+using System;
 
 namespace Litkey.Stat
 {
@@ -184,14 +185,6 @@ namespace Litkey.Stat
                 if (minValue < 0f || maxValue < 0f) return this._finalValue;
                 else return Mathf.Clamp(this._finalValue, this.minValue, this.maxValue);
             }
-            set
-            {
-                float origin = _finalValue;
-                UpdateFinalValue();
-                Debug.Log($"{displayName}: {origin} -> {_finalValue}");
-                if (origin != _finalValue)
-                    OnValueChanged?.Invoke(origin);
-            }
         }
 
 
@@ -233,6 +226,7 @@ namespace Litkey.Stat
 
         // 버프, 장비 
         private List<StatModifier> buffStats;
+        [ShowInInspector]
         public Dictionary<string, List<StatModifier>> equipStats { get; private set; }
 
         private float _plusStatValue; // 레벨 스텟으로 추가된 + 스텟
@@ -313,31 +307,71 @@ namespace Litkey.Stat
         /// <param name="stat">장비의 스텟 하나</param>
         public void EquipValue(string equipmentID, StatModifier stat)
         {
-            if (!equipStats.ContainsKey(equipmentID))
+            Debug.Log($"EquipValue called with: equipmentID={equipmentID}, statType={stat.statType}, value={stat.value}, operator={stat.oper}");
+
+            if (equipStats == null)
+            {
+                equipStats = new Dictionary<string, List<StatModifier>>();
+            }
+
+            // Additional null check to ensure equipmentID is not null
+            bool containsKey = equipStats.ContainsKey(equipmentID);
+            Debug.Log($"EquipValue: equipStats contains key {equipmentID}: {containsKey}");
+
+            if (!containsKey)
             {
                 equipStats[equipmentID] = new List<StatModifier>();
+                Debug.Log($"EquipValue: Created new list for equipmentID: {equipmentID}");
             }
 
             equipStats[equipmentID].Add(stat);
+            Debug.Log($"EquipValue: Added stat to equipStats[{equipmentID}]. Count is now: {equipStats[equipmentID].Count}");
 
-            if (stat.oper == OperatorType.plus) _plusEquipValue += stat.value;
-            else if (stat.oper == OperatorType.multiply) _multipliedEquipValue += stat.value;
+            if (stat.oper == OperatorType.plus)
+            {
+                _plusEquipValue += stat.value;
+                Debug.Log($"EquipValue: _plusEquipValue updated to: {_plusEquipValue}");
+            }
+            else if (stat.oper == OperatorType.multiply)
+            {
+                _multipliedEquipValue += stat.value;
+                Debug.Log($"EquipValue: _multipliedEquipValue updated to: {_multipliedEquipValue}");
+            }
 
             UpdateFinalValue();
+
+            Debug.Log($"Final {statType} Value after Equip: " + _finalValue);
         }
-        
 
         // 이 장비의 모든 스텟을 제거하기
         public void UnEquipValue(string equipmentID, StatModifier stat)
         {
-            if (equipStats[equipmentID].Remove(stat))
+            Debug.Log("UnEquipped Value: " + equipmentID + stat.statType + " +" + stat.value);
+            if (equipStats.ContainsKey(equipmentID) && equipStats[equipmentID].Remove(stat))
             {
-                if (stat.oper == OperatorType.plus) _plusEquipValue -= stat.value;
-                else if (stat.oper == OperatorType.subtract) _plusEquipValue += stat.value;
-                else if (stat.oper == OperatorType.multiply) _multipliedEquipValue -= stat.value;
-                else if (stat.oper == OperatorType.divide) _multipliedEquipValue += stat.value;
+                if (stat.oper == OperatorType.plus)
+                {
+                    _plusEquipValue -= stat.value;
+                    Debug.Log("Unequipped Stat plus value: " + _plusEquipValue);
+                }
+                else if (stat.oper == OperatorType.subtract)
+                {
+                    _plusEquipValue += stat.value;
+                    Debug.Log("Unequipped Stat subtract value: " + _plusEquipValue);
+                }
+                else if (stat.oper == OperatorType.multiply)
+                {
+                    _multipliedEquipValue -= stat.value;
+                    Debug.Log("Unequipped Stat multiply value: " + _multipliedEquipValue);
+                }
+                else if (stat.oper == OperatorType.divide)
+                {
+                    _multipliedEquipValue += stat.value;
+                    Debug.Log("Unequipped Stat divide value: " + _multipliedEquipValue);
+                }
             }
             UpdateFinalValue();
+            Debug.Log("Final Value after UnEquip: " + _finalValue);
         }
 
 
@@ -420,14 +454,10 @@ namespace Litkey.Stat
             // 초기 스텟
             _finalValue = this.BaseStat;
 
-            // 스텟 찍은 값
-            //foreach(Influencer inf in influencers)
-            //{
-            //    _plusStatValue += inf.GetFinalValue();
-            //}
-
             _finalValue *= (1f + _multipliedValue);
             _finalValue += _plusValue;
+
+            //Debug.Log("Updated Final Value: " + _plusEquipValue);
             if (origin != _finalValue) OnValueChanged?.Invoke(_finalValue);
             return _finalValue;
         }
@@ -576,7 +606,7 @@ namespace Litkey.Stat
         {
             int totalLength = System.Enum.GetValues((typeof(eSubStatType))).Length;
 
-            int randNum = Random.Range(0, totalLength);
+            int randNum = UnityEngine.Random.Range(0, totalLength);
             return (eSubStatType)randNum;
         }
 

@@ -95,7 +95,7 @@ public class ExtraSlash : ActiveSkill
                 }
             }
             // Apply damage to the first skillTargetNumber of enemies in the sorted list
-            Debug.Log("ExtraSLash: " + Mathf.Min(targetNumber, targetEnemies.Count));
+            //Debug.Log("ExtraSLash: " + Mathf.Min(targetNumber, targetEnemies.Count));
             for (int i = 0; i < Mathf.Min(targetNumber, targetEnemies.Count); i++)
             {
                 //ApplyEffect(ally, targetEnemies[i]);

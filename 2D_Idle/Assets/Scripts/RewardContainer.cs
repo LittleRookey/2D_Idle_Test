@@ -42,7 +42,7 @@ public class RewardContainer : MonoBehaviour
         attacker.GainExp(reward.GetExpReward());
 
         var gainGold = reward.GetGoldReward();
-        Debug.Log("Reward Dropper name + pos: " + gameObject.name + " // " + transform.position);
+        //Debug.Log("Reward Dropper name + pos: " + gameObject.name + " // " + transform.position);
         DropItemCreator.CreateGoldDrop(transform.position, gainGold);
         ResourceManager.Instance.DisplayGold(gainGold, () => ResourceManager.Instance.GainGold(gainGold));
 

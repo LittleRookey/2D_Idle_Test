@@ -6,6 +6,8 @@ using Litkey.Utility;
 using UnityEngine.Events;
 using DarkTonic.MasterAudio;
 using Litkey.Skill;
+using Sirenix.OdinInspector;
+using Litkey.InventorySystem;
 
 public class StatContainer : MonoBehaviour
 {
@@ -21,7 +23,7 @@ public class StatContainer : MonoBehaviour
     public MainStat Int { private set; get; } // 지혜
 
     public SubStat HP; // 체력
-
+    [ShowInInspector]
     public SubStat Attack { private set; get; } // 공격력
     public SubStat MagicAttack { private set; get; } // 마법 공격력
 
@@ -43,23 +45,16 @@ public class StatContainer : MonoBehaviour
     public SubStat p_penetration { private set; get; } // 물리 관통력 %
     public SubStat m_penetration { private set; get; } // 마법 관통력 %
 
-    // 특별 스텟
-    //public SubStat receiveAdditionalDamage; // 받는 피해 증가
-    //public SubStat giveAdditionalDamage; // 주는 피해 증가
-
-    //public SubStat receiveLessDamage; // 받는 피해 감소
-    //public SubStat giveLessDamage; // 주는 피해 감소
-
     public SubStat ExtraGold; // 추가 골드
     public SubStat ExtraExp; // 추가 경험치 
     #endregion
 
-    //public UnitLevel unitLevel;
     [SerializeField] protected Alias alias;
 
     public int AbilityPoint { get; protected set; }
 
-    public int addedStat { 
+    public int addedStat
+    {
         get
         {
             if (statGiven == null)
@@ -82,7 +77,6 @@ public class StatContainer : MonoBehaviour
     }
     protected int _addedStat = 0;
 
-    // 서브 스텟 값은 최종적으로 메인스텟 + 베이스 스텟 + 이명 스텟(성격)을 합한 값이 될것이다
     public Dictionary<eMainStatType, MainStat> mainStats
     {
         get
@@ -102,6 +96,7 @@ public class StatContainer : MonoBehaviour
     }
     protected Dictionary<eMainStatType, MainStat> _mainStats;
 
+    [ShowInInspector]
     public Dictionary<eSubStatType, SubStat> subStats
     {
         get
@@ -114,14 +109,9 @@ public class StatContainer : MonoBehaviour
                     { eSubStatType.마법공격력, this.MagicAttack },
                     { eSubStatType.물리방어력, this.Defense },
                     { eSubStatType.마법방어력, this.MagicDefense },
-                    //{ eSubStatType.attackRange, this.},
-                    //{ eSubStatType.cc_Resistance, this. },
                     { eSubStatType.크리확률, this.CritChance },
                     { eSubStatType.크리데미지, this.CritDamage },
                     { eSubStatType.공격속도, this.AttackSpeed },
-                    //{ eSubStatType.healthRegen, this. },
-                    //{ eSubStatType.mana, this. },
-                    //{ eSubStatType.manaRegen, this. },
                     { eSubStatType.이동속도, this.MoveSpeed },
                     { eSubStatType.물리관통력, this.p_penetration },
                     { eSubStatType.마법관통력, this.m_penetration },
@@ -129,19 +119,21 @@ public class StatContainer : MonoBehaviour
                     { eSubStatType.회피, this.Evasion },
                     { eSubStatType.물리저항, this.p_resist },
                     { eSubStatType.마법저항, this.m_resist },
-                    //{ eSubStatType.받는피해감소, this. },
-                    //{ eSubStatType.받는피해증가, this.Int },
-                    //{ eSubStatType.주는피해감소, this.Int },
-                    //{ eSubStatType.주는피해증가, this.Int },
                     { eSubStatType.추가경험치, this.ExtraExp },
                     { eSubStatType.추가골드, this.ExtraGold },
                 };
+
+                // Log the initialization of each SubStat
+                //foreach (var entry in _subStats)
+                //{
+                //    //Debug.Log($"Initialized _subStats[{entry.Key}] = {entry.Value.DisplayName} in gameobject: " + gameObject.name);
+                //}
             }
             return _subStats;
         }
     }
+    [ShowInInspector]
     protected Dictionary<eSubStatType, SubStat> _subStats;
-
 
     [HideInInspector] public UnityEvent<eMainStatType> OnIncreaseStat = new();
     [HideInInspector] public UnityEvent<eMainStatType, int> OnTryIncreaseStat = new();
@@ -174,7 +166,6 @@ public class StatContainer : MonoBehaviour
             };
         }
 
-
         _mainStats = new Dictionary<eMainStatType, MainStat>() {
             { eMainStatType.근력, this.Strength },
             { eMainStatType.맷집, this.Vit },
@@ -186,42 +177,31 @@ public class StatContainer : MonoBehaviour
         if (_subStats == null)
         {
             _subStats = new Dictionary<eSubStatType, SubStat>() {
-                    { eSubStatType.체력, this.HP },
-                    { eSubStatType.물리공격력, this.Attack },
-                    { eSubStatType.마법공격력, this.MagicAttack },
-                    { eSubStatType.물리방어력, this.Defense },
-                    { eSubStatType.마법방어력, this.MagicDefense },
-                    //{ eSubStatType.attackRange, this.},
-                    //{ eSubStatType.cc_Resistance, this. },
-                    { eSubStatType.크리확률, this.CritChance },
-                    { eSubStatType.크리데미지, this.CritDamage },
-                    { eSubStatType.공격속도, this.AttackSpeed },
-                    //{ eSubStatType.healthRegen, this. },
-                    //{ eSubStatType.mana, this. },
-                    //{ eSubStatType.manaRegen, this. },
-                    { eSubStatType.이동속도, this.MoveSpeed },
-                    { eSubStatType.물리관통력, this.p_penetration },
-                    { eSubStatType.마법관통력, this.m_penetration },
-                    { eSubStatType.명중, this.Precision },
-                    { eSubStatType.회피, this.Evasion },
-                    { eSubStatType.물리저항, this.p_resist },
-                    { eSubStatType.마법저항, this.m_resist },
-                    //{ eSubStatType.받는피해감소, this. },
-                    //{ eSubStatType.받는피해증가, this.Int },
-                    //{ eSubStatType.주는피해감소, this.Int },
-                    //{ eSubStatType.주는피해증가, this.Int },
-                    { eSubStatType.추가경험치, this.ExtraExp },
-                    { eSubStatType.추가골드, this.ExtraGold },
-                };
+                { eSubStatType.체력, this.HP },
+                { eSubStatType.물리공격력, this.Attack },
+                { eSubStatType.마법공격력, this.MagicAttack },
+                { eSubStatType.물리방어력, this.Defense },
+                { eSubStatType.마법방어력, this.MagicDefense },
+                { eSubStatType.크리확률, this.CritChance },
+                { eSubStatType.크리데미지, this.CritDamage },
+                { eSubStatType.공격속도, this.AttackSpeed },
+                { eSubStatType.이동속도, this.MoveSpeed },
+                { eSubStatType.물리관통력, this.p_penetration },
+                { eSubStatType.마법관통력, this.m_penetration },
+                { eSubStatType.명중, this.Precision },
+                { eSubStatType.회피, this.Evasion },
+                { eSubStatType.물리저항, this.p_resist },
+                { eSubStatType.마법저항, this.m_resist },
+                { eSubStatType.추가경험치, this.ExtraExp },
+                { eSubStatType.추가골드, this.ExtraGold },
+            };
+
+            // Log the initialization of each SubStat
+            //foreach (var entry in _subStats)
+            //{
+            //    Debug.Log($"Initialized _subStats[{entry.Key}] = {entry.Value.DisplayName} in gameobject: " + gameObject.name);
+            //}
         }
-        
-        //Evasion = new SubStat("회피", baseStat.Evasion, eSubStatType.회피);
-
-        //receiveAdditionalDamage = new SubStat("받는 피해 증가", 0f, eSubStatType.받는피해증가, true);
-        //giveAdditionalDamage = new SubStat("주는 피해 증가", 0f, eSubStatType.주는피해증가, true);
-        //receiveLessDamage = new SubStat("받는 피해 감소", 0f, eSubStatType.받는피해감소, true);
-        //giveLessDamage = new SubStat("주는 피해 감소", 0f, eSubStatType.받는피해증가, true);
-
     }
 
     public void ClearMainStats()
@@ -371,10 +351,49 @@ public class StatContainer : MonoBehaviour
         passive.EquipPassiveStat(this);
     }
     
-
-    public void UnEquipStat(PassiveSkill skill)
+    public void UnEquipStat(Skill skill)
     {
 
+    }
+
+    public void EquipEquipment(EquipmentItem equipmentItem)
+    {
+        foreach (var stat in equipmentItem.EquipmentData.GetStats())
+        {
+            subStats[stat.statType].EquipValue(equipmentItem.ID, stat);
+            Debug.Log("Adding Stat TO Equipment: " + stat.statType);
+            Debug.Log($"Equipping Stat {subStats[stat.statType].statType}: " + subStats[stat.statType] == null);
+            Debug.Log($"Equipping Stat {subStats[stat.statType].statType}: " + subStats[stat.statType].FinalValue);
+        }
+    }
+
+    public void UnEquipEquipment(EquipmentItem equipItem)
+    {
+        var baseStats = equipItem.EquipmentData.GetStats();
+
+        foreach (var stat in baseStats)
+        {
+            subStats[stat.statType].UnEquipValue(equipItem.ID, stat);
+        }
+    }
+
+    // ETC 스텟들을 전부 Equip
+    // 스킬 레벨업으로 인해 증가된 스텟들 장착
+    public void AddETCStat(List<StatModifier> stats)
+    {
+        for (int i = 0; i < stats.Count; i++)
+        {
+            subStats[stats[i].statType].EquipETCStat(stats[i]);
+        }
+    }
+
+    // 스킬 레벨업으로 인해 증가된 스텟들 해제
+    public void RemoveETCStat(List<StatModifier> stats)
+    {
+        for (int i = 0; i < stats.Count; i++)
+        {
+            subStats[stats[i].statType].UnEquipETCStat(stats[i]);
+        }
     }
     // addedstat = 0, 1, 5
     // 1, 1, 4
@@ -585,22 +604,5 @@ public class StatContainer : MonoBehaviour
         // TODO
     }
 
-    // ETC 스텟들을 전부 Equip
-    // 스킬 레벨업으로 인해 증가된 스텟들 장착
-    public void AddETCStat(List<StatModifier> stats)
-    {
-        for (int i = 0; i < stats.Count; i++)
-        {
-            subStats[stats[i].statType].EquipETCStat(stats[i]);
-        }
-    }
 
-    // 스킬 레벨업으로 인해 증가된 스텟들 해제
-    public void RemoveETCStat(List<StatModifier> stats)
-    {
-        for (int i = 0; i < stats.Count; i++)
-        {
-            subStats[stats[i].statType].UnEquipETCStat(stats[i]);
-        }
-    }
 }

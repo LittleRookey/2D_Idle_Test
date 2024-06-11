@@ -12,7 +12,7 @@ namespace Litkey.Skill
         public override void ApplyEffect(StatContainer allyStat, StatContainer target)
         {
             var dmg = allyStat.GetDamageAgainst(target);
-            MasterAudio.PlaySound("漠嘎绰家府");
+            //MasterAudio.PlaySound("漠嘎绰家府");
             target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);
             OnApplyEffect?.Invoke();
         }

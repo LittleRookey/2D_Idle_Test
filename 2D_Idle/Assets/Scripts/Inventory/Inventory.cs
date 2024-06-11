@@ -77,9 +77,9 @@ namespace Litkey.InventorySystem
         [SerializeField] private EquipmentSlot bottomArmorSlot;
         [SerializeField] private EquipmentSlot shoeArmorSlot;
 
-        private Dictionary<eEquipmentParts, EquipmentSlot> equipmentSlots;
-
-        private void Awake()
+        [SerializeField] private Dictionary<eEquipmentParts, EquipmentSlot> equipmentSlots;
+        
+        private void OnEnable()
         {
             equipmentSlots = new Dictionary<eEquipmentParts, EquipmentSlot>()
             {
@@ -91,18 +91,22 @@ namespace Litkey.InventorySystem
                 { eEquipmentParts.shoe, shoeArmorSlot },
                 { eEquipmentParts.Glove, gloveSlot },
             };
+            
         }
 
         #region EquipmentSlot
 
         public void EquipItem(EquipmentItem item2Equip)
         {
+            Debug.Log("Equipped Item in inventory: " + item2Equip.EquipmentData.GetStats().Length);
             equipmentSlots[item2Equip.EquipmentData.Parts].EquipItem(item2Equip);
         }
+
 
         public void UnEquipItem(eEquipmentParts parts)
         {
             equipmentSlots[parts].UnEquipItem();
+            
         }
 
         #endregion

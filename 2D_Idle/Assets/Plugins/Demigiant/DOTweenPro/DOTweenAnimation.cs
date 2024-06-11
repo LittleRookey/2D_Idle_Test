@@ -276,7 +276,6 @@ namespace DG.Tweening
                 }
                 break;
             case AnimationType.LocalMove:
-                    Debug.Log("TweenDuration? " + duration);
                 tween = tweenGO.transform.DOLocalMove(endValueV3, duration, optionalBool0);
                 break;
             case AnimationType.Rotate:

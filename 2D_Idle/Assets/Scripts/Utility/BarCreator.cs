@@ -274,7 +274,7 @@ namespace Litkey.Utility
 
             var newBar = dropItemPool.Get();
 
-            Debug.Log("New Shape is null?:: " + newBar == null);
+
             if (newBar == null)
             {
                 dropItemPool.Clear();
