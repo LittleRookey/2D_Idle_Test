@@ -62,10 +62,12 @@ namespace Litkey.InventorySystem
     public class Inventory : SerializedScriptableObject
     {
         [SerializeField, TableList]
-        private List<Item> _inventory; // 모든 아이템을 갖고있는 리스트
+        //private List<Item> _inventory; // 모든 아이템을 갖고있는 리스트
+
+        public Dictionary<int, Item> _inventory; // 슬롯별 인덱스의 아이템 저장
 
         [ShowInInspector, DictionaryDrawerSettings(KeyLabel = "Item Type", ValueLabel = "Items")]
-        private Dictionary<eItemType, List<Item>> _itemsByType; // 각 아이템별 정보를 저장한다
+        private Dictionary<eItemType, List<Item>> _itemsByType; // 각 아이템별 정보를 저장한다, 저장한후 종류별 intID로 아이템을 찾을수 있는역할을 한다
 
         public UnityEvent<Item> OnGainItem;
 
@@ -115,7 +117,7 @@ namespace Litkey.InventorySystem
 
         public void InitInventory()
         {
-            _inventory = new List<Item>();
+            _inventory = new Dictionary<int, Item>();
 
             _itemsByType = new Dictionary<eItemType, List<Item>>();
         }
@@ -126,51 +128,120 @@ namespace Litkey.InventorySystem
         {
             if (_inventory == null || _itemsByType == null) InitInventory();
 
+            int emptyIndex = GetNextEmptyIndex();
             // 
             if (item is EquipmentItem equipItem)
             {
-                _inventory.Add(item);
+
+                _inventory.Add(emptyIndex, item);
 
                 if (!_itemsByType.ContainsKey(eItemType.Equipment))
                 {
                     _itemsByType[eItemType.Equipment] = new List<Item>();
                 }
+
                 _itemsByType[eItemType.Equipment].Add(equipItem);
+
             }
             else if (item is CountableItem countableItem)
             {
                 // Check if the countable item already exists in the inventory
-                var existingItem = _inventory.Find(i => i.ID.Equals(countableItem.ID)) as CountableItem;
-                if (existingItem != null)
+                if (countableItem is IUsableItem)
                 {
-                    // If it exists, update the amount
-                    existingItem.AddAmount(countableItem.Amount);
-                }
+                    if (!_itemsByType.ContainsKey(eItemType.UsableItem))
+                    {
+                        _itemsByType[eItemType.UsableItem] = new List<Item>();
+                    }
+                    CountableItem foundItem = _itemsByType[eItemType.UsableItem].Find((Item item) => item.Data.intID == countableItem.CountableData.intID) as CountableItem;
+                    if (foundItem != null)
+                    {
+                        foundItem.AddAmount(countableItem.Amount);
+                    } 
+                    else
+                    {
+                        _itemsByType[eItemType.UsableItem].Add(countableItem);
+                    }
+                    
+                } 
                 else
                 {
-                    // If it does not exist, add the item to the inventory
-                    _inventory.Add(countableItem);
+                    if (!_itemsByType.ContainsKey(eItemType.ETC))
+                    {
+                        _itemsByType[eItemType.ETC] = new List<Item>();
+                    }
+                    
+                    CountableItem foundItem = _itemsByType[eItemType.UsableItem].Find((Item item) => item.Data.intID == countableItem.CountableData.intID) as CountableItem;
+                    
+                    if (foundItem != null)
+                    {
+                        foundItem.AddAmount(countableItem.Amount);
+                    }
+                    else
+                    {
+                        _itemsByType[eItemType.ETC].Add(countableItem);
+                    }
                 }
+                int itemIndex = FindItemInInventory(countableItem);
 
-                // Also add/update in the _itemsByType dictionary
-                if (!_itemsByType.ContainsKey(eItemType.ETC))
+                if (itemIndex != -1)
                 {
-                    _itemsByType[eItemType.ETC] = new List<Item>();
-                }
-                var etcItems = _itemsByType[eItemType.ETC];
-
-                var itemFound = etcItems.Find(i => i.ID.Equals(countableItem.ID)) as CountableItem;
-
-                if (itemFound != null)
+                    var cItem = _inventory[itemIndex] as CountableItem;
+                    cItem.AddAmount(countableItem.Amount);
+                } else
                 {
-                    itemFound.AddAmount(countableItem.Amount);
+                    _inventory.Add(emptyIndex, countableItem);
                 }
-                else
-                {
-                    etcItems.Add(countableItem);
-                }
+                
             }
             OnGainItem?.Invoke(item);
+        }
+
+        public int FindItemInInventory(Item item2Find)
+        {
+            foreach(int index in _inventory.Keys)
+            {
+                var item = _inventory[index];
+                if (item2Find is CountableItem countableItem)
+                {
+                    if (countableItem.CountableData.intID == item.Data.intID)
+                    {
+                        return index;
+                    }
+                } 
+                else if (item2Find is EquipmentItem equipItem)
+                {
+                    if (equipItem.ID == item.ID)
+                    {
+                        return index;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        public Item GetItem(int index)
+        {
+            return _inventory[index];
+        }
+
+        public void UseItem(int index)
+        {
+            var item = _inventory[index];
+        }
+
+        private int GetNextEmptyIndex()
+        {
+            int i = 0;
+            while (i < 99999999)
+            {
+                if (_inventory.ContainsKey(i))
+                {
+                    i++;
+                    continue;
+                }
+                return i;
+            }
+            return -1;
         }
 
         public void AddToInventory(List<Item> items)
@@ -179,58 +250,81 @@ namespace Litkey.InventorySystem
 
             foreach (var item in items)
             {
+                int emptyIndex = GetNextEmptyIndex();
+                // 
                 if (item is EquipmentItem equipItem)
                 {
-                    _inventory.Add(item);
+
+                    _inventory.Add(emptyIndex, item);
 
                     if (!_itemsByType.ContainsKey(eItemType.Equipment))
                     {
                         _itemsByType[eItemType.Equipment] = new List<Item>();
                     }
+
                     _itemsByType[eItemType.Equipment].Add(equipItem);
+
                 }
                 else if (item is CountableItem countableItem)
                 {
                     // Check if the countable item already exists in the inventory
-                    var existingItem = _inventory.Find(i => i.ID.Equals(countableItem.ID)) as CountableItem;
-                    if (existingItem != null)
+                    if (countableItem is IUsableItem)
                     {
-                        // If it exists, update the amount
-                        existingItem.AddAmount(countableItem.Amount);
+                        if (!_itemsByType.ContainsKey(eItemType.UsableItem))
+                        {
+                            _itemsByType[eItemType.UsableItem] = new List<Item>();
+                        }
+                        CountableItem foundItem = _itemsByType[eItemType.UsableItem].Find((Item item) => item.Data.intID == countableItem.CountableData.intID) as CountableItem;
+                        if (foundItem != null)
+                        {
+                            foundItem.AddAmount(countableItem.Amount);
+                        }
+                        else
+                        {
+                            _itemsByType[eItemType.UsableItem].Add(countableItem);
+                        }
+
                     }
                     else
                     {
-                        // If it does not exist, add the item to the inventory
-                        _inventory.Add(countableItem);
+                        if (!_itemsByType.ContainsKey(eItemType.ETC))
+                        {
+                            _itemsByType[eItemType.ETC] = new List<Item>();
+                        }
+
+                        CountableItem foundItem = _itemsByType[eItemType.UsableItem].Find((Item item) => item.Data.intID == countableItem.CountableData.intID) as CountableItem;
+
+                        if (foundItem != null)
+                        {
+                            foundItem.AddAmount(countableItem.Amount);
+                        }
+                        else
+                        {
+                            _itemsByType[eItemType.ETC].Add(countableItem);
+                        }
                     }
+                    int itemIndex = FindItemInInventory(countableItem);
 
-                    // Also add/update in the _itemsByType dictionary
-                    if (!_itemsByType.ContainsKey(eItemType.ETC))
+                    if (itemIndex != -1)
                     {
-                        _itemsByType[eItemType.ETC] = new List<Item>();
-                    }
-                    var etcItems = _itemsByType[eItemType.ETC];
-
-                    var itemFound = etcItems.Find(i => i.ID.Equals(countableItem.ID)) as CountableItem;
-
-                    if (itemFound != null)
-                    {
-                        itemFound.AddAmount(countableItem.Amount);
+                        var cItem = _inventory[itemIndex] as CountableItem;
+                        cItem.AddAmount(countableItem.Amount);
                     }
                     else
                     {
-                        etcItems.Add(countableItem);
+                        _inventory.Add(emptyIndex, countableItem);
                     }
+
                 }
                 OnGainItem?.Invoke(item);
             }
 
         }
 
-        public List<Item> GetItems()
-        {
-            return _inventory;
-        }
+        //public List<Item> GetItems()
+        //{
+        //    return _inventory;
+        //}
 
         #endregion
 

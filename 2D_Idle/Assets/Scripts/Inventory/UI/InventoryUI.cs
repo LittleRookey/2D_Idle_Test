@@ -46,7 +46,7 @@ namespace Litkey.InventorySystem
         private Pool<ItemSlotUI> itemSlotPool;
 
         public Dictionary<int, ItemSlotUI> itemSlots;
-        public Dictionary<int, Item> itemIndex; // 슬롯별 인덱스의 아이템 저장
+        //public Dictionary<int, Item> itemIndex; // 슬롯별 인덱스의 아이템 저장
         private ItemSlotUI currentSelectedSlot = null; // 현재 선택된 슬롯
 
         [ShowInInspector]
@@ -78,60 +78,91 @@ namespace Litkey.InventorySystem
             if (itemSlotPool == null)
             {
                 itemSlots = new Dictionary<int, ItemSlotUI>();
-                itemIndex = new Dictionary<int, Item>();
+                //itemIndex = new Dictionary<int, Item>();
+                
                 itemSlotPool = Pool.Create<ItemSlotUI>(itemSlotUIPrefab);
                 itemSlotPool.SetContainer(slotsParent);
             }
 
             // 아이템이 CountableItem이면 숫자만 늘리기
+            int itemIndex = _inventory.FindItemInInventory(item);
             if (item is CountableItem countableItem)
             {
-                int existingIndex = CheckItemExists(countableItem);
-                if (existingIndex != -1)
+                // 카운터블 아이템 인덱스를 인벤토리에서 찾아서
+                // 해당 슬롯의 숫자를 업데이트
+
+                if (itemIndex != -1)
                 {
-                    // 이미 존재하는 아이템이면 수량만 늘림
-                    if (itemIndex[existingIndex] is CountableItem existingItem)
+                    // 아이템을 추가하는데 슬롯이 이미있으면
+                    if (itemSlots[itemIndex] != null)
                     {
-                        existingItem.AddAmount(countableItem.Amount);
-                        // 슬롯 UI 업데이트
-                        UpdateSlotUI(existingIndex, existingItem);
-                        return;
+                        // 숫자만 업데이트
+                        var cItem = _inventory.GetItem(itemIndex) as CountableItem;
+                        itemSlots[itemIndex].UpdateCount(cItem.Amount);
                     }
-                }
-            }
+                    // 아이템을 추가하는데 슬롯이 아직 없으면
+                    else
+                    {
+                        var itemSlot = itemSlotPool.Get();
 
-            var slot = itemSlotPool.Get();
-            int index = GetNextEmptyIndex();
+                        itemSlot.SetSlot(item, () =>
+                        {
+                            // 슬롯을 클릭 2번 했을 때, 아이템을 사용 혹은 장착 혹은 해제
+                            OnSlotSecondClick(itemIndex, itemSlot);
+                        });
+                        itemSlot.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, itemSlot));
 
-            slot.SetSlot(item, () =>
-            {
-                // 슬롯을 클릭 2번 했을 때, 아이템을 사용 혹은 장착 혹은 해제
-                OnSlotSecondClick(index, slot);
-            });
-            //OnSlotClick(index, slot);
-            slot.OnFirstClick.AddListener(() => OnSlotClick(index, slot));
+                        itemSlot.gameObject.SetActive(true);
 
-            slot.gameObject.SetActive(true);
-
-            itemSlots[index] = slot;
-
-            if (!itemIndex.ContainsKey(index))
-            {
-                itemIndex.Add(index, item);
-            }
-        }
-
-        private int CheckItemExists(CountableItem countableItem)
-        {
-            foreach (var kvp in itemIndex)
-            {
-                if (kvp.Value is CountableItem existingItem && existingItem.ID == countableItem.ID)
+                        itemSlots[itemIndex] = itemSlot;
+                    }
+                } else
                 {
-                    return kvp.Key;
+                    Debug.LogError($"Item does not exist in inventory: {countableItem.CountableData.Name}");
                 }
+                //int existingIndex = CheckItemExists(countableItem);
+                //if (existingIndex != -1)
+                //{
+                //    // 이미 존재하는 아이템이면 수량만 늘림
+                //    if (itemIndex[existingIndex] is CountableItem existingItem)
+                //    {
+                //        existingItem.AddAmount(countableItem.Amount);
+                //        // 슬롯 UI 업데이트
+                //        UpdateSlotUI(existingIndex, existingItem);
+                //        return;
+                //    }
+                //}
+            } else
+            {
+                var slot = itemSlotPool.Get();
+
+                slot.SetSlot(item, () =>
+                {
+                    // 슬롯을 클릭 2번 했을 때, 아이템을 사용 혹은 장착 혹은 해제
+                    OnSlotSecondClick(itemIndex, slot);
+                });
+                slot.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, slot));
+
+                slot.gameObject.SetActive(true);
+
+                itemSlots[itemIndex] = slot;
+
             }
-            return -1; // 존재하지 않으면 -1 반환
+
+
         }
+
+        //private int CheckItemExists(CountableItem countableItem)
+        //{
+        //    foreach (var kvp in itemIndex)
+        //    {
+        //        if (kvp.Value is CountableItem existingItem && existingItem.ID == countableItem.ID)
+        //        {
+        //            return kvp.Key;
+        //        }
+        //    }
+        //    return -1; // 존재하지 않으면 -1 반환
+        //}
 
         private void UpdateSlotUI(int index, CountableItem item)
         {
@@ -150,7 +181,6 @@ namespace Litkey.InventorySystem
             if (itemSlotPool == null)
             {
                 itemSlots = new Dictionary<int, ItemSlotUI>();
-                itemIndex = new Dictionary<int, Item>();
                 itemSlotPool = Pool.Create<ItemSlotUI>(itemSlotUIPrefab);
                 itemSlotPool.SetContainer(slotsParent);
             }
@@ -168,27 +198,9 @@ namespace Litkey.InventorySystem
                 });
                 slot.gameObject.SetActive(true);
                 itemSlots[index] = slot;
-                if (!itemIndex.ContainsKey(index))
-                {
-                    itemIndex.Add(index, items[i]);
-                }
             }
         }
 
-        private int GetNextEmptyIndex()
-        {
-            int i = 0;
-            while (i < 99999999)
-            {
-                if (itemIndex.ContainsKey(i))
-                {
-                    i++;
-                    continue;
-                }
-                return i;
-            }
-            return -1;
-        }
 
         // 슬롯이 처음 눌렸을때
         private void OnSlotClick(int slotIndex, ItemSlotUI slot)
@@ -208,67 +220,67 @@ namespace Litkey.InventorySystem
         // 새로운 아이템 스텟장착, 슬롯 장착
         private void OnSlotSecondClick(int slotIndex, ItemSlotUI slot)
         {
-            if (itemIndex.TryGetValue(slotIndex, out Item item))
+            var item = _inventory.GetItem(slotIndex);
+           
+            if (item is EquipmentItem equipmentItem)
             {
-                if (item is EquipmentItem equipmentItem)
+                // 아이템 장착 로직 추가
+                int equippedIndex = equippedItemIndex[equipmentItem.EquipmentData.Parts];
+                if (equippedIndex != -1)
                 {
-                    // 아이템 장착 로직 추가
-                    int equippedIndex = equippedItemIndex[equipmentItem.EquipmentData.Parts];
-                    if (equippedIndex != -1)
+                    // 이미 장착한 템이 있고 이게 같은 인덱스면 
+                    if (equippedIndex == slotIndex)
                     {
-                        // 이미 장착한 템이 있고 이게 같은 인덱스면 
-                        if (equippedIndex == slotIndex)
+                        // 슬롯이 2번 눌렷을때 누른곳의 인덱스의 아이템이 장착돼있으면 스텟해제, 장착해제
+                        // 슬롯 해제
+                        itemSlots[equippedIndex].SetUnEquipped();
+                        // 장착슬롯 해제
+                        _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts); 
+                        // 스텟해제
+                        playerStatContainer.UnEquipEquipment(equipmentItem);
+                        equippedItemIndex[equipmentItem.EquipmentData.Parts] = -1;
+
+                    }
+                    else
+                    {
+                        // 다른 인덱스면 전 장비를 해제, 그리고 장착
+                        if (_inventory.GetItem(equippedIndex) is EquipmentItem equipItem)
                         {
-                            // 슬롯이 2번 눌렷을때 누른곳의 인덱스의 아이템이 장착돼있으면 스텟해제, 장착해제
-                            // 슬롯 해제
-                            itemSlots[equippedIndex].SetUnEquipped();
-                            // 장착슬롯 해제
-                            _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts); 
                             // 스텟해제
-                            playerStatContainer.UnEquipEquipment(equipmentItem);
-                            equippedItemIndex[equipmentItem.EquipmentData.Parts] = -1;
-
-                        }
-                        else
+                            playerStatContainer.UnEquipEquipment(equipItem);
+                        } else
                         {
-                            // 다른 인덱스면 전 장비를 해제, 그리고 장착
-                            if (itemIndex[equippedIndex] is EquipmentItem equipItem)
-                            {
-                                // 스텟해제
-                                playerStatContainer.UnEquipEquipment(equipItem);
-                            } else
-                            {
-                                Debug.LogError($"Item index at {equippedIndex} is not equipment item");
-                            }
-                            itemSlots[equippedIndex].SetUnEquipped(); // 전장비 해제
-                            _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts);
-                            // 새 장비를 장착, 슬롯 장착
-
-
-                            _inventory.EquipItem(equipmentItem); // 장착 슬롯 장착
-                            playerStatContainer.EquipEquipment(equipmentItem); // 스텟 장착
-
-                            equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // 인덱스저장
-                            itemSlots[slotIndex].SetEquipped(); // 슬롯장착
+                            Debug.LogError($"Item index at {equippedIndex} is not equipment item");
                         }
-                        
-                    } else
-                    {
-                        // 해당 슬롯에 아무 장비도 없을떄
+                        itemSlots[equippedIndex].SetUnEquipped(); // 전장비 해제
+                        _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts);
+                        // 새 장비를 장착, 슬롯 장착
+
+
                         _inventory.EquipItem(equipmentItem); // 장착 슬롯 장착
                         playerStatContainer.EquipEquipment(equipmentItem); // 스텟 장착
 
                         equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // 인덱스저장
                         itemSlots[slotIndex].SetEquipped(); // 슬롯장착
                     }
-                }
-                else if (item is CountableItem countableItem)
+                        
+                } else
                 {
-                    // 아이템 사용 로직 추가 (필요한 경우)
-                    Debug.Log($"아이템 {item.Data.Name} 사용");
+                    // 해당 슬롯에 아무 장비도 없을떄
+                    _inventory.EquipItem(equipmentItem); // 장착 슬롯 장착
+                    playerStatContainer.EquipEquipment(equipmentItem); // 스텟 장착
 
+                    equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // 인덱스저장
+                    itemSlots[slotIndex].SetEquipped(); // 슬롯장착
                 }
             }
+            else if (item is CountableItem countableItem)
+            {
+                // 아이템 사용 로직 추가 (필요한 경우)
+                Debug.Log($"아이템 {item.Data.Name} 사용");
+
+            }
+            
             currentSelectedSlot = null;
         }
 

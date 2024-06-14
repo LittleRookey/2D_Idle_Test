@@ -27,6 +27,8 @@ namespace Litkey.InventorySystem
         public UnityEvent OnFirstClick;
         private bool isFirstClick;
 
+        public bool HasItem => iconImage != null;
+
         private void SlotClicked()
         {
             if (isFirstClick)
@@ -96,9 +98,10 @@ namespace Litkey.InventorySystem
 
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
-                amountText.gameObject.SetActive(false);
                 useBG.gameObject.SetActive(false);
+                amountText.gameObject.SetActive(true);
 
+                amountText.SetText($"x{countableItem.Amount}");
                 useText.SetText($"»ç¿ë");
 
                 equippedImage.gameObject.SetActive(false);
@@ -113,6 +116,11 @@ namespace Litkey.InventorySystem
             slotButton.onClick.RemoveAllListeners();
             isFirstClick = true;
             slotButton.onClick.AddListener(SlotClicked);
+        }
+
+        public void UpdateCount(int count)
+        {
+            amountText.SetText($"x{count}");
         }
 
         public void ClearSlot()
