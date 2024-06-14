@@ -80,7 +80,7 @@ public class SpawnPoint : MonoBehaviour
             var monsterToSpawn = monsterTable.GetRandomMonster();
             Health monster = monsterPool[monsterToSpawn.Name].Get();
             monster.transform.position = GetRandomPositionInCell(spawnPosition) + transform.position;
-            monster.OnDeath.AddListener(OnMonsterDeath);
+            monster.OnDeath.AddListener(OnMonsterDelayedDeath);
             spawnedEnemy.Add(monster);
             currentNumber++;
 
@@ -124,13 +124,20 @@ public class SpawnPoint : MonoBehaviour
         grid[x, y] = true;
     }
 
-    private void OnMonsterDeath(LevelSystem attacker)
+    private void OnMonsterDelayedDeath(LevelSystem attacker)
+    {
+        
+        StartCoroutine(OnMonsterDeath(attacker));
+    }
+
+    private IEnumerator OnMonsterDeath(LevelSystem attacker)
     {
         var monster = spawnedEnemy.Find((Health health) => health.IsDead);
+        yield return new WaitForSeconds(0.5f);
         
         monsterPool[monster.Name].Take(monster);
         
-        monster.OnDeath.RemoveListener(OnMonsterDeath);
+        monster.OnDeath.RemoveListener(OnMonsterDelayedDeath);
         
         spawnedEnemy.Remove(monster);
         
@@ -178,7 +185,7 @@ public class SpawnPoint : MonoBehaviour
         {
             var monster = spawnedEnemy[i];
             monsterPool[monster.Name].Take(monster);
-            monster.OnDeath.RemoveListener(OnMonsterDeath);
+            monster.OnDeath.RemoveListener(OnMonsterDelayedDeath);
             currentNumber--;
 
         }

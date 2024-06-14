@@ -53,7 +53,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,19 +183,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<cspace=0.34><size=-1.78><alpha=#CD>Critical <alpha=#FF></size></cspace>
-
-    123'
+  m_text: <cspace=0.01><size=-2.76>1239999</size></cspace>
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
-  m_sharedMaterial: {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a50e85261c47743468fb8649eced36e7, type: 2}
+  m_sharedMaterial: {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280893039
-  m_fontColor: {r: 0.4339623, g: 0.24199118, b: 0.16171236, a: 1}
+    rgba: 4279847423
+  m_fontColor: {r: 1, g: 0.28811052, b: 0.0990566, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -321,7 +319,7 @@ MonoBehaviour:
     farScale: 0.5
   cameraOverride: {fileID: 0}
   enableNumber: 1
-  number: 123
+  number: 1239999
   numberSettings:
     bold: 0
     italic: 0
@@ -329,13 +327,13 @@ MonoBehaviour:
     strike: 0
     alpha: 1
     customColor: 0
-    color: {r: 1, g: 1, b: 0, a: 1}
+    color: {r: 1, g: 0.6784314, b: 0, a: 1}
     mark: 0
     markColor: {r: 1, g: 1, b: 1, a: 0.5}
     horizontal: 0
     vertical: 0
-    characterSpacing: 0
-    size: 0
+    characterSpacing: 0.01
+    size: -2.76
   digitSettings:
     decimals: 0
     decimalChar: .
@@ -382,22 +380,22 @@ MonoBehaviour:
     vertical: 0
     characterSpacing: 0
     size: 0
-  enableTopText: 1
+  enableTopText: 0
   topText: 'Critical '
   topTextSettings:
     bold: 0
     italic: 0
     underline: 0
     strike: 0
-    alpha: 0.805
+    alpha: 0.563
     customColor: 0
-    color: {r: 1, g: 1, b: 0, a: 1}
+    color: {r: 0.7075472, g: 0.48002222, b: 0, a: 1}
     mark: 0
     markColor: {r: 0, g: 0, b: 0, a: 0.5}
     horizontal: 0
     vertical: 0
-    characterSpacing: 0.34
-    size: -1.78
+    characterSpacing: 0.16
+    size: -3.02
   enableBottomText: 0
   bottomText: 
   bottomTextSettings:
@@ -720,7 +718,7 @@ MonoBehaviour:
   enablePooling: 1
   poolSize: 50
   disableOnSceneLoad: 1
-  editorLastFont: bitcell_memesbruh03 SDF
+  editorLastFont: Pixel-Shadow
   position: {x: 0, y: 0, z: 0}
 --- !u!210 &6323344755239107247
 SortingGroup:
@@ -786,7 +784,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

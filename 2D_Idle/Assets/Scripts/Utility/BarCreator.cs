@@ -372,6 +372,11 @@ namespace Litkey.Utility
             missText.Spawn(spawnPosition);
         }
 
+        internal static IEnumerator ShowDmgText(Vector3 position, List<float> damages, object p)
+        {
+            throw new NotImplementedException();
+        }
+
         private static void CheckPoolExists()
         {
             if (dmg == null || missText == null || critDamageText == null)

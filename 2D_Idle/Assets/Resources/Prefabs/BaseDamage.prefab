@@ -53,7 +53,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,10 +183,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 222
+  m_text: <cspace=0.1><size=-3.02>1111</size></cspace>
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
-  m_sharedMaterial: {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a50e85261c47743468fb8649eced36e7, type: 2}
+  m_sharedMaterial: {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -319,7 +319,7 @@ MonoBehaviour:
     farScale: 0.5
   cameraOverride: {fileID: 0}
   enableNumber: 1
-  number: 222
+  number: 1111
   numberSettings:
     bold: 0
     italic: 0
@@ -332,8 +332,8 @@ MonoBehaviour:
     markColor: {r: 0, g: 0, b: 0, a: 0.5}
     horizontal: 0
     vertical: 0
-    characterSpacing: 0
-    size: 0
+    characterSpacing: 0.1
+    size: -3.02
   digitSettings:
     decimals: 0
     decimalChar: .
@@ -718,7 +718,7 @@ MonoBehaviour:
   enablePooling: 1
   poolSize: 50
   disableOnSceneLoad: 1
-  editorLastFont: bitcell_memesbruh03 SDF
+  editorLastFont: Pixel-Shadow
   position: {x: 0, y: 0, z: 0}
 --- !u!210 &6323344755239107247
 SortingGroup:
@@ -784,7 +784,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2934107693584558550, guid: 16d76575a4855384aa75e23a624b15d1, type: 2}
+  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -262,10 +262,11 @@ namespace Litkey.InventorySystem
                         itemSlots[slotIndex].SetEquipped(); // 슬롯장착
                     }
                 }
-                else 
+                else if (item is CountableItem countableItem)
                 {
                     // 아이템 사용 로직 추가 (필요한 경우)
                     Debug.Log($"아이템 {item.Data.Name} 사용");
+
                 }
             }
             currentSelectedSlot = null;
