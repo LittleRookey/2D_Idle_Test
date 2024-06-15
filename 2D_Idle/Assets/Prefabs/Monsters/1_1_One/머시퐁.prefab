@@ -1746,7 +1746,11 @@ MonoBehaviour:
   OnCancelStat:
     m_PersistentCalls:
       m_Calls: []
+  additionalStats: []
   OnStatSetupComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEquipSkill:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &6868713106583409852
@@ -1761,7 +1765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26254f8534f9c8847bded7ab2803ebd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reward: {fileID: 11400000, guid: 7fc4695861461c44f96210889c038483, type: 2}
+  reward: {fileID: 11400000, guid: e435a929cf551bc47aa7fa0f78806572, type: 2}
 --- !u!114 &3568762566452256770
 MonoBehaviour:
   m_ObjectHideFlags: 0

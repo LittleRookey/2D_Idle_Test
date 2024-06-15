@@ -58,6 +58,7 @@ public class RewardContainer : MonoBehaviour
                     var droppedItem = drops[i];
                     if (droppedItem is CountableItem countableItem)
                     {
+                        Debug.Log($"Dropped item {countableItem.ID} x{countableItem.Amount}");
                         DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount);
                         ResourceManager.Instance.DisplayItem(countableItem.CountableData, countableItem.Amount);
                     } 

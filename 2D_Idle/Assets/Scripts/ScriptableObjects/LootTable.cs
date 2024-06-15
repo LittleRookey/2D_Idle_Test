@@ -66,12 +66,13 @@ public class LootTable : ScriptableObject
                 if (itemData is CountableItemData countableItemData)
                 {
                     var dropItem = countableItemData.CreateItem() as CountableItem;
-                    itemDrops.Add(dropItem);
                     dropItem.SetAmount(count);
+                    Debug.Log($"Reward added: Countable Item Data: {countableItemData.Name} x{count}");
+                    itemDrops.Add(dropItem);
                 }
                 else if (itemData is EquipmentItemData equipItemData)
                 {
-
+                    Debug.Log($"Reward added: Equipment Item Data: {equipItemData.Name} x{count}");
                     itemDrops.Add(equipItemData.CreateItem());
                 }
                 

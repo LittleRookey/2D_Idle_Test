@@ -65,6 +65,7 @@ namespace Litkey.Utility
             int RandAccuracy = 10000000;
             float RandHitRange = Percentage_Chance * RandAccuracy;
             int Rand = UnityEngine.Random.Range(1, RandAccuracy + 1);
+            Debug.Log($"È®·ü ¼º°ø?: {Rand <= RandHitRange} / by {Rand} <= {RandHitRange}");
             if (Rand <= RandHitRange)
             {
                 Success = true;

@@ -10,7 +10,7 @@ namespace Litkey.InventorySystem
     public interface IUsableItem
     {
         /// <summary> 아이템 사용하기(사용 성공 여부 리턴) </summary>
-        bool Use();
+        public bool Use();
     }
 
     /// <summary>

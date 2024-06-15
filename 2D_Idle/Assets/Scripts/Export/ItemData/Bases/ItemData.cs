@@ -59,6 +59,11 @@ namespace Litkey.InventorySystem
         [VerticalGroup("Item Data/Info")]
         /// <summary> 최대 내구도 </summary>
         [SerializeField] private ItemRarity _rarity = ItemRarity.일반;
+
+        [VerticalGroup("Item Data/Info")]
+        [SerializeField] private eItemType _itemType;
+        public eItemType ItemType => _itemType;
+
         [VerticalGroup("Item Data/Info")]
         [SerializeField] private int _weight = 0;
         //protected string _id;
@@ -66,6 +71,7 @@ namespace Litkey.InventorySystem
         [TextArea]
         [SerializeField] private string _tooltip; // 아이템 설명
         
+
 
         /// <summary> 타입에 맞는 새로운 아이템 생성 </summary>
         public abstract Item CreateItem();

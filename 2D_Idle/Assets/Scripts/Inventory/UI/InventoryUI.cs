@@ -39,6 +39,7 @@ namespace Litkey.InventorySystem
     // 나중에 필터할때 쓰임
     public class InventoryUI : MonoBehaviour
     {
+        [InlineEditor]
         [SerializeField] private Inventory _inventory;
         [SerializeField] private RectTransform slotsParent;
         [SerializeField] private ItemSlotUI itemSlotUIPrefab;
@@ -78,101 +79,42 @@ namespace Litkey.InventorySystem
             if (itemSlotPool == null)
             {
                 itemSlots = new Dictionary<int, ItemSlotUI>();
-                //itemIndex = new Dictionary<int, Item>();
-                
                 itemSlotPool = Pool.Create<ItemSlotUI>(itemSlotUIPrefab);
                 itemSlotPool.SetContainer(slotsParent);
             }
-
-            // 아이템이 CountableItem이면 숫자만 늘리기
-            int itemIndex = _inventory.FindItemInInventory(item);
-            if (item is CountableItem countableItem)
+            // Find the index of the item in the inventory. This is needed to map the UI slot correctly.
+            int itemIndex = _inventory.FindItemInInventory(item.Data.intID);
+            if (itemIndex == -1)
             {
-                // 카운터블 아이템 인덱스를 인벤토리에서 찾아서
-                // 해당 슬롯의 숫자를 업데이트
-
-                if (itemIndex != -1)
-                {
-                    // 아이템을 추가하는데 슬롯이 이미있으면
-                    if (itemSlots[itemIndex] != null)
-                    {
-                        // 숫자만 업데이트
-                        var cItem = _inventory.GetItem(itemIndex) as CountableItem;
-                        itemSlots[itemIndex].UpdateCount(cItem.Amount);
-                    }
-                    // 아이템을 추가하는데 슬롯이 아직 없으면
-                    else
-                    {
-                        var itemSlot = itemSlotPool.Get();
-
-                        itemSlot.SetSlot(item, () =>
-                        {
-                            // 슬롯을 클릭 2번 했을 때, 아이템을 사용 혹은 장착 혹은 해제
-                            OnSlotSecondClick(itemIndex, itemSlot);
-                        });
-                        itemSlot.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, itemSlot));
-
-                        itemSlot.gameObject.SetActive(true);
-
-                        itemSlots[itemIndex] = itemSlot;
-                    }
-                } else
-                {
-                    Debug.LogError($"Item does not exist in inventory: {countableItem.CountableData.Name}");
-                }
-                //int existingIndex = CheckItemExists(countableItem);
-                //if (existingIndex != -1)
-                //{
-                //    // 이미 존재하는 아이템이면 수량만 늘림
-                //    if (itemIndex[existingIndex] is CountableItem existingItem)
-                //    {
-                //        existingItem.AddAmount(countableItem.Amount);
-                //        // 슬롯 UI 업데이트
-                //        UpdateSlotUI(existingIndex, existingItem);
-                //        return;
-                //    }
-                //}
+                Debug.LogError("Failed to find item in inventory: " + item.Data.Name);
+                return; // Early return if the item isn't actually in the inventory.
+            }
+           
+            ItemSlotUI slotUI;
+            // COuntableItem이고 슬롯잇으면 아이템찾아서 슬롯업데이트
+            if (item is CountableItem && itemSlots.TryGetValue(itemIndex, out slotUI))
+            {
+                var cItem = _inventory.GetItem(itemIndex) as CountableItem; 
+                // Update existing slot UI for countable items.
+                slotUI.UpdateCount(cItem.Amount);
+            }
+            else if (item is EquipmentItem equipItem)
+            {
+                itemIndex = _inventory.FindItemInInventory(equipItem.ID);
+                // 장비템이면
+                slotUI = itemSlotPool.Get();
+                slotUI.SetSlot(item, () => OnSlotSecondClick(itemIndex, slotUI));
+                slotUI.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, slotUI));
+                slotUI.gameObject.SetActive(true);
+                itemSlots[itemIndex] = slotUI;
             } else
             {
-                var slot = itemSlotPool.Get();
-
-                slot.SetSlot(item, () =>
-                {
-                    // 슬롯을 클릭 2번 했을 때, 아이템을 사용 혹은 장착 혹은 해제
-                    OnSlotSecondClick(itemIndex, slot);
-                });
-                slot.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, slot));
-
-                slot.gameObject.SetActive(true);
-
-                itemSlots[itemIndex] = slot;
-
-            }
-
-
-        }
-
-        //private int CheckItemExists(CountableItem countableItem)
-        //{
-        //    foreach (var kvp in itemIndex)
-        //    {
-        //        if (kvp.Value is CountableItem existingItem && existingItem.ID == countableItem.ID)
-        //        {
-        //            return kvp.Key;
-        //        }
-        //    }
-        //    return -1; // 존재하지 않으면 -1 반환
-        //}
-
-        private void UpdateSlotUI(int index, CountableItem item)
-        {
-            // 아이템 슬롯 UI 업데이트 로직 추가
-            if (itemSlots.TryGetValue(index, out var slot))
-            {
-                slot.SetSlot(item, () =>
-                {
-                    OnSlotClick(index, slot);
-                });
+                // 장비템 아니고 슬롯 없으면
+                slotUI = itemSlotPool.Get();
+                slotUI.SetSlot(item, () => OnSlotSecondClick(itemIndex, slotUI));
+                slotUI.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, slotUI));
+                slotUI.gameObject.SetActive(true);
+                itemSlots[itemIndex] = slotUI;
             }
         }
 
@@ -276,11 +218,23 @@ namespace Litkey.InventorySystem
             }
             else if (item is CountableItem countableItem)
             {
-                // 아이템 사용 로직 추가 (필요한 경우)
-                Debug.Log($"아이템 {item.Data.Name} 사용");
-
+                Debug.Log($"Using item: {item.Data.Name}");
+                bool wasUsed = _inventory.UseItem(slotIndex);  // Assuming this method decreases the count and returns true if successful.
+                if (wasUsed)
+                {
+                    if (countableItem.Amount <= 0)
+                    {
+                        _inventory.RemoveItem(slotIndex);  // Assuming this method removes the item from inventory.
+                        itemSlots[slotIndex].ClearSlot();  // Clear the UI slot.
+                        itemSlotPool.Take(itemSlots[slotIndex]);
+                        itemSlots.Remove(slotIndex);
+                    }
+                    else
+                    {
+                        itemSlots[slotIndex].UpdateCount(countableItem.Amount);  // Update the count in the UI.
+                    }
+                }
             }
-            
             currentSelectedSlot = null;
         }
 
