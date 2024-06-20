@@ -18,9 +18,7 @@ MonoBehaviour:
   _rarity: 0
   _itemType: 0
   _weight: 0
+  _sellPrice: 10
   _tooltip: "\uACBD\uBBF8\uD55C \uBD80\uC0C1\uC740 \uCE58\uB8CC\uD560\uB9CC\uD558\uB2E4"
   _maxAmount: 99999
-  stats:
-  - statType: 0
-    oper: 0
-    value: 10
+  HealAmount: 0

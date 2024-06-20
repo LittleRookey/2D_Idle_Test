@@ -13,17 +13,17 @@ public class TopdownPlayerController : PlayerController
     public UnityEvent OnAutoOn;
     public UnityEvent OnAutoOff;
 
-    private SkillContainer skillContainer;
+    private SkillContainer _skillContainer;
 
     public bool CanMove => canMove;
 
-    private PlayerInput playerInput;
+    private PlayerInput _playerInput;
 
     protected override void Awake()
     {
         base.Awake();
-        skillContainer = GetComponent<SkillContainer>();
-        playerInput = GetComponent<PlayerInput>();
+        _skillContainer = GetComponent<SkillContainer>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     protected override void OnEnable()
@@ -168,18 +168,16 @@ public class TopdownPlayerController : PlayerController
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, scanDistance);
     }
+
     protected override void Move()
     {
-        if (!playerInput.IsMovingJoystick && isAuto)
-            moveDir = (Target.transform.position - transform.position).normalized;
-
-        // 방향 전환
-        if (moveDir.x > 0) this.Turn(true);
-        else if (moveDir.x < 0) this.Turn(false);
-        //Debug.Log("Player Running to Target");
-        //rb2D.velocity = moveDir * runSpeed;
-        if (canMove)
-            transform.position += (Vector3)moveDir * runSpeed * Time.deltaTime;
+        moveDir = (Target.transform.position - transform.position).normalized;
+        if (moveDir != Vector2.zero)
+        {
+            float speed = _statContainer.MoveSpeed.FinalValue;
+            transform.position += (Vector3)moveDir * speed * Time.deltaTime;
+            Turn(moveDir.x > 0);
+        }
     }
 
     public void Auto()
@@ -195,69 +193,89 @@ public class TopdownPlayerController : PlayerController
         }
     }
 
-    protected override void AttackAction()
+    public void ToggleAutoMode(bool toggle)
     {
-
-        if (Target.IsDead)
+        isAuto = toggle;
+        if (isAuto)
         {
-            Target = null;
-            SwitchState(eBehavior.idle);
+            OnAutoOn?.Invoke();
         }
         else
         {
-            // 스킬 쓸만한게 있으면 스킬을 쓴다
-
-            // 스킬 쓸만한게 없으면 일반 공격
-
-            anim.SetFloat(_AttackState, Random.Range(0, 1f));
-            anim.SetTrigger(_Attack);
+            OnAutoOff?.Invoke();
         }
-
     }
+
+    private void MoveTowardsTarget()
+    {
+        moveDir = (Target.transform.position - transform.position).normalized;
+        Move();
+    }
+
+   
+    private void SearchForTargetAndAct()
+    {
+        if (!SearchForTarget() || Target == null)
+            return;
+
+        if (TargetWithinAttackRange())
+            AttackAction();
+        else
+            MoveTowardsTarget();
+    }
+    private void HandleAutoMode()
+    {
+        if (_playerInput.IsMovingJoystick && isAuto)
+        {
+            ToggleAutoMode(false);
+        }
+    }
+
+    private void HandleMovement()
+    {
+        if (CanMove)
+        {
+            moveDir = _playerInput.IsMovingJoystick ? _playerInput.JoystickDirection : moveDir;
+            Move();
+        }
+    }
+
     protected override void Action()
     {
         if (isDead) return;
-        //Debug.Log("Player in action");
-        //if (HasNoTarget())
-        //{
-        //    SwitchState(eBehavior.walk);
-        //    return;
-        //}
-        var usableSkill = skillContainer.FindUsableSkill();
-        if (usableSkill != null && TargetWithinAttackRange())
-        {
-            AbilityAction(usableSkill);
-        }
 
         switch (currentBehavior)
         {
             case eBehavior.idle:
                 if (isAuto)
                 {
-                    if (playerInput.IsMovingJoystick) return;
                     if (!HasNoTarget())
                     {
                         if (TargetWithinAttackRange())
                         {
                             SwitchState(eBehavior.attack);
-                        } else
+                        }
+                        else
                         {
                             SwitchState(eBehavior.chase);
                         }
-                    } else
-                    {
-                        SearchForTarget();
                     }
-                    
+                    else
+                    {
+                        if (SearchForTarget())
+                        {
+                            SwitchState(eBehavior.chase);
+                        }
+                    }
+
                 }
                 break;
             case eBehavior.chase: // 타겟이 있을떄만 들어온다
                 // 적을 찾으면 적을향해 달려간다, 공격범위까지
-                if (playerInput.IsMovingJoystick) return;
+                //if (_playerInput.IsMovingJoystick) return;
                 if (canMove)
                     Move();
 
-                //Debug.Log(TargetWithinAttackRange());
                 // 적이 공격범위 안까지 오면 공격
                 if (TargetWithinAttackRange())
                 {
@@ -266,21 +284,19 @@ public class TopdownPlayerController : PlayerController
 
                 break;
             case eBehavior.run: //  주로 움직일떄 사용
-                if (playerInput.IsMovingJoystick) return;
                 if (canMove)
                     RunWithNoTarget();
 
                 // 플레이어가 자동을 눌렀을떄 Idle이 돼서 적을 찾는다
-                if (isAuto)
-                {
-                    SwitchState(eBehavior.idle);
-                }
+                //if (isAuto)
+                //{
+                //    SwitchState(eBehavior.idle);
+                //}
                 break;
             case eBehavior.jump:
                 anim.SetBool(_isJumping, true);
                 break;
             case eBehavior.attack:
-                if (playerInput.IsMovingJoystick) return;
                 if (TargetWithinAttackRange())
                     AttackAction();
                 else
@@ -291,14 +307,33 @@ public class TopdownPlayerController : PlayerController
         }
     }
 
-
-    public void AbilityAction(ActiveSkill usableSkill)
+    private void UseAttackOrSkill()
     {
-        //if (skillContainer == null) skillContainer = GetComponent<SkillContainer>();
-        //usableSkill.Use(_statContainer, Target);
-        skillContainer.UseActiveSkill(usableSkill, Target);
+        ActiveSkill usableSkill = _skillContainer.FindUsableSkill();
+        if (usableSkill != null && TargetWithinAttackRange())
+        {
+            _skillContainer.UseActiveSkill(usableSkill, Target);
+        }
+        else
+        {
+            // Trigger normal attack animations or mechanics
+            anim.SetFloat(_AttackState, Random.Range(0, 1f));
+            anim.SetTrigger(_Attack);
+        }
+    }
 
-        //SwitchState(eBehavior.idle);
-        //skillContainer.
+    protected override void AttackAction()
+    {
+        if (Target.IsDead)
+        {
+            Target = null;
+            SwitchState(eBehavior.idle);
+        }
+        else
+        {
+            // 스킬 쓸만한게 있으면 스킬을 쓴다
+            // 스킬 쓸만한게 없으면 일반 공격
+            UseAttackOrSkill();
+        }
     }
 }

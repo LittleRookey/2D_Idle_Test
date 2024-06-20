@@ -11,6 +11,7 @@ public class ResourceLoader : MonoBehaviour
     private void OnEnable()
     {
         ResourceManager.OnGainGold.AddListener(UpdateExtraGold);
+        ResourceManager.OnUseGold.AddListener(UpdateExtraGold);
         ResourceManager.Instance.OnResourceLoaded.AddListener(UpdateGold);
         
     }

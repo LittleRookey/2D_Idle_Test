@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Sirenix.OdinInspector;
 
 /*
     [가중치 랜덤 뽑기]
@@ -30,6 +31,8 @@ using System.Collections.ObjectModel;
 
 namespace Litkey.Utility
 {
+    [System.Serializable]
+    //[ShowInInlineEditors]
     /// <summary> 가중치 랜덤 뽑기 </summary>
     public class WeightedRandomPicker<T>
     {
@@ -44,7 +47,10 @@ namespace Litkey.Utility
         }
 
         private System.Random randomInstance;
+
         private readonly Dictionary<T, double> itemWeightDict;
+
+        [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.CollapsedFoldout, IsReadOnly = true ), ShowInInspector]
         private readonly Dictionary<T, double> normalizedItemWeightDict; // 확률이 정규화된 아이템 목록
 
         /// <summary> 가중치 합이 계산되지 않은 상태인지 여부 </summary>
@@ -80,6 +86,7 @@ namespace Litkey.Utility
         #region .
 
         /// <summary> 새로운 아이템-가중치 쌍 추가 </summary>
+        [Button("AddItem")]
         public void Add(T item, double weight)
         {
             CheckDuplicatedItem(item);

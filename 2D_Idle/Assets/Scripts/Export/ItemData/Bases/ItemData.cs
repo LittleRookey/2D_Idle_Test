@@ -63,9 +63,13 @@ namespace Litkey.InventorySystem
         [VerticalGroup("Item Data/Info")]
         [SerializeField] private eItemType _itemType;
         public eItemType ItemType => _itemType;
-
+          
         [VerticalGroup("Item Data/Info")]
         [SerializeField] private int _weight = 0;
+
+        [VerticalGroup("Item Data/Info")]
+        [SerializeField] private int _sellPrice = 0;
+        public int SellPrice => _sellPrice;
         //protected string _id;
         [VerticalGroup("Item Data/Info")]
         [TextArea]

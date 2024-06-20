@@ -219,7 +219,7 @@ namespace Litkey.InventorySystem
             else if (item is CountableItem countableItem)
             {
                 Debug.Log($"Using item: {item.Data.Name}");
-                bool wasUsed = _inventory.UseItem(slotIndex);  // Assuming this method decreases the count and returns true if successful.
+                bool wasUsed = _inventory.UseItem(slotIndex, playerStatContainer);  // Assuming this method decreases the count and returns true if successful.
                 if (wasUsed)
                 {
                     if (countableItem.Amount <= 0)

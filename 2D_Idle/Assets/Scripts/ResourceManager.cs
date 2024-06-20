@@ -26,6 +26,7 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
 
 
     public static UnityEvent<int> OnGainGold = new();
+    public static UnityEvent<int> OnUseGold = new();
     public UnityEvent OnResourceLoaded;
     private void Awake()
     {
@@ -56,12 +57,14 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
     public void UseGold(int usedGold)
     {
         gold -= usedGold;
+        OnUseGold?.Invoke(gold);
         Save();
     }
 
     public void DisplayItem(ItemData item, int count, UnityAction OnEnd=null)
     {
         var dropUI = dropItemDisplayPool.Get();
+        dropUI.gameObject.SetActive(true);
         dropUI.SetItemUI(item, count, (DropItemDisplayUI dUI) =>
         {
             OnEnd?.Invoke();

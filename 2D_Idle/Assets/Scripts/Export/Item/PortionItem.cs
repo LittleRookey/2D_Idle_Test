@@ -10,13 +10,15 @@ namespace Litkey.InventorySystem
             PortionItemData = data;
         }
 
-        public bool Use()
+        public bool Use(PlayerStatContainer playerStat)
         {
             if (Amount <= 0) return false;
             // 임시 : 개수 하나 감소
             Amount -= 1;
 
+            playerStat.GetComponent<PlayerHealth>().AddCurrentHealth(PortionItemData.HealAmount);
             return true;
+
         }
 
         protected override CountableItem Clone(int amount)
@@ -24,6 +26,6 @@ namespace Litkey.InventorySystem
             return new PortionItem(CountableData as PortionItemData, ID, amount);
         }
 
-
+        
     }
 }

@@ -48,7 +48,7 @@ public class DropItemDisplayUI : MonoBehaviour
 
         itemText.SetText($"{itemData.Name} x{count}");
         itemIcon.sprite = itemData.IconSprite;
-        tweenAnim.DORestart();
+        //tweenAnim.DORestart();
 
         OnFadeOut.AddListener(OnFadeOutEnd);
 
@@ -63,7 +63,7 @@ public class DropItemDisplayUI : MonoBehaviour
 
         itemIcon.sprite = goldSprite;
         itemText.SetText($"°ñµå x{count}");
-        tweenAnim.DORestart();
+        //tweenAnim.DORestart();
         
         OnFadeOut.AddListener(OnFadeOutEnd);
 

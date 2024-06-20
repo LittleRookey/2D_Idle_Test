@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ba0b736a76e03f4193267e8ccf03893, type: 3}
   m_Name: "\uB0A1\uC740 \uBAA9\uAC80"
   m_EditorClassIdentifier: 
-  itemType: 
   _iconSprite: {fileID: 1019758618, guid: 1f97b9c234f372a4d86880cca7d6317d, type: 3}
   _name: "\uB0A1\uC740 \uBAA9\uAC80"
   intID: 0
   _rarity: 0
+  _itemType: 0
   _weight: 0
+  _sellPrice: 100
   _tooltip: "\uC624\uB798\uB418\uC5B4 \uBD80\uC11C\uC9C8 \uAC83 \uAC19\uC740 \uB098\uBB34\uB85C
     \uB9CC\uB4E0 \uAC80\uC774\uB2E4"
   _maxDurability: 100

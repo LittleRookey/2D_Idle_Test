@@ -216,7 +216,7 @@ namespace Litkey.InventorySystem
             _inventory.Remove(index);
         }
 
-        public bool UseItem(int index)
+        public bool UseItem(int index, PlayerStatContainer playerStat)
         {
             // Check if the item exists in the inventory at the given index.
             if (!_inventory.ContainsKey(index))
@@ -231,7 +231,7 @@ namespace Litkey.InventorySystem
             if (item is CountableItem countableItem && countableItem is IUsableItem usableItem)
             {
                 // Use the item and update the inventory accordingly.
-                bool useSuccess = usableItem.Use(); // Assuming UseItem() method returns true if the item is successfully used.
+                bool useSuccess = usableItem.Use(playerStat); // Assuming UseItem() method returns true if the item is successfully used.
 
                 if (useSuccess)
                 {

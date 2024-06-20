@@ -340,7 +340,7 @@ namespace Litkey.Utility
         public static IEnumerator ShowDmgText(Vector3 spawnPosition, List<Damage> damages, bool[] misses)
         {
             CheckPoolExists();
-            WaitForSeconds delay = new WaitForSeconds(0.1f);
+            WaitForSeconds delay = new WaitForSeconds(0.05f);
             if (misses != null)
             {
                 //Debug.Log("Show damage text count: " + damages.Count);

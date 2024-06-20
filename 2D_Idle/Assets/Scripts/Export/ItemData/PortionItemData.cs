@@ -8,7 +8,7 @@ namespace Litkey.InventorySystem
     public class PortionItemData : CountableItemData
     {
         /// <summary> 효과량(회복량 등) </summary>
-        [SerializeField] protected StatModifier[] stats;
+        [SerializeField] public float HealAmount;
 
         public override Item CreateItem()
         {
@@ -17,10 +17,7 @@ namespace Litkey.InventorySystem
         }
 
 
-        public StatModifier[] GetStats()
-        {
-            return stats;
-        }
+        
 
     }
 }
