@@ -35,8 +35,11 @@ MonoBehaviour:
     - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - AssetInventory.Examples
+    - AstarPathfindingProject
     - Cinemachine
     - DamageNumbersPro
+    - Drawing
+    - PackageTools
     - Pools
     - SingularityGroup.HotReload.Runtime
     - SingularityGroup.HotReload.Runtime.Public
