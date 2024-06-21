@@ -58,13 +58,6 @@ public class ShopUI : MonoBehaviour
     public void OpenShopWindow()
     {
         shopWindow.gameObject.SetActive(true);
-        foreach (var slot in shopSlots.Values)
-        {
-            if (slot != null)
-            {
-                slot.OnSlotDisplayed();
-            }
-        }
         OnShopWindowOpened?.Invoke();
     }
 
