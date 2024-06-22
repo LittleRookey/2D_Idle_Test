@@ -8,6 +8,7 @@ using DG.Tweening;
 using Litkey.Stat;
 using Litkey.Skill;
 using Pathfinding;
+using Litkey.AI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -71,6 +72,7 @@ public class EnemyAI : MonoBehaviour
 
     private AIPath aiPath;
 
+    private StateMachine stateMachine;
     Vector3 right = Vector3.one;
     Vector3 left = new Vector3(-1f, 1f, 1f);
 
@@ -128,9 +130,12 @@ public class EnemyAI : MonoBehaviour
     {
         currentBehavior = eEnemyBehavior.idle;
         //SwitchState(eEnemyBehavior.idle);
-        
+        stateMachine = new StateMachine();
+
         
     }
+    void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
+    void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
     public void SetMovePosition(Vector3 movePosition, UnityAction onReachedMovePosition=null)
     {
