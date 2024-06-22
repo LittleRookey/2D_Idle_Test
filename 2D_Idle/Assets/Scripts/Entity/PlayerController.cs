@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger(this._Revive);
     }
 
-    public void Turn(bool turnRight)
+    public virtual void Turn(bool turnRight)
     {
         playerSprite.flipX = !turnRight;
     }

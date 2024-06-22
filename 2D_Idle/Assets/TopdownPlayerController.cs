@@ -1,5 +1,6 @@
 using DarkTonic.MasterAudio;
 using Litkey.Skill;
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,13 @@ public class TopdownPlayerController : PlayerController
 
     private PlayerInput _playerInput;
 
+    private Seeker seeker;
     protected override void Awake()
     {
         base.Awake();
         _skillContainer = GetComponent<SkillContainer>();
         _playerInput = GetComponent<PlayerInput>();
+        
     }
 
     protected override void OnEnable()
@@ -59,6 +62,10 @@ public class TopdownPlayerController : PlayerController
         moveDir = Vector2.zero;
     }
 
+    public override void Turn(bool turnRight)
+    {
+        
+    }
     //protected override void SwitchState(eBehavior behavior)
     //{
     //    switch (currentBehavior)
