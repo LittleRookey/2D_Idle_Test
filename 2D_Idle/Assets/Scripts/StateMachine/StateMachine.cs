@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Litkey.AI
 {
+    [System.Serializable]
     public class StateMachine {
+        
         StateNode current;
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
@@ -30,7 +33,7 @@ namespace Litkey.AI
             
             var previousState = current.State;
             var nextState = nodes[state.GetType()].State;
-            
+            Debug.Log("Enemy entered state: " + nextState.ToString());
             previousState?.OnExit();
             nextState?.OnEnter();
             current = nodes[state.GetType()];

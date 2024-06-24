@@ -110,9 +110,7 @@ namespace Litkey.Skill
         public override void EquipPassiveStat(StatContainer statContainer)
         {
             if (equippedStatContainer == null) equippedStatContainer = statContainer;
-            Debug.Log("Equip Stat called from Sword master");
             // 전에 있던 스텟들을 제거
-            Debug.Log("AppliedLevelUpgrades: " + _appliedLevelUpgrades.Count);
             statContainer.AddETCStat(_appliedLevelUpgrades);
             // 스텟 
 

@@ -9,6 +9,7 @@ using Litkey.Stat;
 using Litkey.Skill;
 using Pathfinding;
 using Litkey.AI;
+using System.Linq;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -33,13 +34,11 @@ public class EnemyAI : MonoBehaviour
     protected float attackInterval;
     protected float final_attackInterval;
 
-    protected float attackTimer;
-
     protected Health Target;
 
     protected eEnemyBehavior currentBehavior;
 
-    protected EnemyAnimationHook anim;
+    [SerializeField] protected Animator anim;
 
     public UnityEvent<Health> OnIdle= new();
     public UnityEvent<Health> OnAttack = new();
@@ -48,19 +47,12 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public UnityEvent<Health> OnHit = new();
     [HideInInspector] public UnityEvent<Health> OnStun = new();
 
-    [HideInInspector] public UnityEvent<Health> OnIdleExit = new();
-    [HideInInspector] public UnityEvent<Health> OnAttackExit = new();
-    [HideInInspector] public UnityEvent<Health> OnChaseExit = new();
-    [HideInInspector] public UnityEvent<Health> OnDeadExit = new();
-    [HideInInspector] public UnityEvent<Health> OnHitExit = new();
-    [HideInInspector] public UnityEvent<Health> OnStunExit = new();
+
 
     protected Dictionary<eEnemyBehavior, UnityEvent<Health>> onStateEnterBeahviors;
-    protected Dictionary<eEnemyBehavior, UnityEvent<Health>> onStateExitBeahviors;
+    //protected Dictionary<eEnemyBehavior, UnityEvent<Health>> onStateExitBeahviors;
 
     protected StatContainer _statContainer;
-
-    protected bool stopAttackTimer;
 
     protected DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
 
@@ -71,11 +63,13 @@ public class EnemyAI : MonoBehaviour
     protected Vector2 moveDir;
 
     private AIPath aiPath;
-
+    [SerializeField]
     private StateMachine stateMachine;
+
+
     Vector3 right = Vector3.one;
     Vector3 left = new Vector3(-1f, 1f, 1f);
-
+    AIDestinationSetter aiDestinationSetter;
     protected void Awake()
     {
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
@@ -88,28 +82,17 @@ public class EnemyAI : MonoBehaviour
             { eEnemyBehavior.stun, OnStun },
         };
 
-        onStateExitBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
-        {
-            { eEnemyBehavior.idle, OnIdleExit},
-            { eEnemyBehavior.attack, OnAttackExit },
-            {eEnemyBehavior.chase, OnChaseExit },
-            { eEnemyBehavior.hit, OnHitExit },
-            { eEnemyBehavior.dead, OnDeadExit },
-            { eEnemyBehavior.stun, OnStunExit },
-        };
-
         _statContainer = GetComponent<StatContainer>();
         health = GetComponent<Health>();
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
-        boxCollider2D = GetComponentInChildren<BoxCollider2D>();
         aiPath = GetComponent<AIPath>();
+        aiDestinationSetter = GetComponent<AIDestinationSetter>();
     }
 
     protected void OnEnable()
     {
         Init();
-        OnStun.AddListener(onStunEnter);
-        OnStunExit.AddListener(onStunExit);
+        //OnStunExit.AddListener(onStunExit);
 
         UpdateAttackSpeed();
         health.OnDeath.AddListener(OnDeath);
@@ -119,8 +102,7 @@ public class EnemyAI : MonoBehaviour
     protected void OnDisable()
     {
 
-        OnStun.RemoveListener(onStunEnter);
-        OnStunExit.RemoveListener(onStunExit);
+        //OnStunExit.RemoveListener(onStunExit);
         health.OnDeath.RemoveListener(OnDeath);
         health.onTakeDamage -= OnHitEnter;
     }
@@ -128,18 +110,63 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SpawnPoint = transform.position;
+
         currentBehavior = eEnemyBehavior.idle;
         //SwitchState(eEnemyBehavior.idle);
         stateMachine = new StateMachine();
 
+        var chaseState = new EnemyChaseState(this, anim);
+        var attackState = new EnemyAttackState(this, anim, 1f);
+        var wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f);
+        var battleState = new EnemyBattleState(this, anim);
+        At(wanderState, battleState, new FuncPredicate(() => !HasNoTarget()));
+        At(battleState, wanderState, new FuncPredicate(() => HasNoTarget()));
         
+        At(battleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
+        At(battleState, attackState, new FuncPredicate(() => TargetWithinAttackRange()));
+
+        At(attackState, battleState, new FuncPredicate(() => HasNoTarget()));
+        At(chaseState, battleState, new FuncPredicate(() => HasNoTarget()));
+
+        At(attackState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
+        At(chaseState, attackState, new FuncPredicate(() => TargetWithinAttackRange()));
+
+        stateMachine.SetState(wanderState);
     }
+
     void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
     void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
+    public void ChaseEnemy()
+    {
+        //SetMovePosition(Target.transform.position);
+        
+        TurnBasedOnDirection(aiPath.desiredVelocity);
+    }
     public void SetMovePosition(Vector3 movePosition, UnityAction onReachedMovePosition=null)
     {
         aiPath.destination = movePosition;
+    }
+
+    public void TurnBasedOnDirection(Vector3 direction)
+    {
+        if (direction.x > 0)
+        {
+            Turn(true);
+        }
+        else if (direction.x < 0)
+        {
+            Turn(false);
+        }
+    }
+
+    Vector2 SpawnPoint;
+    public Vector2 SetWanderPoint(float wanderRadius)
+    {
+        var randomDirection = Random.insideUnitCircle * wanderRadius;
+        randomDirection += SpawnPoint;
+        return randomDirection;
     }
 
     protected void UpdateAttackSpeed()
@@ -159,147 +186,25 @@ public class EnemyAI : MonoBehaviour
         orientation.transform.localScale = turnRight? left : right;
     }
 
-    protected void SwitchState(eEnemyBehavior behavior)
-    {
-        onStateExitBeahviors[currentBehavior]?.Invoke(Target);
-        currentBehavior = behavior;
-        onStateEnterBeahviors[behavior]?.Invoke(Target);
-    }
-    protected bool isAttacking;
-    protected virtual void Action()
-    {
-        switch(currentBehavior)
-        {
-            case eEnemyBehavior.idle:
-                // 적을 찾기
-                SearchForTarget();
-                //Debug.Log($"HasNoTarget: {!HasNoTarget()}\nTargetWithinAttackRange: {TargetWithinAttackRange()}\nisAttacking: {!isAttacking}");
-
-                if (!HasNoTarget() && TargetWithinAttackRange() && !isAttacking)
-                {
-                    Debug.Log("On Attack Enter");
-                    onAttackEnter();
-                }
-                // 적 찾으면 
-                break;
-            case eEnemyBehavior.attack:
-                //attack 1 0.8 / 2 0.6 / 3 0.4 / 4 0.2 / 5  
-                //if (!stopAttackTimer)
-                //    attackTimer += Time.deltaTime;
-
-                //if (attackTimer >= final_attackInterval)
-                //{
-
-                //    attackTimer = 0f;
-                //}
-                
-                SwitchState(eEnemyBehavior.idle);
-                
-                break;
-            case eEnemyBehavior.dead:
-                break;
-            case eEnemyBehavior.hit:
-                break;
-            case eEnemyBehavior.stun:
-                break;
-
-        }
-    }
-
     private void Init()
     {
-        isAttacking = false;
-    }
-
-    private BarTemplate currentBar;
-    public bool canParry;
-    private bool isParried;
-    [SerializeField] private float parryTime = 0.5f;
-    private BoxCollider2D boxCollider2D;
-    // 패리 로직: 공격떄 패리박스를 넣음, 타겟이 패리박스가 열렸을떄 isParried를 트루로 만들면 데미지 공식 빗겨가고 패링당한 애니메이션 실행
-    // 만약 방어를 그 전에하고 유지하면 데미지 반감, 패링박스 열리고 닫히기전에 하면 패링, 이후에 패링하면 아무것도 없고 데미지공식 그대로 실행
-    protected virtual void onAttackEnter()
-    {
-        // 몇초후에 공격 속행
-
-        isAttacking = true;
-
-        currentBar = BarCreator.CreateFillBar(transform.position - Vector3.down * 1.5f, transform, false);
-
-        currentBar.SetOuterColor(Color.black);
-        currentBar.SetInnerColor(Color.green);
-
-        var parryActivateTime = final_attackInterval - parryTime; 
-
-        attackTimer = 0f;
-
-        currentBarTween = currentBar.StartFillBar(final_attackInterval, () => 
-        {
-
-            isAttacking = false;
-
-            if (!isParried) DamageAction();
-
-
-            //onAttackExit();
-            SwitchState(eEnemyBehavior.attack);
-
-            BarCreator.ReturnBar(currentBar);
-
-            currentBarTween = null;
-
-        });
-        StartCoroutine(ActivateParrying(1));
-    }
-
-
-    SpriteRenderer shape;
-    private IEnumerator ActivateParrying(int targetNum)
-    {
-        yield return new WaitForSeconds(final_attackInterval - parryTime);
-        canParry = true;
-        shape = ShapeCreator.CreateCircle(transform.position + Vector3.up * 1.2f, Color.white);
-        health.OnDeath.AddListener((LevelSystem lvl) => ShapeCreator.ReturnShape(shape));
-
-        yield return new WaitForSeconds(parryTime);
-        ShapeCreator.ReturnShape(shape);
-        health.OnDeath.RemoveListener((LevelSystem lvl) => ShapeCreator.ReturnShape(shape));
-        isParried = false;
-        canParry = false;
-
-
-    }
-
-
-    protected void onStunEnter(Health targ)
-    {
-        stopAttackTimer = true;
-    }
-
-    protected void onStunExit(Health targ)
-    {
-        stopAttackTimer = false;
+        //isAttacking = false;
     }
 
     protected void OnDeath(LevelSystem targ)
     {
         Target = null;
-        SwitchState(eEnemyBehavior.idle);
-        stopAttackTimer = false;
+        
         //isAttacking = false;
         currentBarTween.Pause();
         // 죽음 애니메이션플레이
         onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
 
-        ShapeCreator.ReturnShape(shape);
-        if (currentBar != null && currentBar.gameObject.activeInHierarchy)
-            BarCreator.ReturnBar(currentBar);
     }
 
     // called from animation
     public void OnDeathExit()
     {
-        ShapeCreator.ReturnShape(shape);
         SpawnManager.Instance.TakeToPool(health);
     }
 
@@ -336,39 +241,47 @@ public class EnemyAI : MonoBehaviour
         return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
     }
 
-    protected virtual bool SearchForTarget()
+    public bool SearchForTarget()
     {
-        var raycastHit = Physics2D.Raycast(transform.position, Vector2.left, scanDistance, enemyLayer);
-        Debug.DrawRay(transform.position, Vector2.right * scanDistance, Color.red, 0.3f);
-        if (raycastHit)
+        // Create a circle around the transform's position with the specified scanDistance radius
+        Vector2 circleCenter = transform.position;
+        float circleRadius = scanDistance;
+
+        // Perform a CircleCastAll to detect any colliders within the circle
+        RaycastHit2D[] raycastHits = Physics2D.CircleCastAll(circleCenter, circleRadius, Vector2.zero, 0f, enemyLayer);
+
+        if (raycastHits.Length > 0)
         {
             if (Target == null)
             {
-                var target = raycastHit.transform.GetComponent<Health>();
-                if (!target.IsDead)
+                // Sort the raycastHits array by distance from the current transform's position
+                raycastHits = raycastHits.OrderBy(hit => Vector2.Distance(hit.transform.position, transform.position)).ToArray();
+
+                // Iterate through the sorted colliders within the circle
+                foreach (RaycastHit2D hit in raycastHits)
                 {
-                    SetTarget(target);
-                    return true;
+                    Health target = hit.transform.GetComponent<Health>();
+                    if (target != null && !target.IsDead)
+                    {
+                        SetTarget(target);
+                        return true;
+                    }
                 }
-                return false;
             }
         }
+
         return false;
     }
 
     protected void SetTarget(Health enemy)
     {
         Target = enemy;
+        aiDestinationSetter.target = Target.transform;
         //Debug.Log("Target set: " + enemy.name);
     }
-
-    public void DamageAction()
+    public bool isAttacking;
+    public void Attack()
     {
-        if (isParried)
-        {
-            isParried = false;
-            return;
-        }
 
         if (basicAttack == null)
         {
@@ -376,35 +289,28 @@ public class EnemyAI : MonoBehaviour
         }
         if (Target == null) return;
         // 데미지 계산
-
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
-
-        if (Target.IsDead)
-        {
-            Target = null;
-            SwitchState(eEnemyBehavior.idle);
-        }
-
-
+        //playerDetector.PlayerHealth.TakeDamage(10);
     }
 
-    public bool TryParry()
+    public void StopMovement() => aiPath.canMove = false;
+
+    public void StartMovement() => aiPath.canMove = true;
+    private void FixedUpdate()
     {
-        Debug.Log("canparry: " + canParry);
-        Debug.Log("isParried: " + isParried);
-        if (canParry && !isParried)
-        {
-            isParried = true;
-            // Handle successful parry
-            //onStateEnterBeahviors[eEnemyBehavior.parry]?.Invoke(health);
-            return true;
-        }
-        return false;
+        stateMachine.FixedUpdate();
     }
-
     // Update is called once per frame
     void Update()
     {
-        Action();
+        stateMachine.Update();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, scanDistance);
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

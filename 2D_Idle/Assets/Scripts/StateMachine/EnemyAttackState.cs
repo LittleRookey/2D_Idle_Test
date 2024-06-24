@@ -5,22 +5,48 @@ using Pathfinding;
 namespace Litkey.AI
 {
     public class EnemyAttackState : EnemyBaseState {
-        readonly NavMeshAgent agent;
-        readonly Transform player;
-        
-        public EnemyAttackState(EnemyAI enemy, Animator animator, NavMeshAgent agent, Transform player) : base(enemy, animator) {
-            this.agent = agent;
-            this.player = player;
+
+
+        CountdownTimer attackTimer;
+        float attackInterval;
+        public EnemyAttackState(EnemyAI enemy, Animator animator, float attackInterval) : base(enemy, animator) 
+        {
+            attackTimer = new CountdownTimer(attackInterval);
+            attackTimer.OnTimerStop += Attack;
+            attackTimer.OnTimerStart += AttackTrue;
         }
-        
+
+        void AttackTrue() => enemy.isAttacking = true;
         public override void OnEnter() {
-            Debug.Log("Attack");
-            animator.CrossFade(AttackHash, crossFadeDuration);
+            Debug.Log("Entered AttackState");
+            SetIdle();
+            enemy.StopMovement();
+            
         }
-        
+
+        void SetIdle()
+        {
+            animator.CrossFade(IdleHash, crossFadeDuration);
+        }
+
+        public void ResetTimerTime(float time)
+        {
+            attackTimer.Reset(time);
+        }
+
         public override void Update() {
-            agent.SetDestination(player.position);
-            //enemy.Attack();
+            attackTimer.Tick(Time.deltaTime);
+
+            if (!attackTimer.IsRunning)
+            {
+                attackTimer.Start();
+            }
+        }
+
+        void Attack()
+        {
+            animator.CrossFadeInFixedTime(NormalAttackHash, crossFadeDuration);
+            enemy.Attack();
         }
     }
 }

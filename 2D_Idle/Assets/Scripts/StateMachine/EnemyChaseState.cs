@@ -10,23 +10,23 @@ namespace Litkey.AI
         
         readonly Transform player;
 
-        public EnemyChaseState(EnemyAI enemy, Animator animator, Transform target) : base(enemy, animator)
+        public EnemyChaseState(EnemyAI enemy, Animator animator) : base(enemy, animator)
         {
-            //this.agent = agent;
 
-            //this.player = player;
         }
 
         public override void OnEnter()
         {
-            Debug.Log("Chase");
+            Debug.Log("Entered ChaseState");
             animator.CrossFade(RunHash, crossFadeDuration);
-            this.enemy.SetMovePosition()
+            this.enemy.ChaseEnemy();
+            enemy.StartMovement();
         }
 
-        //public override void Update()
-        //{
-        //    agent.SetDestination(player.position);
-        //}
+        public override void Update()
+        {
+            //agent.SetDestination(player.position);
+            this.enemy.ChaseEnemy();
+        }
     }
 }

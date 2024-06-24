@@ -370,37 +370,7 @@ public class PlayerController : MonoBehaviour
         anim.Play(_EnterCounter);
         
     }
-    bool isParried = false;
-    // call from other script
-    public void DoParry(bool doParry)
-    {
-        if (Target == null) return;
-        if (isDead) return;
-
-        var enemyAI = Target.GetComponent<EnemyAI>();
-        EnterCounter();
-        if (doParry)
-        {
-            if (enemyAI != null && enemyAI.TryParry())
-            {
-                anim.SetBool(_Parry, true);
-                isParried = true;
-                MasterAudio.PlaySound("패링성공");
-                // Handle successful parry for the player
-            }
-            else
-            {
-                // Handle failed parry attempt
-                anim.SetBool(_Parry, false);
-                isParried = false;
-            }
-        }
-        else
-        {
-            anim.SetBool(_Parry, false);
-            isParried = false;
-        }
-    }
+  
 
     protected bool TargetWithinAttackRange()
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public abstract class Timer {
     protected float initialTime;
@@ -27,6 +28,7 @@ public abstract class Timer {
         if (IsRunning) {
             IsRunning = false;
             OnTimerStop.Invoke();
+            Debug.Log("IDLE TIMER STOPPED");
         }
     }
 
