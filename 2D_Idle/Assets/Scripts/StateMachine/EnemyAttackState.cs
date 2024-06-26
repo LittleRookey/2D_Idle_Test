@@ -7,13 +7,30 @@ namespace Litkey.AI
     public class EnemyAttackState : EnemyBaseState {
 
 
-        CountdownTimer attackTimer;
+        public CountdownTimer attackTimer;
         float attackInterval;
+        float attackAnimationDuration;
+
         public EnemyAttackState(EnemyAI enemy, Animator animator, float attackInterval) : base(enemy, animator) 
         {
+            this.attackInterval = attackInterval;
+            
+            
             attackTimer = new CountdownTimer(attackInterval);
-            attackTimer.OnTimerStop += Attack;
-            attackTimer.OnTimerStart += AttackTrue;
+            
+            //attackTimer.OnTimerStop += Attack;
+            //attackTimer.OnTimerStart += AttackTrue;
+
+            // Get the attack animation duration
+            AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+            foreach (AnimationClip clip in clips)
+            {
+                if (clip.name == "2_Attack_Normal")
+                {
+                    attackAnimationDuration = clip.length;
+                    break;
+                }
+            }
         }
 
         void AttackTrue() => enemy.isAttacking = true;
@@ -21,7 +38,8 @@ namespace Litkey.AI
             Debug.Log("Entered AttackState");
             SetIdle();
             enemy.StopMovement();
-            
+            Attack();
+            //    attackTimer.Start();
         }
 
         void SetIdle()
@@ -35,18 +53,26 @@ namespace Litkey.AI
         }
 
         public override void Update() {
-            attackTimer.Tick(Time.deltaTime);
 
-            if (!attackTimer.IsRunning)
+            if (attackTimer.IsFinished)
             {
-                attackTimer.Start();
+                Attack();
             }
         }
 
         void Attack()
         {
+            enemy.ChaseEnemy();
             animator.CrossFadeInFixedTime(NormalAttackHash, crossFadeDuration);
-            enemy.Attack();
+            enemy.UseAttackOrSkill();
+
+            //attackTimer.Reset(attackInterval);
+            attackTimer.Start();
+        }
+        public override void OnExit()
+        {
+            enemy.isAttacking = false;
+            //attackTimer.Stop();
         }
     }
 }

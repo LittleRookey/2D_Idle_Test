@@ -60,6 +60,8 @@ namespace Litkey.Skill
 
         protected virtual void OnDisable() { }
 
+        public abstract void SetInitialState();
+
         public abstract void ApplyEffect(StatContainer allyStat, StatContainer target);
 
         public void IncreaseOneExp()
@@ -102,8 +104,6 @@ namespace Litkey.Skill
         protected List<StatModifier> _appliedLevelUpgrades; // 적용된 레벨 효과들 모음
 
         public UnityEvent<PassiveSkill> OnSkillLevelUp;
-
-        public virtual void Initialize() { }
 
         protected abstract void OnRankUp(eSkillRank rank);
         protected abstract void OnLevelUp();

@@ -6,8 +6,7 @@ using UnityEngine.Events;
 
 namespace Litkey.Skill
 {
-    [CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/BasicAttack")]
-    public class BasicAttack : Skill
+    public abstract class BasicAttack : Skill
     {
         [Range(0, 10)]
         public float damagePercent;
@@ -22,6 +21,7 @@ namespace Litkey.Skill
             target.GetComponent<Health>().TakeDamage(allyStat, new List<Damage> { dmg });
             OnApplyEffect?.Invoke();
         }
+
     }
 }
 

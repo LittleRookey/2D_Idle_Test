@@ -33,6 +33,11 @@ namespace Litkey.Skill
 
         public override void EquipPassiveStat(StatContainer statContainer)
         {
+            
+        }
+
+        public override void SetInitialState()
+        {
             throw new NotImplementedException();
         }
     }

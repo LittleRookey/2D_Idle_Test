@@ -16,5 +16,10 @@ namespace Litkey.Skill
             target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);
             OnApplyEffect?.Invoke();
         }
+
+        public override void SetInitialState()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

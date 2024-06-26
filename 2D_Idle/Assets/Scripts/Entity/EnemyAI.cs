@@ -10,6 +10,7 @@ using Litkey.Skill;
 using Pathfinding;
 using Litkey.AI;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -63,13 +64,20 @@ public class EnemyAI : MonoBehaviour
     protected Vector2 moveDir;
 
     private AIPath aiPath;
+
+    [Header("StateMachines")]
     [SerializeField]
     private StateMachine stateMachine;
-
+    [SerializeField] private IState currentState;
 
     Vector3 right = Vector3.one;
     Vector3 left = new Vector3(-1f, 1f, 1f);
     AIDestinationSetter aiDestinationSetter;
+
+    private SkillContainer _skillContainer;
+
+    private EnemyAttackState attackState;
+    CountdownTimer attackStateTimer;
     protected void Awake()
     {
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
@@ -81,7 +89,7 @@ public class EnemyAI : MonoBehaviour
             { eEnemyBehavior.dead, OnDead },
             { eEnemyBehavior.stun, OnStun },
         };
-
+        _skillContainer = GetComponent<SkillContainer>();
         _statContainer = GetComponent<StatContainer>();
         health = GetComponent<Health>();
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
@@ -115,35 +123,45 @@ public class EnemyAI : MonoBehaviour
         currentBehavior = eEnemyBehavior.idle;
         //SwitchState(eEnemyBehavior.idle);
         stateMachine = new StateMachine();
-
+        float attackANimDuration = 0.5f;
         var chaseState = new EnemyChaseState(this, anim);
-        var attackState = new EnemyAttackState(this, anim, 1f);
+        attackState = new EnemyAttackState(this, anim, 1f);
+        attackStateTimer = attackState.attackTimer;
         var wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f);
         var battleState = new EnemyBattleState(this, anim);
+        var battleIdleState = new BattleIdleState(this, anim);
+
         At(wanderState, battleState, new FuncPredicate(() => !HasNoTarget()));
         At(battleState, wanderState, new FuncPredicate(() => HasNoTarget()));
         
         At(battleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
-        At(battleState, attackState, new FuncPredicate(() => TargetWithinAttackRange()));
+        At(battleState, attackState, new FuncPredicate(() => TargetWithinAttackRange() && !AttackCooldown()));
 
-        At(attackState, battleState, new FuncPredicate(() => HasNoTarget()));
+        At(attackState, battleState, new FuncPredicate(() => HasNoTarget()), true, attackANimDuration);
         At(chaseState, battleState, new FuncPredicate(() => HasNoTarget()));
 
-        At(attackState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
-        At(chaseState, attackState, new FuncPredicate(() => TargetWithinAttackRange()));
+        At(attackState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange() && AttackCooldown()), true, attackANimDuration);
+        At(chaseState, attackState, new FuncPredicate(() => TargetWithinAttackRange() && !AttackCooldown()));
+
+        At(attackState, battleIdleState, new FuncPredicate(() => TargetWithinAttackRange() && AttackCooldown()), true, attackANimDuration);
+        At(chaseState, battleIdleState, new FuncPredicate(() => AttackCooldown() && TargetWithinAttackRange()));
+
+        At(battleIdleState, attackState, new FuncPredicate(() => !AttackCooldown() && TargetWithinAttackRange()));
+        At(battleIdleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
 
         stateMachine.SetState(wanderState);
     }
 
-    void At(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
-    void Any(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
+    void At(IState from, IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddTransition(from, to, condition, hasExitTime, exitTime);
+    void Any(IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddAnyTransition(to, condition, hasExitTime, exitTime);
 
     public void ChaseEnemy()
     {
         //SetMovePosition(Target.transform.position);
-        
+
         TurnBasedOnDirection(aiPath.desiredVelocity);
     }
+
     public void SetMovePosition(Vector3 movePosition, UnityAction onReachedMovePosition=null)
     {
         aiPath.destination = movePosition;
@@ -169,6 +187,10 @@ public class EnemyAI : MonoBehaviour
         return randomDirection;
     }
 
+    public bool AttackCooldown()
+    {
+        return !attackStateTimer.IsFinished;
+    }
     protected void UpdateAttackSpeed()
     {
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
@@ -280,7 +302,7 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log("Target set: " + enemy.name);
     }
     public bool isAttacking;
-    public void Attack()
+    private void Attack()
     {
 
         if (basicAttack == null)
@@ -291,6 +313,20 @@ public class EnemyAI : MonoBehaviour
         // 데미지 계산
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
         //playerDetector.PlayerHealth.TakeDamage(10);
+    }
+
+    public void UseAttackOrSkill()
+    {
+        ActiveSkill usableSkill = _skillContainer.FindUsableSkill();
+        if (usableSkill != null && TargetWithinAttackRange())
+        {
+            _skillContainer.UseActiveSkill(usableSkill, Target);
+        }
+        else
+        {
+            // Trigger normal attack animations or mechanics
+            Attack();
+        }
     }
 
     public void StopMovement() => aiPath.canMove = false;
@@ -304,6 +340,9 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         stateMachine.Update();
+        attackStateTimer.Tick(Time.deltaTime);
+
+        //Debug.Log($"Current State {stateMachine.current.State} :\nTarget Exist? {!HasNoTarget()} Target Within AttackRange? {TargetWithinAttackRange()} Attack Cooldown? {AttackCooldown()}");
     }
 
     private void OnDrawGizmos()

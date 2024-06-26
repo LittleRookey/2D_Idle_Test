@@ -47,7 +47,7 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
         {
             if (!passives.ContainsKey(passive.skillName))
             {
-                passive.Initialize();
+                passive.SetInitialState();
                 passive.OnSkillLevelUp.AddListener(playerStat.OnEquipPassive);
                 
                 playerStat.OnEquipPassive(passive);

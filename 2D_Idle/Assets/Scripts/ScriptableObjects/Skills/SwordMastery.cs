@@ -65,11 +65,11 @@ namespace Litkey.Skill
         }
 
 
-        public override void Initialize()
+        public override void SetInitialState()
         {
             Init();
-
         }
+
         public void Init()
         {
             _appliedLevelUpgrades = new List<StatModifier>();
@@ -115,6 +115,7 @@ namespace Litkey.Skill
             // ½ºÅÝ 
 
         }
+
     }
 
 }

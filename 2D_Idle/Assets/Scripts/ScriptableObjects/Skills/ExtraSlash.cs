@@ -15,6 +15,11 @@ public class ExtraSlash : ActiveSkill
         
     }
 
+    public override void SetInitialState()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void Use(StatContainer ally, Health target)
     {
         if (!animationName.Equals(string.Empty))

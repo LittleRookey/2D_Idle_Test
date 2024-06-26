@@ -6,28 +6,35 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Litkey.Skill;
 
+
 public class SkillContainer : MonoBehaviour
 {
+    public bool isEnemy = true;
     public List<PassiveSkill> passiveSkills;
     public List<ActiveSkill> activeSkills;
 
-    private PlayerStatContainer statContainer;
+    private StatContainer statContainer;
 
     private CooldownSystem cooldownSystem;
     TopdownPlayerController player;
 
-    public ActiveSkill[] equippedActiveSkills;
+    [HideInInspector] public ActiveSkill[] equippedActiveSkills;
     public int activeslotNumbers = 5;
     private void Awake()
     {
-        player = GetComponent<TopdownPlayerController>();
-        statContainer = GetComponent<PlayerStatContainer>();
+        if (!isEnemy)
+        {
+            player = GetComponent<TopdownPlayerController>();
+        }
+
+        statContainer = GetComponent<StatContainer>();
         cooldownSystem = GetComponent<CooldownSystem>();
     }
 
     private void Start()
     {
-        UpdateObtainedSkills();    
+        if (!isEnemy)
+            UpdateObtainedSkills();    
     }
 
     public void UpdateObtainedSkills()
@@ -38,8 +45,6 @@ public class SkillContainer : MonoBehaviour
 
     public ActiveSkill FindUsableSkill()
     {
-
-        var health = player.GetTarget();
         ActiveSkill bestSkill = null;
 
         foreach (var skill in activeSkills)
@@ -58,11 +63,12 @@ public class SkillContainer : MonoBehaviour
 
     }
 
-    public void ApplyPassiveEffects(Health target)
+    public void EquipPassiveEffects(StatContainer target)
     {
         foreach (var skill in passiveSkills)
         {
             //skill.ApplyEffect(target);
+            //skill.ApplyEffect
         }
     }
 
