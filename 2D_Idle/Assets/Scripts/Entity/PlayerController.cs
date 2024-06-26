@@ -9,6 +9,9 @@ using Sirenix.OdinInspector;
 using DarkTonic.MasterAudio;
 using Litkey.Utility;
 using Litkey.Skill;
+using System.Linq;
+using Pathfinding;
+using Litkey.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,8 +41,6 @@ public class PlayerController : MonoBehaviour
     protected readonly int _Revive = Animator.StringToHash("Revive");
     protected readonly int _Hit = Animator.StringToHash("Hit");
 
-    protected readonly int _EnterCounter = Animator.StringToHash("EnterCounter");
-    protected readonly int _Parry = Animator.StringToHash("Parry");
     protected eBehavior currentBehavior;
     protected bool isGrounded;
 
@@ -47,6 +48,8 @@ public class PlayerController : MonoBehaviour
     protected Rigidbody2D rb2D;
 
     protected bool canMove;
+
+    public bool CanMove => canMove;
 
     protected StatContainer _statContainer;
     protected LevelSystem _levelSystem;
@@ -56,12 +59,28 @@ public class PlayerController : MonoBehaviour
     protected Material playerMat;
     public UnityEvent OnRevive;
 
+    public UnityEvent OnAutoOn;
+    public UnityEvent OnAutoOff;
+    
     protected float startValue = 0f;
+
+    public Vector2 moveDir;
+
     protected Sequence hitSequence;
 
     private DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
 
-    
+    protected SkillContainer _skillContainer;
+    private PlayerInput _playerInput;
+
+    private Player_AttackState playerAttackState;
+
+    private StateMachine stateMachine;
+    private CountdownTimer attackTimer;
+
+    private AIPath _aiPath;
+    private AIDestinationSetter _destinationSetter;
+
     public bool isAuto;
     protected enum eBehavior
     {
@@ -81,46 +100,85 @@ public class PlayerController : MonoBehaviour
         _levelSystem = GetComponent<LevelSystem>();
         _health = GetComponent<Health>();
         playerMat = playerSprite.material;
-
-        
+        _skillContainer = GetComponent<SkillContainer>();
+        _playerInput = GetComponent<PlayerInput>();
+        _aiPath = GetComponent<AIPath>();
+        _destinationSetter = GetComponent<AIDestinationSetter>();
     }
 
     protected virtual void OnEnable()
     {
         _health.OnDeath.AddListener(Death);
         _health.OnHit.AddListener(HitAnim);
+        _statContainer.OnStatSetupComplete.AddListener(UpdateMoveSpeed);
+        _statContainer.OnStatSetupComplete.AddListener(UpdateAttackSpeedOnStart);
+        _statContainer.MoveSpeed.OnValueChanged.AddListener(UpdateSpeed);
+        _statContainer.AttackSpeed.OnValueChanged.AddListener(UpdateAttackSpeedOnChange);
     }
 
     protected virtual void OnDisable()
     {
         _health.OnHit.RemoveListener(HitAnim);
         _health.OnDeath.RemoveListener(Death);
+        _statContainer.OnStatSetupComplete.RemoveListener(UpdateMoveSpeed);
+        _statContainer.OnStatSetupComplete.RemoveListener(UpdateAttackSpeedOnStart);
+        _statContainer.MoveSpeed.OnValueChanged.RemoveListener(UpdateSpeed);
+        _statContainer.AttackSpeed.OnValueChanged.RemoveListener(UpdateAttackSpeedOnChange);
     }
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        
         EnableMovement();
-        SwitchState(eBehavior.run);
+        stateMachine = new StateMachine();
+
+        var idleState = new Player_IdleState();
     }
 
-    protected virtual void Move()
+    public void MoveWithJoystick()
     {
-        int dir = playerSprite.flipX ? -1 : 1;
-        transform.position += Vector3.right * dir * moveSpeed * Time.deltaTime;
+        moveDir = _playerInput.JoystickDirection;
+        moveSpeed = _statContainer.MoveSpeed.FinalValue;
+        transform.position += (Vector3)moveDir * moveSpeed * Time.deltaTime;
+        Turn(moveDir.x > 0);
+        
     }
 
-
-
-    protected virtual void Run()
+    #region StateMachine Condition Checks
+    public bool IsDead()
     {
-        //rb2D.velocity += new Vector2(1 * runSpeed, 0) * Time.deltaTime;
-        //rb2D.MovePosition(rb2D.position + Vector2.right * runSpeed * Time.deltaTime);
-        //rb2D.velocity = Vector2.right * runSpeed;
-        int dir = playerSprite.flipX ? -1 : 1;
-        transform.position += Vector3.right * dir * runSpeed * Time.deltaTime;
+        return _health.IsDead;
     }
+
+    protected bool TargetWithinAttackRange()
+    {
+        if (Target == null)
+        {
+            return false;
+        }
+        return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
+    }
+
+    protected bool HasNoTarget()
+    {
+        return Target == null;
+    }
+
+    public bool Auto()
+    {
+        return isAuto;
+    }
+
+    public bool JoystickMoving()
+    {
+        return _playerInput.IsMovingJoystick;
+    }
+
+    public bool AttackCooldown()
+    {
+        return !attackTimer.IsFinished;
+    }
+    #endregion
 
     protected void Death(LevelSystem levelSystem)
     {
@@ -209,18 +267,32 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void Update()
     {
-        CheckGrounded(); // 땅에 닿아잇는지를 체크
+        //CheckGrounded(); // 땅에 닿아잇는지를 체크
         
         
-        Action(); // 기본 AI
+
     }
 
+    private void UseAttackOrSkill()
+    {
+        ActiveSkill usableSkill = _skillContainer.FindUsableSkill();
+        if (usableSkill != null && TargetWithinAttackRange())
+        {
+            _skillContainer.UseActiveSkill(usableSkill, Target);
+        }
+        else
+        {
+            // Trigger normal attack animations or mechanics
+            anim.SetFloat(_AttackState, Random.Range(0, 1f));
+            anim.SetTrigger(_Attack);
+        }
+    }
 
     protected void SetTarget(Health enemy)
     {
         Target = enemy;
         //Debug.Log("Target set: " + enemy.name);
-        
+        _destinationSetter.target = Target.transform;
     }
 
     public Health GetTarget()
@@ -228,182 +300,51 @@ public class PlayerController : MonoBehaviour
         return Target;
     }
 
-    protected virtual void Action()
-    {
-        if (isDead) return;
-
-        //if (HasNoTarget())
-        //{
-        //    SwitchState(eBehavior.walk);
-        //    return;
-        //}
-        switch(currentBehavior)
-        {
-            case eBehavior.idle:
-                if (!HasNoTarget() && TargetWithinAttackRange())
-                {
-                    SwitchState(eBehavior.attack);
-                }
-                break;
-            case eBehavior.walk:
-                // 걸으면서 적을 찾는다
-                if (canMove)
-                    Move();
-                    //MoveRight();
-                // 적을 찾으면 적을향해 달려간다, 공격범위까지
-                if (SearchForTarget())
-                {
-                    SwitchState(eBehavior.run);
-                }
-                break;
-            case eBehavior.run:
-                if (canMove)
-                    Run();
-
-                if (Target == null)
-                {
-                    SearchForTarget();
-
-                }
-                if (TargetWithinAttackRange())
-                {
-                    SwitchState(eBehavior.attack);
-                }
-                break;
-            case eBehavior.jump:
-                anim.SetBool(_isJumping, true);
-                break;
-            case eBehavior.attack:
-                AttackAction();
-
-                break;
-            case eBehavior.ability:
-                break;
-        }
-    }
-
-    protected virtual void SwitchState(eBehavior behavior)
-    {
-        switch (currentBehavior)
-        {
-            case eBehavior.idle:
-                
-                break;
-            case eBehavior.walk:
-                anim.SetBool(_isWalking, false);
-                break;
-            case eBehavior.run:
-                anim.SetBool(_isRunning, false);
-
-                break;
-            case eBehavior.chase:
-                anim.SetBool(_isRunning, false);
-                break;
-            case eBehavior.jump:
- 
-                anim.SetBool(_isJumping, false);
-                break;
-            case eBehavior.attack:
-                //if (Target.IsDead)
-                //{
-                //    Target = null;
-                //    SwitchState(eBehavior.idle);
-                //    return;
-                //}
-                //anim.SetBool(isRunning, true);
-                break;
-            case eBehavior.ability:
-
-                break;
-        }
-
-        currentBehavior = behavior;
-        switch (currentBehavior)
-        {
-            case eBehavior.idle:
-                anim.SetBool(_Parry, false);
-                break;
-            case eBehavior.walk:
-                //anim.SetBool(isWalking, true);
-                anim.SetBool(_isWalking, true);
-                break;
-            case eBehavior.run:
-                anim.SetBool(_isRunning, true);
-                break;
-            case eBehavior.chase:
-                anim.SetBool(_isRunning, true);
-                //canMove = true;
-                break;
-            case eBehavior.jump:
-
-                anim.SetBool(_isJumping, true);
-                break;
-            case eBehavior.attack:
-                canMove = false;
-                anim.SetBool(_isRunning, false);
-                //anim.SetBool(isRunning, true);
-                break;
-            case eBehavior.ability:
-
-                break;
-        }
-    }
-
     public void DOSmoothWalk()
     {
         EnableMovement();
-        SwitchState(eBehavior.walk);
     }
     public void DOSmoothRun()
     {
         EnableMovement();
-        SwitchState(eBehavior.run);
     }
     public void DoIdle()
     {
         DisableMovement();
-        SwitchState(eBehavior.idle);
     }
+    
 
-    public void EnterCounter()
-    {
-        anim.Play(_EnterCounter);
-        
-    }
-  
-
-    protected bool TargetWithinAttackRange()
-    {
-        if (Target == null)
-        {
-            return false;
-        }
-        return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
-    }
-
-    protected bool HasNoTarget()
-    {
-        return Target == null;
-    }
 
 
     protected virtual bool SearchForTarget()
     {
-        var raycastHit = Physics2D.Raycast(transform.position, Vector2.right, scanDistance, enemyLayer);
-        Debug.DrawRay(transform.position, Vector2.right * scanDistance, Color.red, 0.3f);
-        if (raycastHit)
+        // Create a circle around the transform's position with the specified scanDistance radius
+        Vector2 circleCenter = transform.position;
+        float circleRadius = scanDistance;
+
+        // Perform a CircleCastAll to detect any colliders within the circle
+        RaycastHit2D[] raycastHits = Physics2D.CircleCastAll(circleCenter, circleRadius, Vector2.zero, 0f, enemyLayer);
+
+        if (raycastHits.Length > 0)
         {
             if (Target == null)
             {
-                var target = raycastHit.transform.GetComponent<Health>();
-                if (!target.IsDead)
+                // Sort the raycastHits array by distance from the current transform's position
+                raycastHits = raycastHits.OrderBy(hit => Vector2.Distance(hit.transform.position, transform.position)).ToArray();
+
+                // Iterate through the sorted colliders within the circle
+                foreach (RaycastHit2D hit in raycastHits)
                 {
-                    SetTarget(target);
-                    return true;
+                    Health target = hit.transform.GetComponent<Health>();
+                    if (target != null && !target.IsDead)
+                    {
+                        SetTarget(target);
+                        return true;
+                    }
                 }
-                return false;
             }
         }
+
         return false;
     }
 
@@ -411,46 +352,119 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("Can move now");
         canMove = true;
+        _aiPath.canMove = canMove;
     }
 
     public virtual void DisableMovement()
     {
         canMove = false;
+        _aiPath.canMove = canMove;
     }
-
-    protected virtual void AttackAction()
+    private void UpdateMoveSpeed(StatContainer statContainer)
     {
-       
-        if (Target.IsDead)
-        {
-            Target = null;
-            SwitchState(eBehavior.run);
-        } else
-        {
-            anim.SetFloat(_AttackState, Random.Range(0, 1f));
-            anim.SetTrigger(_Attack);
-        }
-        MasterAudio.PlaySound("일반검베기");
+        this.runSpeed = statContainer.MoveSpeed.FinalValue;
     }
 
-    public void DamageAction()
+    private void UpdateSpeed(float speed)
     {
-        if (basicAttack == null)
-        {
-            basicAttack = Resources.Load<PlayerBasicAttack>("ScriptableObject/Skills/PlayerBasicAttack");
-        }
-        // 데미지 계산
-        //var dmg = _statContainer.GetFinalDamage();
-        //var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
-        if (Target == null) return;
-        if (TargetWithinAttackRange())
-            basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
-        
+        this.runSpeed = speed;
+    }
 
-        //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-        //Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
+    private void UpdateAttackSpeedOnStart(StatContainer statContainer)
+    {
+        UpdateAS(statContainer.AttackSpeed.FinalValue);
+    }
+
+    private void UpdateAttackSpeedOnChange(float _as)
+    {
+        UpdateAS(_as);
+    }
+
+    public void RemoveTarget()
+    {
+        Target = null;
+    }
+    private void UpdateAS(float _as)
+    {
+        anim.SetFloat(_AttackSpeed, _as);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, scanDistance);
+    }
+
+    public void ToggleAuto()
+    {
+        isAuto = !isAuto;
+        if (isAuto)
+        {
+            OnAutoOn?.Invoke();
+        }
+        else
+        {
+            OnAutoOff?.Invoke();
+        }
+    }
+
+    public void ToggleAutoMode(bool toggle)
+    {
+        isAuto = toggle;
+        if (isAuto)
+        {
+            OnAutoOn?.Invoke();
+        }
+        else
+        {
+            OnAutoOff?.Invoke();
+        }
+    }
+
+
+    public void ChaseEnemy()
+    {
 
     }
+
+    public void Attack()
+    {
+
+    }
+
+    //protected virtual void AttackAction()
+    //{
+
+    //    if (Target.IsDead)
+    //    {
+    //        Target = null;
+    //        SwitchState(eBehavior.run);
+    //    } else
+    //    {
+    //        anim.SetFloat(_AttackState, Random.Range(0, 1f));
+    //        anim.SetTrigger(_Attack);
+    //    }
+    //    MasterAudio.PlaySound("일반검베기");
+    //}
+
+    //public void DamageAction()
+    //{
+    //    if (basicAttack == null)
+    //    {
+    //        basicAttack = Resources.Load<PlayerBasicAttack>("ScriptableObject/Skills/PlayerBasicAttack");
+    //    }
+    //    // 데미지 계산
+    //    //var dmg = _statContainer.GetFinalDamage();
+    //    //var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
+    //    if (Target == null) return;
+    //    if (TargetWithinAttackRange())
+    //        basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+
+
+    //    //Target.GetComponent<StatContainer>().Defend(dmg.damage);
+    //    //Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
+
+    //}
 
 
 }

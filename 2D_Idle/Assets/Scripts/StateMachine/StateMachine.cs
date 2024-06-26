@@ -20,7 +20,7 @@ namespace Litkey.AI
                 //Debug.Log($"{Time.time} - {stateEnteredTime} >= {transition.ExitTime} === {Time.time - stateEnteredTime >= transition.ExitTime}");
                 if (!transition.HasExitTime || (Time.time - stateEnteredTime >= transition.ExitTime))
                 {
-                    Debug.Log($"CHanged State to {transition.To.ToString()}");
+                    //Debug.Log($"CHanged State to {transition.To.ToString()}");
                     ChangeState(transition.To);
                 }
 

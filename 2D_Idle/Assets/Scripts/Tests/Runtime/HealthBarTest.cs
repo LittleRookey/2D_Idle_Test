@@ -53,7 +53,6 @@ namespace ACF.Tests
 		{
 			newSPVec = Vector3.one;
 			newHPVec = Vector3.one;
-			newDamagedVec = Vector3.one;
 
 			Hp = targetHealth.CurrentHealth;
 			MaxHp = targetHealth.MaxHealth;
@@ -120,7 +119,6 @@ namespace ACF.Tests
 			damaged.transform.localScale = Vector3.one;
 			newSPVec = Vector3.one;
 			newHPVec = Vector3.one;
-			newDamagedVec = Vector3.one;
 
 			Hp = targetHealth.CurrentHealth;
 			MaxHp = targetHealth.MaxHealth;

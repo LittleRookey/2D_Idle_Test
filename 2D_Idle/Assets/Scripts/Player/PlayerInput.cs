@@ -52,7 +52,7 @@ public class PlayerInput : MonoBehaviour
         player.DoIdle();
     }
 
-    public void MoveJoyStick()
+    private void MoveJoyStick()
     {
         if (joystick == null)
         {

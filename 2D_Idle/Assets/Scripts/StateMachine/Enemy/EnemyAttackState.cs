@@ -47,11 +47,6 @@ namespace Litkey.AI
             animator.CrossFade(IdleHash, crossFadeDuration);
         }
 
-        public void ResetTimerTime(float time)
-        {
-            attackTimer.Reset(time);
-        }
-
         public override void Update() {
 
             if (attackTimer.IsFinished)
