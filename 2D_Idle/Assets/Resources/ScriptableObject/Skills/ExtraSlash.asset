@@ -430,7 +430,7 @@ MonoBehaviour:
       Data: 0
     - Name: MinTargetsInRange
       Entry: 3
-      Data: 4
+      Data: 2
     - Name: TargetRange
       Entry: 4
       Data: 1

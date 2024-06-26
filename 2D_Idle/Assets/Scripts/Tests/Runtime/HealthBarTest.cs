@@ -36,14 +36,9 @@ namespace ACF.Tests
 		[SerializeField] private Health targetHealth;
 		[SerializeField] private Transform orientation;
 		public bool useMaterial;
-        //[ContextMenu("Create Material")]
-        //private void CreateMaterial()
-        //{
-        //	// if (separator.material == null)
-        //	{
-        //		separator.material = new Material(Shader.Find("ABS/UI/Health Separator"));
-        //	}
-        //}
+
+		public bool disableOnStart;
+
 
         private void Awake()
         {
@@ -99,6 +94,10 @@ namespace ACF.Tests
 			targetHealth.onTakeDamage += UpdateHealth;
 			targetHealth.OnDeath.AddListener(DisableHealthBar);
 			targetHealth.OnReturnFromPool += ResetHealthBar;
+
+			if (disableOnStart) orientation.gameObject.SetActive(false);
+			ResetHealthBar();
+
 		}
 
 		private void OnDisable()
@@ -134,6 +133,7 @@ namespace ACF.Tests
 		}
 		public void UpdateHealth(float current, float max)
 		{
+			if (!orientation.gameObject.activeInHierarchy) orientation.gameObject.SetActive(true);
 			float step;
 			// 쉴드가 존재 할 때
 			if (Sp > 0)
@@ -163,80 +163,80 @@ namespace ACF.Tests
 			else
 			{
 				newSPVec.x = 0f;
-				sp.transform.localScale = newSPVec;
-				step = MaxHp / 100f;
+				//sp.transform.localScale = newSPVec;
+				step = MaxHp / 10f;
 				hpShieldRatio = 1f;
 
 				newHPVec.x = current / max;
-				hp.transform.localScale = newHPVec;
+				//hp.transform.localScale = newHPVec;
 			}
 
 			//damaged.fillAmount = Mathf.Lerp(damaged.fillAmount, hp.fillAmount, Time.deltaTime * speed);
 			DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
 			separator.material.SetFloat(floatSteps, step);
-			separator.material.SetFloat(floatRatio, hpShieldRatio);
-			separator.material.SetFloat(floatWidth, RectWidth);
-			separator.material.SetFloat(floatThickness, Thickness);
+			//separator.material.SetFloat(floatRatio, hpShieldRatio);
+			//separator.material.SetFloat(floatWidth, RectWidth);
+			//separator.material.SetFloat(floatThickness, Thickness);
 		}
 
 		Vector3 newDamagedVec;
 
-		private void Update()
-		{
-			//	if (MaxHp < Hp)
-			//	{
-			//		MaxHp = Hp;
-			//	}
+		//private void Update()
+		//{
+		//	//	if (MaxHp < Hp)
+		//	//	{
+		//	//		MaxHp = Hp;
+		//	//	}
 
-			//	float step;
+		//	//	float step;
 
-			//	// 쉴드가 존재 할 때
-			//	if (Sp > 0)
-			//	{
-			//		// 현재체력 + 쉴드 > 최대 체력
-			//		if (Hp + Sp > MaxHp)
-			//		{
-			//			hpShieldRatio = Hp / (Hp + Sp);
+		//	//	// 쉴드가 존재 할 때
+		//	//	if (Sp > 0)
+		//	//	{
+		//	//		// 현재체력 + 쉴드 > 최대 체력
+		//	//		if (Hp + Sp > MaxHp)
+		//	//		{
+		//	//			hpShieldRatio = Hp / (Hp + Sp);
 
-			//			sp.transform.localScale = newSPVec;
-			//			step = (Hp) / 300f;
-			//			newHPVec.x = Hp / (Hp + Sp);
-			//			hp.transform.localScale = newHPVec;
-			//			//hp.fillAmount = Hp / (Hp + Sp);
-			//		}
-			//		else
-			//		{
-			//			newSPVec.x = (Hp + Sp) / MaxHp;
-			//			sp.transform.localScale = newSPVec;
-			//			hpShieldRatio = Hp / MaxHp;
-			//			step = Hp / 300f;
+		//	//			sp.transform.localScale = newSPVec;
+		//	//			step = (Hp) / 300f;
+		//	//			newHPVec.x = Hp / (Hp + Sp);
+		//	//			hp.transform.localScale = newHPVec;
+		//	//			//hp.fillAmount = Hp / (Hp + Sp);
+		//	//		}
+		//	//		else
+		//	//		{
+		//	//			newSPVec.x = (Hp + Sp) / MaxHp;
+		//	//			sp.transform.localScale = newSPVec;
+		//	//			hpShieldRatio = Hp / MaxHp;
+		//	//			step = Hp / 300f;
 
-			//			newHPVec.x = Hp / MaxHp;
-			//			hp.transform.localScale = newHPVec;
-			//		}
-			//	}
-			//	else
-			//	{
-			//		newSPVec.x = 0f;
-			//		sp.transform.localScale = newSPVec;
-			//		step = MaxHp / 300f;
-			//		hpShieldRatio = 1f;
+		//	//			newHPVec.x = Hp / MaxHp;
+		//	//			hp.transform.localScale = newHPVec;
+		//	//		}
+		//	//	}
+		//	//	else
+		//	//	{
+		//	//		newSPVec.x = 0f;
+		//	//		sp.transform.localScale = newSPVec;
+		//	//		step = MaxHp / 300f;
+		//	//		hpShieldRatio = 1f;
 
-			//		newHPVec.x = Hp / MaxHp;
-			//		hp.transform.localScale = newHPVec;
-			//	}
+		//	//		newHPVec.x = Hp / MaxHp;
+		//	//		hp.transform.localScale = newHPVec;
+		//	//	}
 
-			//          // sp.fillAmount = 1 - hpShieldRatio;
+		//	//          // sp.fillAmount = 1 - hpShieldRatio;
 
-			//          damaged.fillAmount = Mathf.Lerp(damaged.fillAmount, hp.fillAmount, Time.deltaTime * speed);
-			//          //newDamagedVec.x = Mathf.Lerp(newDamagedVec.x, hp.fillAmount, Time.deltaTime * speed);
-			//          //damaged.transform.localScale = newDamagedVec;
+		//	//          damaged.fillAmount = Mathf.Lerp(damaged.fillAmount, hp.fillAmount, Time.deltaTime * speed);
+		//	//          //newDamagedVec.x = Mathf.Lerp(newDamagedVec.x, hp.fillAmount, Time.deltaTime * speed);
+		//	//          //damaged.transform.localScale = newDamagedVec;
 
-			//          separator.material.SetFloat(floatSteps, step);
-			//	separator.material.SetFloat(floatRatio, hpShieldRatio);
-			//	separator.material.SetFloat(floatWidth, RectWidth);
-			//	separator.material.SetFloat(floatThickness, Thickness);
-			//}
-		}
+		//	//          separator.material.SetFloat(floatSteps, step);
+		//	//	separator.material.SetFloat(floatRatio, hpShieldRatio);
+		//	//	separator.material.SetFloat(floatWidth, RectWidth);
+		//	//	separator.material.SetFloat(floatThickness, Thickness);
+		//	//}
+		//}
 	}
 }
