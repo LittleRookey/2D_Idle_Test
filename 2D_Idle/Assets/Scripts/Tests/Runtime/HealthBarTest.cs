@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 namespace ACF.Tests
 {
@@ -29,13 +30,12 @@ namespace ACF.Tests
 		public Image hp;
 		public Image damaged;
 		public Image sp;
-		public Image separator;
 		Vector3 newSPVec;
 		Vector3 newHPVec;
 
 		[SerializeField] private Health targetHealth;
 		[SerializeField] private Transform orientation;
-		public bool useMaterial;
+		[SerializeField] private TextMeshProUGUI currentHealthText;
 
 		public bool disableOnStart;
 
@@ -127,13 +127,12 @@ namespace ACF.Tests
 			UpdateHealth(Hp, MaxHp);
 			Sp = 0;
 
-			separator.material.SetFloat(floatSteps, Hp/300f);
 			orientation.gameObject.SetActive(true);
 
 		}
 		public void UpdateHealth(float current, float max)
 		{
-			if (!orientation.gameObject.activeInHierarchy) orientation.gameObject.SetActive(true);
+			if (orientation.gameObject.activeInHierarchy) orientation.gameObject.SetActive(true);
 			float step;
 			// 쉴드가 존재 할 때
 			if (Sp > 0)
@@ -164,22 +163,22 @@ namespace ACF.Tests
 			{
 				newSPVec.x = 0f;
 				//sp.transform.localScale = newSPVec;
-				step = MaxHp / 10f;
+				step = MaxHp / 100f;
 				hpShieldRatio = 1f;
-
+				currentHealthText.SetText(current.ToString());
 				newHPVec.x = current / max;
 				//hp.transform.localScale = newHPVec;
 			}
 
 			//damaged.fillAmount = Mathf.Lerp(damaged.fillAmount, hp.fillAmount, Time.deltaTime * speed);
 			DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
-			separator.material.SetFloat(floatSteps, step);
+			//separator.material.SetFloat(floatSteps, step);
 			//separator.material.SetFloat(floatRatio, hpShieldRatio);
 			//separator.material.SetFloat(floatWidth, RectWidth);
 			//separator.material.SetFloat(floatThickness, Thickness);
 		}
 
-		Vector3 newDamagedVec;
+		//Vector3 newDamagedVec;
 
 		//private void Update()
 		//{

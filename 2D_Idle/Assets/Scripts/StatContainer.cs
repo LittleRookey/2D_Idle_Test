@@ -101,34 +101,6 @@ public class StatContainer : MonoBehaviour
     {
         get
         {
-            if (_subStats == null || _subStats.Count == 0)
-            {
-                _subStats = new Dictionary<eSubStatType, SubStat>() {
-                    { eSubStatType.체력, this.HP },
-                    { eSubStatType.물리공격력, this.Attack },
-                    { eSubStatType.마법공격력, this.MagicAttack },
-                    { eSubStatType.물리방어력, this.Defense },
-                    { eSubStatType.마법방어력, this.MagicDefense },
-                    { eSubStatType.크리확률, this.CritChance },
-                    { eSubStatType.크리데미지, this.CritDamage },
-                    { eSubStatType.공격속도, this.AttackSpeed },
-                    { eSubStatType.이동속도, this.MoveSpeed },
-                    { eSubStatType.물리관통력, this.p_penetration },
-                    { eSubStatType.마법관통력, this.m_penetration },
-                    { eSubStatType.명중, this.Precision },
-                    { eSubStatType.회피, this.Evasion },
-                    { eSubStatType.물리저항, this.p_resist },
-                    { eSubStatType.마법저항, this.m_resist },
-                    { eSubStatType.추가경험치, this.ExtraExp },
-                    { eSubStatType.추가골드, this.ExtraGold },
-                };
-
-                // Log the initialization of each SubStat
-                //foreach (var entry in _subStats)
-                //{
-                //    //Debug.Log($"Initialized _subStats[{entry.Key}] = {entry.Value.DisplayName} in gameobject: " + gameObject.name);
-                //}
-            }
             return _subStats;
         }
     }
@@ -174,36 +146,39 @@ public class StatContainer : MonoBehaviour
             { eMainStatType.지혜, this.Int },
         };
 
-        if (_subStats == null)
-        {
-            _subStats = new Dictionary<eSubStatType, SubStat>() {
-                { eSubStatType.체력, this.HP },
-                { eSubStatType.물리공격력, this.Attack },
-                { eSubStatType.마법공격력, this.MagicAttack },
-                { eSubStatType.물리방어력, this.Defense },
-                { eSubStatType.마법방어력, this.MagicDefense },
-                { eSubStatType.크리확률, this.CritChance },
-                { eSubStatType.크리데미지, this.CritDamage },
-                { eSubStatType.공격속도, this.AttackSpeed },
-                { eSubStatType.이동속도, this.MoveSpeed },
-                { eSubStatType.물리관통력, this.p_penetration },
-                { eSubStatType.마법관통력, this.m_penetration },
-                { eSubStatType.명중, this.Precision },
-                { eSubStatType.회피, this.Evasion },
-                { eSubStatType.물리저항, this.p_resist },
-                { eSubStatType.마법저항, this.m_resist },
-                { eSubStatType.추가경험치, this.ExtraExp },
-                { eSubStatType.추가골드, this.ExtraGold },
-            };
+        
+        _subStats = new Dictionary<eSubStatType, SubStat>() {
+            { eSubStatType.체력, this.HP },
+            { eSubStatType.물리공격력, this.Attack },
+            { eSubStatType.마법공격력, this.MagicAttack },
+            { eSubStatType.물리방어력, this.Defense },
+            { eSubStatType.마법방어력, this.MagicDefense },
+            { eSubStatType.크리확률, this.CritChance },
+            { eSubStatType.크리데미지, this.CritDamage },
+            { eSubStatType.공격속도, this.AttackSpeed },
+            { eSubStatType.이동속도, this.MoveSpeed },
+            { eSubStatType.물리관통력, this.p_penetration },
+            { eSubStatType.마법관통력, this.m_penetration },
+            { eSubStatType.명중, this.Precision },
+            { eSubStatType.회피, this.Evasion },
+            { eSubStatType.물리저항, this.p_resist },
+            { eSubStatType.마법저항, this.m_resist },
+            { eSubStatType.추가경험치, this.ExtraExp },
+            { eSubStatType.추가골드, this.ExtraGold },
+        };
 
-            // Log the initialization of each SubStat
-            //foreach (var entry in _subStats)
-            //{
-            //    Debug.Log($"Initialized _subStats[{entry.Key}] = {entry.Value.DisplayName} in gameobject: " + gameObject.name);
-            //}
-        }
+        // Log the initialization of each SubStat
+        //foreach (var entry in _subStats)
+        //{
+        //    Debug.Log($"Initialized _subStats[{entry.Key}] = {entry.Value.DisplayName} in gameobject: " + gameObject.name);
+        //}
+        
     }
 
+    private void Start()
+    {
+        OnStatSetupComplete?.Invoke(this);
+    }
     public void ClearMainStats()
     {
         Strength.ClearStat();
@@ -292,7 +267,6 @@ public class StatContainer : MonoBehaviour
         Precision.AddAsInfluencer(StatUtility.StatPerValue(Sensation, 2, 1f));
         Evasion.AddAsInfluencer(StatUtility.StatPerValue(Avi, 5, 1f));
         Debug.Log("스텟 셋업 완료");
-
         
     }
 

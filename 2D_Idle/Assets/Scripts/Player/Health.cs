@@ -66,6 +66,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     protected virtual void OnEnable()
     {
+        // load health
         
         _statContainer.HP.OnValueChanged.AddListener(UpdateMaxHealth);
        
@@ -76,6 +77,10 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         _statContainer.HP.OnValueChanged.RemoveListener(UpdateMaxHealth);
     }
 
+    private void Start()
+    {
+        LoadHealth();
+    }
     protected void UpdateMaxHealth(float mH)
     {
 
@@ -91,13 +96,17 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         onTakeDamage?.Invoke(currentHealth, maxHealth);
     }
 
+    private void LoadHealth()
+    {
+        maxHealth = _statContainer.HP.FinalValue;
+        currentHealth = maxHealth;
+        onTakeDamage?.Invoke(currentHealth, maxHealth);
+    }
     protected void UpdateHealth(StatContainer stat)
     {
         float originMax = maxHealth;
-        //Debug.Log(_statContainer.HP);
-        //Debug.Log("Health¿¡¼­ ½ºÅÝ ºÒ·¯¿È: " + _statContainer.HP.FinalValue);
-        maxHealth = stat.subStats[eSubStatType.Ã¼·Â].FinalValue;
-        //Debug.Log($"originMaxHealth: {originMax}\ncurrentHealth: {currentHealth}\nnewMax: {maxHealth}\nnewMax - originMax: {maxHealth - originMax}");
+        maxHealth = _statContainer.HP.FinalValue;
+        Debug.Log("Health¿¡¼­ ½ºÅÝ ºÒ·¯¿È: " + _statContainer.HP.FinalValue);
         currentHealth += (maxHealth - originMax);
 
         onTakeDamage?.Invoke(currentHealth, maxHealth);

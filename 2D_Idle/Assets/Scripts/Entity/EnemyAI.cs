@@ -195,7 +195,7 @@ public class EnemyAI : MonoBehaviour
     {
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
 
-        final_attackInterval = Mathf.Max(attackInterval * (1f - (_statContainer.AttackSpeed.FinalValue / attackInterval)), 2f);
+        //final_attackInterval = Mathf.Max(attackInterval * (1f - (_statContainer.AttackSpeed.FinalValue / attackInterval)), 2f);
     }
 
     public Health GetTarget()

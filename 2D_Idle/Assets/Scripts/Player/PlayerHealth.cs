@@ -16,15 +16,14 @@ public class PlayerHealth : Health
 
     protected override void OnEnable()
     {
-        base.OnEnable();
-
+        _statContainer.HP.OnValueChanged.AddListener(UpdateMaxHealth);
         playerController.OnRevive.AddListener(RefillToMaxHealth);
 
     }
 
     protected override void OnDisable()
     {
-        base.OnDisable();
+        _statContainer.HP.OnValueChanged.RemoveListener(UpdateMaxHealth);
         playerController.OnRevive.RemoveListener(RefillToMaxHealth);
 
     }
