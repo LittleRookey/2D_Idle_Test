@@ -16,7 +16,7 @@ public class SkillContainer : MonoBehaviour
     private StatContainer statContainer;
 
     private CooldownSystem cooldownSystem;
-    TopdownPlayerController player;
+    PlayerController player;
 
     [HideInInspector] public ActiveSkill[] equippedActiveSkills;
     public int activeslotNumbers = 5;
@@ -24,7 +24,7 @@ public class SkillContainer : MonoBehaviour
     {
         if (!isEnemy)
         {
-            player = GetComponent<TopdownPlayerController>();
+            player = GetComponent<PlayerController>();
         }
 
         statContainer = GetComponent<StatContainer>();

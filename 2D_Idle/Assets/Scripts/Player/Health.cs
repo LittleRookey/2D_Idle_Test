@@ -126,8 +126,8 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             {
                 currentHealth = 0f;
                 isDead = true;
-                bCollider.isTrigger = true;
-                rb.constraints = RigidbodyConstraints2D.FreezeAll;
+                //bCollider.isTrigger = true;
+                //rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
 
                 OnDeath?.Invoke(attacker);
@@ -180,8 +180,8 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         {
             currentHealth = 0f;
             isDead = true;
-            bCollider.isTrigger = true;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            //bCollider.isTrigger = true;
+            //rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
             //Debug.Log("attacker is null? " + attacker);
             OnDeath?.Invoke(attacker);

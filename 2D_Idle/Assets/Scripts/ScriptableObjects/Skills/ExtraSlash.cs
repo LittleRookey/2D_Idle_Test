@@ -101,13 +101,17 @@ public class ExtraSlash : ActiveSkill
             }
             // Apply damage to the first skillTargetNumber of enemies in the sorted list
             //Debug.Log("ExtraSLash: " + Mathf.Min(targetNumber, targetEnemies.Count));
+            
             for (int i = 0; i < Mathf.Min(targetNumber, targetEnemies.Count); i++)
             {
                 //ApplyEffect(ally, targetEnemies[i]);
 
                 var dmgs = ally.GetDamagesAgainst(targetEnemies[i].GetComponent<StatContainer>(), attackNumber, finalDamage / 100f);
 
-                targetEnemies[i].TakeDamage(ally, dmgs, true, true);
+                if (targetEnemies[i].TakeDamage(ally, dmgs, true, true))
+                {
+
+                }
             }
 
             OnSkillUse?.Invoke();

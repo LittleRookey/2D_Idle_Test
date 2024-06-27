@@ -108,8 +108,13 @@ namespace ACF.Tests
 
 		public void DisableHealthBar(LevelSystem attacker)
         {
-			orientation.gameObject.SetActive(false);
+			StartCoroutine(DisableOnDelay());
+		}
 
+		private IEnumerator DisableOnDelay()
+        {
+			yield return new WaitForSeconds(0.5f);
+			orientation.gameObject.SetActive(false);
 		}
 
 		public void ResetHealthBar()
@@ -128,53 +133,26 @@ namespace ACF.Tests
 			orientation.gameObject.SetActive(true);
 
 		}
+		float currentHealth;
 		public void UpdateHealth(float current, float max)
 		{
 			if (orientation.gameObject.activeInHierarchy) orientation.gameObject.SetActive(true);
-			float step;
-			// 쉴드가 존재 할 때
-			if (Sp > 0)
-			{
-				// 현재체력 + 쉴드 > 최대 체력
-				if (Hp + Sp > MaxHp)
-				{
-					hpShieldRatio = Hp / (Hp + Sp);
+			
+			float final = Mathf.Clamp01(current / max);
 
-					sp.transform.localScale = newSPVec;
-					step = (Hp) / 100f;
-					newHPVec.x = Hp / (Hp + Sp);
-					hp.transform.localScale = newHPVec;
-					//hp.fillAmount = Hp / (Hp + Sp);
-				}
-				else
-				{
-					newSPVec.x = (Hp + Sp) / MaxHp;
-					sp.transform.localScale = newSPVec;
-					hpShieldRatio = Hp / MaxHp;
-					step = Hp / 100f;
+			// Tween the text counter
+			DOTween.To(() => currentHealth, x => {
+				currentHealth = x;
+				currentHealthText.SetText(Mathf.Round(x).ToString());
+			}, current, 0.5f).SetEase(Ease.OutQuad);
+			
+			//currentHealthText.SetText(current.ToString());
+			hp.fillAmount = final;
+			damaged.DOFillAmount(final, 0.2f);
 
-					newHPVec.x = Hp / MaxHp;
-					hp.transform.localScale = newHPVec;
-				}
-			}
-			else
-			{
-				newSPVec.x = 0f;
-				//sp.transform.localScale = newSPVec;
-				step = MaxHp / 100f;
-				hpShieldRatio = 1f;
-				currentHealthText.SetText(current.ToString());
-				newHPVec.x = current / max;
-				//hp.transform.localScale = newHPVec;
-			}
+            //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
 
-			//damaged.fillAmount = Mathf.Lerp(damaged.fillAmount, hp.fillAmount, Time.deltaTime * speed);
-			DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
-			//separator.material.SetFloat(floatSteps, step);
-			//separator.material.SetFloat(floatRatio, hpShieldRatio);
-			//separator.material.SetFloat(floatWidth, RectWidth);
-			//separator.material.SetFloat(floatThickness, Thickness);
-		}
+        }
 
 		//Vector3 newDamagedVec;
 

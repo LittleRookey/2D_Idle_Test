@@ -133,7 +133,7 @@ public class SpawnPoint : MonoBehaviour
     private IEnumerator OnMonsterDeath(LevelSystem attacker)
     {
         var monster = spawnedEnemy.Find((Health health) => health.IsDead);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         
         monsterPool[monster.Name].Take(monster);
         

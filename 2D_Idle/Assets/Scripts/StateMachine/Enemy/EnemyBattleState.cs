@@ -13,7 +13,7 @@ namespace Litkey.AI
 
         public override void OnEnter()
         {
-            Debug.Log("Entered BattleState");
+            //Debug.Log("Entered BattleState");
         }
     }
 }

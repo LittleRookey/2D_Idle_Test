@@ -11,5 +11,21 @@ namespace Litkey.AI
         {
 
         }
+
+        public override void OnEnter()
+        {
+            anim.CrossFade(IdleHash, crossFadeDuration);
+            if (!player.HasNoTarget())
+                player.EnableAIPath();
+        }
+
+        public override void Update()
+        {
+            if (player.Auto())
+            {
+                if (player.HasNoTarget())
+                    player.SearchForTarget();
+            }
+        }
     }
 }

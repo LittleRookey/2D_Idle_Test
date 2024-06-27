@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_MoveState : MonoBehaviour
+namespace Litkey.AI
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public class Player_MoveState : Player_BaseState
     {
-        
+        public Player_MoveState(PlayerController Player, Animator Anim) : base(Player, Anim)
+        {
+        }
+
+        public override void OnEnter()
+        {
+            player.SetTargetNull();
+            player.DisableAIPath();
+            anim.CrossFade(EnterRunHash, crossFadeDuration);
+        }
+
+        public override void FixedUpdate()
+        {
+            player.MoveWithJoystick();
+        }
     }
 }

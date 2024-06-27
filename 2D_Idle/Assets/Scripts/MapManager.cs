@@ -129,7 +129,7 @@ public class MapManager : MonoBehaviour
         Castle.transform.position = castleSpawnPosition.position;
         Castle.parent = null;
         // 플레이어 걷기
-        player.DOSmoothWalk();
+        
     }
 
     public void DisplayAreaUI(Area area)

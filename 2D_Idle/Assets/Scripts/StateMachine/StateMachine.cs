@@ -32,11 +32,19 @@ namespace Litkey.AI
         public void FixedUpdate() {
             current.State?.FixedUpdate();
         }
-
+        StateNode baseStateNode;
         public void SetState(IState state) {
             current = nodes[state.GetType()];
+            baseStateNode = current;
             current.State?.OnEnter();
             stateEnteredTime = Time.time;
+        }
+
+        public void SetToBaseState()
+        {
+            if (baseStateNode == null) Debug.LogError("There is no base State yet");
+
+            SetState(baseStateNode.State);
         }
 
         void ChangeState(IState state) {
@@ -44,7 +52,7 @@ namespace Litkey.AI
             
             var previousState = current.State;
             var nextState = nodes[state.GetType()].State;
-            Debug.Log("Enemy entered state: " + nextState.ToString());
+            //Debug.Log("Enemy entered state: " + nextState.ToString());
             previousState?.OnExit();
             nextState?.OnEnter();
             current = nodes[state.GetType()];

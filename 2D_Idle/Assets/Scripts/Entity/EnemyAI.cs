@@ -55,11 +55,9 @@ public class EnemyAI : MonoBehaviour
 
     protected StatContainer _statContainer;
 
-    protected DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> currentBarTween;
-
     protected Health health;
 
-    protected Material enemyMat;
+    [SerializeField] protected Material enemyMat;
 
     protected Vector2 moveDir;
 
@@ -74,6 +72,8 @@ public class EnemyAI : MonoBehaviour
     Vector3 left = new Vector3(-1f, 1f, 1f);
     AIDestinationSetter aiDestinationSetter;
 
+    private BoxCollider2D boxCollider2D;
+    private Rigidbody2D rb;
     private SkillContainer _skillContainer;
 
     private EnemyAttackState attackState;
@@ -95,6 +95,8 @@ public class EnemyAI : MonoBehaviour
         attackInterval = _statContainer.GetBaseStat().Attack_Interval;
         aiPath = GetComponent<AIPath>();
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     protected void OnEnable()
@@ -105,6 +107,7 @@ public class EnemyAI : MonoBehaviour
         UpdateAttackSpeed();
         health.OnDeath.AddListener(OnDeath);
         health.onTakeDamage += OnHitEnter;
+        health.OnReturnFromPool += SetToBaseState;
     }
 
     protected void OnDisable()
@@ -113,12 +116,15 @@ public class EnemyAI : MonoBehaviour
         //OnStunExit.RemoveListener(onStunExit);
         health.OnDeath.RemoveListener(OnDeath);
         health.onTakeDamage -= OnHitEnter;
+        health.OnReturnFromPool -= SetToBaseState;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         SpawnPoint = transform.position;
+
+        //aiPath.endReachedDistance = attackRange;
 
         currentBehavior = eEnemyBehavior.idle;
         //SwitchState(eEnemyBehavior.idle);
@@ -130,6 +136,7 @@ public class EnemyAI : MonoBehaviour
         var wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f);
         var battleState = new EnemyBattleState(this, anim);
         var battleIdleState = new BattleIdleState(this, anim);
+        var deathState = new EnemyDeathState(this, anim);
 
         At(wanderState, battleState, new FuncPredicate(() => !HasNoTarget()));
         At(battleState, wanderState, new FuncPredicate(() => HasNoTarget()));
@@ -149,12 +156,18 @@ public class EnemyAI : MonoBehaviour
         At(battleIdleState, attackState, new FuncPredicate(() => !AttackCooldown() && TargetWithinAttackRange()));
         At(battleIdleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
 
+        Any(deathState, new FuncPredicate(() => IsDead()));
+        
         stateMachine.SetState(wanderState);
     }
 
     void At(IState from, IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddTransition(from, to, condition, hasExitTime, exitTime);
     void Any(IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddAnyTransition(to, condition, hasExitTime, exitTime);
 
+    public bool IsDead()
+    {
+        return health.IsDead;
+    }
     public void ChaseEnemy()
     {
         //SetMovePosition(Target.transform.position);
@@ -216,12 +229,17 @@ public class EnemyAI : MonoBehaviour
     protected void OnDeath(LevelSystem targ)
     {
         Target = null;
-        
+        boxCollider2D.isTrigger = true;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
         //isAttacking = false;
-        currentBarTween.Pause();
         // 죽음 애니메이션플레이
-        onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
+        //onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
 
+    }
+
+    public void SetToBaseState()
+    {
+        stateMachine.SetToBaseState();
     }
 
     // called from animation
@@ -263,45 +281,71 @@ public class EnemyAI : MonoBehaviour
         return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
     }
 
-    public bool SearchForTarget()
+    private RaycastHit2D[] raycastHits = new RaycastHit2D[10]; // Adjust size as needed
+    public virtual bool SearchForTarget()
     {
         // Create a circle around the transform's position with the specified scanDistance radius
         Vector2 circleCenter = transform.position;
         float circleRadius = scanDistance;
 
         // Perform a CircleCastAll to detect any colliders within the circle
-        RaycastHit2D[] raycastHits = Physics2D.CircleCastAll(circleCenter, circleRadius, Vector2.zero, 0f, enemyLayer);
+        int hitCount = Physics2D.CircleCastNonAlloc(circleCenter, circleRadius, Vector2.zero, raycastHits, 0f, enemyLayer);
 
-        if (raycastHits.Length > 0)
+        if (hitCount > 0 && Target == null)
         {
-            if (Target == null)
-            {
-                // Sort the raycastHits array by distance from the current transform's position
-                raycastHits = raycastHits.OrderBy(hit => Vector2.Distance(hit.transform.position, transform.position)).ToArray();
+            float closestDistance = float.MaxValue;
+            int closestIndex = -1;
 
-                // Iterate through the sorted colliders within the circle
-                foreach (RaycastHit2D hit in raycastHits)
+            // Find the closest valid target
+            for (int i = 0; i < hitCount; i++)
+            {
+                float distance = Vector2.SqrMagnitude(raycastHits[i].transform.position - transform.position);
+                if (distance < closestDistance)
                 {
-                    Health target = hit.transform.GetComponent<Health>();
+                    Health target = raycastHits[i].transform.GetComponent<Health>();
                     if (target != null && !target.IsDead)
                     {
-                        SetTarget(target);
-                        return true;
+                        closestDistance = distance;
+                        closestIndex = i;
                     }
                 }
+            }
+
+            // Set the target if a valid one was found
+            if (closestIndex != -1)
+            {
+                SetTarget(raycastHits[closestIndex].transform.GetComponent<Health>());
+                return true;
             }
         }
 
         return false;
     }
 
-    protected void SetTarget(Health enemy)
+    public void SetTarget(Health enemy)
     {
+        if (Target != null)
+        {
+            Target.OnDeath.RemoveListener(SetTargetNullOnDead);
+        }
         Target = enemy;
-        aiDestinationSetter.target = Target.transform;
+        if (enemy == null)
+        {   
+            aiDestinationSetter.target = null;
+        } else
+        {
+            aiDestinationSetter.target = Target.transform;
+            enemy.OnDeath.AddListener(SetTargetNullOnDead);
+        }
         //Debug.Log("Target set: " + enemy.name);
     }
     public bool isAttacking;
+
+    private void SetTargetNullOnDead(LevelSystem levelSystem)
+    {
+        Debug.Log("Target set to null on death");
+        SetTarget(null);
+    }
     private void Attack()
     {
 

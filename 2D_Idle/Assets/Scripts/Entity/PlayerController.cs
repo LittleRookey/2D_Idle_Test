@@ -73,8 +73,6 @@ public class PlayerController : MonoBehaviour
     protected SkillContainer _skillContainer;
     private PlayerInput _playerInput;
 
-    private Player_AttackState playerAttackState;
-
     private StateMachine stateMachine;
     private CountdownTimer attackTimer;
 
@@ -104,6 +102,7 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _aiPath = GetComponent<AIPath>();
         _destinationSetter = GetComponent<AIDestinationSetter>();
+        
     }
 
     protected virtual void OnEnable()
@@ -112,8 +111,7 @@ public class PlayerController : MonoBehaviour
         _health.OnHit.AddListener(HitAnim);
         _statContainer.OnStatSetupComplete.AddListener(UpdateMoveSpeed);
         _statContainer.OnStatSetupComplete.AddListener(UpdateAttackSpeedOnStart);
-        _statContainer.MoveSpeed.OnValueChanged.AddListener(UpdateSpeed);
-        _statContainer.AttackSpeed.OnValueChanged.AddListener(UpdateAttackSpeedOnChange);
+       
     }
 
     protected virtual void OnDisable()
@@ -122,27 +120,48 @@ public class PlayerController : MonoBehaviour
         _health.OnDeath.RemoveListener(Death);
         _statContainer.OnStatSetupComplete.RemoveListener(UpdateMoveSpeed);
         _statContainer.OnStatSetupComplete.RemoveListener(UpdateAttackSpeedOnStart);
-        _statContainer.MoveSpeed.OnValueChanged.RemoveListener(UpdateSpeed);
-        _statContainer.AttackSpeed.OnValueChanged.RemoveListener(UpdateAttackSpeedOnChange);
+        //_statContainer.MoveSpeed.OnValueChanged.RemoveListener(UpdateSpeed);
+        //_statContainer.AttackSpeed.OnValueChanged.RemoveListener(UpdateAttackSpeedOnChange);
     }
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
         EnableMovement();
+        //_aiPath.endReachedDistance = attackRange;
+
+        _statContainer.MoveSpeed.OnValueChanged.AddListener(UpdateSpeed);
+        _statContainer.AttackSpeed.OnValueChanged.AddListener(UpdateAttackSpeedOnChange);
+
         stateMachine = new StateMachine();
 
-        var idleState = new Player_IdleState();
+        float attackAnimDuration = 0.5f;
+
+        var idleState = new Player_IdleState(this, anim);
+        var moveState = new Player_MoveState(this, anim);
+        var attackState = new Player_AttackState(this, anim);
+        var chaseState = new Player_ChaseState(this, anim);
+        
+        attackTimer = attackState.attackTimer;
+
+        Any(moveState, new FuncPredicate(() => JoystickMoving() && !IsDead()));
+        At(moveState, idleState, new FuncPredicate(() => !JoystickMoving()));
+
+        At(idleState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto()));
+        At(chaseState, attackState, new FuncPredicate(() => !HasNoTarget() && TargetWithinAttackRange() && !AttackCooldown() && Auto()));
+        At(attackState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto() || (Auto() && !HasNoTarget() && AttackCooldown())), true, attackAnimDuration);
+
+        At(idleState, attackState, new FuncPredicate(() => !HasNoTarget() && TargetWithinAttackRange() && !AttackCooldown() && Auto()));
+        At(attackState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto() && AttackCooldown()), true, attackAnimDuration);
+        At(chaseState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto() || (!HasNoTarget() && AttackCooldown() && TargetWithinAttackRange() && Auto())));
+
+        stateMachine.SetState(idleState);
+
+        ToggleAuto();
     }
 
-    public void MoveWithJoystick()
-    {
-        moveDir = _playerInput.JoystickDirection;
-        moveSpeed = _statContainer.MoveSpeed.FinalValue;
-        transform.position += (Vector3)moveDir * moveSpeed * Time.deltaTime;
-        Turn(moveDir.x > 0);
-        
-    }
+    void At(IState from, IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddTransition(from, to, condition, hasExitTime, exitTime);
+    void Any(IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddAnyTransition(to, condition, hasExitTime, exitTime);
 
     #region StateMachine Condition Checks
     public bool IsDead()
@@ -159,7 +178,7 @@ public class PlayerController : MonoBehaviour
         return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
     }
 
-    protected bool HasNoTarget()
+    public bool HasNoTarget()
     {
         return Target == null;
     }
@@ -179,6 +198,13 @@ public class PlayerController : MonoBehaviour
         return !attackTimer.IsFinished;
     }
     #endregion
+
+    public void OnAutoTurnsOff()
+    {
+        SetTargetNull();
+        DisableAIPath();
+        stateMachine.SetToBaseState();
+    }
 
     protected void Death(LevelSystem levelSystem)
     {
@@ -245,6 +271,12 @@ public class PlayerController : MonoBehaviour
         // 스킬 쿨다운 등등
     }
 
+    private void SetTargetNullOnDead(LevelSystem levelSystem)
+    {
+        Debug.Log("Target set to null on death");
+        SetTarget(null);
+    }
+
     public void MoveFromReviveToBattleMode()
     {
         anim.SetTrigger(this._Revive);
@@ -255,25 +287,21 @@ public class PlayerController : MonoBehaviour
         playerSprite.flipX = !turnRight;
     }
 
-    private void CheckGrounded()
+    private void FixedUpdate()
     {
-        var raycastHit = Physics2D.Raycast(transform.position, Vector2.down, 0.55f, groundLayer);
-        Debug.DrawRay(transform.position, Vector2.down * 0.55f, Color.red, 0.3f);
-        
-        isGrounded = raycastHit;
-        anim.SetBool(_isGround, isGrounded);
-
+        stateMachine.FixedUpdate();
     }
 
     protected virtual void Update()
     {
         //CheckGrounded(); // 땅에 닿아잇는지를 체크
-        
+        attackTimer.Tick(Time.deltaTime);
+        stateMachine.Update();
         
 
     }
 
-    private void UseAttackOrSkill()
+    public void UseAttackOrSkill()
     {
         ActiveSkill usableSkill = _skillContainer.FindUsableSkill();
         if (usableSkill != null && TargetWithinAttackRange())
@@ -283,65 +311,125 @@ public class PlayerController : MonoBehaviour
         else
         {
             // Trigger normal attack animations or mechanics
-            anim.SetFloat(_AttackState, Random.Range(0, 1f));
-            anim.SetTrigger(_Attack);
+            Attack();
         }
+    }
+
+    private void Attack()
+    {
+        if (basicAttack == null)
+        {
+            basicAttack = Resources.Load<PlayerBasicAttack>("ScriptableObject/Skills/PlayerBasicAttack");
+        }
+        // 데미지 계산
+        if (Target == null) return;
+
+        basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+
     }
 
     protected void SetTarget(Health enemy)
     {
+        if (Target != null)
+        {
+            Target.OnDeath.RemoveListener(SetTargetNullOnDead);
+        }
         Target = enemy;
         //Debug.Log("Target set: " + enemy.name);
-        _destinationSetter.target = Target.transform;
+        if (Target == null)
+        {
+            _destinationSetter.target = null;
+        }
+        else
+        {
+            _destinationSetter.target = Target.transform;
+            enemy.OnDeath.AddListener(SetTargetNullOnDead);
+        }
     }
+
+    public void ChaseEnemy()
+    {
+        TurnBasedOnAutoMovement(_aiPath.desiredVelocity);
+    }
+
+    public void TurnToTarget()
+    {
+        Turn(Target.transform.position.x - transform.position.x > 0);
+    }
+    private void TurnBasedOnAutoMovement(Vector3 dir)
+    {
+        if (dir.x > 0)
+        {
+            Turn(true);
+        }
+        else if (dir.x < 0)
+        {
+            Turn(false);
+        }
+    }
+    public void SetTargetNull() => SetTarget(null);
 
     public Health GetTarget()
     {
         return Target;
     }
 
-    public void DOSmoothWalk()
+    public void EnableAIPath() => _aiPath.enabled = true;
+    public void DisableAIPath() => _aiPath.enabled = false;
+    public void MoveWithJoystick()
     {
-        EnableMovement();
+        moveDir = _playerInput.JoystickDirection;
+        //_aiPath.Move(moveDir * moveSpeed * Time.fixedDeltaTime);
+        //moveDir = _playerInput.JoystickDirection;
+        //moveSpeed = _statContainer.MoveSpeed.FinalValue;
+        transform.position += (Vector3)moveDir * moveSpeed * Time.fixedDeltaTime;
+        Turn(moveDir.x > 0);
+
     }
-    public void DOSmoothRun()
-    {
-        EnableMovement();
-    }
+
+
     public void DoIdle()
     {
         DisableMovement();
     }
-    
 
 
 
-    protected virtual bool SearchForTarget()
+    private RaycastHit2D[] raycastHits = new RaycastHit2D[20]; // Adjust size as needed
+    public virtual bool SearchForTarget()
     {
         // Create a circle around the transform's position with the specified scanDistance radius
         Vector2 circleCenter = transform.position;
         float circleRadius = scanDistance;
 
         // Perform a CircleCastAll to detect any colliders within the circle
-        RaycastHit2D[] raycastHits = Physics2D.CircleCastAll(circleCenter, circleRadius, Vector2.zero, 0f, enemyLayer);
+        int hitCount = Physics2D.CircleCastNonAlloc(circleCenter, circleRadius, Vector2.zero, raycastHits, 0f, enemyLayer);
 
-        if (raycastHits.Length > 0)
+        if (hitCount > 0 && Target == null)
         {
-            if (Target == null)
-            {
-                // Sort the raycastHits array by distance from the current transform's position
-                raycastHits = raycastHits.OrderBy(hit => Vector2.Distance(hit.transform.position, transform.position)).ToArray();
+            float closestDistance = float.MaxValue;
+            int closestIndex = -1;
 
-                // Iterate through the sorted colliders within the circle
-                foreach (RaycastHit2D hit in raycastHits)
+            // Find the closest valid target
+            for (int i = 0; i < hitCount; i++)
+            {
+                float distance = Vector2.SqrMagnitude(raycastHits[i].transform.position - transform.position);
+                if (distance < closestDistance)
                 {
-                    Health target = hit.transform.GetComponent<Health>();
+                    Health target = raycastHits[i].transform.GetComponent<Health>();
                     if (target != null && !target.IsDead)
                     {
-                        SetTarget(target);
-                        return true;
+                        closestDistance = distance;
+                        closestIndex = i;
                     }
                 }
+            }
+
+            // Set the target if a valid one was found
+            if (closestIndex != -1)
+            {
+                SetTarget(raycastHits[closestIndex].transform.GetComponent<Health>());
+                return true;
             }
         }
 
@@ -363,6 +451,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateMoveSpeed(StatContainer statContainer)
     {
         this.runSpeed = statContainer.MoveSpeed.FinalValue;
+        _aiPath.maxSpeed = this.runSpeed;
     }
 
     private void UpdateSpeed(float speed)
@@ -405,32 +494,12 @@ public class PlayerController : MonoBehaviour
         else
         {
             OnAutoOff?.Invoke();
-        }
-    }
-
-    public void ToggleAutoMode(bool toggle)
-    {
-        isAuto = toggle;
-        if (isAuto)
-        {
-            OnAutoOn?.Invoke();
-        }
-        else
-        {
-            OnAutoOff?.Invoke();
+            OnAutoTurnsOff();
         }
     }
 
 
-    public void ChaseEnemy()
-    {
-
-    }
-
-    public void Attack()
-    {
-
-    }
+   
 
     //protected virtual void AttackAction()
     //{

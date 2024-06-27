@@ -9,7 +9,6 @@ public class PlayerInput : MonoBehaviour
     public bool TopDown;
 
     private PlayerController player;
-    private TopdownPlayerController playerTopdown;
 
     public Vector2 JoystickDirection;
     public bool IsMovingJoystick => joystick.isMovingJoystick;
@@ -17,7 +16,6 @@ public class PlayerInput : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<PlayerController>();
-        playerTopdown = GetComponent<TopdownPlayerController>();
     }
     private void GetInputPC()
     {
@@ -38,13 +36,11 @@ public class PlayerInput : MonoBehaviour
     public void Mobile_MoveRight()
     {
         player.Turn(true);
-        player.DOSmoothWalk();
     }
 
     public void Mobile_MoveLeft()
     {
         player.Turn(false);
-        player.DOSmoothWalk();
     }
 
     public void OnStop()

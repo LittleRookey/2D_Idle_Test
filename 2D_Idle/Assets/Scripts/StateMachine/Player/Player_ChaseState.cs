@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_ChaseState : MonoBehaviour
+namespace Litkey.AI
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Player_ChaseState : Player_BaseState
     {
-        
-    }
+        public Player_ChaseState(PlayerController Player, Animator Anim) : base(Player, Anim)
+        {
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override void OnEnter()
+        {
+            anim.CrossFade(EnterRunHash, crossFadeDuration);
+            player.ChaseEnemy();
+            player.EnableAIPath();
+        }
+
+        public override void Update()
+        {
+            player.ChaseEnemy();
+        }
     }
 }
