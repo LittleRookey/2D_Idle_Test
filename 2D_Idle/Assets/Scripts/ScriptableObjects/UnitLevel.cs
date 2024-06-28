@@ -49,6 +49,13 @@ public class UnitLevel : ScriptableObject
     public UnityAction<float, float> OnLevelUp;
     public UnityAction<float, float> OnGainExp;
     public UnityAction<float, float> OnInitSetup;
+
+    [Header("EXP Per Time")]
+    [SerializeField] private float totalEXPTilMaxLevel;
+    [SerializeField] private float minutesTilMaxLevel;
+    [SerializeField] private float hoursTilMaxLevel;
+    [SerializeField] private float daysTilMaxLevel;
+    [SerializeField] private int expGainPerSec = 1;
     public virtual bool GainExp(int value)
     {
         bool levelUp = false;
@@ -109,7 +116,7 @@ public class UnitLevel : ScriptableObject
 
         float _maxExp = initMaxExp;
         MaxExpByLevel.Add(Mathf.Round(_maxExp));
-
+        totalEXPTilMaxLevel = 0;
         for (int i = 1; i < maxLevel; i++)
         {
             int _level = i + 1;
@@ -117,7 +124,12 @@ public class UnitLevel : ScriptableObject
 
             float fin_maxExp = (_maxExp + (extraExpPerLevel*i)) * Mathf.Pow(growthFactor, _level) * growth;
             MaxExpByLevel.Add(Mathf.Round(fin_maxExp));
+            totalEXPTilMaxLevel += fin_maxExp;
         }
+
+        minutesTilMaxLevel = Mathf.Round(totalEXPTilMaxLevel / 60f);
+        hoursTilMaxLevel = Mathf.Round(totalEXPTilMaxLevel / 3600f);
+        daysTilMaxLevel = Mathf.Round(totalEXPTilMaxLevel / (3600f*24));
     }
 
     [Button("Update Max Exps Per Level")]

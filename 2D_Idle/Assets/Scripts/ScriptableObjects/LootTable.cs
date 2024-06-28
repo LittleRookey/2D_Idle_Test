@@ -22,7 +22,7 @@ public class LootTable : ScriptableObject
     public string _lootID;
     public Vector2Int gold;
     public int dropExp;
-    [SerializeField] private ItemDrop[] _lootTable;
+    [SerializeField] protected ItemDrop[] _lootTable;
     
     public ItemDrop[] GetLootTableInfo()
     {

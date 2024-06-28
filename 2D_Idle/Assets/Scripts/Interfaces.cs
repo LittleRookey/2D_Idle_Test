@@ -26,4 +26,8 @@ namespace Litkey.Interface
         public void Save();
     }
 
+    public interface IInteractactable
+    {
+        public void Interact();
+    }
 }

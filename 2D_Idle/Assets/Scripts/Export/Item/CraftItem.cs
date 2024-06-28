@@ -19,10 +19,6 @@ namespace Litkey.InventorySystem
             return true;
         }
 
-        protected override CountableItem Clone(int amount)
-        {
-            return new CraftItem(CountableData as CraftItemData, ID, amount);
-        }
 
     }
 }

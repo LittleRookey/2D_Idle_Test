@@ -21,11 +21,6 @@ namespace Litkey.InventorySystem
 
         }
 
-        protected override CountableItem Clone(int amount)
-        {
-            return new PortionItem(CountableData as PortionItemData, ID, amount);
-        }
-
         
     }
 }
