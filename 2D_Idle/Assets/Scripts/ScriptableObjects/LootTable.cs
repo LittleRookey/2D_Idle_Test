@@ -4,9 +4,9 @@ using UnityEngine;
 using Litkey.InventorySystem;
 using Litkey.Utility;
 using Litkey.Interface;
+using System.Linq;
 
-
-[CreateAssetMenu(fileName = "LootTable", menuName = "Litkey/LootTable")]
+[CreateAssetMenu(menuName = "Litkey/Loots/LootTable")]
 public class LootTable : ScriptableObject
 {
 
@@ -54,7 +54,8 @@ public class LootTable : ScriptableObject
         return _lootTable.Length > 0;
     }
 
-    public List<Item> GetDropItems()
+
+    public virtual List<Item> GetDropItems()
     {
         List<Item> itemDrops = new List<Item>();
         for (int i = 0; i < _lootTable.Length; i++)
@@ -75,8 +76,8 @@ public class LootTable : ScriptableObject
                     Debug.Log($"Reward added: Equipment Item Data: {equipItemData.Name} x{count}");
                     itemDrops.Add(equipItemData.CreateItem());
                 }
-                
-           
+
+
             }
         }
         return itemDrops;

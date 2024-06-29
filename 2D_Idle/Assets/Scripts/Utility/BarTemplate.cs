@@ -21,26 +21,28 @@ public class BarTemplate : MonoBehaviour
 
     public UnityEvent OnExitBehavior;
 
-    public void SetBar(bool startWithFullBar)
+    public BarTemplate SetBar(bool startWithFullBar)
     {
         SetSize(defaultWidth, defaultHeight);
 
         this.startWithFullBar = startWithFullBar;
 
         InitializeBar(startWithFullBar);
+        return this;
     }
 
-    public void SetBar(float width, float height, bool startWithFullBar)
+    public BarTemplate SetBar(float width, float height, bool startWithFullBar)
     {
         SetSize(width, height);
 
         this.startWithFullBar = startWithFullBar;
 
         InitializeBar(startWithFullBar);
+        return this;
     }
 
 
-    public void SetBar(float width, float height, bool startWithFullBar, Color innerColor, Color outerColor)
+    public BarTemplate SetBar(float width, float height, bool startWithFullBar, Color innerColor, Color outerColor)
     {
         SetSize(width, height);
         innerBar.color = innerColor;
@@ -49,10 +51,11 @@ public class BarTemplate : MonoBehaviour
         this.startWithFullBar = startWithFullBar;
 
         InitializeBar(startWithFullBar);
+        return this;
     }
 
 
-    public void SetBar(float width, float height, bool startWithFullBar, Color innerColor = default, Color outerColor = default, Color bgColor = default)
+    public BarTemplate SetBar(float width, float height, bool startWithFullBar, Color innerColor = default, Color outerColor = default, Color bgColor = default)
     {
         SetSize(width, height);
         innerBar.color = innerColor;
@@ -62,6 +65,7 @@ public class BarTemplate : MonoBehaviour
         this.startWithFullBar = startWithFullBar;
 
         InitializeBar(startWithFullBar);
+        return this;
     }
 
 
@@ -104,13 +108,15 @@ public class BarTemplate : MonoBehaviour
         return tween;
     }
 
-    public void SetOuterColor(Color col)
+    public BarTemplate SetOuterColor(Color col)
     {
         outerBar.color = col;
+        return this;
     }
 
-    public void SetInnerColor(Color col)
+    public BarTemplate SetInnerColor(Color col)
     {
         innerBar.color = col;
+        return this;
     }
 }

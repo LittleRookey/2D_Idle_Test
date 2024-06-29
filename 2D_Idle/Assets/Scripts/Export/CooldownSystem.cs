@@ -25,6 +25,12 @@ namespace Litkey.Character.Cooldowns
             Debug.Log("Added to Cooldown");
         }
 
+        public void PutOnColdown(string id, float cooldownTime)
+        {
+            cooldowns.Add(new CooldownData(id, cooldownTime));
+            Debug.Log("Added to Cooldown");
+        }
+
         // checks if the given id is in process of cooldown
         public bool IsOnCooldown(string id)
         {
@@ -73,6 +79,12 @@ namespace Litkey.Character.Cooldowns
         {
             ID = cooldown.ID;
             RemainingTime = cooldown.CooldownDuration;
+        }
+
+        public CooldownData(string cooldownID, float cooldownTime)
+        {
+            ID = cooldownID;
+            RemainingTime = cooldownTime;
         }
         // get it from anywhere, but set it only in this class
 

@@ -28,6 +28,17 @@ namespace Litkey.Interface
 
     public interface IInteractactable
     {
-        public void Interact();
+        public void Interact(int interactTime);
+    }
+
+    // 광물류를 가까이 다가갓을떄 저절로 선택
+    public interface ISelectable
+    {
+        public void Select();
+    }
+
+    public interface IDeselectable
+    {
+        public void Deselect();
     }
 }
