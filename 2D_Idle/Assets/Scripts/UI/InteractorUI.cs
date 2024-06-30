@@ -17,6 +17,7 @@ public enum eResourceType
 public class InteractorUI : MonoBehaviour
 {
     public static InteractorUI Instance;
+    [SerializeField] private RectTransform orientation;
     [SerializeField] private Button interactBTN;
     [SerializeField] private Image btnIcon;
     [SerializeField] private DOTweenAnimation clickAnimation;
@@ -26,7 +27,7 @@ public class InteractorUI : MonoBehaviour
     [SerializeField] private Sprite fishingSprite;
     [SerializeField] private Sprite fightSprite;
     [SerializeField] private Sprite talkSprite;
-
+    public bool disableButtonOnStart;
 
     private readonly string click = "click";
 
@@ -40,11 +41,12 @@ public class InteractorUI : MonoBehaviour
         {
             Instance = this;
         }
+        if (disableButtonOnStart) DisableOrientation();
     }
 
-    public void SetInteractor(eResourceType resourceType, UnityAction onClickBTN=null)
+    private void SetSprite(eResourceType resourceType)
     {
-        switch(resourceType)
+        switch (resourceType)
         {
             case eResourceType.±¤¼®:
                 btnIcon.sprite = mineSprite;
@@ -62,11 +64,29 @@ public class InteractorUI : MonoBehaviour
                 btnIcon.sprite = talkSprite;
                 break;
         }
+    }
+    public void SetInteractor(eResourceType resourceType, UnityAction onClickBTN=null)
+    {
+        SetSprite(resourceType);
         interactBTN.onClick.RemoveAllListeners();
-        interactBTN.onClick.AddListener(() => onClickBTN?.Invoke());
+        interactBTN.onClick.AddListener(onClickBTN);
         interactBTN.onClick.AddListener(() => clickAnimation.DORestartById(click));
 
     }
 
+    public void SetTalk(UnityAction onTalk)
+    {
+        SetSprite(eResourceType.¸»°É±â);
+        interactBTN.onClick.RemoveAllListeners();
+        interactBTN.onClick.AddListener(onTalk);
 
+    }
+
+    public void SetAttack()
+    {
+
+    }
+
+    public void EnableOrientation() => orientation.gameObject.SetActive(true);
+    public void DisableOrientation() => orientation.gameObject.SetActive(false);
 }

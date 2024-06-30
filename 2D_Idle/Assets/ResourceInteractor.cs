@@ -9,7 +9,7 @@ public class ResourceInteractor : MonoBehaviour
     [SerializeField] private LayerMask resourceLayer;
     
     PlayerController player;
-    private MineInteractor interactableTarget;
+    [SerializeField] private MineInteractor interactableTarget;
     public float searchRange = 1f;
 
 
@@ -61,6 +61,7 @@ public class ResourceInteractor : MonoBehaviour
             {
                 interactableTarget.Deselect();
                 interactableTarget = null;
+                InteractorUI.Instance.DisableOrientation();
                 Debug.Log("Previous target deselected");
             }
         }
@@ -79,7 +80,7 @@ public class ResourceInteractor : MonoBehaviour
             // Interact with the object
             // Pass interaction time of 
             InteractorUI.Instance.SetInteractor(eResourceType.±¤¼®, () => interactableTarget.Interact(5));
-            
+            InteractorUI.Instance.EnableOrientation();
         }
         else if (interactableTarget == null)
         {
@@ -87,7 +88,10 @@ public class ResourceInteractor : MonoBehaviour
         }
     }
 
-   
 
+    private void Update()
+    {
+        SearchForInteractable();
+    }
 
 }

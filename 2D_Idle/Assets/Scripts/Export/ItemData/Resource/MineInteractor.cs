@@ -12,7 +12,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
     [Header("References")]
     [SerializeField] private ParticleSystem _particle;
     [SerializeField] private LeveledRankLootTable _mineLoot;
-
+    [SerializeField] private Inventory _inventory;
     [Header("Resource Info")]
     [SerializeField] private ResourceCapacity _capacity;
     public bool IsSelected { private set; get; }
@@ -74,8 +74,10 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
     }
     public void Interact(int interactTime)
     {
-        
+
         // start mining 
+        Debug.Log("Mine Interacted!");
+        StartCoroutine(StartMining(interactTime));
     }
 
     private IEnumerator StartMining(int totalTime)
@@ -85,7 +87,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
             .SetInnerColor(Color.green)
             .SetOuterColor(Color.black);
 
-        barProgress.StartFillBar(totalTime, null);
+        barProgress.StartFillBar(totalTime, MakeDropResource);
 
         _particle.gameObject.SetActive(true);
 
@@ -97,12 +99,22 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
         }
     }
 
-    private void GetDropResource()
+    private void MakeDropResource()
     {
-
+        var lootedResource = _mineLoot.GetRankedLootTable().GetSingleItem();
+        if (lootedResource is CountableItem countableItem)
+        {
+            DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount, () => 
+            {
+                ResourceManager.Instance.DisplayItem(countableItem.CountableData, countableItem.Amount);
+                _inventory.AddToInventory(countableItem);
+            });
+             
+        }
         
     }
 
+    
     public void Deselect()
     {
         DisableOutline();

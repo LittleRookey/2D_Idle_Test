@@ -15,13 +15,13 @@ public interface IGrowable
     public void Grow(); // increases the level of certain thing 
 }
 
-
+[InlineEditor]
 [CreateAssetMenu(fileName = "UnitLevel", menuName = "Litkey/UnitLevels")]
 public class UnitLevel : ScriptableObject
 {
     [SerializeField] public int maxLevel = 100;
     public bool showLog;
-    [ShowInInspector] public int level { get; protected set; } = 1;
+    [ShowInInspector] public int level { get; protected set; } = 0;
 
     public float CurrentExp => currentExp;
     public float MaxExp

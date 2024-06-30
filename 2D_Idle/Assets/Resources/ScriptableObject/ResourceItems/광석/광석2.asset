@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10a88a665517f6142946c0635ac39710, type: 3}
-  m_Name: New Resource Item Data 3
+  m_Name: "\uAD11\uC11D2"
   m_EditorClassIdentifier: 
-  _iconSprite: {fileID: 0}
-  _name: 
-  intID: 0
+  _iconSprite: {fileID: -2010349095, guid: e88fb9055f20fa14aaac336078013995, type: 3}
+  _name: "\uBBF8\uB124\uB784"
+  intID: 1
   _rarity: 0
-  _itemType: 0
+  _itemType: 2
   _weight: 0
-  _sellPrice: 0
-  _tooltip: 
+  _sellPrice: 15
+  _tooltip: "\uBBF8\uB124\uB784\uC774 \uC870\uAE08 \uBCF4\uC774\uB294 \uAD11\uC11D\uC774\uB2E4"
   _maxAmount: 999

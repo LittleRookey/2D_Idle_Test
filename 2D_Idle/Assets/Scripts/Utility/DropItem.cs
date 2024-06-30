@@ -6,6 +6,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using Litkey.Utility;
+using UnityEngine.Events;
 
 public class DropItem : MonoBehaviour
 {
@@ -27,10 +28,10 @@ public class DropItem : MonoBehaviour
 
     string num = " x";
     
-    public IEnumerator ReturnToPool()
+    public IEnumerator ReturnToPool(UnityAction OnReturned=null)
     {
         yield return new WaitForSeconds(1.5f);
-
+        OnReturned?.Invoke();
         DropItemCreator.ReturnDrop(this);
     }
 
@@ -56,6 +57,7 @@ public class DropItem : MonoBehaviour
             this.itemText.text = itemName + num + itemCount;
         StartCoroutine(ReturnToPool());
     }
+
     public void SetDropItem(Sprite icon, string itemName, int itemCount, ItemRarity rarity, ItemData itemData)
     {
         this.itemData = itemData;
@@ -72,7 +74,7 @@ public class DropItem : MonoBehaviour
         StartCoroutine(ReturnToPool());
     }
 
-    public void SetDropItem(Sprite icon, ItemData itemData, int itemCount, Color textColor)
+    public void SetDropItem(Sprite icon, ItemData itemData, int itemCount, Color textColor, UnityAction onReturned=null)
     {
         this.icon.sprite = icon;
         this.itemName = itemData.Name;
@@ -85,7 +87,7 @@ public class DropItem : MonoBehaviour
             this.itemText.SetText($"{TMProUtility.GetColorText($"[{itemData.rarity.ToString()}]", textColor)} {itemData.Name} x{itemCount}");
         else
             this.itemText.SetText($"{TMProUtility.GetColorText($"[{itemData.rarity.ToString()}]", textColor)} {itemData.Name}");
-        StartCoroutine(ReturnToPool());
+        StartCoroutine(ReturnToPool(onReturned));
     }
 
     public void SetDropItem(Sprite icon, string itemName, int itemCount, Color textColor, bool showCountText = false)

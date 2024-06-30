@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
     private AIPath _aiPath;
     private AIDestinationSetter _destinationSetter;
 
+    private ResourceInteractor _interactor;
     public bool isAuto;
     protected enum eBehavior
     {
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _aiPath = GetComponent<AIPath>();
         _destinationSetter = GetComponent<AIDestinationSetter>();
-        
+        _interactor = GetComponent<ResourceInteractor>();
     }
 
     protected virtual void OnEnable()
@@ -262,7 +263,7 @@ public class PlayerController : MonoBehaviour
 
             MoveFromReviveToBattleMode();
             currentBarTween = null;
-            BarCreator.ReturnBar(currentBar);
+            //BarCreator.ReturnBar(currentBar);
 
             OnRevive?.Invoke();
         });

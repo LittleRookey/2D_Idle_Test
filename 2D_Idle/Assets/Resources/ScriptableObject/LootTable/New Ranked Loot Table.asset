@@ -19,10 +19,16 @@ MonoBehaviour:
   _rankedLootTable:
   - rankName: 0
     rankDropRate: 70
-    items: []
+    items:
+    - item: {fileID: 11400000, guid: b41a9cbff61c2c24980fe2a38efdbdf1, type: 2}
+      dropRate: 49.88233
+      dropCount: {x: 1, y: 2}
+    - item: {fileID: 11400000, guid: 2651d8f64aec6074bbdd83cc39d80e4b, type: 2}
+      dropRate: 50.117672
+      dropCount: {x: 1, y: 2}
   - rankName: 1
     rankDropRate: 30
     items:
-    - item: {fileID: 11400000, guid: 4c0bf16a02219e149b7a4f095b2e1622, type: 2}
+    - item: {fileID: 11400000, guid: 5344bb115e86db345a65e90acf5ccee6, type: 2}
       dropRate: 100
       dropCount: {x: 1, y: 1}

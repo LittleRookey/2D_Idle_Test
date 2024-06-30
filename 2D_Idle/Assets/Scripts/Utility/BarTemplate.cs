@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Events;
+using Litkey.Utility;
 
 public class BarTemplate : MonoBehaviour
 {
@@ -90,6 +91,7 @@ public class BarTemplate : MonoBehaviour
         {
             OnExitBehavior?.Invoke();
             OnExitBehavior.RemoveAllListeners();
+            BarCreator.ReturnBar(this);
         }).SetEase(Ease.Linear);
         return tween;
     }
@@ -104,6 +106,7 @@ public class BarTemplate : MonoBehaviour
         {
             OnExitBehavior?.Invoke();
             OnExitBehavior.RemoveAllListeners();
+            BarCreator.ReturnBar(this);
         }).SetEase(Ease.Linear);
         return tween;
     }

@@ -6,6 +6,7 @@ using System;
 using Litkey.InventorySystem;
 using DamageNumbersPro;
 using Litkey.Stat;
+using UnityEngine.Events;
 
 namespace Litkey.Utility 
 { 
@@ -268,6 +269,34 @@ namespace Litkey.Utility
             return newBar;
 
         }
+
+        public static DropItem CreateDrop(Vector3 spawnPosition, ItemData item, int count, UnityAction OnDisappear=null)
+        {
+            CheckPoolExists();
+
+            var newBar = dropItemPool.Get();
+
+            Debug.Log("New Shape is null?:: " + newBar == null);
+            if (newBar == null)
+            {
+                dropItemPool.Clear();
+                dropItemPool = null;
+                var bar = Resources.Load<DropItem>(dropItemPath);
+                rarityColor = Resources.Load<EquipmentRarityColor>(equipmentRarityColorPath);
+                dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
+                newBar = dropItemPool.Get();
+            }
+            newBar.SetDropItem(item.IconSprite, item, count, rarityColor.GetColor(item.rarity), OnDisappear);
+            newBar.transform.position = spawnPosition;
+
+            newBar.gameObject.SetActive(true);
+
+            newBar.CreateBouncingEffect();
+
+            return newBar;
+
+        }
+
         public static DropItem CreateGoldDrop(Vector3 spawnPosition, int count)
         {
             CheckPoolExists();
