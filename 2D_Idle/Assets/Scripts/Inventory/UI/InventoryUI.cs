@@ -238,6 +238,7 @@ namespace Litkey.InventorySystem
             currentSelectedSlot = null;
         }
 
+
         public void OpenInventory()
         {
             inventoryWindow.gameObject.SetActive(true);
@@ -248,6 +249,29 @@ namespace Litkey.InventorySystem
             inventoryWindow.gameObject.SetActive(false);
             if (currentSelectedSlot != null)
                 currentSelectedSlot.ResetClickState();
+        }
+
+        private void CheckAllEmptySlotUpdate()
+        {
+            // 만약 인벤토리의 index에 durability나 count가 0이면 슬롯을 지운다
+            foreach (int ind in _inventory._inventory.Keys)
+            {
+                if (_inventory._inventory[ind] is CountableItem countableItem)
+                {
+                    if (countableItem.Amount <= 0)
+                    {
+                        itemSlots[ind].ClearSlot();
+                        itemSlotPool.Take(itemSlots[ind]);
+                    }
+                } else if (_inventory._inventory[ind] is ResourceGetterItem resourceGetterItem)
+                {
+                    if (!resourceGetterItem.HasDurability())
+                    {
+                        itemSlots[ind].ClearSlot();
+                        itemSlotPool.Take(itemSlots[ind]);
+                    }
+                }
+            }
         }
 
         private void ClearSlots()

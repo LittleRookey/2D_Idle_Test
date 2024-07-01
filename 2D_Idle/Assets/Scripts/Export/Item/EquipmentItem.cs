@@ -27,7 +27,7 @@ namespace Litkey.InventorySystem
         }
         private int _durability;
 
-
+        public bool HasDurability() => _durability > 0;
         public EquipmentItem(EquipmentItemData data, string uniqueID) : base(data, uniqueID)
         {
             EquipmentData = data;
@@ -35,8 +35,14 @@ namespace Litkey.InventorySystem
 
         }
 
+        public EquipmentItem(EquipmentItemData data, int currentDurability, string uniqueID) : base(data, uniqueID)
+        {
+            EquipmentData = data;
+            Durability = currentDurability;
+
+        }
 
 
-       
+
     }
 }

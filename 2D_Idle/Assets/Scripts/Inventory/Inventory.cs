@@ -79,9 +79,13 @@ namespace Litkey.InventorySystem
         [SerializeField] private EquipmentSlot gloveSlot;
         [SerializeField] private EquipmentSlot bottomArmorSlot;
         [SerializeField] private EquipmentSlot shoeArmorSlot;
+        [SerializeField] private EquipmentSlot miningSlot;
+        [SerializeField] private EquipmentSlot fishingSlot;
+        [SerializeField] private EquipmentSlot axingSlot;
 
         [SerializeField] private Dictionary<eEquipmentParts, EquipmentSlot> equipmentSlots;
-        
+
+        public UnityEvent<int> OnUseItem;
         private void OnEnable()
         {
             equipmentSlots = new Dictionary<eEquipmentParts, EquipmentSlot>()
@@ -93,6 +97,9 @@ namespace Litkey.InventorySystem
                 { eEquipmentParts.pants, bottomArmorSlot },
                 { eEquipmentParts.shoe, shoeArmorSlot },
                 { eEquipmentParts.Glove, gloveSlot },
+                { eEquipmentParts.Mining,  miningSlot},
+                { eEquipmentParts.Fishing,  fishingSlot},
+                { eEquipmentParts.Axing,  axingSlot},
             };
             
         }
@@ -111,6 +118,16 @@ namespace Litkey.InventorySystem
             equipmentSlots[parts].UnEquipItem();
             
         }
+
+        public bool IsMiningEquipped() => miningSlot.IsEquipped;
+        public bool IsFishingEquipped() => fishingSlot.IsEquipped;
+        public bool IsAxingEquipped() => axingSlot.IsEquipped;
+
+        public ResourceGetterItem GetEquippedMiningItem() => miningSlot.EquippedItem as ResourceGetterItem;
+
+        public ResourceGetterItem GetEquippedFishingItem() => fishingSlot.EquippedItem as ResourceGetterItem;
+
+        public ResourceGetterItem GetEquippedAxingItem() => axingSlot.EquippedItem as ResourceGetterItem;
 
         #endregion
 
@@ -154,15 +171,6 @@ namespace Litkey.InventorySystem
         private void UpdateItemAmount(int additionalAmount, int itemIndex)
         {
             ((CountableItem)_inventory[itemIndex]).AddAmount(additionalAmount);
-            //if (_inventory.TryGetValue(itemIndex, out Item item) && item is CountableItem cItem)
-            //{
-            //    cItem.AddAmount(additionalAmount);  // Assuming you want to add to the existing amount.
-            //    Debug.Log($"Updated item at index {itemIndex} to new amount: {cItem.Amount}");
-            //}
-            //else
-            //{
-            //    Debug.LogError("Failed to update item amount: Item not found or is not a CountableItem.");
-            //}
         }
 
 
@@ -243,7 +251,7 @@ namespace Litkey.InventorySystem
                     {
                         _inventory.Remove(index);
                     }
-
+                    OnUseItem?.Invoke(index);
                     return true;
                 }
                 else
@@ -259,7 +267,43 @@ namespace Litkey.InventorySystem
             }
         }
 
+        public bool UseResourceEquipmentItem(eResourceType resourceType)
+        {
+            eEquipmentParts resourceGetterType = null;
+            switch (resourceType)
+            {
+                case eResourceType.광석:
+                    resourceGetterType = eEquipmentParts.Mining;
+                    break;
+                case eResourceType.나무:
+                    resourceGetterType = eEquipmentParts.Axing;
+                    break;
+                case eResourceType.물고기:
+                    resourceGetterType = eEquipmentParts.Fishing;
+                    break;
+            }
+            // find equipped resourceGetterItem from equipment
+            if (equipmentSlots[resourceGetterType].IsEquipped)
+            {
+                // if exist, find its index from inventory
+                int index = FindItemInInventory(equipmentSlots[resourceGetterType].EquippedItem.ID);
+                // use that resourceGetterItem, if its durability is less than 0, remove it from inventory and update UI
+                if (index != -1)
+                {
+                    var rEquip = equipmentSlots[resourceGetterType].EquippedItem as ResourceGetterItem;
+                    rEquip.Use();
+                    OnUseItem?.Invoke(index);
+                    return true;
+                }
+                else
+                {
+                    Debug.LogError("Can't find ResourceGetterItem of resource type: " + resourceGetterType);
+                }
+            }
+            return false;
 
+
+        }
         private int GetNextEmptyIndex()
         {
             int i = 0;
@@ -283,6 +327,7 @@ namespace Litkey.InventorySystem
         //}
 
         #endregion
+
 
     }
 }

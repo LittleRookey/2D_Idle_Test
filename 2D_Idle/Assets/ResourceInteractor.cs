@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Litkey.Interface;
-
+using Litkey.InventorySystem;
 
 public class ResourceInteractor : MonoBehaviour
 {
     [SerializeField] private LayerMask resourceLayer;
-    
+    [SerializeField] private Inventory _inventory;
     PlayerController player;
     [SerializeField] private MineInteractor interactableTarget;
     public float searchRange = 1f;
@@ -72,14 +72,36 @@ public class ResourceInteractor : MonoBehaviour
             nearestMine.Select();
             interactableTarget = nearestMine;
             Debug.Log("New target selected");
-
+            if (!_inventory.IsMiningEquipped())
+            {
+                InteractorUI.Instance.SetUnInteractable();
+            } else
+            {
+                InteractorUI.Instance.SetInteractable();
+            }
 
             // ¹öÆ°¿¡ Interact ³Ö±â
 
             // Add Interact to interact button changing sprite of button
             // Interact with the object
             // Pass interaction time of 
-            InteractorUI.Instance.SetInteractor(eResourceType.±¤¼®, () => interactableTarget.Interact(5));
+            // TODO check if player has interactor equipment equipped
+            InteractorUI.Instance.SetInteractor(eResourceType.±¤¼®, () =>
+            {
+                if (_inventory.IsMiningEquipped())
+                {
+                    Debug.Log("Used Mining Item");
+                    _inventory.UseResourceEquipmentItem(eResourceType.±¤¼®);
+                    //_inventory.GetEquippedMiningItem().Use();
+                    interactableTarget.Interact(5);
+                }
+                else
+                {
+                    // TODO show warning message that mining is not equipped
+                    Debug.Log("Not Equipped Mining Item");
+                    // disable interaction UI button of image
+                }
+            });
             InteractorUI.Instance.EnableOrientation();
         }
         else if (interactableTarget == null)
@@ -88,6 +110,7 @@ public class ResourceInteractor : MonoBehaviour
         }
     }
 
+    
 
     private void Update()
     {

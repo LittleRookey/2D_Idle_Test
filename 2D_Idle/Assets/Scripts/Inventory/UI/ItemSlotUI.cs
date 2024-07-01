@@ -27,7 +27,15 @@ namespace Litkey.InventorySystem
         public UnityEvent OnFirstClick;
         private bool isFirstClick;
 
+        private bool isDirty;
+        public bool IsDirty => isDirty;
+
         public bool HasItem => iconImage != null;
+
+        public void SetDirty()
+        {
+            isDirty = true;
+        }
 
         private void SlotClicked()
         {

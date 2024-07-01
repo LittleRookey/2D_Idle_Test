@@ -26,6 +26,9 @@ namespace Litkey.InventorySystem
         Subweapon,
         Accessory,
         Glove,
+        Mining,
+        Fishing,
+        Axing
     }
     /*
         [상속 구조]

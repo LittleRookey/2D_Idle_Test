@@ -40,13 +40,14 @@ namespace Litkey.InventorySystem
     {
         public int MaxDurability => _maxDurability;
         [VerticalGroup("Item Data/Info")]
-        [SerializeField] private int _maxDurability = 100;
+        [SerializeField] protected int _maxDurability = 100;
+
         [TableList]
         [SerializeField] protected StatModifier[] baseStats;
-        //public bool IsEquipped => _isEquipped;
-        //protected bool _isEquipped = false;
+        
         [VerticalGroup("Item Data/Info")]
         [SerializeField] protected eEquipmentParts _parts;
+
         public eEquipmentParts Parts => _parts;
 
         protected int upgradeNum = 0;

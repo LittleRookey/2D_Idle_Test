@@ -19,6 +19,7 @@ public class InteractorUI : MonoBehaviour
     public static InteractorUI Instance;
     [SerializeField] private RectTransform orientation;
     [SerializeField] private Button interactBTN;
+    [SerializeField] private Image btnBG;
     [SerializeField] private Image btnIcon;
     [SerializeField] private DOTweenAnimation clickAnimation;
 
@@ -65,7 +66,7 @@ public class InteractorUI : MonoBehaviour
                 break;
         }
     }
-    public void SetInteractor(eResourceType resourceType, UnityAction onClickBTN=null)
+    public void SetInteractor(eResourceType resourceType, UnityAction onClickBTN = null)
     {
         SetSprite(resourceType);
         interactBTN.onClick.RemoveAllListeners();
@@ -89,4 +90,18 @@ public class InteractorUI : MonoBehaviour
 
     public void EnableOrientation() => orientation.gameObject.SetActive(true);
     public void DisableOrientation() => orientation.gameObject.SetActive(false);
+
+    Color disabledColor = new Color(101f, 101f, 101f, 255f);
+
+    public void SetUnInteractable()
+    {
+        btnBG.color = disabledColor;
+        btnIcon.color = disabledColor;
+    }
+
+    public void SetInteractable()
+    {
+        btnBG.color = Color.white;
+        btnIcon.color = Color.white;
+    }
 }

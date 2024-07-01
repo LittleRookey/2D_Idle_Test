@@ -12,13 +12,13 @@ namespace Litkey.InventorySystem
     {
         [SerializeField] private EquipmentItem equippedItem;
         [SerializeField] private eEquipmentParts parts;
-        [SerializeField] private PlayerStatContainer statContainer; // StatContainer ·¹ÆÛ·±½º Ãß°¡
 
 
         public UnityEvent<EquipmentItem> OnEquip;
         public UnityEvent<EquipmentItem> OnUnEquip;
         public bool IsEquipped => equippedItem != null;
 
+        public EquipmentItem EquippedItem => equippedItem;
 
 
 
@@ -41,9 +41,6 @@ namespace Litkey.InventorySystem
             this.equippedItem = equipItem;
 
             OnEquip?.Invoke(this.equippedItem);
-
-            // ½ºÅÈ ÀåÂøÇÏ±â
-            //statContainer.EquipEquipment(this.equippedItem.ID, this.equippedItem.EquipmentData.GetStats());
         }
 
         public void UnEquipItem()
@@ -53,9 +50,6 @@ namespace Litkey.InventorySystem
                 Debug.LogError("Àåºñ°¡ ÀåÂøµÅÀÖÁö ¾Ê½À´Ï´Ù");
                 return;
             }
-
-            // ½ºÅÝ »©±â
-            //statContainer.UnEquipEquipment(this.equippedItem);
 
             OnUnEquip?.Invoke(this.equippedItem);
 
