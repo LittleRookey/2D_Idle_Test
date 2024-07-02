@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Litkey.Interface;
 using Litkey.InventorySystem;
+using Litkey.Utility;
 
 public class ResourceInteractor : MonoBehaviour
 {
@@ -71,7 +72,7 @@ public class ResourceInteractor : MonoBehaviour
         {
             nearestMine.Select();
             interactableTarget = nearestMine;
-            Debug.Log("New target selected");
+            Debug.Log("New target selected + equipped? " + _inventory.IsMiningEquipped());
             if (!_inventory.IsMiningEquipped())
             {
                 InteractorUI.Instance.SetUnInteractable();
@@ -99,6 +100,7 @@ public class ResourceInteractor : MonoBehaviour
                 {
                     // TODO show warning message that mining is not equipped
                     Debug.Log("Not Equipped Mining Item");
+                    WarningMessageInvoker.Instance.ShowMessage("°î±ªÀÌ¸¦ Âø¿ëÇÏÁö ¾Ê¾Ò½À´Ï´Ù");
                     // disable interaction UI button of image
                 }
             });

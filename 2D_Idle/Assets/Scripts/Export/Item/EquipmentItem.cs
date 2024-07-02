@@ -3,16 +3,19 @@
 using Litkey.Utility;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Litkey.InventorySystem
 {
     /// <summary> 장비 아이템</summary>
+    [InlineEditor]
     [System.Serializable]
     public abstract class EquipmentItem : Item
     {
         public EquipmentItemData EquipmentData { get; private set; }
 
         /// <summary> 현재 내구도 </summary>
+        
         public int Durability
         {
             get => _durability;
@@ -25,6 +28,7 @@ namespace Litkey.InventorySystem
                 _durability = value;
             }
         }
+        [ShowInInspector]
         private int _durability;
 
         public bool HasDurability() => _durability > 0;

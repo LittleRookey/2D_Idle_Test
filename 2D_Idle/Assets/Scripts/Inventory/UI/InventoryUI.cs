@@ -57,23 +57,38 @@ namespace Litkey.InventorySystem
 
         private void Awake()
         {
-            equippedItemIndex = new Dictionary<eEquipmentParts, int>();
-            foreach (var parts in (eEquipmentParts[])Enum.GetValues(typeof(eEquipmentParts)))
-            {
-                equippedItemIndex.Add(parts, -1);
-            }
+            _inventory.InitInventory();
+            
+            Init();
+
+            
+            
         }
         // æ∆¿Ã≈€ ΩΩ∑‘
         private void OnEnable()
         {
             _inventory.OnGainItem.AddListener(AddItemUI);
+            _inventory.OnUseItem.AddListener(CheckSlotRemovable);
         }
 
         private void OnDisable()
         {
             _inventory.OnGainItem.RemoveListener(AddItemUI);
+            _inventory.OnUseItem.RemoveListener(CheckSlotRemovable);
         }
 
+        private void Init()
+        {
+            itemSlots = new Dictionary<int, ItemSlotUI>();
+            itemSlotPool = Pool.Create<ItemSlotUI>(itemSlotUIPrefab);
+            itemSlotPool.SetContainer(slotsParent);
+            equippedItemIndex = new Dictionary<eEquipmentParts, int>();
+            
+            foreach (var parts in (eEquipmentParts[])Enum.GetValues(typeof(eEquipmentParts)))
+            {
+                equippedItemIndex.Add(parts, -1);
+            }
+        }
         private void AddItemUI(Item item)
         {
             if (itemSlotPool == null)
@@ -224,10 +239,7 @@ namespace Litkey.InventorySystem
                 {
                     if (countableItem.Amount <= 0)
                     {
-                        _inventory.RemoveItem(slotIndex);  // Assuming this method removes the item from inventory.
-                        itemSlots[slotIndex].ClearSlot();  // Clear the UI slot.
-                        itemSlotPool.Take(itemSlots[slotIndex]);
-                        itemSlots.Remove(slotIndex);
+                        RemoveItemAndSlot(slotIndex);
                     }
                     else
                     {
@@ -249,6 +261,35 @@ namespace Litkey.InventorySystem
             inventoryWindow.gameObject.SetActive(false);
             if (currentSelectedSlot != null)
                 currentSelectedSlot.ResetClickState();
+        }
+
+        private void CheckSlotRemovable(int index)
+        {
+            var item = _inventory.GetItem(index);
+            if (item is CountableItem countableItem)
+            {
+                if (countableItem.Amount <= 0)
+                {
+                    RemoveItemAndSlot(index);
+                }
+            }
+            else if (item is ResourceGetterItem resourceGetterItem)
+            {
+                if (!resourceGetterItem.HasDurability())
+                {
+                    RemoveItemAndSlot(index);
+
+                    _inventory.UnEquipItem(resourceGetterItem.EquipmentData.Parts);
+                }
+            }
+        }
+
+        private void RemoveItemAndSlot(int slotIndex)
+        {
+            _inventory.RemoveItem(slotIndex);  // Assuming this method removes the item from inventory.
+            itemSlots[slotIndex].ClearSlot();  // Clear the UI slot.
+            itemSlotPool.Take(itemSlots[slotIndex]);
+            itemSlots.Remove(slotIndex);
         }
 
         private void CheckAllEmptySlotUpdate()

@@ -7,7 +7,7 @@ namespace Litkey.InventorySystem
 
     public class ResourceGetterItem : EquipmentItem
     {
-        public ResourceGetterItem(EquipmentItemData data, int currentDurability, string uniqueID) : base(data, currentDurability, uniqueID)
+        public ResourceGetterItem(ResourceGetterItemData data, int currentDurability, string uniqueID) : base(data, currentDurability, uniqueID)
         {
         }
 

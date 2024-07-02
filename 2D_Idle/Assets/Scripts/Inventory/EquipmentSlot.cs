@@ -10,6 +10,7 @@ namespace Litkey.InventorySystem
     [CreateAssetMenu(menuName ="Litkey/EquipmentSlot")]
     public class EquipmentSlot : SerializedScriptableObject
     {
+        
         [SerializeField] private EquipmentItem equippedItem;
         [SerializeField] private eEquipmentParts parts;
 
@@ -20,7 +21,11 @@ namespace Litkey.InventorySystem
 
         public EquipmentItem EquippedItem => equippedItem;
 
+        public void Init()
+        {
+            this.equippedItem = null;
 
+        }
 
         public void EquipItem(EquipmentItem equipItem)
         {

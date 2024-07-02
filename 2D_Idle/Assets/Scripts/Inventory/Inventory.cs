@@ -72,16 +72,16 @@ namespace Litkey.InventorySystem
 
         public UnityEvent<Item> OnGainItem;
 
-        [SerializeField] private EquipmentSlot weaponSlot;
-        [SerializeField] private EquipmentSlot subWeaponSlot;
-        [SerializeField] private EquipmentSlot helmetSlot;
-        [SerializeField] private EquipmentSlot topArmorSlot;
-        [SerializeField] private EquipmentSlot gloveSlot;
-        [SerializeField] private EquipmentSlot bottomArmorSlot;
-        [SerializeField] private EquipmentSlot shoeArmorSlot;
-        [SerializeField] private EquipmentSlot miningSlot;
-        [SerializeField] private EquipmentSlot fishingSlot;
-        [SerializeField] private EquipmentSlot axingSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot weaponSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot subWeaponSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot helmetSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot topArmorSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot gloveSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot bottomArmorSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot shoeArmorSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot miningSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot fishingSlot;
+        [SerializeField, InlineEditor] private EquipmentSlot axingSlot;
 
         [SerializeField] private Dictionary<eEquipmentParts, EquipmentSlot> equipmentSlots;
 
@@ -138,6 +138,26 @@ namespace Litkey.InventorySystem
             _inventory = new Dictionary<int, Item>();
 
             _itemsByType = new Dictionary<eItemType, List<Item>>();
+
+            equipmentSlots = new Dictionary<eEquipmentParts, EquipmentSlot>()
+            {
+                { eEquipmentParts.Weapon, weaponSlot },
+                { eEquipmentParts.Subweapon, subWeaponSlot },
+                { eEquipmentParts.helmet, helmetSlot},
+                { eEquipmentParts.body, topArmorSlot },
+                { eEquipmentParts.pants, bottomArmorSlot },
+                { eEquipmentParts.shoe, shoeArmorSlot },
+                { eEquipmentParts.Glove, gloveSlot },
+                { eEquipmentParts.Mining,  miningSlot},
+                { eEquipmentParts.Fishing,  fishingSlot},
+                { eEquipmentParts.Axing,  axingSlot},
+            };
+
+            // Initialize equipment slots 
+            foreach (var slot in equipmentSlots.Values)
+            {
+                slot.Init();
+            }
         }
 
         private void AddOrUpdateItem(Item item)
@@ -219,9 +239,11 @@ namespace Litkey.InventorySystem
             return _inventory[index];
         }
 
-        public void RemoveItem(int index)
+        public Item RemoveItem(int index)
         {
+            var removedItem = _inventory[index];
             _inventory.Remove(index);
+            return removedItem;
         }
 
         public bool UseItem(int index, PlayerStatContainer playerStat)
@@ -269,7 +291,7 @@ namespace Litkey.InventorySystem
 
         public bool UseResourceEquipmentItem(eResourceType resourceType)
         {
-            eEquipmentParts resourceGetterType = null;
+            eEquipmentParts resourceGetterType = eEquipmentParts.Accessory;
             switch (resourceType)
             {
                 case eResourceType.±¤¼®:
