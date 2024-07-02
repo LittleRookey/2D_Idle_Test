@@ -104,6 +104,7 @@ MonoBehaviour:
   _particle: {fileID: 869205376445454813}
   _mineLoot: {fileID: 11400000, guid: 20f4e53fe7c10794081fb79661842761, type: 2}
   _inventory: {fileID: 11400000, guid: 95c39ce0635f4db49aaa2e025ae58d2f, type: 2}
+  _cooldownTime: 5
   disableOutlineOnStart: 1
 --- !u!61 &1658644304430924236
 BoxCollider2D:
