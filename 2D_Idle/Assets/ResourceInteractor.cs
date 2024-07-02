@@ -86,12 +86,21 @@ public class ResourceInteractor : MonoBehaviour
             // Add Interact to interact button changing sprite of button
             // Interact with the object
             // Pass interaction time of 
-            // TODO check if player has interactor equipment equipped
+            // check if player has interactor equipment equipped
             InteractorUI.Instance.SetInteractor(eResourceType.광석, () =>
             {
                 if (_inventory.IsMiningEquipped())
                 {
                     Debug.Log("Used Mining Item");
+
+                    // 내구도 1씀
+                    if (interactableTarget.IsOnCooldown())
+                    {
+                        // 쿨타임중이면 메시지띄우기
+                        WarningMessageInvoker.Instance.ShowMessage($"해당 자원이 쿨타임에 있습니다: {interactableTarget.GetRemainingDuration().ToString("F1")}초");
+                        return;
+                    }
+                    
                     _inventory.UseResourceEquipmentItem(eResourceType.광석);
                     //_inventory.GetEquippedMiningItem().Use();
                     interactableTarget.Interact(5);

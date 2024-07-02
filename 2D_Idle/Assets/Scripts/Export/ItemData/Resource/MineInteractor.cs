@@ -30,9 +30,10 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
 
 
     private string _id;
-    private float _cooldownTime;
+    [SerializeField] private float _cooldownTime = 5f;
 
-    private string outlineMatParam = "OUTBASE_ON";
+    private readonly string outlineMatParam = "OUTBASE_ON";
+    private readonly string glowMatParam = "GLOW_ON";
     private string shakeInput = "shake";
 
     DOTweenAnimation _dotweenAnim;
@@ -49,15 +50,19 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
         _resourceMat = _spriteRenderer.material;
         _cooldown = GetComponent<CooldownSystem>();
         _waitTime = new WaitForSeconds(1f);
-        if (disableOutlineOnStart) DisableOutline();
+        if (disableOutlineOnStart)
+        {
+            DisableOutline();
+            DisableGlow();
+        }
+
     }
 
-    private void EnableOutline()
-    {
-        _resourceMat.EnableKeyword(outlineMatParam);
-    }
-
+    private void EnableOutline() => _resourceMat.EnableKeyword(outlineMatParam);
     private void DisableOutline() => _resourceMat.DisableKeyword(outlineMatParam);
+
+    private void EnableGlow() => _resourceMat.EnableKeyword(glowMatParam);
+    private void DisableGlow() => _resourceMat.DisableKeyword(glowMatParam);
 
     public MineInteractor SetMine(string id, float cooldownTime, int remainingChanceToGainResource)
     {
@@ -72,16 +77,29 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
         _cooldown.PutOnColdown(_id, remainingTime);
         return this;
     }
+
+    public bool IsOnCooldown()
+    {
+        return _cooldown.IsOnCooldown(_id);
+    }
+
+    public float GetRemainingDuration()
+    {
+        return _cooldown.GetRemainingDuration(_id);
+    }
+
     public void Interact(int interactTime)
     {
-
         // start mining 
         Debug.Log("Mine Interacted!");
         StartCoroutine(StartMining(interactTime));
+
     }
 
     private IEnumerator StartMining(int totalTime)
     {
+        SetToCooldown(_cooldownTime);
+
         var barProgress = BarCreator.CreateFillBar(transform.position + Vector3.up * 0.5f);
         barProgress.SetBar(false)
             .SetInnerColor(Color.green)
@@ -109,7 +127,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
                 ResourceManager.Instance.DisplayItem(countableItem.CountableData, countableItem.Amount);
                 _inventory.AddToInventory(countableItem);
             });
-             
+            
         }
         
     }
@@ -118,6 +136,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
     public void Deselect()
     {
         DisableOutline();
+        DisableGlow();
         Debug.Log("Mine Deselected");
         IsSelected = false;
     }
@@ -125,6 +144,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
     public void Select()
     {
         EnableOutline();
+        EnableGlow();
         IsSelected = true;
         Debug.Log("Mine selected");
     }

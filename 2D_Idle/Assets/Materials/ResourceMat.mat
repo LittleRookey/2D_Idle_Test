@@ -11,6 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 79ee6cefbc672a44e97359d4d14ea301, type: 3}
   m_ValidKeywords:
   - GLOWLIGHT_ON
+  - GLOW_ON
   - OUTBASEPIXELPERF_ON
   - OUTBASE_ON
   m_InvalidKeywords:
@@ -187,7 +188,7 @@ Material:
     - _GreyscaleLuminosity: 0
     - _GreyscaleOutline: 0
     - _HandDrawnAmount: 10
-    - _HandDrawnSpeed: 5
+    - _HandDrawnSpeed: 2.64
     - _HitEffectBlend: 0
     - _HitEffectGlow: 3.5
     - _HologramBlend: 1
@@ -211,7 +212,7 @@ Material:
     - _MotionBlurDist: 1.25
     - _MyDstMode: 10
     - _MySrcMode: 5
-    - _NegativeAmount: 1
+    - _NegativeAmount: 0
     - _NormalStrength: 1
     - _OffsetUvX: 0
     - _OffsetUvY: 0
@@ -248,7 +249,7 @@ Material:
     - _SampleGI: 0
     - _ShadowAlpha: 0.5
     - _ShadowX: 0.1
-    - _ShadowY: -0.286
+    - _ShadowY: -0.085
     - _ShakeUvSpeed: 2.5
     - _ShakeUvX: 1.5
     - _ShakeUvY: 1
