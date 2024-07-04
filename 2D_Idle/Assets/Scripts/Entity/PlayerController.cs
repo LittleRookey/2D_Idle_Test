@@ -158,6 +158,7 @@ public class PlayerController : MonoBehaviour
 
         stateMachine.SetState(idleState);
 
+        //UpdateMoveSpeed();
         ToggleAuto();
     }
 
@@ -452,6 +453,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateMoveSpeed(StatContainer statContainer)
     {
         this.runSpeed = statContainer.MoveSpeed.FinalValue;
+        this.moveSpeed = this.runSpeed; 
         _aiPath.maxSpeed = this.runSpeed;
     }
 

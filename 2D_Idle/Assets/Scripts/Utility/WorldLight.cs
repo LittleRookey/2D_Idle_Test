@@ -1,3 +1,4 @@
+using FunkyCode;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,31 +9,39 @@ namespace WorldTime
 {
     public class WorldLight : MonoBehaviour
     {
-        [SerializeField] private Light2D _light;
+        [SerializeField] private LightCycle _light;
+
 
         [SerializeField] private WorldTime _worldTime;
-        
-        [SerializeField] private Gradient _gradient;
+
+        //[SerializeField] private Gradient _gradient;
 
         private void Awake()
         {
             _worldTime.WorldTimeChanged += OnWorldTimeChanged;
         }
 
-        private void OnDestroy()
+        private void OnWorldTimeChanged(object sender, TimeSpan e)
         {
-            _worldTime.WorldTimeChanged += OnWorldTimeChanged;
+            _light.SetTime(PercentOfDay(e));
         }
 
-        private void OnWorldTimeChanged(object sender, TimeSpan newTime)
-        {
-            _light.color = _gradient.Evaluate(PercentOfDay(newTime));
-        }
-
-        private float PercentOfDay(TimeSpan timeSpan)
+        public float PercentOfDay(TimeSpan timeSpan)
         {
             return (float)timeSpan.TotalMinutes % WorldTimeConstants.MinutesInDay / WorldTimeConstants.MinutesInDay;
         }
+        private void OnDestroy()
+        {
+            _worldTime.WorldTimeChanged -= OnWorldTimeChanged;
+        }
+
+        //private void OnWorldTimeChanged(object sender, TimeSpan newTime)
+        //{
+        //    _light.color = _gradient.Evaluate(PercentOfDay(newTime));
+        //}
+
+
+        
 
         // Start is called before the first frame update
         void Start()
@@ -43,7 +52,7 @@ namespace WorldTime
         // Update is called once per frame
         void Update()
         {
-        
+            _light.SetTime(_worldTime.PercentOfDay());
         }
     }
 }

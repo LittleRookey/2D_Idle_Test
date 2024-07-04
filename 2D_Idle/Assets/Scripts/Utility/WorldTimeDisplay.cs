@@ -23,6 +23,8 @@ namespace WorldTime
         private void Awake()
         {
             _worldTime.WorldTimeChanged += OnWorldTimeChanged;
+            OnSpriteChangedAnim.tween.onPlay += () => horGroup.enabled = false;
+            OnSpriteChangedAnim.tween.onComplete += () => horGroup.enabled = true;
         }
 
         private void OnDestroy()
@@ -37,14 +39,12 @@ namespace WorldTime
 
         public void Day()
         {
-            horGroup.enabled = false;
             dayNightIcon.sprite = sun;
             OnSpriteChangedAnim.DORestart();
         }
 
         public void Night()
         {
-            horGroup.enabled = false;
             dayNightIcon.sprite = moon;
             OnSpriteChangedAnim.DORestart();
         }

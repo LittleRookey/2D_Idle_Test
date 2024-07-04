@@ -19,7 +19,7 @@ MonoBehaviour:
   Defense: 10
   MagicDefense: 0
   AttackSpeed: 1
-  MoveSpeed: 1
+  MoveSpeed: 2
   CritChance: 0.05
   CritDamage: 0.5
   Precision: 90.6
