@@ -13,6 +13,9 @@ public class ResourceInteractor : MonoBehaviour
     [SerializeField] private MineInteractor interactableTarget;
     public float searchRange = 1f;
 
+    public bool IsMining => _isMining;
+
+    [SerializeField] private bool _isMining;
 
     private void Awake()
     {
@@ -101,9 +104,17 @@ public class ResourceInteractor : MonoBehaviour
                         return;
                     }
                     
+                    if (interactableTarget.IsEmpty)
+                    {
+                        WarningMessageInvoker.Instance.ShowMessage($"해당 자원은 비어있습니다");
+                        return;
+                    }
+
+                    // 주변에 적이 있으면 
                     _inventory.UseResourceEquipmentItem(eResourceType.광석);
                     //_inventory.GetEquippedMiningItem().Use();
-                    interactableTarget.Interact(5);
+                    _isMining = true;
+                    interactableTarget.Interact(5, player, () => _isMining = false);
                 }
                 else
                 {

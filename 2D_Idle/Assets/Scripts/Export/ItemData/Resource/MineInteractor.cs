@@ -6,6 +6,7 @@ using Litkey.InventorySystem;
 using Litkey.Utility;
 using DG.Tweening;
 using Litkey.Character.Cooldowns;
+using UnityEngine.Events;
 
 public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDeselectable, IHasCooldown
 {
@@ -88,15 +89,15 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
         return _cooldown.GetRemainingDuration(_id);
     }
 
-    public void Interact(int interactTime)
+    public void Interact(int interactTime, PlayerController player, UnityAction OnEnd=null)
     {
         // start mining 
         Debug.Log("Mine Interacted!");
-        StartCoroutine(StartMining(interactTime));
+        StartCoroutine(StartMining(interactTime, player, OnEnd));
 
     }
 
-    private IEnumerator StartMining(int totalTime)
+    private IEnumerator StartMining(int totalTime, PlayerController player, UnityAction OnEnd=null)
     {
         SetToCooldown(_cooldownTime);
 
@@ -105,7 +106,14 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
             .SetInnerColor(Color.green)
             .SetOuterColor(Color.black);
 
-        barProgress.StartFillBar(totalTime, MakeDropResource);
+        player.DisableMovement();
+
+        barProgress.StartFillBar(totalTime, () =>
+        {
+            MakeDropResource();
+            player.EnableMovement();
+            OnEnd?.Invoke();
+        });
 
         _particle.gameObject.SetActive(true);
 
@@ -119,6 +127,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
 
     private void MakeDropResource()
     {
+        _capacity.DecrementChance();
         var lootedResource = _mineLoot.GetRankedLootTable().GetSingleItem();
         if (lootedResource is CountableItem countableItem)
         {
@@ -150,6 +159,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
     }
 }
 
+[System.Serializable]
 public class ResourceCapacity
 {
     public int ID; // ÀÌ°÷ÀÇ ID

@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
         
         attackTimer = attackState.attackTimer;
 
-        Any(moveState, new FuncPredicate(() => JoystickMoving() && !IsDead()));
+        Any(moveState, new FuncPredicate(() => JoystickMoving() && !IsDead() && !_interactor.IsMining));
         At(moveState, idleState, new FuncPredicate(() => !JoystickMoving()));
 
         At(idleState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto()));

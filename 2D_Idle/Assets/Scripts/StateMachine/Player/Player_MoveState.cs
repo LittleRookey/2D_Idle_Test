@@ -20,6 +20,7 @@ namespace Litkey.AI
 
         public override void FixedUpdate()
         {
+            if (!player.CanMove) return;
             player.MoveWithJoystick();
         }
     }
