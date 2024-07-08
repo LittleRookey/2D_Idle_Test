@@ -13,13 +13,5 @@ MonoBehaviour:
   m_Name: 1_1_One_0
   m_EditorClassIdentifier: 
   monsterWeights:
-  - monster: {fileID: 7224041334326621997, guid: c01f959fed16f334194d1caa420c4535, type: 3}
-    weight: 1000
-  - monster: {fileID: 7224041334326621997, guid: f53cd09322413664fa7cbb8c3e12d5b1, type: 3}
-    weight: 1000
-  - monster: {fileID: 7224041334326621997, guid: 3c2cba5255529a541a672b05bb78d31a, type: 3}
-    weight: 1000
-  - monster: {fileID: 7224041334326621997, guid: b3eb2fc338e7da940864cfe363dcc403, type: 3}
-    weight: 45
-  - monster: {fileID: 7224041334326621997, guid: 3c688251ba0e36f4a9562cb659c06f52, type: 3}
-    weight: 45
+  - monster: {fileID: 8499623147719185562, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+    weight: 100

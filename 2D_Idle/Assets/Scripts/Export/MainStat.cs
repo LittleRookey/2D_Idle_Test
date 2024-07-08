@@ -374,6 +374,18 @@ namespace Litkey.Stat
             Debug.Log("Final Value after UnEquip: " + _finalValue);
         }
 
+        public void SetMultipliedStatValue(float value)
+        {
+            _multipliedStatValue = 0f;
+            _multipliedStatValue += value;
+            UpdateFinalValue();
+        }
+
+        public void RemoveMultipliedStatValue(float value)
+        {
+            _multipliedStatValue -= value;
+            UpdateFinalValue();
+        }
 
         public void AddBuffValue(StatModifier statModifier)
         {

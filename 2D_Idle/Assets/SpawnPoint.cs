@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Redcode.Pools;
+using Sirenix.OdinInspector;
 
 public class SpawnPoint : MonoBehaviour
 {
+    [InlineEditor]
     [SerializeField] private MonsterTable monsterTable;
     [SerializeField] private int maxMonsterNum;
     [SerializeField] private float spawnRange;
@@ -46,6 +48,10 @@ public class SpawnPoint : MonoBehaviour
         }
     }
 
+    public void SetupSpawnpoint()
+    {
+
+    }
     private void Update() 
     {
         if (isLocked) return;
@@ -79,7 +85,18 @@ public class SpawnPoint : MonoBehaviour
             // Spawn a monster at the empty cell
             var monsterToSpawn = monsterTable.GetRandomMonster();
             Health monster = monsterPool[monsterToSpawn.Name].Get();
+            
+            // Set Stat based on its difficulty
+            monster.GetComponent<StatContainer>().ApplyDifficulty(StageManager.Instance.GetCurrentDifficulty());
+            // Set Skill
+
+
+            // set spawn position
             monster.transform.position = GetRandomPositionInCell(spawnPosition) + transform.position;
+            
+            // Set EnemyAI baseState
+            monster.GetComponent<EnemyAI>().Init();
+            
             monster.OnDeath.AddListener(OnMonsterDelayedDeath);
             spawnedEnemy.Add(monster);
             currentNumber++;

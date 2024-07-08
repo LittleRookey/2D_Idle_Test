@@ -270,6 +270,14 @@ public class StatContainer : MonoBehaviour
         
     }
 
+    public void ApplyDifficulty(float difficulty)
+    {
+        HP.SetMultipliedStatValue(difficulty);
+        Defense.SetMultipliedStatValue(difficulty);
+        Attack.SetMultipliedStatValue(difficulty);
+
+    }
+
     /// <summary>
     /// 메인스텟 포인트찍힌후 해당 서브스텟의 총 증가값을 리턴 
     /// </summary>

@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
 
     private ResourceInteractor _interactor;
     public bool isAuto;
+    public bool isStunned;
+
     protected enum eBehavior
     {
         idle,
@@ -142,10 +144,11 @@ public class PlayerController : MonoBehaviour
         var moveState = new Player_MoveState(this, anim);
         var attackState = new Player_AttackState(this, anim);
         var chaseState = new Player_ChaseState(this, anim);
-        
+        var deathState = new Player_DeathState(this, anim);
+
         attackTimer = attackState.attackTimer;
 
-        Any(moveState, new FuncPredicate(() => JoystickMoving() && !IsDead() && !_interactor.IsMining));
+        Any(moveState, new FuncPredicate(() => !IsStunned() && JoystickMoving() && !IsDead() && !_interactor.IsMining));
         At(moveState, idleState, new FuncPredicate(() => !JoystickMoving()));
 
         At(idleState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto()));
@@ -155,6 +158,9 @@ public class PlayerController : MonoBehaviour
         At(idleState, attackState, new FuncPredicate(() => !HasNoTarget() && TargetWithinAttackRange() && !AttackCooldown() && Auto()));
         At(attackState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto() && AttackCooldown()), true, attackAnimDuration);
         At(chaseState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto() || (!HasNoTarget() && AttackCooldown() && TargetWithinAttackRange() && Auto())));
+
+        Any(deathState, new FuncPredicate(() => IsDead()));
+        At(deathState, idleState, new FuncPredicate(() => !IsDead()));
 
         stateMachine.SetState(idleState);
 
@@ -178,6 +184,11 @@ public class PlayerController : MonoBehaviour
             return false;
         }
         return Vector2.Distance(Target.transform.position, transform.position) <= attackRange;
+    }
+
+    public bool IsStunned()
+    {
+        return isStunned;
     }
 
     public bool HasNoTarget()
@@ -326,8 +337,14 @@ public class PlayerController : MonoBehaviour
         // 데미지 계산
         if (Target == null) return;
 
+        //basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+        StartCoroutine(AttackDelay(0.3f));
+    }
+    private IEnumerator AttackDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        if (Target == null) yield return null;
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
-
     }
 
     protected void SetTarget(Health enemy)
@@ -340,11 +357,12 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Target set: " + enemy.name);
         if (Target == null)
         {
-            _destinationSetter.target = null;
+            //_destinationSetter.target = null;
         }
         else
         {
-            _destinationSetter.target = Target.transform;
+            _aiPath.destination = Target.transform.position;
+            //_destinationSetter.target = Target.transform;
             enemy.OnDeath.AddListener(SetTargetNullOnDead);
         }
     }

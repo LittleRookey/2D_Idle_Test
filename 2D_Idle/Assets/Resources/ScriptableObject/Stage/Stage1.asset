@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf525df02d8c59468402fedb412b7da, type: 3}
+  m_Name: Stage1
+  m_EditorClassIdentifier: 
+  missionType: 0
+  monsterTable: {fileID: 11400000, guid: 16629c87ff417424db735b86d6e77aad, type: 2}
+  difficultyRate: 1.03
+  weather: {fileID: 11400000, guid: a0b71fd266b34ef41a0f13d4d66bdfd5, type: 2}
+  shop: {fileID: 11400000, guid: 93b7493677b61f64a9c9cf4aa0f34228, type: 2}
+  appearningResourceType: 0
+  TimeLimit: 22
+  mapPrefab: {fileID: 0}

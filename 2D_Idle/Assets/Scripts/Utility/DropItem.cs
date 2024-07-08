@@ -11,7 +11,7 @@ using UnityEngine.Events;
 public class DropItem : MonoBehaviour
 {
     public Image icon;
-    public GameObject onDropEffect;
+    public ParticleSystem onDropEffect;
     public TextMeshProUGUI itemText;
     private Color textColor;
     private string itemName;
@@ -30,8 +30,9 @@ public class DropItem : MonoBehaviour
     
     public IEnumerator ReturnToPool(UnityAction OnReturned=null)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         OnReturned?.Invoke();
+        onDropEffect.gameObject.SetActive(false);
         DropItemCreator.ReturnDrop(this);
     }
 
@@ -44,9 +45,17 @@ public class DropItem : MonoBehaviour
             .Append(transform.DOBlendableMoveBy(new Vector3(randomCircle.x, randomCircle.y, 0f) * xForce, xForce / 2f).SetEase(Ease.OutQuint))
             .Join(transform.DOBlendableMoveBy(Vector3.up * yForce, yForce / 2f).SetEase(Ease.OutExpo))
             .Insert(yForce / 2f, transform.DOBlendableMoveBy(Vector3.down * maxBounce, maxBounce / 2f).SetEase(Ease.OutBounce))
+            .OnComplete(() => ShowDropEffect())
             .Play();
     }
 
+    private void ShowDropEffect()
+    {
+        onDropEffect.gameObject.SetActive(true);
+        var main = onDropEffect.main;
+        main.startColor = equipmentColor.GetColor(this.itemData.rarity);
+        onDropEffect.Play(true);
+    }
     public void SetDropItem(Sprite icon, string itemName, int itemCount = 1)
     {
         this.icon.sprite = icon;

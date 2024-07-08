@@ -15,6 +15,7 @@ namespace Litkey.AI
         {
             player.SetTargetNull();
             player.DisableAIPath();
+            player.EnableMovement();
             anim.CrossFade(EnterRunHash, crossFadeDuration);
         }
 

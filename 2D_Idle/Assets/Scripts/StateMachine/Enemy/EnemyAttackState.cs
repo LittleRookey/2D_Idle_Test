@@ -58,7 +58,7 @@ namespace Litkey.AI
         void Attack()
         {
             enemy.ChaseEnemy();
-            animator.CrossFadeInFixedTime(NormalAttackHash, crossFadeDuration);
+            animator.Play(NormalAttackHash);
             enemy.UseAttackOrSkill();
 
             //attackTimer.Reset(attackInterval);

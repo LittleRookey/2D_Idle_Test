@@ -9,7 +9,7 @@ namespace Litkey.AI
         public CountdownTimer attackTimer;
         public Player_AttackState(PlayerController Player, Animator Anim) : base(Player, Anim)
         {
-            attackTimer = new CountdownTimer(1);
+            attackTimer = new CountdownTimer(1.5f);
 
         }
 
@@ -33,6 +33,11 @@ namespace Litkey.AI
         void SetIdle()
         {
             anim.CrossFade(IdleHash, crossFadeDuration);
+        }
+
+        public override void OnExit()
+        {
+            //player.EnableMovement();
         }
 
         void Attack()

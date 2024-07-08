@@ -78,6 +78,7 @@ public class EnemyAI : MonoBehaviour
 
     private EnemyAttackState attackState;
     CountdownTimer attackStateTimer;
+    EnemyWanderState wanderState;
     protected void Awake()
     {
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
@@ -97,11 +98,44 @@ public class EnemyAI : MonoBehaviour
         aiDestinationSetter = GetComponent<AIDestinationSetter>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
+
+        currentBehavior = eEnemyBehavior.idle;
+        //SwitchState(eEnemyBehavior.idle);
+        stateMachine = new StateMachine();
+        float attackANimDuration = 0.5f;
+        var chaseState = new EnemyChaseState(this, anim);
+        attackState = new EnemyAttackState(this, anim, 1f);
+        attackStateTimer = attackState.attackTimer;
+        wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f);
+        var battleState = new EnemyBattleState(this, anim);
+        var battleIdleState = new BattleIdleState(this, anim);
+        var deathState = new EnemyDeathState(this, anim);
+
+        At(wanderState, battleState, new FuncPredicate(() => !HasNoTarget()));
+        At(battleState, wanderState, new FuncPredicate(() => HasNoTarget()));
+
+        At(battleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
+        At(battleState, attackState, new FuncPredicate(() => TargetWithinAttackRange() && !AttackCooldown()));
+
+        At(attackState, battleState, new FuncPredicate(() => HasNoTarget()), true, attackANimDuration);
+        At(chaseState, battleState, new FuncPredicate(() => HasNoTarget()));
+
+        At(attackState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange() && AttackCooldown()), true, attackANimDuration);
+        At(chaseState, attackState, new FuncPredicate(() => TargetWithinAttackRange() && !AttackCooldown()));
+
+        At(attackState, battleIdleState, new FuncPredicate(() => TargetWithinAttackRange() && AttackCooldown()), true, attackANimDuration);
+        At(chaseState, battleIdleState, new FuncPredicate(() => AttackCooldown() && TargetWithinAttackRange()));
+
+        At(battleIdleState, attackState, new FuncPredicate(() => !AttackCooldown() && TargetWithinAttackRange()));
+        At(battleIdleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
+
+        Any(deathState, new FuncPredicate(() => IsDead()));
+        stateMachine.SetState(wanderState);
     }
 
     protected void OnEnable()
     {
-        Init();
+
         //OnStunExit.AddListener(onStunExit);
 
         UpdateAttackSpeed();
@@ -122,47 +156,23 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SpawnPoint = transform.position;
-
-        //aiPath.endReachedDistance = attackRange;
-
-        currentBehavior = eEnemyBehavior.idle;
-        //SwitchState(eEnemyBehavior.idle);
-        stateMachine = new StateMachine();
-        float attackANimDuration = 0.5f;
-        var chaseState = new EnemyChaseState(this, anim);
-        attackState = new EnemyAttackState(this, anim, 1f);
-        attackStateTimer = attackState.attackTimer;
-        var wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f);
-        var battleState = new EnemyBattleState(this, anim);
-        var battleIdleState = new BattleIdleState(this, anim);
-        var deathState = new EnemyDeathState(this, anim);
-
-        At(wanderState, battleState, new FuncPredicate(() => !HasNoTarget()));
-        At(battleState, wanderState, new FuncPredicate(() => HasNoTarget()));
         
-        At(battleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
-        At(battleState, attackState, new FuncPredicate(() => TargetWithinAttackRange() && !AttackCooldown()));
-
-        At(attackState, battleState, new FuncPredicate(() => HasNoTarget()), true, attackANimDuration);
-        At(chaseState, battleState, new FuncPredicate(() => HasNoTarget()));
-
-        At(attackState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange() && AttackCooldown()), true, attackANimDuration);
-        At(chaseState, attackState, new FuncPredicate(() => TargetWithinAttackRange() && !AttackCooldown()));
-
-        At(attackState, battleIdleState, new FuncPredicate(() => TargetWithinAttackRange() && AttackCooldown()), true, attackANimDuration);
-        At(chaseState, battleIdleState, new FuncPredicate(() => AttackCooldown() && TargetWithinAttackRange()));
-
-        At(battleIdleState, attackState, new FuncPredicate(() => !AttackCooldown() && TargetWithinAttackRange()));
-        At(battleIdleState, chaseState, new FuncPredicate(() => !TargetWithinAttackRange()));
-
-        Any(deathState, new FuncPredicate(() => IsDead()));
-        
-        stateMachine.SetState(wanderState);
     }
 
     void At(IState from, IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddTransition(from, to, condition, hasExitTime, exitTime);
     void Any(IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddAnyTransition(to, condition, hasExitTime, exitTime);
+
+
+    public void Init()
+    {
+        SpawnPoint = transform.position;
+        //SetTarget(null);
+        
+        //aiPath.endReachedDistance = attackRange;
+        stateMachine.SetState(wanderState);
+        StartMovement();
+        
+    }
 
     public bool IsDead()
     {
@@ -221,10 +231,6 @@ public class EnemyAI : MonoBehaviour
         orientation.transform.localScale = turnRight? left : right;
     }
 
-    private void Init()
-    {
-        //isAttacking = false;
-    }
 
     protected void OnDeath(LevelSystem targ)
     {
@@ -356,8 +362,9 @@ public class EnemyAI : MonoBehaviour
         if (Target == null) return;
         // 데미지 계산
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
-        //playerDetector.PlayerHealth.TakeDamage(10);
     }
+
+
 
     public void UseAttackOrSkill()
     {

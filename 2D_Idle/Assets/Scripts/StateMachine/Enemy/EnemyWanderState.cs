@@ -25,7 +25,7 @@ namespace Litkey.AI
         public override void OnEnter()
         {
             Debug.Log("Entered WanderState");
-            SetRun();
+            OnIdle();
 
             var newWanderPos = enemy.SetWanderPoint(wanderRadius);
             enemy.SetMovePosition(newWanderPos);
