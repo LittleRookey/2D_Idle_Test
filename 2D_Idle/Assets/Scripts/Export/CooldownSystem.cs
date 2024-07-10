@@ -63,7 +63,7 @@ namespace Litkey.Character.Cooldowns
                 if (cooldowns[i].DecrementCooldown(deltaTime))
                 {
                     cooldowns.RemoveAt(i);
-                    Debug.Log("Cooldown removed");
+                    //Debug.Log("Cooldown removed");
                 }
             }
 

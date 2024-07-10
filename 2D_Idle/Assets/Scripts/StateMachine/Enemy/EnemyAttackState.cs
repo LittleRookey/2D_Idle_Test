@@ -35,7 +35,7 @@ namespace Litkey.AI
 
         void AttackTrue() => enemy.isAttacking = true;
         public override void OnEnter() {
-            Debug.Log("Entered AttackState");
+            //Debug.Log("Entered AttackState");
             SetIdle();
             enemy.StopMovement();
             Attack();

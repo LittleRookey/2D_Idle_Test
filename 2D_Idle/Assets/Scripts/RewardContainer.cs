@@ -42,10 +42,16 @@ public class RewardContainer : MonoBehaviour
         attacker.GainExp(reward.GetExpReward());
 
         var gainGold = reward.GetGoldReward();
-        //Debug.Log("Reward Dropper name + pos: " + gameObject.name + " // " + transform.position);
-        DropItemCreator.CreateGoldDrop(transform.position, gainGold);
-        ResourceManager.Instance.DisplayGold(gainGold, () => ResourceManager.Instance.GainGold(gainGold));
+        var player = attacker.GetComponent<PlayerController>();
 
+        //Debug.Log("Reward Dropper name + pos: " + gameObject.name + " // " + transform.position);
+        DropItemCreator.CreateGoldDrop(transform.position, gainGold, player.goldTarget, () =>
+        {
+            ResourceManager.Instance.PlayCoinDotween();
+            ResourceManager.Instance.DisplayGold(gainGold);
+            ResourceManager.Instance.GainGold(gainGold);
+        });
+        
         if (reward.HasDropItem())
         {
             // TODO 인벤토리에 넣기
@@ -59,13 +65,21 @@ public class RewardContainer : MonoBehaviour
                     if (droppedItem is CountableItem countableItem)
                     {
                         Debug.Log($"Dropped item {countableItem.ID} x{countableItem.Amount}");
-                        DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount);
-                        ResourceManager.Instance.DisplayItem(countableItem.CountableData, countableItem.Amount);
+                        DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount, player.bagTarget, () =>
+                        {
+                            ResourceManager.Instance.PlayBagDotween();
+                            ResourceManager.Instance.DisplayItem(countableItem.CountableData, countableItem.Amount);
+                            _inventory.AddToInventory(countableItem);
+                        });
                     } 
                     else if (droppedItem is EquipmentItem equipItem)
                     {
-                        DropItemCreator.CreateDrop(transform.position, equipItem.EquipmentData, 1);
-                        ResourceManager.Instance.DisplayItem(equipItem.EquipmentData, 1);
+                        DropItemCreator.CreateDrop(transform.position, equipItem.EquipmentData, 1, player.bagTarget, () =>
+                        {
+                            ResourceManager.Instance.PlayBagDotween();
+                            ResourceManager.Instance.DisplayItem(equipItem.EquipmentData, 1);
+                            _inventory.AddToInventory(equipItem);
+                        });
                     }
                 }
             }

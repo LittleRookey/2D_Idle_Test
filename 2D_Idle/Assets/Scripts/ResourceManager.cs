@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using Litkey.Interface;
 using Redcode.Pools;
 using Litkey.InventorySystem;
+using DG.Tweening;
 
 public class ResourceManager : MonoBehaviour, ILoadable, ISavable
 {
@@ -23,7 +24,8 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
     [SerializeField] private DropItemDisplayUI dropItemDisplayUIPrefab;
 
     Pool<DropItemDisplayUI> dropItemDisplayPool;
-
+    [SerializeField] private DOTweenAnimation goldDotween;
+    [SerializeField] private DOTweenAnimation bagDotween;
 
     public static UnityEvent<int> OnGainGold = new();
     public static UnityEvent<int> OnUseGold = new();
@@ -85,6 +87,22 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
     public bool HasGold(int reqGold)
     {
         return gold >= reqGold;
+    }
+
+    public void PlayBagDotween()
+    {
+        foreach (var tween in bagDotween.GetTweens())
+        {
+            tween.Restart();
+        }
+    }
+    
+    public void PlayCoinDotween()
+    {
+        foreach (var tween in goldDotween.GetTweens())
+        {
+            tween.Restart();
+        }
     }
 
     public void Load()

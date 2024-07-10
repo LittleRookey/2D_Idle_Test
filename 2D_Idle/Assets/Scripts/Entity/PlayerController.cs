@@ -83,6 +83,9 @@ public class PlayerController : MonoBehaviour
     public bool isAuto;
     public bool isStunned;
 
+    public Transform goldTarget;
+    public Transform bagTarget;
+
     protected enum eBehavior
     {
         idle,

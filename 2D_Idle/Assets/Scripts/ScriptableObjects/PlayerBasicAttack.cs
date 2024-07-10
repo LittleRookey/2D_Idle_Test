@@ -9,11 +9,16 @@ namespace Litkey.Skill
     [CreateAssetMenu(menuName = "Litkey/Skills/Basic Attack/PlayerBasicAttack")]
     public class PlayerBasicAttack : BasicAttack
     {
+        string swordSound = "일반검베기";
         public override void ApplyEffect(StatContainer allyStat, StatContainer target)
         {
             var dmg = allyStat.GetDamageAgainst(target);
-            //MasterAudio.PlaySound("칼맞는소리");
-            target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);
+            MasterAudio.PlaySound(swordSound);
+            bool isTargetDead = target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);
+            if (isTargetDead)
+            {
+                allyStat.GetComponent<PlayerController>().SetTargetNull();
+            }
             OnApplyEffect?.Invoke();
         }
 

@@ -270,7 +270,7 @@ namespace Litkey.Utility
 
         }
 
-        public static DropItem CreateDrop(Vector3 spawnPosition, ItemData item, int count, UnityAction OnDisappear=null)
+        public static DropItem CreateDrop(Vector3 spawnPosition, ItemData item, int count, Transform target, UnityAction OnDisappear=null)
         {
             CheckPoolExists();
 
@@ -286,18 +286,18 @@ namespace Litkey.Utility
                 dropItemPool = Pool.Create<DropItem>(bar).NonLazy();
                 newBar = dropItemPool.Get();
             }
-            newBar.SetDropItem(item.IconSprite, item, count, rarityColor.GetColor(item.rarity), OnDisappear);
+            newBar.SetDropItem(item.IconSprite, item, count, rarityColor.GetColor(item.rarity));
             newBar.transform.position = spawnPosition;
 
             newBar.gameObject.SetActive(true);
 
-            newBar.CreateBouncingEffect();
+            newBar.CreateBouncingEffect(() => newBar.MoveToBag(target, false, OnDisappear));
 
             return newBar;
 
         }
 
-        public static DropItem CreateGoldDrop(Vector3 spawnPosition, int count)
+        public static DropItem CreateGoldDrop(Vector3 spawnPosition, int count, Transform target, UnityAction OnDisappear=null)
         {
             CheckPoolExists();
 
@@ -319,8 +319,8 @@ namespace Litkey.Utility
 
             newBar.gameObject.SetActive(true);
 
-            newBar.CreateBouncingEffect();
-
+            newBar.CreateBouncingEffect(() => newBar.MoveToCoinPosition(target, false, () => OnDisappear?.Invoke()));
+            
             return newBar;
         }
 

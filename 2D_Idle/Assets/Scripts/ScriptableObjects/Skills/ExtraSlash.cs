@@ -26,7 +26,7 @@ public class ExtraSlash : ActiveSkill
         {
             ally.transform.GetChild(0).GetComponent<Animator>().Play(animationName);
         }
-        Debug.Log("Used Skill Extraslash");
+        //Debug.Log("Used Skill Extraslash");
         // Get the position of the skill user
         Vector2 userPosition = ally.transform.position;
 

@@ -17,7 +17,7 @@ namespace Litkey.AI
 
         public override void OnEnter()
         {
-            Debug.Log("Entered ChaseState");
+
             animator.CrossFade(RunHash, crossFadeDuration);
             this.enemy.ChaseEnemy();
             enemy.StartMovement();

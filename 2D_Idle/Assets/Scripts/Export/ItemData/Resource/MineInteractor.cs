@@ -110,7 +110,7 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
 
         barProgress.StartFillBar(totalTime, () =>
         {
-            MakeDropResource();
+            MakeDropResource(player);
             player.EnableMovement();
             OnEnd?.Invoke();
         });
@@ -125,14 +125,15 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
         }
     }
 
-    private void MakeDropResource()
+    private void MakeDropResource(PlayerController player)
     {
         _capacity.DecrementChance();
         var lootedResource = _mineLoot.GetRankedLootTable().GetSingleItem();
         if (lootedResource is CountableItem countableItem)
         {
-            DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount, () => 
+            DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount, player.bagTarget, () => 
             {
+                ResourceManager.Instance.PlayBagDotween();
                 ResourceManager.Instance.DisplayItem(countableItem.CountableData, countableItem.Amount);
                 _inventory.AddToInventory(countableItem);
             });

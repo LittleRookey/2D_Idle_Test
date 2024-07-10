@@ -53,7 +53,7 @@ namespace Litkey.Skill
             //dotweenAnim.duration
             if (dotweenAnim != null && dotweenAnim.onComplete != null)
             {
-                Debug.Log("Events successfully added?");
+                //Debug.Log("Events successfully added?");
                 if (OnEnd != null)
                     dotweenAnim.onComplete.AddListener(() => OnEnd());
                 if (destroyOnEnd)
