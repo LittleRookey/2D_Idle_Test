@@ -143,11 +143,11 @@ public class PlayerController : MonoBehaviour
 
         float attackAnimDuration = 0.5f;
 
-        var idleState = new Player_IdleState(this, anim);
-        var moveState = new Player_MoveState(this, anim);
-        var attackState = new Player_AttackState(this, anim);
-        var chaseState = new Player_ChaseState(this, anim);
-        var deathState = new Player_DeathState(this, anim);
+        var idleState = new Player_IdleState(this, anim, "idle");
+        var moveState = new Player_MoveState(this, anim, "move");
+        var attackState = new Player_AttackState(this, anim, "attack");
+        var chaseState = new Player_ChaseState(this, anim, "chase");
+        var deathState = new Player_DeathState(this, anim, "death");
 
         attackTimer = attackState.attackTimer;
 
@@ -226,7 +226,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        Debug.Log("Played Dead animation");
+        //Debug.Log("Played Dead animation");
         PlayDeath();
         //anim.SetTrigger(this._Dead);
     }
@@ -237,7 +237,7 @@ public class PlayerController : MonoBehaviour
         anim.Play(this._Dead);
     }
 
-    protected void HitAnim()
+    protected void HitAnim(LevelSystem lvl)
     {
         //anim.Play(_Hit);
 

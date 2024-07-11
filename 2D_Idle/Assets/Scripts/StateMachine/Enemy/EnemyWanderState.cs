@@ -12,7 +12,7 @@ namespace Litkey.AI
         readonly float waitTime;
         CountdownTimer idleTimer;
 
-        public EnemyWanderState(EnemyAI enemy, Animator animator, AIPath aiPath, float wanderRadius, float waitTime) : base(enemy, animator)
+        public EnemyWanderState(EnemyAI enemy, Animator animator, AIPath aiPath, float wanderRadius, float waitTime, string stateName) : base(enemy, animator, stateName)
         {
             this.aiPath = aiPath;
             this.wanderRadius = wanderRadius;
@@ -25,7 +25,7 @@ namespace Litkey.AI
         public override void OnEnter()
         {
 
-            OnIdle();
+            //OnIdle();
 
             var newWanderPos = enemy.SetWanderPoint(wanderRadius);
             enemy.SetMovePosition(newWanderPos);
@@ -34,7 +34,8 @@ namespace Litkey.AI
 
         public override void Update()
         {
-            enemy.SearchForTarget();
+            if (enemy.attackOnSearched)
+                enemy.SearchForTarget();
             if (idleTimer.IsRunning)
                 idleTimer.Tick(Time.deltaTime);
 

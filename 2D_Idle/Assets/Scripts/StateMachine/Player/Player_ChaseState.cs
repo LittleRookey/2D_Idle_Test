@@ -6,7 +6,7 @@ namespace Litkey.AI
 {
     public class Player_ChaseState : Player_BaseState
     {
-        public Player_ChaseState(PlayerController Player, Animator Anim) : base(Player, Anim)
+        public Player_ChaseState(PlayerController Player, Animator Anim, string stateName) : base(Player, Anim, stateName)
         {
         }
 

@@ -79,6 +79,9 @@ public class EnemyAI : MonoBehaviour
     private EnemyAttackState attackState;
     CountdownTimer attackStateTimer;
     EnemyWanderState wanderState;
+
+    public bool attackOnSearched; // 선공, 비선공
+
     protected void Awake()
     {
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
@@ -103,13 +106,13 @@ public class EnemyAI : MonoBehaviour
         //SwitchState(eEnemyBehavior.idle);
         stateMachine = new StateMachine();
         float attackANimDuration = 0.5f;
-        var chaseState = new EnemyChaseState(this, anim);
-        attackState = new EnemyAttackState(this, anim, 1f);
+        var chaseState = new EnemyChaseState(this, anim, "chase");
+        attackState = new EnemyAttackState(this, anim, 1f, "attack");
         attackStateTimer = attackState.attackTimer;
-        wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f);
-        var battleState = new EnemyBattleState(this, anim);
-        var battleIdleState = new BattleIdleState(this, anim);
-        var deathState = new EnemyDeathState(this, anim);
+        wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f, "wander");
+        var battleState = new EnemyBattleState(this, anim, "battle");
+        var battleIdleState = new BattleIdleState(this, anim, "idle");
+        var deathState = new EnemyDeathState(this, anim, "death");
 
         At(wanderState, battleState, new FuncPredicate(() => !HasNoTarget()));
         At(battleState, wanderState, new FuncPredicate(() => HasNoTarget()));
@@ -142,6 +145,8 @@ public class EnemyAI : MonoBehaviour
         health.OnDeath.AddListener(OnDeath);
         health.onTakeDamage += OnHitEnter;
         health.OnReturnFromPool += SetToBaseState;
+
+        health.OnHit.AddListener(OnFirstAttackedByPlayer);
     }
 
     protected void OnDisable()
@@ -151,6 +156,7 @@ public class EnemyAI : MonoBehaviour
         health.OnDeath.RemoveListener(OnDeath);
         health.onTakeDamage -= OnHitEnter;
         health.OnReturnFromPool -= SetToBaseState;
+        health.OnHit.RemoveListener(OnFirstAttackedByPlayer);
     }
 
     // Start is called before the first frame update
@@ -167,8 +173,9 @@ public class EnemyAI : MonoBehaviour
     {
         SpawnPoint = transform.position;
         //SetTarget(null);
-        
+
         //aiPath.endReachedDistance = attackRange;
+        anim.Play("0_idle");
         stateMachine.SetState(wanderState);
         StartMovement();
         
@@ -178,6 +185,15 @@ public class EnemyAI : MonoBehaviour
     {
         return health.IsDead;
     }
+
+    private void OnFirstAttackedByPlayer(LevelSystem lvl)
+    {
+        if (HasNoTarget() && !IsDead())
+        {
+            SetTarget(lvl.GetComponent<Health>());
+        }
+    }
+
     public void ChaseEnemy()
     {
         //SetMovePosition(Target.transform.position);

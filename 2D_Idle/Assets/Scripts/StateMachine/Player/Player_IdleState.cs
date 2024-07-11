@@ -7,7 +7,7 @@ namespace Litkey.AI
 
     public class Player_IdleState : Player_BaseState
     {
-        public Player_IdleState(PlayerController Player, Animator Anim) : base(Player, Anim)
+        public Player_IdleState(PlayerController Player, Animator Anim, string stateName) : base(Player, Anim, stateName)
         {
 
         }

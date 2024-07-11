@@ -11,7 +11,7 @@ namespace Litkey.AI
         float attackInterval;
         float attackAnimationDuration;
 
-        public EnemyAttackState(EnemyAI enemy, Animator animator, float attackInterval) : base(enemy, animator) 
+        public EnemyAttackState(EnemyAI enemy, Animator animator, float attackInterval, string stateName) : base(enemy, animator, stateName) 
         {
             this.attackInterval = attackInterval;
             

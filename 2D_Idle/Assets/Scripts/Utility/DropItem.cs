@@ -8,11 +8,12 @@ using System.Collections;
 using Litkey.Utility;
 using UnityEngine.Events;
 using System;
+using AssetKits.ParticleImage;
 
 public class DropItem : MonoBehaviour
 {
     public Image icon;
-    public ParticleSystem onDropEffect;
+    public ParticleImage onDropEffect;
     public TextMeshProUGUI itemText;
     private Color textColor;
     private string itemName;
@@ -109,7 +110,7 @@ public class DropItem : MonoBehaviour
     }
 
     [Button("PlayBounce")]
-    public void CreateBouncingEffect(UnityAction onCompleted = null)
+    public void CreateBouncingEffect(ItemRarity rarity, bool showDropEffect=false, UnityAction onCompleted = null)
     {
         Debug.Log("DropItem Started Bouncing effect");
         var randomCircle = UnityEngine.Random.insideUnitCircle;
@@ -122,7 +123,8 @@ public class DropItem : MonoBehaviour
                 Debug.Log("DropItem OnComplete callback started");
                 try
                 {
-                    ShowDropEffect();
+                    if (showDropEffect) ShowDropEffect(rarity);
+
                     Debug.Log("DropItem Completed Bouncing");
                     onCompleted?.Invoke();
                     Debug.Log("DropItem entered onCompleted Bouncing => onCompleted null? " + (onCompleted == null));
@@ -135,16 +137,18 @@ public class DropItem : MonoBehaviour
             .Play();
     }
 
-    private void ShowDropEffect()
+    private void ShowDropEffect(ItemRarity rarity)
     {
         Debug.Log("Starting ShowDropEffect");
         try
         {
+            Debug.Log("Finished ShowDropEffect dropeffect null?000 " + onDropEffect == null);
             onDropEffect.gameObject.SetActive(true);
-            var main = onDropEffect.main;
-            main.startColor = equipmentColor.GetColor(this.itemData.rarity);
+            Debug.Log("Finished ShowDropEffect dropeffect null?111 " + onDropEffect == null);
+            onDropEffect.startColor = equipmentColor.GetColor(rarity);
+            Debug.Log("Finished ShowDropEffect dropeffect null?222 " + onDropEffect == null);
             onDropEffect.Play();
-            Debug.Log("Finished ShowDropEffect");
+            Debug.Log("Finished ShowDropEffect dropeffect null?333 " + onDropEffect == null);
         }
         catch (Exception e)
         {

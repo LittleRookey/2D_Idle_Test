@@ -21,11 +21,16 @@ namespace Litkey.AI
 
         protected const float crossFadeDuration = 0.1f;
 
-        protected Player_BaseState(PlayerController Player, Animator Anim)
+        public string StateName => _stateName;
+
+        protected string _stateName;
+        protected Player_BaseState(PlayerController Player, Animator Anim, string StateName)
         {
             this.player = Player;
             this.anim = Anim;
+            this._stateName = StateName;
         }
+
         public virtual void FixedUpdate()
         {
             // noop

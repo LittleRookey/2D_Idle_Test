@@ -238,7 +238,7 @@ namespace Litkey.Utility
             
             newBar.gameObject.SetActive(true);
             
-            newBar.CreateBouncingEffect();
+            newBar.CreateBouncingEffect(item.rarity, true);
 
             return newBar;
         }
@@ -264,7 +264,7 @@ namespace Litkey.Utility
 
             newBar.gameObject.SetActive(true);
 
-            newBar.CreateBouncingEffect();
+            newBar.CreateBouncingEffect(item.rarity, true);
 
             return newBar;
 
@@ -291,7 +291,7 @@ namespace Litkey.Utility
 
             newBar.gameObject.SetActive(true);
 
-            newBar.CreateBouncingEffect(() => newBar.MoveToBag(target, false, OnDisappear));
+            newBar.CreateBouncingEffect(item.rarity, true, () => newBar.MoveToBag(target, false, OnDisappear));
 
             return newBar;
 
@@ -319,7 +319,7 @@ namespace Litkey.Utility
 
             newBar.gameObject.SetActive(true);
 
-            newBar.CreateBouncingEffect(() => newBar.MoveToCoinPosition(target, false, () => OnDisappear?.Invoke()));
+            newBar.CreateBouncingEffect(ItemRarity.ÀÏ¹Ý, true, () => newBar.MoveToCoinPosition(target, false, () => OnDisappear?.Invoke()));
             
             return newBar;
         }

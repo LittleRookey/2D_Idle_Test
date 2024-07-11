@@ -98,7 +98,7 @@ namespace Litkey.UI
 		}
 
 		private float startValue = 0f;
-		private void UIHitEffect()
+		private void UIHitEffect(LevelSystem lvl)
         {
 			var hitSequence = DOTween.Sequence();
 

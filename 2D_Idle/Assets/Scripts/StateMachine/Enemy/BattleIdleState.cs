@@ -6,7 +6,7 @@ namespace Litkey.AI
 {
     public class BattleIdleState : EnemyBaseState
     {
-        public BattleIdleState(EnemyAI enemy, Animator animator) : base(enemy, animator)
+        public BattleIdleState(EnemyAI enemy, Animator animator, string stateName) : base(enemy, animator, stateName)
         {
         }
 

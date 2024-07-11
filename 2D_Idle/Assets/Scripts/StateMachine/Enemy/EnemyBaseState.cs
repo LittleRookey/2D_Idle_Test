@@ -14,9 +14,13 @@ namespace Litkey.AI
         
         protected const float crossFadeDuration = 0.1f;
 
-        protected EnemyBaseState(EnemyAI enemy, Animator animator) {
+        protected string _stateName;
+        public string StateName => _stateName;
+
+        protected EnemyBaseState(EnemyAI enemy, Animator animator, string stateName) {
             this.enemy = enemy;
             this.animator = animator;
+            _stateName = stateName;
         }
         
         public virtual void OnEnter() {

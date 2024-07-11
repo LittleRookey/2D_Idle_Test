@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using DG.Tweening;
 
 public class ResourceLoader : MonoBehaviour
 {
@@ -25,7 +25,11 @@ public class ResourceLoader : MonoBehaviour
     public void UpdateExtraGold(int extraGold)
     {
         if (extraGold < 0) return;
-        goldText.SetText(ResourceManager.Instance.Gold.ToString("N0"));
+        int prevGold = ResourceManager.Instance.Gold - extraGold;
+        DOTween.To(() => prevGold, x => {
+            prevGold = x;
+            goldText.SetText(Mathf.Round(x).ToString("N0"));
+        }, prevGold + extraGold, 0.5f).SetEase(Ease.OutQuad);
     }
 
     public void UpdateGold()

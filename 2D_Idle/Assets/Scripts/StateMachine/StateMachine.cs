@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Litkey.AI
 {
     [System.Serializable]
     public class StateMachine {
         
-        public StateNode current { get; private set; }
+        [ShowInInspector] public StateNode current { get; private set; }
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
 
@@ -92,7 +93,10 @@ namespace Litkey.AI
             return node;
         }
 
+        [System.Serializable]
         public class StateNode {
+
+            [DrawWithUnity]
             public IState State { get; }
             public HashSet<ITransition> Transitions { get; }
             

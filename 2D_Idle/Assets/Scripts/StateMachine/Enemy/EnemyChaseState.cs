@@ -10,7 +10,7 @@ namespace Litkey.AI
         
         readonly Transform player;
 
-        public EnemyChaseState(EnemyAI enemy, Animator animator) : base(enemy, animator)
+        public EnemyChaseState(EnemyAI enemy, Animator animator, string stateName) : base(enemy, animator, stateName)
         {
 
         }

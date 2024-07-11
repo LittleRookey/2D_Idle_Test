@@ -7,7 +7,7 @@ namespace Litkey.AI
     public class Player_AttackState : Player_BaseState
     {
         public CountdownTimer attackTimer;
-        public Player_AttackState(PlayerController Player, Animator Anim) : base(Player, Anim)
+        public Player_AttackState(PlayerController Player, Animator Anim, string stateName) : base(Player, Anim, stateName)
         {
             attackTimer = new CountdownTimer(1.5f);
 

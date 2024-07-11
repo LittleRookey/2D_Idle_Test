@@ -39,7 +39,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     public delegate void OnTakeDamage(float current, float max);
     public OnTakeDamage onTakeDamage;
 
-    public UnityEvent OnHit = new();
+    public UnityEvent<LevelSystem> OnHit = new();
 
     public UnityEvent<LevelSystem> OnDeath = new();
     public UnityAction OnReturnFromPool;
@@ -174,7 +174,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             currentHealth -= damages[i].damage;
             onTakeDamage?.Invoke(currentHealth, maxHealth);
         }
-        //OnHit?.Invoke();
+        OnHit?.Invoke(attacker);
 
         if (currentHealth <= 0f)
         {
@@ -234,7 +234,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             
         }
 
-        OnHit?.Invoke();
+        OnHit?.Invoke(attacker.GetComponent<LevelSystem>());
 
         if (currentHealth <= 0f)
         {
