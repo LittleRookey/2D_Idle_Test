@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     protected SkillContainer _skillContainer;
     private PlayerInput _playerInput;
 
-    private StateMachine stateMachine;
+    public StateMachine stateMachine;
     private CountdownTimer attackTimer;
 
     private AIPath _aiPath;
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         ability
     }
 
-    protected virtual void Awake()
+    protected void Awake()
     {
         rb2D = GetComponent<Rigidbody2D>();
         _statContainer = GetComponent<StatContainer>();
@@ -109,38 +109,8 @@ public class PlayerController : MonoBehaviour
         _aiPath = GetComponent<AIPath>();
         _destinationSetter = GetComponent<AIDestinationSetter>();
         _interactor = GetComponent<ResourceInteractor>();
-    }
-
-    protected virtual void OnEnable()
-    {
-        _health.OnDeath.AddListener(Death);
-        _health.OnHit.AddListener(HitAnim);
-        _statContainer.OnStatSetupComplete.AddListener(UpdateMoveSpeed);
-        _statContainer.OnStatSetupComplete.AddListener(UpdateAttackSpeedOnStart);
-       
-    }
-
-    protected virtual void OnDisable()
-    {
-        _health.OnHit.RemoveListener(HitAnim);
-        _health.OnDeath.RemoveListener(Death);
-        _statContainer.OnStatSetupComplete.RemoveListener(UpdateMoveSpeed);
-        _statContainer.OnStatSetupComplete.RemoveListener(UpdateAttackSpeedOnStart);
-        //_statContainer.MoveSpeed.OnValueChanged.RemoveListener(UpdateSpeed);
-        //_statContainer.AttackSpeed.OnValueChanged.RemoveListener(UpdateAttackSpeedOnChange);
-    }
-
-    // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        EnableMovement();
-        //_aiPath.endReachedDistance = attackRange;
-
-        _statContainer.MoveSpeed.OnValueChanged.AddListener(UpdateSpeed);
-        _statContainer.AttackSpeed.OnValueChanged.AddListener(UpdateAttackSpeedOnChange);
 
         stateMachine = new StateMachine();
-
         float attackAnimDuration = 0.5f;
 
         var idleState = new Player_IdleState(this, anim, "idle");
@@ -156,16 +126,49 @@ public class PlayerController : MonoBehaviour
 
         At(idleState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto()));
         At(chaseState, attackState, new FuncPredicate(() => !HasNoTarget() && TargetWithinAttackRange() && !AttackCooldown() && Auto()));
-        At(attackState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto() || (Auto() && !HasNoTarget() && AttackCooldown())), true, attackAnimDuration);
+        At(attackState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto()), true, attackAnimDuration);
 
         At(idleState, attackState, new FuncPredicate(() => !HasNoTarget() && TargetWithinAttackRange() && !AttackCooldown() && Auto()));
         At(attackState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto() && AttackCooldown()), true, attackAnimDuration);
-        At(chaseState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto() || (!HasNoTarget() && AttackCooldown() && TargetWithinAttackRange() && Auto())));
+        At(chaseState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto()));
 
         Any(deathState, new FuncPredicate(() => IsDead()));
         At(deathState, idleState, new FuncPredicate(() => !IsDead()));
 
         stateMachine.SetState(idleState);
+    }
+
+    protected void OnEnable()
+    {
+        _health.OnDeath.AddListener(Death);
+        _health.OnHit.AddListener(HitAnim);
+        _statContainer.OnStatSetupComplete.AddListener(UpdateMoveSpeed);
+        _statContainer.OnStatSetupComplete.AddListener(UpdateAttackSpeedOnStart);
+       
+    }
+
+    protected void OnDisable()
+    {
+        _health.OnHit.RemoveListener(HitAnim);
+        _health.OnDeath.RemoveListener(Death);
+        _statContainer.OnStatSetupComplete.RemoveListener(UpdateMoveSpeed);
+        _statContainer.OnStatSetupComplete.RemoveListener(UpdateAttackSpeedOnStart);
+        //_statContainer.MoveSpeed.OnValueChanged.RemoveListener(UpdateSpeed);
+        //_statContainer.AttackSpeed.OnValueChanged.RemoveListener(UpdateAttackSpeedOnChange);
+    }
+
+    // Start is called before the first frame update
+    protected void Start()
+    {
+        EnableMovement();
+        //_aiPath.endReachedDistance = attackRange;
+
+        _statContainer.MoveSpeed.OnValueChanged.AddListener(UpdateSpeed);
+        _statContainer.AttackSpeed.OnValueChanged.AddListener(UpdateAttackSpeedOnChange);
+
+
+        stateMachine.SetToBaseState();
+
 
         //UpdateMoveSpeed();
         ToggleAuto();
@@ -180,7 +183,7 @@ public class PlayerController : MonoBehaviour
         return _health.IsDead;
     }
 
-    protected bool TargetWithinAttackRange()
+    public bool TargetWithinAttackRange()
     {
         if (Target == null)
         {
@@ -218,7 +221,7 @@ public class PlayerController : MonoBehaviour
     public void OnAutoTurnsOff()
     {
         SetTargetNull();
-        DisableAIPath();
+        //DisableAIPath();
         stateMachine.SetToBaseState();
     }
 
@@ -308,7 +311,7 @@ public class PlayerController : MonoBehaviour
         stateMachine.FixedUpdate();
     }
 
-    protected virtual void Update()
+    protected void Update()
     {
         //CheckGrounded(); // 땅에 닿아잇는지를 체크
         attackTimer.Tick(Time.deltaTime);
@@ -364,7 +367,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _aiPath.destination = Target.transform.position;
+            //_aiPath.destination = Target.transform.position;
             //_destinationSetter.target = Target.transform;
             enemy.OnDeath.AddListener(SetTargetNullOnDead);
         }
@@ -372,7 +375,9 @@ public class PlayerController : MonoBehaviour
 
     public void ChaseEnemy()
     {
-        TurnBasedOnAutoMovement(_aiPath.desiredVelocity);
+        moveDir = (Target.transform.position - transform.position).normalized;
+        transform.position += (Vector3)moveDir * runSpeed * Time.fixedDeltaTime;
+        TurnToTarget();
     }
 
     public void TurnToTarget()
@@ -419,7 +424,7 @@ public class PlayerController : MonoBehaviour
 
 
     private RaycastHit2D[] raycastHits = new RaycastHit2D[20]; // Adjust size as needed
-    public virtual bool SearchForTarget()
+    public bool SearchForTarget()
     {
         // Create a circle around the transform's position with the specified scanDistance radius
         Vector2 circleCenter = transform.position;
@@ -463,19 +468,19 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("Can move now");
         canMove = true;
-        _aiPath.canMove = canMove;
+        //_aiPath.canMove = canMove;
     }
 
-    public virtual void DisableMovement()
+    public void DisableMovement()
     {
         canMove = false;
-        _aiPath.canMove = canMove;
+        //_aiPath.canMove = canMove;
     }
     private void UpdateMoveSpeed(StatContainer statContainer)
     {
         this.runSpeed = statContainer.MoveSpeed.FinalValue;
         this.moveSpeed = this.runSpeed; 
-        _aiPath.maxSpeed = this.runSpeed;
+        //_aiPath.maxSpeed = this.runSpeed;
     }
 
     private void UpdateSpeed(float speed)
@@ -521,43 +526,4 @@ public class PlayerController : MonoBehaviour
             OnAutoTurnsOff();
         }
     }
-
-
-   
-
-    //protected virtual void AttackAction()
-    //{
-
-    //    if (Target.IsDead)
-    //    {
-    //        Target = null;
-    //        SwitchState(eBehavior.run);
-    //    } else
-    //    {
-    //        anim.SetFloat(_AttackState, Random.Range(0, 1f));
-    //        anim.SetTrigger(_Attack);
-    //    }
-    //    MasterAudio.PlaySound("일반검베기");
-    //}
-
-    //public void DamageAction()
-    //{
-    //    if (basicAttack == null)
-    //    {
-    //        basicAttack = Resources.Load<PlayerBasicAttack>("ScriptableObject/Skills/PlayerBasicAttack");
-    //    }
-    //    // 데미지 계산
-    //    //var dmg = _statContainer.GetFinalDamage();
-    //    //var dmg = _statContainer.GetDamageAgainst(Target.GetComponent<StatContainer>());
-    //    if (Target == null) return;
-    //    if (TargetWithinAttackRange())
-    //        basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
-
-
-    //    //Target.GetComponent<StatContainer>().Defend(dmg.damage);
-    //    //Target.TakeDamage(_levelSystem, new List<Damage> { dmg });
-
-    //}
-
-
 }

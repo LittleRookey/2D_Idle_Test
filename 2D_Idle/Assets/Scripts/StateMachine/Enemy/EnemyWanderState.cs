@@ -25,11 +25,13 @@ namespace Litkey.AI
         public override void OnEnter()
         {
 
-            //OnIdle();
+            OnIdle();
 
-            var newWanderPos = enemy.SetWanderPoint(wanderRadius);
-            enemy.SetMovePosition(newWanderPos);
+            //var newWanderPos = enemy.SetWanderPoint(wanderRadius);
+            //enemy.SetMovePosition(newWanderPos);
+            //SetRun();
             idleTimer.Reset();
+            idleTimer.Start();
         }
 
         public override void Update()
@@ -42,6 +44,8 @@ namespace Litkey.AI
             if (!idleTimer.IsRunning)
                 enemy.TurnBasedOnDirection(aiPath.desiredVelocity);
 
+            //enemy.ChaseEnemy();
+
             if (HasReachedDestination() && !idleTimer.IsRunning)
             {
                 idleTimer.Start();
@@ -51,11 +55,14 @@ namespace Litkey.AI
         void OnIdle()
         {
             animator.CrossFade(IdleHash, crossFadeDuration);
-
+            enemy.StopMovement();
+            enemy.DisableAIPath();
         }
 
         void SetRun()
         {
+            enemy.StartMovement();
+            enemy.EnableAIPath();
             animator.CrossFade(RunHash, crossFadeDuration);
         }
 
@@ -69,6 +76,10 @@ namespace Litkey.AI
         bool HasReachedDestination()
         {
             return aiPath.reachedDestination;
+        }
+        public override void OnExit()
+        {
+            idleTimer.Pause();
         }
 
     }

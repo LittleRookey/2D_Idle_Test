@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
 namespace Litkey.AI
 {
@@ -11,6 +12,8 @@ namespace Litkey.AI
         [ShowInInspector] public StateNode current { get; private set; }
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
+
+        public UnityAction<IState> OnStateChanged;
 
         float stateEnteredTime;
 
@@ -46,6 +49,7 @@ namespace Litkey.AI
             if (baseStateNode == null) Debug.LogError("There is no base State yet");
 
             SetState(baseStateNode.State);
+            OnStateChanged?.Invoke(baseStateNode.State);
         }
 
         void ChangeState(IState state) {
@@ -56,6 +60,7 @@ namespace Litkey.AI
             //Debug.Log("Enemy entered state: " + nextState.ToString());
             previousState?.OnExit();
             nextState?.OnEnter();
+            OnStateChanged?.Invoke(nextState);
             current = nodes[state.GetType()];
             stateEnteredTime = Time.time;
         }

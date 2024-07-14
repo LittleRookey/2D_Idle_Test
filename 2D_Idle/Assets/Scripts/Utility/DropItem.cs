@@ -38,20 +38,20 @@ public class DropItem : MonoBehaviour
 
     public void MoveToBag(Transform target, bool useSlerp=false, UnityAction OnReachedDestination = null)
     {
-        Debug.Log("DropItem MoveToBag");
+
         StartCoroutine(MoveToPosition(target, useSlerp, OnReachedDestination));
     }
     public void MoveToCoinPosition(Transform target, bool useSlerp=false, UnityAction OnReachedDestination=null)
     {
-        Debug.Log("DropItem MoveToCoin");
+
         StartCoroutine(MoveToPosition(target, useSlerp, OnReachedDestination));
     }
 
     private IEnumerator MoveToPosition(Transform target, bool useSlerp = false, UnityAction OnReachedDestination = null)
     {
-        Debug.Log("DropItem MoveToPosition1111");
+
         yield return new WaitForSeconds(1f);
-        Debug.Log("DropItem MoveToPosition2222");
+
         StartCoroutine(MoveCoroutine(target, useSlerp, OnReachedDestination));
     }
 
@@ -60,7 +60,7 @@ public class DropItem : MonoBehaviour
 
         Vector3 startPosition = transform.position;
         float elapsedTime = 0f;
-        Debug.Log("Entered Movecoroutine DropItem");
+        
         while (elapsedTime < lerpDuration)
         {
             float t = lerpCurve.Evaluate(elapsedTime / lerpDuration);
@@ -83,13 +83,6 @@ public class DropItem : MonoBehaviour
         yield return null;
 
         OnReachedDestination?.Invoke();
-        Debug.Log("Entered ReachedDestination DropItem");
-        var dotween = target.GetComponent<DOTweenAnimation>();
-        if (dotween != null)
-        {
-            Debug.Log("Entered Dotween");
-            dotween.DORestart();
-        }
 
         ReturnPoolNoCoroutine();
     }
@@ -112,7 +105,6 @@ public class DropItem : MonoBehaviour
     [Button("PlayBounce")]
     public void CreateBouncingEffect(ItemRarity rarity, bool showDropEffect=false, UnityAction onCompleted = null)
     {
-        Debug.Log("DropItem Started Bouncing effect");
         var randomCircle = UnityEngine.Random.insideUnitCircle;
         DOTween.Sequence()
             .Append(transform.DOBlendableMoveBy(new Vector3(randomCircle.x, randomCircle.y, 0f) * xForce, xForce / 2f).SetEase(Ease.OutQuint))
@@ -120,14 +112,11 @@ public class DropItem : MonoBehaviour
             .Insert(yForce / 2f, transform.DOBlendableMoveBy(Vector3.down * maxBounce, maxBounce / 2f).SetEase(Ease.OutBounce))
             .OnComplete(() =>
             {
-                Debug.Log("DropItem OnComplete callback started");
                 try
                 {
                     if (showDropEffect) ShowDropEffect(rarity);
 
-                    Debug.Log("DropItem Completed Bouncing");
                     onCompleted?.Invoke();
-                    Debug.Log("DropItem entered onCompleted Bouncing => onCompleted null? " + (onCompleted == null));
                 }
                 catch (Exception e)
                 {
@@ -139,16 +128,15 @@ public class DropItem : MonoBehaviour
 
     private void ShowDropEffect(ItemRarity rarity)
     {
-        Debug.Log("Starting ShowDropEffect");
         try
         {
-            Debug.Log("Finished ShowDropEffect dropeffect null?000 " + onDropEffect == null);
+     
             onDropEffect.gameObject.SetActive(true);
-            Debug.Log("Finished ShowDropEffect dropeffect null?111 " + onDropEffect == null);
+     
             onDropEffect.startColor = equipmentColor.GetColor(rarity);
-            Debug.Log("Finished ShowDropEffect dropeffect null?222 " + onDropEffect == null);
+     
             onDropEffect.Play();
-            Debug.Log("Finished ShowDropEffect dropeffect null?333 " + onDropEffect == null);
+     
         }
         catch (Exception e)
         {

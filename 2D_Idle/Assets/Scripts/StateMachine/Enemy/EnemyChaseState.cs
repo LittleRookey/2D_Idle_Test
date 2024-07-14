@@ -21,6 +21,7 @@ namespace Litkey.AI
             animator.CrossFade(RunHash, crossFadeDuration);
             this.enemy.ChaseEnemy();
             enemy.StartMovement();
+            enemy.EnableAIPath();
         }
 
         public override void Update()

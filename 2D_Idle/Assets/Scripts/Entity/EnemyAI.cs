@@ -65,8 +65,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("StateMachines")]
     [SerializeField]
-    private StateMachine stateMachine;
-    [SerializeField] private IState currentState;
+    public StateMachine stateMachine;
 
     Vector3 right = Vector3.one;
     Vector3 left = new Vector3(-1f, 1f, 1f);
@@ -81,6 +80,7 @@ public class EnemyAI : MonoBehaviour
     EnemyWanderState wanderState;
 
     public bool attackOnSearched; // 선공, 비선공
+    
 
     protected void Awake()
     {
@@ -162,7 +162,7 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        stateMachine.SetToBaseState();
     }
 
     void At(IState from, IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddTransition(from, to, condition, hasExitTime, exitTime);
@@ -175,9 +175,9 @@ public class EnemyAI : MonoBehaviour
         //SetTarget(null);
 
         //aiPath.endReachedDistance = attackRange;
-        anim.Play("0_idle");
-        stateMachine.SetState(wanderState);
+        //anim.Play("0_idle");
         StartMovement();
+        stateMachine.SetState(wanderState);
         
     }
 
@@ -399,6 +399,10 @@ public class EnemyAI : MonoBehaviour
     public void StopMovement() => aiPath.canMove = false;
 
     public void StartMovement() => aiPath.canMove = true;
+
+    public void DisableAIPath() => aiPath.enabled = false;
+    public void EnableAIPath() => aiPath.enabled = true;
+
     private void FixedUpdate()
     {
         stateMachine.FixedUpdate();

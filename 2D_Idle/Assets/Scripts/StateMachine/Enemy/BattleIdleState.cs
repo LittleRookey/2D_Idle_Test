@@ -13,6 +13,7 @@ namespace Litkey.AI
         public override void OnEnter()
         {
             enemy.StopMovement();
+            enemy.DisableAIPath();
             animator.CrossFade(IdleHash, crossFadeDuration);
         }
 

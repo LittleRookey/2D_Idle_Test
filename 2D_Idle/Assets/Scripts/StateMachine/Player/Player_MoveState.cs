@@ -13,8 +13,8 @@ namespace Litkey.AI
 
         public override void OnEnter()
         {
+            Debug.Log("Player Entered Move State");
             player.SetTargetNull();
-            player.DisableAIPath();
             player.EnableMovement();
             anim.CrossFade(EnterRunHash, crossFadeDuration);
         }

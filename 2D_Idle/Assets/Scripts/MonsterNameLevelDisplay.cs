@@ -36,10 +36,10 @@ public class MonsterNameLevelDisplay : MonoBehaviour
         var playerLevel = GameObject.FindGameObjectWithTag("Player").GetComponent<LevelSystem>().GetLevel();
         // 강함 나타내기
         Color tagColor;
-        if (_statContainer.MonsterLevel > playerLevel) tagColor = StrongColor;
-        else if (_statContainer.MonsterLevel == playerLevel) tagColor = similarColor;
-        else tagColor = weakColor;
+        if (_statContainer.MonsterLevel > playerLevel+5) tagColor = StrongColor;
+        else if (_statContainer.MonsterLevel < playerLevel - 5) tagColor = weakColor;
+        else tagColor = similarColor;
         
-        nameLevelText.SetText(TMProUtility.GetColorText($"Lv.{_statContainer.MonsterLevel} {health.Name}", tagColor));
+        nameLevelText.SetText(TMProUtility.GetColorText($"{health.Name}", tagColor));
     }
 }

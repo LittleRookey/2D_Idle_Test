@@ -15,7 +15,8 @@ namespace Litkey.AI
 
         public override void OnEnter()
         {
-            player.EnableAIPath();
+            //player.EnableAIPath();
+            Debug.Log("Player Entered Attack State");
             SetIdle();
             player.DisableMovement();
             Attack();

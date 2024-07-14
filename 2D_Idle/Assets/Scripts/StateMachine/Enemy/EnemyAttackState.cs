@@ -38,6 +38,7 @@ namespace Litkey.AI
             //Debug.Log("Entered AttackState");
             SetIdle();
             enemy.StopMovement();
+            enemy.DisableAIPath();
             Attack();
             //    attackTimer.Start();
         }
