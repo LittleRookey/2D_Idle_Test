@@ -11,6 +11,7 @@ using Pathfinding;
 using Litkey.AI;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Litkey.Projectile;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -79,11 +80,44 @@ public class EnemyAI : MonoBehaviour
     CountdownTimer attackStateTimer;
     EnemyWanderState wanderState;
 
+    [Header("Attack Type")]
     public bool attackOnSearched; // 선공, 비선공
-    
+    [SerializeField, EnumToggleButtons] private eAttackType attackType = eAttackType.근거리;
+    public enum eProjectileStrategy
+    {
+        Straight,
+        Homing,
+        Slerped,
+    }
+
+    [ShowInInspector, ShowIfGroup("attackType", eAttackType.원거리)] public eProjectileStrategy _strategy;
+    [SerializeField, Range(0, 2f),ShowIfGroup("_strategy", eProjectileStrategy.Homing)] private float homingStrength = 0.5f;
+    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private int _targetCountPerProjectile = 1;
+    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private int _damageCount = 1;
+    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private float _disappearTime=4f;
+    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private float _damagePercent=1f;
+    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private float _projectileSpeed=1f;
+    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private bool enableKnockback;
+    [SerializeField, Range(0, 50f), ShowIfGroup("enableKnockback", true)] private float knockbackForce = 0.5f;
+
+    [Header("Projectile End Settings")]
+    [SerializeField, EnumToggleButtons, ShowIfGroup("attackType", eAttackType.원거리)] private eEndOfLifeStrategy _endOfLifeStrategy;
+    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionRadius = 1f;
+    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionDamage = 10f;
+    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private int spawnProjectileCount = 3;
+    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private float spawnProjectileSpreadAngle = 90f;
+
+    public enum eEndOfLifeStrategy
+    {
+        Default,
+        Explosion,
+        SpawnProjectiles
+    }
+
 
     protected void Awake()
     {
+        
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
         {
             { eEnemyBehavior.idle, OnIdle},
@@ -107,7 +141,7 @@ public class EnemyAI : MonoBehaviour
         stateMachine = new StateMachine();
         float attackANimDuration = 0.5f;
         var chaseState = new EnemyChaseState(this, anim, "chase");
-        attackState = new EnemyAttackState(this, anim, 1f, "attack");
+        attackState = new EnemyAttackState(this, anim, 1f, attackType,"attack");
         attackStateTimer = attackState.attackTimer;
         wanderState = new EnemyWanderState(this, anim, aiPath, 1.5f, 3f, "wander");
         var battleState = new EnemyBattleState(this, anim, "battle");
@@ -368,6 +402,8 @@ public class EnemyAI : MonoBehaviour
         Debug.Log("Target set to null on death");
         SetTarget(null);
     }
+
+    DamageDecorator damageDecorator;
     private void Attack()
     {
 
@@ -377,10 +413,58 @@ public class EnemyAI : MonoBehaviour
         }
         if (Target == null) return;
         // 데미지 계산
-        basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+        if (attackType == eAttackType.근거리)
+        {
+            basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
+        }
+        else if (attackType == eAttackType.원거리)
+        {
+            var projectile = ProjectileCreator.CreateProjectile(transform.position, _statContainer, enemyLayer);
+
+            if (enableKnockback) projectile.AddDecorator(new KnockBackDecorator()
+                                                                .SetKnockbackForce(knockbackForce));
+
+            if (damageDecorator == null) damageDecorator = new DamageDecorator();
+
+            EndOfLifeStrategy endOfLifeStrategy = GetEndOfLifeStrategy();
+
+            projectile.SetDamagePercent(_damagePercent)
+                    .SetDirection((Target.transform.position - transform.position).normalized)
+                    .SetTargetCount(_targetCountPerProjectile)
+                    .SetSpeed(_projectileSpeed)
+                    .SetStrategy(_strategy, _disappearTime, Target.transform.position, OnProjectileReachDestination)
+                    .AddDecorator(damageDecorator
+                        .ShowDamagePopup(false)
+                        .SetDamageCount(_damageCount))
+                    .SetDisappearTimer(_disappearTime)
+                    .SetEndOfLifeStrategy(endOfLifeStrategy);
+
+        }
+        else if (attackType == eAttackType.마법)
+        {
+
+        }
+        
     }
 
+    private void OnProjectileReachDestination()
+    {
+        // Implement any logic for when the projectile reaches its destination
+        Debug.Log("Projectile reached destination");
+    }
 
+    private EndOfLifeStrategy GetEndOfLifeStrategy()
+    {
+        switch (_endOfLifeStrategy)
+        {
+            case eEndOfLifeStrategy.Explosion:
+                return new ExplosionEndOfLifeStrategy(explosionRadius, explosionDamage).SetEnemyLayer(enemyLayer);
+            case eEndOfLifeStrategy.SpawnProjectiles:
+                return new SpawnProjectilesEndOfLifeStrategy(spawnProjectileCount, spawnProjectileSpreadAngle);
+            default:
+                return new DefaultEndOfLifeStrategy();
+        }
+    }
 
     public void UseAttackOrSkill()
     {

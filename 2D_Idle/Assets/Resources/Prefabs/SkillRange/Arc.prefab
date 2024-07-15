@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 11c634157e0c5494b8a2c7824e25c597, type: 3}
-  m_Color: {r: 0.3137255, g: 0.54509807, b: 0.10980393, a: 0.5372549}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5372549}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 1561734894622002159}
   - component: {fileID: 461582787}
   m_Layer: 0
-  m_Name: SkilRange_Arc
+  m_Name: Arc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1377752401
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: -120
   m_Sprite: {fileID: 21300000, guid: 11c634157e0c5494b8a2c7824e25c597, type: 3}
   m_Color: {r: 0.6981132, g: 0.24038802, b: 0.24038802, a: 0.59607846}
@@ -186,7 +186,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dotweenAnim: {fileID: 1561734895158722890}
   skillRangeType: 1
+  outerRange: {fileID: 1561734894622002156}
+  innerRange: {fileID: 1561734894164237879}
   destroyOnEnd: 0
+  attackNumber: 0
+  targetNumber: 0
+  damagePercent: 0
+  skillRadius: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  ally: {fileID: 0}
 --- !u!60 &461582787
 PolygonCollider2D:
   m_ObjectHideFlags: 0

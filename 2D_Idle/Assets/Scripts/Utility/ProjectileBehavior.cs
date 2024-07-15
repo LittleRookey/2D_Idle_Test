@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,6 @@ namespace Litkey.Projectile
         public LayerMask EnemyLayer => enemyLayer;
         public StatContainer OwnerStat => ownerStat;
 
-
         [SerializeField] private float speed;
         [SerializeField] private Vector3 direction;
         [SerializeField] private float damagePercent;
@@ -25,20 +25,46 @@ namespace Litkey.Projectile
 
         [SerializeField] private StatContainer ownerStat;
 
-        private ProjectileStrategy strategy;
-        private List<IProjectileDecorator> decorators = new List<IProjectileDecorator>();
+        [ShowInInspector] private ProjectileStrategy strategy;
+        [ShowInInspector] private List<IProjectileDecorator> decorators = new List<IProjectileDecorator>();
+
+        private EndOfLifeStrategy endOfLifeStrategy;
 
         CountdownTimer timer;
 
+        StraightProjectileStrategy straight;
+        HomingProjectileStrategy homing;
+        SlerpedProjectileStrategy slerped;
+
+        CircleCollider2D collider2D;
+
         private void Awake()
         {
+            collider2D = GetComponent<CircleCollider2D>();
             timer = new CountdownTimer(1f);
-            
+            straight = new StraightProjectileStrategy();
+            homing = new HomingProjectileStrategy(transform, enemyLayer);
+            slerped = new SlerpedProjectileStrategy(1.5f, 2f);
         }
         #region Setters 
-        public ProjectileBehavior SetStrategy(ProjectileStrategy strategy)
+        public ProjectileBehavior SetStrategy(EnemyAI.eProjectileStrategy strategy, float duration=default, Vector3 destination=default, UnityAction OnDestination=null)
         {
-            this.strategy = strategy;
+            this.strategy = straight;
+            if (strategy == EnemyAI.eProjectileStrategy.Homing)
+            {
+                homing.SetEnemyLayer(this.enemyLayer)
+                        .SetHomingStrength(1.5f)
+                        .SetSelfTransform(transform);
+                this.strategy = homing;
+            }
+            else if (strategy == EnemyAI.eProjectileStrategy.Slerped)
+            {
+                slerped.SetDestination(destination);
+                slerped.SetDuration(duration);
+
+                this.strategy = slerped;
+            }
+            
             return this;
         }
 
@@ -82,10 +108,27 @@ namespace Litkey.Projectile
         {
             timer.OnTimerStop = null;
             timer.Reset(disappearTime);
-            timer.OnTimerStop += OnTimerEnd;
-            timer.OnTimerStop += ReturnToPool;
+            timer.OnTimerStop += () => {
+                OnTimerEnd?.Invoke();
+                PerformEndOfLifeBehavior();
+                ReturnToPool();
+            };
             timer.Start();
             return this;
+        }
+
+        public ProjectileBehavior SetEndOfLifeStrategy(EndOfLifeStrategy strategy)
+        {
+            endOfLifeStrategy = strategy;
+            return this;
+        }
+
+        private void PerformEndOfLifeBehavior()
+        {
+            //if (!collider2D.enabled) // If the collider is disabled, it means the projectile hasn't hit anything
+            //{
+            endOfLifeStrategy?.Execute(this);
+            //}
         }
 
         #endregion
@@ -106,11 +149,17 @@ namespace Litkey.Projectile
             decorators.Clear();
             this.strategy = null;
             this.ownerStat = null;
+            EnableCollisionWithEnemy();
 
         }
 
+        public void EnableCollisionWithEnemy() => collider2D.enabled = true;
+        public void DisableCollisionWithEnemy() => collider2D.enabled = false;
+
+
         private void Update()
         {
+            timer.Tick(Time.deltaTime);
             if (strategy != null)
             {
                 strategy.Move(this);
@@ -126,9 +175,22 @@ namespace Litkey.Projectile
             targetCount--;
             if (targetCount <= 0)
             {
-                Destroy(gameObject);
+                DisableCollisionWithEnemy();
+                //PerformEndOfLifeBehavior();
+                ProjectileCreator.ReturnProjectile(this);
             }
         }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (((1 << collision.gameObject.layer) & enemyLayer) != 0)
+            {
+                OnHit(collision.gameObject);
+            }
+
+        }
+
+        
     }
 
    

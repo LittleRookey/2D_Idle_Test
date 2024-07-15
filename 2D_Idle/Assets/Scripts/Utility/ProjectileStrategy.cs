@@ -1,10 +1,14 @@
+using DG.Tweening;
+using Litkey.Skill;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Litkey.Projectile
 {
     // Strategy pattern for movement
+    [System.Serializable]
     public abstract class ProjectileStrategy
     {
         public abstract void Move(ProjectileBehavior projectile);
@@ -18,9 +22,49 @@ namespace Litkey.Projectile
         }
     }
 
+    public class SlerpedProjectileStrategy : ProjectileStrategy
+    {
+        private Vector3 destination;
+        private float arcHeight;
+        private float duration;
+        private Ease easeType;
+        private Tween currentTween;
+
+        public SlerpedProjectileStrategy(float arcHeight, float duration, Ease easeType = Ease.Linear)
+        {
+            this.arcHeight = arcHeight;
+            this.duration = duration;
+            this.easeType = easeType;
+        }
+        private bool playedOnce = false;
+        public SlerpedProjectileStrategy SetDestination(Vector3 newDest)
+        {
+            this.destination = newDest;
+            playedOnce = false;
+            return this;
+        }
+
+        public SlerpedProjectileStrategy SetDuration(float duration)
+        {
+            this.duration = duration;
+            return this;
+        }
+
+        public override void Move(ProjectileBehavior projectile)
+        {
+            if ((currentTween == null || !currentTween.IsActive()) && !playedOnce)
+            {
+                playedOnce = true;
+                currentTween = projectile.transform.DOJump(destination, arcHeight, 1, duration)
+                    .SetEase(easeType)
+                    .OnPlay(() => projectile.DisableCollisionWithEnemy());
+            }
+        }
+
+    }
     public class HomingProjectileStrategy : ProjectileStrategy
     {
-        public float homingStrength = 0.5f; // 0 to 1
+        private float homingStrength = 0.5f; // 0 to 1
         // while moving, search for enemy within range, if there is, change direction slightly
 
         private float searchRange = 1.3f;
@@ -32,6 +76,24 @@ namespace Litkey.Projectile
             this.self = selfProjectile;
             this.enemyLayer = enemyLayer;
         }
+
+        public HomingProjectileStrategy SetSelfTransform(Transform self)
+        {
+            this.self = self;
+            return this;
+        }
+
+        public HomingProjectileStrategy SetHomingStrength(float strength)
+        {
+            this.homingStrength = strength;
+            return this;
+        }
+
+        public HomingProjectileStrategy SetEnemyLayer(LayerMask enemyLayer)
+        {
+            this.enemyLayer = enemyLayer;
+            return this;
+        } 
 
         public HomingProjectileStrategy SetSearchRange(float searchRange)
         {
@@ -100,20 +162,28 @@ namespace Litkey.Projectile
 
     public class KnockBackDecorator : IProjectileDecorator
     {
-        private float _knockBackForce = 10f;
-
+        private float _knockBackForce = 1f;
+        private float _knockBackDuration = 0.2f;
+        private Ease _knockBackEase = Ease.OutQuad;
         public void OnHit(ProjectileBehavior projectile, GameObject target)
         {
-            Rigidbody2D targetRb = target.GetComponent<Rigidbody2D>();
-            if (targetRb != null)
-            {
-                targetRb.AddForce(projectile.Direction * _knockBackForce, ForceMode2D.Impulse);
-            }
+            Vector3 knockbackDirection = projectile.Direction.normalized;
+            Vector3 targetEndPosition = target.transform.localPosition + (knockbackDirection * _knockBackForce);
+
+            target.transform.DOLocalMove(targetEndPosition, _knockBackDuration)
+                .SetEase(_knockBackEase);
         }
+
+     
 
         public KnockBackDecorator SetKnockbackForce(float knockbackForce)
         {
             this._knockBackForce = knockbackForce;
+            return this;
+        }
+        public KnockBackDecorator SetKnockbackDuration(float knockbackDuration)
+        {
+            this._knockBackDuration = knockbackDuration;
             return this;
         }
     }

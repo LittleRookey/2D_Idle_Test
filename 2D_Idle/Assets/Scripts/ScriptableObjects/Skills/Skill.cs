@@ -130,10 +130,9 @@ namespace Litkey.Skill
 
         public float CooldownDuration => cooldown;
 
-        public RangeSkillArea skillRange;
         public LayerMask enemyLayer;
 
-        protected Pool<RangeSkillArea> skillRangePool;
+        public eSkillRangeType skillRangeType;
 
         public UnityEvent OnSkillUse;
         public UnityEvent OnSkillLevelUp;
@@ -141,7 +140,6 @@ namespace Litkey.Skill
         protected override void Awake()
         {
             base.Awake();
-            skillRangePool = Pool.Create<RangeSkillArea>(skillRange).NonLazy();
             InitializeLevel();
         }
         

@@ -114,29 +114,29 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     }
 
     // return true when enemy death
-    public bool TakeDamage(LevelSystem attacker, List<float> damages)
-    {
-        if (isDead) return true;
-        //StartCoroutine(ShowDmgText(damages));
-        for (int i = 0; i < damages.Count; i++)
-        {
-            currentHealth -= damages[i];
-            onTakeDamage?.Invoke(currentHealth, maxHealth);
-            if (currentHealth <= 0f)
-            {
-                currentHealth = 0f;
-                isDead = true;
-                //bCollider.isTrigger = true;
-                //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    //public bool TakeDamage(LevelSystem attacker, List<float> damages)
+    //{
+    //    if (isDead) return true;
+    //    //StartCoroutine(ShowDmgText(damages));
+    //    for (int i = 0; i < damages.Count; i++)
+    //    {
+    //        currentHealth -= damages[i];
+    //        onTakeDamage?.Invoke(currentHealth, maxHealth);
+    //        if (currentHealth <= 0f)
+    //        {
+    //            currentHealth = 0f;
+    //            isDead = true;
+    //            //bCollider.isTrigger = true;
+    //            //rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
 
-                OnDeath?.Invoke(attacker);
+    //            OnDeath?.Invoke(attacker);
 
-                return true;
-            }
-        }
-        return false;
-    }
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
     /// <summary>
     /// 플레이어에서 부르는 TakeDamage
     /// </summary>

@@ -10,6 +10,8 @@ namespace Litkey.AI
         protected static readonly int RunHash = Animator.StringToHash("1_Run");
         //protected static readonly int WalkHash = Animator.StringToHash("WalkFWD");
         protected static readonly int NormalAttackHash = Animator.StringToHash("2_Attack_Normal");
+        protected static readonly int RangeAttackHash = Animator.StringToHash("2_Attack_Bow");
+        protected static readonly int MagicAttackHash = Animator.StringToHash("2_Attack_Magic");
         protected static readonly int DeathHash = Animator.StringToHash("4_Death");
         
         protected const float crossFadeDuration = 0.1f;

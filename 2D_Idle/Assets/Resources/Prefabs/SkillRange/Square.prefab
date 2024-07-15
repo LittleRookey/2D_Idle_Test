@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 9215650363430847514}
   - component: {fileID: 767653139}
   m_Layer: 0
-  m_Name: SkilRange_Square
+  m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -267,7 +267,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1377752401
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: -120
   m_Sprite: {fileID: 21300000, guid: 9e09818cb747c914293d288fb8f83ac0, type: 3}
   m_Color: {r: 0.6981132, g: 0.24038802, b: 0.24038802, a: 0.59607846}
@@ -294,7 +294,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dotweenAnim: {fileID: 9215650362893831871}
   skillRangeType: 2
+  outerRange: {fileID: 9215650363430847513}
+  innerRange: {fileID: 9215650363905266114}
   destroyOnEnd: 0
+  attackNumber: 0
+  targetNumber: 0
+  damagePercent: 0
+  skillRadius: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  ally: {fileID: 0}
 --- !u!61 &767653139
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -395,7 +405,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9e09818cb747c914293d288fb8f83ac0, type: 3}
-  m_Color: {r: 0.3137255, g: 0.54509807, b: 0.10980393, a: 0.5372549}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5372549}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

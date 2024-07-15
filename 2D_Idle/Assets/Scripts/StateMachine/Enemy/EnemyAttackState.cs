@@ -4,6 +4,11 @@ using Pathfinding;
 
 namespace Litkey.AI
 {
+    public enum eAttackType
+    {
+        근거리, 원거리, 마법
+    }
+
     public class EnemyAttackState : EnemyBaseState {
 
 
@@ -11,26 +16,25 @@ namespace Litkey.AI
         float attackInterval;
         float attackAnimationDuration;
 
-        public EnemyAttackState(EnemyAI enemy, Animator animator, float attackInterval, string stateName) : base(enemy, animator, stateName) 
+        public int currentAttackHash;
+        eAttackType attackType;
+        public EnemyAttackState(EnemyAI enemy, Animator animator, float attackInterval, eAttackType attackType, string stateName) : base(enemy, animator, stateName) 
         {
             this.attackInterval = attackInterval;
-            
-            
+
+            this.attackType = attackType;
+
+            if (attackType == eAttackType.근거리) currentAttackHash = NormalAttackHash;
+            else if (attackType == eAttackType.원거리) currentAttackHash = RangeAttackHash;
+            else if (attackType == eAttackType.마법) currentAttackHash = MagicAttackHash;
+
             attackTimer = new CountdownTimer(attackInterval);
             
             //attackTimer.OnTimerStop += Attack;
             //attackTimer.OnTimerStart += AttackTrue;
 
             // Get the attack animation duration
-            AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-            foreach (AnimationClip clip in clips)
-            {
-                if (clip.name == "2_Attack_Normal")
-                {
-                    attackAnimationDuration = clip.length;
-                    break;
-                }
-            }
+
         }
 
         void AttackTrue() => enemy.isAttacking = true;
@@ -59,7 +63,7 @@ namespace Litkey.AI
         void Attack()
         {
             enemy.ChaseEnemy();
-            animator.Play(NormalAttackHash);
+            animator.Play(currentAttackHash);
             enemy.UseAttackOrSkill();
 
             //attackTimer.Reset(attackInterval);
