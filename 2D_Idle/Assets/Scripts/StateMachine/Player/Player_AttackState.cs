@@ -36,11 +36,6 @@ namespace Litkey.AI
             anim.CrossFade(IdleHash, crossFadeDuration);
         }
 
-        public override void OnExit()
-        {
-            //player.EnableMovement();
-        }
-
         void Attack()
         {
             player.TurnToTarget();

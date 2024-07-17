@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
     protected readonly int _AttackState = Animator.StringToHash("AttackState");
     protected readonly int _Attack = Animator.StringToHash("Attack");
 
+
+    protected readonly int _Interacting = Animator.StringToHash("Interacting");
+
     protected readonly int _AttackSpeed = Animator.StringToHash("AttackSpeed");
 
     protected readonly int _Dead = Animator.StringToHash("Death");
@@ -86,6 +89,8 @@ public class PlayerController : MonoBehaviour
     public Transform goldTarget;
     public Transform bagTarget;
 
+    Vector3 one;
+    Vector3 minusOne;
     protected enum eBehavior
     {
         idle,
@@ -99,6 +104,9 @@ public class PlayerController : MonoBehaviour
 
     protected void Awake()
     {
+        one = Vector3.one;
+        minusOne = new Vector3(-1f, 1f, 1f);
+
         rb2D = GetComponent<Rigidbody2D>();
         _statContainer = GetComponent<StatContainer>();
         _levelSystem = GetComponent<LevelSystem>();
@@ -121,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
         attackTimer = attackState.attackTimer;
 
-        Any(moveState, new FuncPredicate(() => !IsStunned() && JoystickMoving() && !IsDead() && !_interactor.IsInteracting));
+        Any(moveState, new FuncPredicate(() => !IsStunned() && JoystickMoving() && !IsDead() && !IsInteracting()));
         At(moveState, idleState, new FuncPredicate(() => !JoystickMoving()));
 
         At(idleState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto()));
@@ -178,6 +186,12 @@ public class PlayerController : MonoBehaviour
     void Any(IState to, IPredicate condition, bool hasExitTime = false, float exitTime = 0.0f) => stateMachine.AddAnyTransition(to, condition, hasExitTime, exitTime);
 
     #region StateMachine Condition Checks
+
+    public bool IsInteracting()
+    {
+        return _interactor.IsInteracting;
+    }
+
     public bool IsDead()
     {
         return _health.IsDead;
@@ -217,6 +231,11 @@ public class PlayerController : MonoBehaviour
         return !attackTimer.IsFinished;
     }
     #endregion
+
+    public void PlayMineInteract()
+    {
+        anim.CrossFade(_Interacting, 0.1f);
+    }
 
     public void OnAutoTurnsOff()
     {
@@ -303,7 +322,9 @@ public class PlayerController : MonoBehaviour
 
     public virtual void Turn(bool turnRight)
     {
-        playerSprite.flipX = !turnRight;
+
+        playerSprite.transform.localScale = turnRight ? one : minusOne;
+        //playerSprite.flipX = !turnRight;
     }
 
     private void FixedUpdate()

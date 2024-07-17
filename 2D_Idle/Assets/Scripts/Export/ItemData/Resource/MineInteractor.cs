@@ -69,10 +69,11 @@ public class MineInteractor : Interactor
         return false;
     }
 
-    protected override void OnInteractionTick()
+    protected override void OnInteractionTick(PlayerController player)
     {
         _dotweenAnim.DORestart();
-        _particle.Play();        
+        _particle.Play();
+        //player.PlayMineInteract();
     }
 
     private void MakeDropResource(PlayerController player)

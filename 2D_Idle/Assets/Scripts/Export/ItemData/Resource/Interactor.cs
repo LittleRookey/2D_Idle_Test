@@ -100,8 +100,10 @@ public abstract class Interactor : MonoBehaviour, IInteractable, ISelectable, ID
 
         for (int i = 0; i < Mathf.FloorToInt(_interactionTime); i++)
         {
+            player.PlayMineInteract();
             yield return new WaitForSeconds(1f);
-            OnInteractionTick();
+            OnInteractionTick(player);
+
         }
         //float elapsedTime = 0f;
         //while (elapsedTime < _interactionTime)
@@ -112,5 +114,5 @@ public abstract class Interactor : MonoBehaviour, IInteractable, ISelectable, ID
         //}
     }
 
-    protected virtual void OnInteractionTick() { }
+    protected virtual void OnInteractionTick(PlayerController player) { }
 }

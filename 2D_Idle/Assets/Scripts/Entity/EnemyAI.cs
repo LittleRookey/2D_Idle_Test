@@ -108,6 +108,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private int spawnProjectileCount = 3;
     [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private float spawnProjectileSpreadAngle = 90f;
 
+    Material[] mats;
     public enum eEndOfLifeStrategy
     {
         Default,
@@ -118,14 +119,16 @@ public class EnemyAI : MonoBehaviour
 
     protected void Awake()
     {
-        if (enemySprite == null)
+        SpawnPoint = transform.position;
+        var sprites = GetComponentsInChildren<SpriteRenderer>();
+        mats = new Material[sprites.Length];
+
+        for (int i = 0; i < sprites.Length; i++)
         {
-            enemySprite = GetComponentInChildren<SpriteRenderer>();
-            if (enemySprite != null)
-            {
-                enemyMat = enemySprite.material;
-            }
+            mats[i] = sprites[i].material;
         }
+        
+
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
         {
             { eEnemyBehavior.idle, OnIdle},
@@ -145,7 +148,7 @@ public class EnemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         currentBehavior = eEnemyBehavior.idle;
-        //SwitchState(eEnemyBehavior.idle);
+
         stateMachine = new StateMachine();
         float attackANimDuration = 0.5f;
         var chaseState = new EnemyChaseState(this, anim, "chase");
@@ -313,11 +316,8 @@ public class EnemyAI : MonoBehaviour
 
     private void FadeOut()
     {
-
-        foreach (var sprite in GetComponentsInChildren<SpriteRenderer>()) 
+        foreach (var mat in mats) 
         {
-            var mat = sprite.material;
-
             float startValue = -0.1f;
 
             DOTween.To(() => startValue, x => {
@@ -330,16 +330,10 @@ public class EnemyAI : MonoBehaviour
     private void FadeIn()
     {
 
-        foreach (var sprite in GetComponentsInChildren<SpriteRenderer>())
+        foreach (var mat in mats)
         {
-            var mat = sprite.material;
-
             float startValue = -0.1f;
             mat.SetFloat("_FadeAmount", startValue);
-            //DOTween.To(() => startValue, x => {
-            //    startValue = x;
-            //    mat.SetFloat("_FadeAmount", startValue);
-            //}, 1f, 0.5f).SetDelay(1f).SetEase(Ease.OutQuad);
         }
     }
 

@@ -10,6 +10,7 @@ Material:
   m_Name: Enemy
   m_Shader: {fileID: 4800000, guid: 79ee6cefbc672a44e97359d4d14ea301, type: 3}
   m_ValidKeywords:
+  - FADE_ON
   - GLOWLIGHT_ON
   - HITEFFECT_ON
   - OUTBASEPIXELPERF_ON
@@ -158,9 +159,9 @@ Material:
     - _EditorDrawers: 14
     - _EnableExternalAlpha: 0
     - _FadeAmount: -0.1
-    - _FadeBurnGlow: 2
+    - _FadeBurnGlow: 25.7
     - _FadeBurnTransition: 0.075
-    - _FadeBurnWidth: 0.025
+    - _FadeBurnWidth: 0.034
     - _FishEyeUvAmount: 0.35
     - _FlickerAlpha: 0
     - _FlickerFreq: 0.2
@@ -294,7 +295,7 @@ Material:
     - _ColorSwapGreen: {r: 1, g: 1, b: 1, a: 1}
     - _ColorSwapRed: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FadeBurnColor: {r: 1, g: 1, b: 0, a: 1}
+    - _FadeBurnColor: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
     - _GradBotLeftCol: {r: 0, g: 0, b: 1, a: 1}

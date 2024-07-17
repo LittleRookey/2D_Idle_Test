@@ -30,4 +30,9 @@ public class StageManager : MonoBehaviour
     {
         return _currentStage.difficultyRate;
     }
+
+    public void ShowStageEnterUI()
+    {
+
+    }
 }

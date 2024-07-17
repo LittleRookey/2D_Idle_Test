@@ -8,21 +8,21 @@ public class SkillManager : MonoBehaviour
 {
     public static SkillManager Instance;
 
-    [TableList]
-    public List<Skill> skills; // 기본적인 스킬들이 내장되어잇음
+    
+    //public List<Skill> skillsDB; // 기본적인 스킬들이 내장되어잇음
 
-    private Dictionary<string, Skill> skillDict;
+    [SerializeField, ShowInInspector] private Dictionary<string, Skill> skillDict;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        skillDict = new Dictionary<string, Skill>();
-        for (int i = 0; i < skills.Count; i++)
-        {
-            skillDict.Add(skills[i].skillName, skills[i]);
-        }
+        //skillDict = new Dictionary<string, Skill>();
+        //for (int i = 0; i < skills.Count; i++)
+        //{
+        //    skillDict.Add(skills[i].skillName, skills[i]);
+        //}
     }
 
     // Start is called before the first frame update
@@ -32,9 +32,9 @@ public class SkillManager : MonoBehaviour
         SkillInventory.Instance.AddToInventory(GetSkill("더블슬래쉬")); 
     }
 
-    public Skill GetSkill(string skillName)
+    public Skill GetSkill(string skillID)
     {
-        return skillDict[skillName];
+        return skillDict[skillID];
     }
 
 }

@@ -13,7 +13,6 @@ Material:
   - ALPHAOUTLINE_ON
   - GLITCH_ON
   - GLOWLIGHT_ON
-  - GLOW_ON
   m_InvalidKeywords:
   - _GLOWAFFECTLIGHT_ON
   m_LightmapFlags: 4
@@ -279,7 +278,7 @@ Material:
     - _WaveX: 0
     - _WaveY: 0.5
     - _ZTestMode: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZoomUvAmount: 0.5
     m_Colors:
     - _AlphaOutlineColor: {r: 0.9997213, g: 0.08962262, b: 1, a: 1}

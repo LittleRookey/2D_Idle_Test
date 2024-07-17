@@ -16,7 +16,7 @@ namespace Litkey.AI
             Debug.Log("Player Entered Move State");
             player.SetTargetNull();
             player.EnableMovement();
-            anim.CrossFade(EnterRunHash, crossFadeDuration);
+            anim.CrossFadeInFixedTime(EnterRunHash, crossFadeDuration);
         }
 
         public override void FixedUpdate()
