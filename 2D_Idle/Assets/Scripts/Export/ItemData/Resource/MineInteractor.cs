@@ -8,121 +8,71 @@ using DG.Tweening;
 using Litkey.Character.Cooldowns;
 using UnityEngine.Events;
 
-public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDeselectable, IHasCooldown
+public class MineInteractor : Interactor
 {
-    [Header("References")]
+    [Header("Mine-specific Settings")]
     [SerializeField] private ParticleSystem _particle;
+    [SerializeField] private float animationRate=0;
     [SerializeField] private LeveledRankLootTable _mineLoot;
     [SerializeField] private Inventory _inventory;
-    [Header("Resource Info")]
     [SerializeField] private ResourceCapacity _capacity;
-    public bool IsSelected { private set; get; }
-    public bool IsEmpty 
-    { 
-        get
-        {
-            return _capacity.remainingChance <= 0;
-        }    
-    }
 
-    public string ID => _id;
+    private DOTweenAnimation _dotweenAnim;
 
-    public float CooldownDuration => _cooldownTime;
+    public bool IsEmpty => _capacity.remainingChance <= 0;
 
-
-    private string _id;
-    [SerializeField] private float _cooldownTime = 5f;
-
-    private readonly string outlineMatParam = "OUTBASE_ON";
-    private readonly string glowMatParam = "GLOW_ON";
-    private string shakeInput = "shake";
-
-    DOTweenAnimation _dotweenAnim;
-    SpriteRenderer _spriteRenderer;
-    Material _resourceMat;
-    WaitForSeconds _waitTime;
-
-    public bool disableOutlineOnStart;
-    CooldownSystem _cooldown;
-    private void Awake()
+    protected override void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        base.Awake();
         _dotweenAnim = GetComponent<DOTweenAnimation>();
-        _resourceMat = _spriteRenderer.material;
-        _cooldown = GetComponent<CooldownSystem>();
-        _waitTime = new WaitForSeconds(1f);
-        if (disableOutlineOnStart)
-        {
-            DisableOutline();
-            DisableGlow();
-        }
-
     }
 
-    private void EnableOutline() => _resourceMat.EnableKeyword(outlineMatParam);
-    private void DisableOutline() => _resourceMat.DisableKeyword(outlineMatParam);
-
-    private void EnableGlow() => _resourceMat.EnableKeyword(glowMatParam);
-    private void DisableGlow() => _resourceMat.DisableKeyword(glowMatParam);
-
-    public MineInteractor SetMine(string id, float cooldownTime, int remainingChanceToGainResource)
+    public MineInteractor SetMine(string id, float cooldownTime, float interactionTime, int remainingChanceToGainResource)
     {
-        this._id = id;
+        this.ID = id;
         this._cooldownTime = cooldownTime;
+        this._interactionTime = interactionTime;
         this._capacity.SetCapacity(remainingChanceToGainResource);
         return this;
     }
 
-    public MineInteractor SetToCooldown(float remainingTime)
+    public override void Interact(PlayerController player, UnityAction OnEnd = null)
     {
-        _cooldown.PutOnColdown(_id, remainingTime);
-        return this;
-    }
+        if (!CanInteract(player))
+        {
+            WarningMessageInvoker.Instance.ShowMessage($"Cannot interact with this mine right now.");
+            return;
+        }
 
-    public bool IsOnCooldown()
-    {
-        return _cooldown.IsOnCooldown(_id);
-    }
-
-    public float GetRemainingDuration()
-    {
-        return _cooldown.GetRemainingDuration(_id);
-    }
-
-    public void Interact(int interactTime, PlayerController player, UnityAction OnEnd=null)
-    {
-        // start mining 
-        Debug.Log("Mine Interacted!");
-        StartCoroutine(StartMining(interactTime, player, OnEnd));
-
-    }
-
-    private IEnumerator StartMining(int totalTime, PlayerController player, UnityAction OnEnd=null)
-    {
-        SetToCooldown(_cooldownTime);
-
-        var barProgress = BarCreator.CreateFillBar(transform.position + Vector3.up * 0.5f);
-        barProgress.SetBar(false)
-            .SetInnerColor(Color.green)
-            .SetOuterColor(Color.black);
-
-        player.DisableMovement();
-
-        barProgress.StartFillBar(totalTime, () =>
+        StartCoroutine(InteractionCoroutine(player, () =>
         {
             MakeDropResource(player);
-            player.EnableMovement();
             OnEnd?.Invoke();
-        });
-
-        _particle.gameObject.SetActive(true);
-
-        for (int i = 0; i < totalTime; i++) 
+        }));
+    }
+    public override bool CanInteract(PlayerController player)
+    {
+        if (base.CanInteract(player))
         {
-            yield return _waitTime;
-            _dotweenAnim.DORestart();
-            _particle.Play();
+            if (IsEmpty)
+            {
+                WarningMessageInvoker.Instance.ShowMessage($"This resource is depleted.");
+                return false;
+            }
+            if (!_inventory.IsMiningEquipped())
+            {
+                WarningMessageInvoker.Instance.ShowMessage("Mining tool is not equipped.");
+                return false;
+            }
+            return true;
         }
+        return false;
+    }
+
+    protected override void OnInteractionTick()
+    {
+        _dotweenAnim.DORestart();
+        _particle.Play();        
     }
 
     private void MakeDropResource(PlayerController player)
@@ -131,32 +81,13 @@ public class MineInteractor : MonoBehaviour, IInteractactable, ISelectable, IDes
         var lootedResource = _mineLoot.GetRankedLootTable().GetSingleItem();
         if (lootedResource is CountableItem countableItem)
         {
-            DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount, player.bagTarget, () => 
+            DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount, player.bagTarget, () =>
             {
                 ResourceManager.Instance.PlayBagDotween();
                 ResourceManager.Instance.DisplayItem(countableItem.CountableData, countableItem.Amount);
                 _inventory.AddToInventory(countableItem);
             });
-            
         }
-        
-    }
-
-    
-    public void Deselect()
-    {
-        DisableOutline();
-        DisableGlow();
-        Debug.Log("Mine Deselected");
-        IsSelected = false;
-    }
-
-    public void Select()
-    {
-        EnableOutline();
-        EnableGlow();
-        IsSelected = true;
-        Debug.Log("Mine selected");
     }
 }
 

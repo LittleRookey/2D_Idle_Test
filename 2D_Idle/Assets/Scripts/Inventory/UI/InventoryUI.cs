@@ -282,6 +282,11 @@ namespace Litkey.InventorySystem
                     _inventory.UnEquipItem(resourceGetterItem.EquipmentData.Parts);
                 }
             }
+            else if (item is EquipmentItem equipmentItem)
+            {
+                // 만약 장비가 팔렷으면 삭제
+
+            }
         }
 
         private void RemoveItemAndSlot(int slotIndex)

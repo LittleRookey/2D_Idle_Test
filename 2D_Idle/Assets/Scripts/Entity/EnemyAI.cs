@@ -59,6 +59,7 @@ public class EnemyAI : MonoBehaviour
     protected Health health;
 
     [SerializeField] protected Material enemyMat;
+    [SerializeField] protected SpriteRenderer enemySprite;
 
     protected Vector2 moveDir;
 
@@ -91,21 +92,21 @@ public class EnemyAI : MonoBehaviour
     }
 
     [ShowInInspector, ShowIfGroup("attackType", eAttackType.원거리)] public eProjectileStrategy _strategy;
-    [SerializeField, Range(0, 2f),ShowIfGroup("_strategy", eProjectileStrategy.Homing)] private float homingStrength = 0.5f;
-    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private int _targetCountPerProjectile = 1;
-    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private int _damageCount = 1;
-    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private float _disappearTime=4f;
-    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private float _damagePercent=1f;
-    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private float _projectileSpeed=1f;
-    [SerializeField, ShowIfGroup("attackType", eAttackType.원거리)] private bool enableKnockback;
-    [SerializeField, Range(0, 50f), ShowIfGroup("enableKnockback", true)] private float knockbackForce = 0.5f;
+    [SerializeField, Range(0, 2f),ShowIf("_strategy", eProjectileStrategy.Homing)] private float homingStrength = 0.5f;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리)] private int _targetCountPerProjectile = 1;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리)] private int _damageCount = 1;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리)] private float _disappearTime=4f;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리)] private float _damagePercent=1f;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리)] private float _projectileSpeed=1f;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리)] private bool enableKnockback;
+    [SerializeField, Range(0, 50f), ShowIf("enableKnockback", true)] private float knockbackForce = 0.5f;
 
     [Header("Projectile End Settings")]
-    [SerializeField, EnumToggleButtons, ShowIfGroup("attackType", eAttackType.원거리)] private eEndOfLifeStrategy _endOfLifeStrategy;
-    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionRadius = 1f;
-    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionDamage = 10f;
-    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private int spawnProjectileCount = 3;
-    [SerializeField, ShowIfGroup("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private float spawnProjectileSpreadAngle = 90f;
+    [SerializeField, EnumToggleButtons, ShowIf("attackType", eAttackType.원거리)] private eEndOfLifeStrategy _endOfLifeStrategy;
+    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionRadius = 1f;
+    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionDamage = 10f;
+    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private int spawnProjectileCount = 3;
+    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private float spawnProjectileSpreadAngle = 90f;
 
     public enum eEndOfLifeStrategy
     {
@@ -117,7 +118,14 @@ public class EnemyAI : MonoBehaviour
 
     protected void Awake()
     {
-        
+        if (enemySprite == null)
+        {
+            enemySprite = GetComponentInChildren<SpriteRenderer>();
+            if (enemySprite != null)
+            {
+                enemyMat = enemySprite.material;
+            }
+        }
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
         {
             { eEnemyBehavior.idle, OnIdle},
@@ -212,7 +220,7 @@ public class EnemyAI : MonoBehaviour
         //anim.Play("0_idle");
         StartMovement();
         stateMachine.SetState(wanderState);
-        
+        FadeIn();
     }
 
     public bool IsDead()
@@ -287,10 +295,52 @@ public class EnemyAI : MonoBehaviour
         Target = null;
         boxCollider2D.isTrigger = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        FadeOut();
+        //float startValue = -0.1f;
+
+        //DOTween.To(() => startValue, x => {
+        //    startValue = x;
+        //    enemyMat.SetFloat("_FadeAmount", startValue);
+        //}, 1f, 0.5f).SetDelay(1f).SetEase(Ease.OutQuad);
+
+
         //isAttacking = false;
         // 죽음 애니메이션플레이
         //onStateEnterBeahviors[eEnemyBehavior.dead]?.Invoke(health);
 
+    }
+
+    private void FadeOut()
+    {
+
+        foreach (var sprite in GetComponentsInChildren<SpriteRenderer>()) 
+        {
+            var mat = sprite.material;
+
+            float startValue = -0.1f;
+
+            DOTween.To(() => startValue, x => {
+                startValue = x;
+                mat.SetFloat("_FadeAmount", startValue);
+            }, 1f, 1f).SetDelay(0.5f).SetEase(Ease.OutQuad);
+        }
+    }
+
+    private void FadeIn()
+    {
+
+        foreach (var sprite in GetComponentsInChildren<SpriteRenderer>())
+        {
+            var mat = sprite.material;
+
+            float startValue = -0.1f;
+            mat.SetFloat("_FadeAmount", startValue);
+            //DOTween.To(() => startValue, x => {
+            //    startValue = x;
+            //    mat.SetFloat("_FadeAmount", startValue);
+            //}, 1f, 0.5f).SetDelay(1f).SetEase(Ease.OutQuad);
+        }
     }
 
     public void SetToBaseState()

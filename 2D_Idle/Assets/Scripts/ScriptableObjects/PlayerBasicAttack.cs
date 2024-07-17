@@ -12,6 +12,8 @@ namespace Litkey.Skill
         string swordSound = "일반검베기";
         public override void ApplyEffect(StatContainer allyStat, StatContainer target)
         {
+            if (target == null) return;
+
             var dmg = allyStat.GetDamageAgainst(target);
             MasterAudio.PlaySound(swordSound);
             bool isTargetDead = target.GetComponent<Health>().TakeDamage(allyStat.GetComponent<LevelSystem>(), new List<Damage> { dmg }, true);

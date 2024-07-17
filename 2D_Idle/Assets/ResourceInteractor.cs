@@ -9,134 +9,101 @@ public class ResourceInteractor : MonoBehaviour
 {
     [SerializeField] private LayerMask resourceLayer;
     [SerializeField] private Inventory _inventory;
-    PlayerController player;
-    [SerializeField] private MineInteractor interactableTarget;
-    public float searchRange = 1f;
+    [SerializeField] private float searchRange = 1f;
 
-    public bool IsMining => _isMining;
+    private PlayerController _player;
+    private IInteractable _currentTarget;
 
-    [SerializeField] private bool _isMining;
+
+    public bool IsInteracting { get; private set; }
 
     private void Awake()
     {
-        if (!TryGetComponent<PlayerController>(out player))
+        if (!TryGetComponent<PlayerController>(out _player))
         {
             Debug.LogError("No PlayerController attached to ResourceInteractor gameObject");
         }
     }
-
-    public void SearchForInteractable()
-    {
-        var colliders = Physics2D.OverlapCircleAll(transform.position, searchRange, resourceLayer);
-
-        MineInteractor nearestMine = null;
-        float nearestDistance = float.MaxValue;
-
-        foreach (var collider in colliders)
-        {
-            if (collider.TryGetComponent<MineInteractor>(out var mine))
-            {
-                float distance = Vector2.Distance(transform.position, mine.transform.position);
-                if (distance < nearestDistance)
-                {
-                    nearestMine = mine;
-                    nearestDistance = distance;
-                }
-            }
-        }
-
-        // Deselection logic
-        if (interactableTarget != null)
-        {
-            bool shouldDeselect = false;
-
-            // Case 1: There is another ISelectable nearby which is not the previous interactableTarget
-            if (nearestMine != null && nearestMine != interactableTarget)
-            {
-                shouldDeselect = true;
-            }
-            // Case 2: Previous IInteractable's distance is greater than searchRange
-            else if (Vector2.Distance(transform.position, interactableTarget.transform.position) > searchRange)
-            {
-                shouldDeselect = true;
-            }
-
-            if (shouldDeselect)
-            {
-                interactableTarget.Deselect();
-                interactableTarget = null;
-                InteractorUI.Instance.DisableOrientation();
-                Debug.Log("Previous target deselected");
-            }
-        }
-
-        // Selection and interaction logic
-        if (nearestMine != null && nearestMine != interactableTarget)
-        {
-            nearestMine.Select();
-            interactableTarget = nearestMine;
-            Debug.Log("New target selected + equipped? " + _inventory.IsMiningEquipped());
-            if (!_inventory.IsMiningEquipped())
-            {
-                InteractorUI.Instance.SetUnInteractable();
-            } else
-            {
-                InteractorUI.Instance.SetInteractable();
-            }
-
-            // 버튼에 Interact 넣기
-
-            // Add Interact to interact button changing sprite of button
-            // Interact with the object
-            // Pass interaction time of 
-            // check if player has interactor equipment equipped
-            InteractorUI.Instance.SetInteractor(eResourceType.광석, () =>
-            {
-                if (_inventory.IsMiningEquipped())
-                {
-                    Debug.Log("Used Mining Item");
-
-                    // 내구도 1씀
-                    if (interactableTarget.IsOnCooldown())
-                    {
-                        // 쿨타임중이면 메시지띄우기
-                        WarningMessageInvoker.Instance.ShowMessage($"해당 자원이 쿨타임에 있습니다: {interactableTarget.GetRemainingDuration().ToString("F1")}초");
-                        return;
-                    }
-                    
-                    if (interactableTarget.IsEmpty)
-                    {
-                        WarningMessageInvoker.Instance.ShowMessage($"해당 자원은 비어있습니다");
-                        return;
-                    }
-
-                    // 주변에 적이 있으면 
-                    _inventory.UseResourceEquipmentItem(eResourceType.광석);
-                    //_inventory.GetEquippedMiningItem().Use();
-                    _isMining = true;
-                    interactableTarget.Interact(5, player, () => _isMining = false);
-                }
-                else
-                {
-                    // TODO show warning message that mining is not equipped
-                    Debug.Log("Not Equipped Mining Item");
-                    WarningMessageInvoker.Instance.ShowMessage("곡괭이를 착용하지 않았습니다");
-                    // disable interaction UI button of image
-                }
-            });
-            InteractorUI.Instance.EnableOrientation();
-        }
-        else if (interactableTarget == null)
-        {
-            Debug.Log("No interactable object found in range");
-        }
-    }
-
-    
 
     private void Update()
     {
         SearchForInteractable();
     }
 
+    public void SearchForInteractable()
+    {
+        var colliders = Physics2D.OverlapCircleAll(transform.position, searchRange, resourceLayer);
+
+        IInteractable nearestInteractable = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (var collider in colliders)
+        {
+            if (collider.TryGetComponent<IInteractable>(out var interactable))
+            {
+                float distance = Vector2.Distance(transform.position, collider.transform.position);
+                if (distance < nearestDistance)
+                {
+                    nearestInteractable = interactable;
+                    nearestDistance = distance;
+                }
+            }
+        }
+
+        HandleInteractableChange(nearestInteractable);
+    }
+
+    private void HandleInteractableChange(IInteractable newTarget)
+    {
+        if (_currentTarget != null && (_currentTarget != newTarget || Vector2.Distance(transform.position, ((MonoBehaviour)_currentTarget).transform.position) > searchRange))
+        {
+            if (_currentTarget is IDeselectable deselectable)
+            {
+                deselectable.Deselect();
+            }
+            _currentTarget = null;
+            InteractorUI.Instance.DisableOrientation();
+        }
+
+        if (newTarget != null && newTarget != _currentTarget)
+        {
+            _currentTarget = newTarget;
+            if (_currentTarget is ISelectable selectable)
+            {
+                selectable.Select();
+            }
+            SetupInteractionUI();
+        }
+    }
+
+    private void SetupInteractionUI()
+    {
+        // This is a simplified version. You might need to adjust based on your specific UI setup
+        InteractorUI.Instance.SetInteractor(GetResourceType(_currentTarget), () =>
+        {
+            if (_currentTarget.CanInteract(_player))
+            {
+                IsInteracting = true;
+                _currentTarget.Interact(_player, () => IsInteracting = false);
+            }
+        });
+        InteractorUI.Instance.EnableOrientation();
+    }
+
+    private eResourceType GetResourceType(IInteractable interactable)
+    {
+        // Implement logic to determine resource type based on the interactable
+        // This is just a placeholder implementation
+        if (interactable is MineInteractor)
+        {
+            return eResourceType.광석;
+        }
+        else if (interactable is NPCInteractor)
+        {
+            return eResourceType.말걸기;
+        }
+        
+        // Add other types as needed
+        return eResourceType.광석;
+    }
 }

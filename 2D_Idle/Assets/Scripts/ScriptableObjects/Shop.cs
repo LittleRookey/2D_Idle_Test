@@ -134,7 +134,17 @@ public class Shop : ScriptableObject
             if (isInBag)
             {
                 Products[index].Sell();
-                _inventory.AddToInventory(Products[index].Item.CreateItem());
+                var soldItem = Products[index].Item.CreateItem();
+                if (soldItem is CountableItem countableItem)
+                {
+                    countableItem.SetAmount(Products[index].Count);
+                    _inventory.AddToInventory(countableItem);
+                } 
+                else
+                {
+                    _inventory.AddToInventory(soldItem);
+                }
+
                 OnItemBought?.Invoke(index);
             }
         }

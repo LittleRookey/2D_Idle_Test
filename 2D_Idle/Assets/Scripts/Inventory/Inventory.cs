@@ -265,15 +265,13 @@ namespace Litkey.InventorySystem
 
                 if (useSuccess)
                 {
-                    // Decrease the item count.
-                    //countableItem.Amount -= 1;
-
-                    // If the item count goes to zero, remove it from the inventory.
+                    // UI에서 먼저 아이템슬롯을 삭제
+                    OnUseItem?.Invoke(index);
+                    // 인벤토리에서 아이템 삭제
                     if (countableItem.Amount <= 0)
                     {
                         _inventory.Remove(index);
                     }
-                    OnUseItem?.Invoke(index);
                     return true;
                 }
                 else
@@ -324,7 +322,7 @@ namespace Litkey.InventorySystem
             }
             return false;
 
-
+            
         }
         private int GetNextEmptyIndex()
         {

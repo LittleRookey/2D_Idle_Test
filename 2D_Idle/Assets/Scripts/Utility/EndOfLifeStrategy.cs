@@ -79,10 +79,14 @@ namespace Litkey.Projectile
         private int projectileCount;
         private float spreadAngle;
 
+        DamageDecorator damageDecorator;
+        EndOfLifeStrategy endOfLife;
+
         public SpawnProjectilesEndOfLifeStrategy(int count, float angle)
         {
             projectileCount = count;
             spreadAngle = angle;
+            damageDecorator = new DamageDecorator();
         }
 
         public override void Execute(ProjectileBehavior projectile)
@@ -96,7 +100,12 @@ namespace Litkey.Projectile
                     .SetDirection(direction)
                     .SetSpeed(projectile.Speed)
                     .SetDamagePercent(projectile.DamagePercent * 0.5f)
+                    .SetStrategy(EnemyAI.eProjectileStrategy.Straight)
+                    .AddDecorator(damageDecorator
+                        .ShowDamagePopup(false)
+                        .SetDamageCount(1))
                     .SetDisappearTimer(2f);
+                    
             }
         }
     }

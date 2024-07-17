@@ -148,6 +148,9 @@ namespace Litkey.Projectile
             if (decorators == null) decorators = new List<IProjectileDecorator>();
             decorators.Clear();
             this.strategy = null;
+
+            SetEndOfLifeStrategy(null);
+
             this.ownerStat = null;
             EnableCollisionWithEnemy();
 

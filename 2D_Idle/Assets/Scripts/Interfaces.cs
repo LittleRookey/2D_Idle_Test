@@ -27,9 +27,11 @@ namespace Litkey.Interface
         public void Save();
     }
 
-    public interface IInteractactable
+    public interface IInteractable
     {
-        public void Interact(int interactTime, PlayerController player, UnityAction OnEnd=null);
+        void Interact(PlayerController player, UnityAction OnEnd = null);
+        bool CanInteract(PlayerController player);
+        float GetInteractionTime();
     }
 
     // 광물류를 가까이 다가갓을떄 저절로 선택
