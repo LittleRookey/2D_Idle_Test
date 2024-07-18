@@ -101,7 +101,6 @@ namespace Litkey.Skill
             {
                 if (Collider.OverlapPoint(enemyCollider.transform.position))
                 {
-                    Debug.Log("Overlapped Collider added as target");
                     Health enemyHealth = enemyCollider.GetComponent<Health>();
                     if (enemyHealth != null)
                     {
