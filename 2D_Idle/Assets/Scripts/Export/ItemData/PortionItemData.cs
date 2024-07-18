@@ -10,10 +10,16 @@ namespace Litkey.InventorySystem
         /// <summary> 효과량(회복량 등) </summary>
         [SerializeField] public float HealAmount;
 
-        public override Item CreateItem()
+        public override Item CreateItem(string newID=default)
         {
             //string _id = UniqueIDGenerator.GenerateUnqiueIDDateTime(Name);
-            return new PortionItem(this, intID.ToString());
+            string _id = $"{intID.ToString()}_{Name}_{UniqueIDGenerator.GenerateUniqueID()}";
+            if (!string.IsNullOrEmpty(newID))
+            {
+                _id = newID;
+            }
+
+            return new PortionItem(this, _id);
         }
 
 

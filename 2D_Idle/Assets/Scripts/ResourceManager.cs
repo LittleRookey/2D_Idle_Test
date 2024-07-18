@@ -109,6 +109,7 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
     {
         this.gold = gameData.dataSettings.gold;
         OnResourceLoaded?.Invoke();
+        Debug.Log("자원 현황 로드 성공");
     }
 
     public void Save()

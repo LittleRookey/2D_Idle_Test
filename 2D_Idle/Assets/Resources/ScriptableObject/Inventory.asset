@@ -23,6 +23,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 349b60207ba7c5c4f83bbd858324ad46, type: 2}
     - {fileID: 11400000, guid: ab3483c539be2f347a595a474ef01c76, type: 2}
     - {fileID: 11400000, guid: 73a0ea297c71302458ec8e2df11ad983, type: 2}
+    - {fileID: 11400000, guid: bfe3b74cc5b27f146835b7cf3e4872ac, type: 2}
+    - {fileID: 11400000, guid: c50f9e85348a8184fbac95d3fc167565, type: 2}
+    - {fileID: 11400000, guid: ef83d2a3b80bb3f4d9bf02bd21dda85e, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -41,7 +44,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -50,7 +53,37 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 2|Litkey.InventorySystem.WeaponItem, Assembly-CSharp
+      Data: 2|Litkey.InventorySystem.ResourceGetterItem, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 3|Litkey.InventorySystem.ResourceItem, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 4|Litkey.InventorySystem.ResourceItem, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 
@@ -65,12 +98,12 @@ MonoBehaviour:
       Data: 
     - Name: equipmentSlots
       Entry: 7
-      Data: 3|System.Collections.Generic.Dictionary`2[[Litkey.InventorySystem.eEquipmentParts,
+      Data: 5|System.Collections.Generic.Dictionary`2[[Litkey.InventorySystem.eEquipmentParts,
         Assembly-CSharp],[Litkey.InventorySystem.EquipmentSlot, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 4|System.Collections.Generic.EnumEqualityComparer`1[[Litkey.InventorySystem.eEquipmentParts,
+      Data: 6|System.Collections.Generic.EnumEqualityComparer`1[[Litkey.InventorySystem.eEquipmentParts,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -175,8 +208,8 @@ MonoBehaviour:
       Entry: 3
       Data: 8
     - Name: $v
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 7
     - Name: 
       Entry: 8
       Data: 
@@ -187,8 +220,8 @@ MonoBehaviour:
       Entry: 3
       Data: 9
     - Name: $v
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 8
     - Name: 
       Entry: 8
       Data: 
@@ -199,8 +232,8 @@ MonoBehaviour:
       Entry: 3
       Data: 10
     - Name: $v
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 9
     - Name: 
       Entry: 8
       Data: 
@@ -223,3 +256,11 @@ MonoBehaviour:
   miningSlot: {fileID: 11400000, guid: bfe3b74cc5b27f146835b7cf3e4872ac, type: 2}
   fishingSlot: {fileID: 11400000, guid: c50f9e85348a8184fbac95d3fc167565, type: 2}
   axingSlot: {fileID: 11400000, guid: ef83d2a3b80bb3f4d9bf02bd21dda85e, type: 2}
+  gameDatas: {fileID: 11400000, guid: e343f301cde27f94fa0ec3f8887040f9, type: 2}
+  itemDB: {fileID: 11400000, guid: e6c539fd30d0b5d4586161062b0db2db, type: 2}
+  OnUseItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInventoryLoaded:
+    m_PersistentCalls:
+      m_Calls: []

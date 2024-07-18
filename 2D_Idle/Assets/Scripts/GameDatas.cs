@@ -11,6 +11,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.Events;
 using System.Linq;
 using Litkey.Skill;
+using Litkey.InventorySystem;
 
 [System.Serializable]
 public class GameData
@@ -18,13 +19,17 @@ public class GameData
     public int gold = 100;
     public PlayerData playerData;
 
+    public SerializableInventory inventoryData;
 
     public GameData()
     {
         gold = 100;
         playerData = new PlayerData();
+        inventoryData = new SerializableInventory();
     }
     public void SetGold(int gold) => this.gold = gold;
+
+   
 }
 
 [System.Serializable]
@@ -165,8 +170,6 @@ public class GameDatas : ScriptableObject
     private string keyName = "data";
     public UnityEvent OnGameDataLoaded = new();
 
-
-
     #region Save
     [Button("LocalSave")]
     public void SaveDataLocal()
@@ -180,16 +183,15 @@ public class GameDatas : ScriptableObject
     {
         if (ES3.FileExists(fileName))
         {
-            Debug.Log("로드 성공");
             ES3.LoadInto(keyName, dataSettings);
         }
         else
         {
-            Debug.Log("저장 성공");
             // Initialize
             InitializeGameData();
             SaveDataLocal();
         }
+        Debug.Log("게임 데이터 로드중");
         OnGameDataLoaded?.Invoke();
     }
         

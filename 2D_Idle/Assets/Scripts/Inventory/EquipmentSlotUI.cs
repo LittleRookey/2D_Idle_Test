@@ -12,10 +12,18 @@ public class EquipmentSlotUI : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("장비창 UI 이벤트함수 등록 완료");
         equipmentSlot.OnEquip.AddListener(OnEquipped);
         equipmentSlot.OnUnEquip.AddListener(OnUnEquipped);
     }
 
+    private void OnEnable()
+    {
+        if (equipmentSlot.IsEquipped)
+        {
+            OnEquipped(equipmentSlot.EquippedItem);
+        }
+    }
     private void OnEquipped(EquipmentItem equipItem)
     {
         icon.gameObject.SetActive(true);

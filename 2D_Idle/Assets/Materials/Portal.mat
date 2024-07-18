@@ -10,7 +10,6 @@ Material:
   m_Name: Portal
   m_Shader: {fileID: 4800000, guid: 79ee6cefbc672a44e97359d4d14ea301, type: 3}
   m_ValidKeywords:
-  - ALPHAOUTLINE_ON
   - GLITCH_ON
   - GLOWLIGHT_ON
   m_InvalidKeywords:
@@ -222,10 +221,10 @@ Material:
     - _OutlineDistortTexXSpeed: 5
     - _OutlineDistortTexYSpeed: 5
     - _OutlineGlow: 1
-    - _OutlinePixelWidth: 7.05
+    - _OutlinePixelWidth: 2.76
     - _OutlineTexXSpeed: 10
     - _OutlineTexYSpeed: 0
-    - _OutlineWidth: 0.004
+    - _OutlineWidth: 0
     - _OverlayBlend: 1
     - _OverlayGlow: 1
     - _OverlayTextureScrollXSpeed: 0.25

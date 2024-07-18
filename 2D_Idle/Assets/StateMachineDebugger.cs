@@ -17,9 +17,6 @@ public class StateMachineDebugger : MonoBehaviour
             enemyAI.stateMachine.OnStateChanged += SetState;
         if (player != null)
         {
-            Debug.Log("State Changed");
-            Debug.Log("State Changed " + player.stateMachine == null);
-            Debug.Log("State Changed " + player.stateMachine.OnStateChanged == null);
             player.stateMachine.OnStateChanged += SetState;
         }
     }
@@ -34,13 +31,11 @@ public class StateMachineDebugger : MonoBehaviour
             enemyAI.stateMachine.OnStateChanged -= SetState;
         if (player != null)
         {
-            Debug.Log("State Changed");
             player.stateMachine.OnStateChanged -= SetState;
         }
     }
     public void SetState(IState state)
     {
-        if (player != null) Debug.Log("State Changed111");
         stateText.SetText(state.StateName);
     }
 }

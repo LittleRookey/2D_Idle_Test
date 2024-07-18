@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconSprite: {fileID: 1830978710, guid: c9d9cb1627e23064ca9ece8cb894bf34, type: 3}
   _name: "\uB3CC\uB369\uC774"
-  intID: 10000
+  intID: 10003
   _rarity: 0
   _itemType: 0
   _weight: 0
+  _sellPrice: 0
   _tooltip: "\uB3CC\uB369\uC774\uB2E4"
   _maxAmount: 999
   _value: 0

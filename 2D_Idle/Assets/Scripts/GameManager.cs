@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        //gameData.LoadDataLocal();
     }
 
     private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene m_scene, UnityEngine.SceneManagement.LoadSceneMode m_sceneMode)
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
         //{
         //    MasterAudio.StartPlaylist("Lobby");
         //}
-        gameData.LoadDataLocal();
+        //gameData.LoadDataLocal();
     }
 
     private void OnEnable()
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //gameData.LoadDataLocal();
+        gameData.LoadDataLocal();
     }
     private void StartEvent()
     {

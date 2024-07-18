@@ -78,6 +78,7 @@ public class MineInteractor : Interactor
 
     private void MakeDropResource(PlayerController player)
     {
+        _inventory.UseResourceEquipmentItem(eResourceType.±¤¼®);
         _capacity.DecrementChance();
         var lootedResource = _mineLoot.GetRankedLootTable().GetSingleItem();
         if (lootedResource is CountableItem countableItem)

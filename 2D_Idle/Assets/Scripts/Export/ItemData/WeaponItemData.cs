@@ -8,12 +8,15 @@ namespace Litkey.InventorySystem
     {
         /// <summary> °ø°Ý·Â </summary>
 
-        public override Item CreateItem()
+        public override Item CreateItem(string newID=default)
         {
             string _id = $"{intID.ToString()}_{Name}_{UniqueIDGenerator.GenerateUniqueID()}";
-            var item = new WeaponItem(this, _id);
+            if (!string.IsNullOrEmpty(newID))
+            {
+                _id = newID;
+            }
 
-            return item;
+            return new WeaponItem(this, _id);
         }
 
         

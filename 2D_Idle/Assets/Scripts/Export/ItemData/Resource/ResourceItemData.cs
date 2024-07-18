@@ -8,9 +8,13 @@ namespace Litkey.InventorySystem
 
     public class ResourceItemData : CountableItemData
     {
-        public override Item CreateItem()
+        public override Item CreateItem(string newID = default)
         {
             string _id = $"{intID.ToString()}_{Name}_{UniqueIDGenerator.GenerateUniqueID()}";
+            if (!string.IsNullOrEmpty(newID))
+            {
+                _id = newID;
+            }
             return new ResourceItem(this, _id);
         }
     }

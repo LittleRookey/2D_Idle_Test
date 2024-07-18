@@ -340,12 +340,22 @@ public class StatContainer : MonoBehaviour
 
     public void EquipEquipment(EquipmentItem equipmentItem)
     {
+        bool isEquipped = false;
+        // 하나라도 이 장비의 스텟들이 장착돼있다면 
         foreach (var stat in equipmentItem.EquipmentData.GetStats())
         {
-            subStats[stat.statType].EquipValue(equipmentItem.ID, stat);
-            Debug.Log("Adding Stat TO Equipment: " + stat.statType);
-            Debug.Log($"Equipping Stat {subStats[stat.statType].statType}: " + subStats[stat.statType] == null);
-            Debug.Log($"Equipping Stat {subStats[stat.statType].statType}: " + subStats[stat.statType].FinalValue);
+            var subStat = subStats[stat.statType];
+
+            isEquipped = isEquipped || subStat.ContainsEquipmentStat(equipmentItem.ID, stat);
+        }
+        // 장착하지않는다
+        if (isEquipped) return;
+
+        foreach (var stat in equipmentItem.EquipmentData.GetStats())
+        {
+            var subStat = subStats[stat.statType];
+            
+            subStat.EquipValue(equipmentItem.ID, stat);
         }
     }
 

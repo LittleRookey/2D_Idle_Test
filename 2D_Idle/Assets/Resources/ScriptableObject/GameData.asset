@@ -13,16 +13,43 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   dataSettings:
-    gold: 100
+    gold: 177504
     playerData:
-      level: 1
-      currentExp: 0
-      leftAbilityPoint: 0
-      StrengthLevel: 1
-      VitLevel: 0
-      AVILevel: 0
-      SensationLevel: 0
+      level: 61
+      currentExp: 70473
+      leftAbilityPoint: 11
+      StrengthLevel: 33
+      VitLevel: 3
+      AVILevel: 12
+      SensationLevel: 2
       IntLevel: 0
+      weapon:
+        equipmentName: 
+        weaponLevel: 0
+        weaponRank: 0
+        totalUpgradeLevel: 0
+      topArmor:
+        equipmentName: 
+        weaponLevel: 0
+        weaponRank: 0
+        totalUpgradeLevel: 0
+    inventoryData:
+      items:
+      - slotIndex: 0
+        intID: 1000
+        itemID: "1000_\uCD5C\uD558\uAE09 \uB3CC\uACE1\uAD2D\uC774_20240718213143166"
+        amount: 0
+        durability: 50
+      - slotIndex: 1
+        intID: 2000
+        itemID: "2000_\uCD5C\uD558\uAE09\uD3EC\uC158_20240718213144432"
+        amount: 40
+        durability: 0
+      - slotIndex: 2
+        intID: 19
+        itemID: "19_\uC0AC\uAC01 \uB098\uBB34 \uBC29\uD328_20240718213146996"
+        amount: 0
+        durability: 100
   OnGameDataLoaded:
     m_PersistentCalls:
       m_Calls: []

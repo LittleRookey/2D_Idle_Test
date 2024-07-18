@@ -374,6 +374,18 @@ namespace Litkey.Stat
             Debug.Log("Final Value after UnEquip: " + _finalValue);
         }
 
+        public bool ContainsEquipmentStat(string equipmentID, StatModifier stat)
+        {
+            if (!equipStats.ContainsKey(equipmentID)) return false;
+
+            var foundStat = equipStats[equipmentID].Find((StatModifier _stat) => _stat.Compare(stat));
+            if (foundStat == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void SetMultipliedStatValue(float value)
         {
             _multipliedStatValue = 0f;
@@ -697,11 +709,11 @@ namespace Litkey.Stat
         [LabelText("Value")]
         public float value;
 
-        public bool Compare(StatModifier stat)
+        public bool Compare(StatModifier other)
         {
-            return stat.statType == this.statType
-                && stat.value == this.value
-                && stat.oper == this.oper;
+            return this.statType == other.statType
+                && this.oper == other.oper
+                && Math.Abs(this.value - other.value) < float.Epsilon;
         }
 
         public bool IsStatType(eSubStatType statType)

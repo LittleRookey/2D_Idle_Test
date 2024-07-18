@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 using System.Linq;
+using Litkey.Interface;
 
 
 /*
@@ -59,12 +60,50 @@ namespace Litkey.InventorySystem
         ETC, // 각종 광물, CountableItem (사용은 불가능)
     }
 
+    [Serializable]
+    public class SerializableInventory
+    {
+        public List<SerializableItem> items;
+        public Dictionary<eEquipmentParts, string> equippedItems;
+
+        public SerializableInventory()
+        {
+            items = new List<SerializableItem>();
+            equippedItems = new Dictionary<eEquipmentParts, string>();
+        }
+    }
+
+    [Serializable]
+    public class SerializableItem
+    {
+        public int slotIndex;
+        public int intID;
+        public string itemID;
+        public int amount;
+        public int durability;
+
+        public SerializableItem(int slotIndex, Item item)
+        {
+            this.slotIndex = slotIndex;
+            this.itemID = item.ID;
+            this.intID = item.Data.intID;
+
+            if (item is CountableItem countableItem)
+            {
+                this.amount = countableItem.Amount;
+            }
+
+            if (item is EquipmentItem equipmentItem)
+            {
+                this.durability = equipmentItem.Durability;
+            }
+        }
+
+    }
     [CreateAssetMenu(menuName ="Litkey/Inventory")]
-    public class Inventory : SerializedScriptableObject
+    public class Inventory : SerializedScriptableObject, ISavable, ILoadable
     {
         [SerializeField, TableList]
-        //private List<Item> _inventory; // 모든 아이템을 갖고있는 리스트
-
         public Dictionary<int, Item> _inventory; // 슬롯별 인덱스의 아이템 저장
 
         [ShowInInspector, DictionaryDrawerSettings(KeyLabel = "Item Type", ValueLabel = "Items")]
@@ -85,9 +124,22 @@ namespace Litkey.InventorySystem
 
         [SerializeField] private Dictionary<eEquipmentParts, EquipmentSlot> equipmentSlots;
 
+        public Dictionary<eEquipmentParts, EquipmentSlot> EquipmentSlots => equipmentSlots;
+
+        [SerializeField] public GameDatas gameDatas;
+        [SerializeField] private ItemDatabase itemDB;
+
         public UnityEvent<int> OnUseItem;
+        public UnityEvent OnInventoryLoaded;
+
+        private void Awake()
+        {
+            //gameDatas.OnGameDataLoaded.AddListener(Load);
+        }
+
         private void OnEnable()
         {
+            gameDatas.OnGameDataLoaded.AddListener(Load);
             equipmentSlots = new Dictionary<eEquipmentParts, EquipmentSlot>()
             {
                 { eEquipmentParts.Weapon, weaponSlot },
@@ -104,19 +156,108 @@ namespace Litkey.InventorySystem
             
         }
 
+        private void OnDisable()
+        {
+            gameDatas.OnGameDataLoaded.RemoveListener(Load);
+        }
+
+        #region Save + Load
+        public void Save()
+        {
+            SerializableInventory serializableInventory = new SerializableInventory();
+
+            foreach (var kvp in _inventory)
+            {
+                serializableInventory.items.Add(new SerializableItem(kvp.Key, kvp.Value));
+            }
+
+            foreach (var kvp in equipmentSlots)
+            {
+                if (kvp.Value.IsEquipped)
+                {
+                    serializableInventory.equippedItems[kvp.Key] = kvp.Value.EquippedItem.ID;
+                }
+            }
+
+            // Save serializableInventory to your GameData
+            gameDatas.dataSettings.inventoryData = serializableInventory;
+            gameDatas.SaveDataLocal();
+        }
+
+        public void Load()
+        {
+            Debug.Log("인벤토리 로드 시작");
+            SerializableInventory serializableInventory = gameDatas.dataSettings.inventoryData;
+
+            if (serializableInventory == null)
+            {
+                Debug.Log("No saved inventory data found. Initializing new inventory.");
+                InitInventory();
+                return;
+            }
+
+            _inventory.Clear();
+            foreach (var itemData in serializableInventory.items)
+            {
+                Item item = CreateItemFromData(itemData);
+                if (item != null)
+                {
+                    _inventory[itemData.slotIndex] = item;
+                }
+            }
+
+            foreach (var kvp in serializableInventory.equippedItems)
+            {
+                if (equipmentSlots.TryGetValue(kvp.Key, out EquipmentSlot slot))
+                {
+                    EquipmentItem item = _inventory.Values.FirstOrDefault(i => i.ID == kvp.Value) as EquipmentItem;
+                    if (item != null)
+                    {
+                        slot.EquipItem(item);
+                    }
+                }
+            }
+            Debug.Log("인벤토리 로드 성공");
+            OnInventoryLoaded?.Invoke();
+        }
+
+        private Item CreateItemFromData(SerializableItem itemData)
+        {
+            // You'll need to implement a method to create an Item instance from the saved data
+            // This might involve looking up the item in a database or item catalog based on the itemId
+            // For now, I'll provide a placeholder implementation
+            Item item = itemDB.GetItemByID(itemData.intID).CreateItem(itemData.itemID);
+            
+            if (item == null) return null;
+
+            if (item is CountableItem countableItem)
+            {
+                countableItem.SetAmount(itemData.amount);
+            }
+            else if (item is EquipmentItem equipmentItem)
+            {
+                equipmentItem.Durability = itemData.durability;
+            }
+
+            return item;
+        }
+
+        #endregion
+
         #region EquipmentSlot
 
         public void EquipItem(EquipmentItem item2Equip)
         {
             Debug.Log("Equipped Item in inventory: " + item2Equip.EquipmentData.GetStats().Length);
             equipmentSlots[item2Equip.EquipmentData.Parts].EquipItem(item2Equip);
+            Save();
         }
 
 
         public void UnEquipItem(eEquipmentParts parts)
         {
             equipmentSlots[parts].UnEquipItem();
-            
+            Save();
         }
 
         public bool IsMiningEquipped() => miningSlot.IsEquipped;
@@ -158,6 +299,7 @@ namespace Litkey.InventorySystem
             {
                 slot.Init();
             }
+            Debug.Log("Inventory Initialized");
         }
 
         private void AddOrUpdateItem(Item item)
@@ -207,7 +349,7 @@ namespace Litkey.InventorySystem
             if (_inventory == null || _itemsByType == null) InitInventory();
 
             AddOrUpdateItem(item);
-            
+            Save();
             OnGainItem?.Invoke(item);
         }
 
@@ -219,6 +361,8 @@ namespace Litkey.InventorySystem
             {
                 AddToInventory(item);
             }
+
+            Save();
         }
 
         // Overloaded method to find a specific item by its ID
@@ -272,6 +416,7 @@ namespace Litkey.InventorySystem
                     {
                         _inventory.Remove(index);
                     }
+                    Save();
                     return true;
                 }
                 else
@@ -305,20 +450,15 @@ namespace Litkey.InventorySystem
             // find equipped resourceGetterItem from equipment
             if (equipmentSlots[resourceGetterType].IsEquipped)
             {
-                // if exist, find its index from inventory
+                
                 int index = FindItemInInventory(equipmentSlots[resourceGetterType].EquippedItem.ID);
-                // use that resourceGetterItem, if its durability is less than 0, remove it from inventory and update UI
-                if (index != -1)
-                {
-                    var rEquip = equipmentSlots[resourceGetterType].EquippedItem as ResourceGetterItem;
-                    rEquip.Use();
-                    OnUseItem?.Invoke(index);
-                    return true;
-                }
-                else
-                {
-                    Debug.LogError("Can't find ResourceGetterItem of resource type: " + resourceGetterType);
-                }
+                var resourceGetter = equipmentSlots[resourceGetterType].EquippedItem as ResourceGetterItem;
+                resourceGetter.Use();
+                if (index == -1) Debug.LogError("Can't find ResourceGetterItem of ID " + equipmentSlots[resourceGetterType].EquippedItem.ID);
+                
+                OnUseItem?.Invoke(index);
+                
+                
             }
             return false;
 

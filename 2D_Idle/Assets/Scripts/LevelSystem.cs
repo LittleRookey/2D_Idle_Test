@@ -53,13 +53,8 @@ public class LevelSystem : MonoBehaviour, ILoadable, ISavable
 
     public void Load()
     { 
-        //Debug.Log(gameDatas);
-        //Debug.Log(gameDatas.dataSettings);
-        //Debug.Log(gameDatas.dataSettings.playerData);
-
         playerData = gameDatas.dataSettings.playerData;
-        Debug.Log("LevelSystem - left ability point: "  +playerData.leftAbilityPoint);
-        Debug.Log("Current Exp: " +playerData.currentExp);
+        Debug.Log("플레이어 레벨 및 경험치 로드 성공");
         this.unitLevel.SetLevel(playerData.level, playerData.currentExp);
     }
 

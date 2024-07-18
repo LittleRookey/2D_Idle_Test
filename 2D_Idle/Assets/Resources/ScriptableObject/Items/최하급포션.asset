@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconSprite: {fileID: -1320942805, guid: c66615a8db4aaf2419cca187b024188b, type: 3}
   _name: "\uCD5C\uD558\uAE09\uD3EC\uC158"
-  intID: 1000
+  intID: 2000
   _rarity: 0
   _itemType: 0
   _weight: 0

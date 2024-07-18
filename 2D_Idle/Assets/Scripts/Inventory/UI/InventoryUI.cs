@@ -61,7 +61,8 @@ namespace Litkey.InventorySystem
             
             Init();
 
-            
+            _inventory.OnInventoryLoaded.AddListener(LoadInventoryUI);
+            _inventory.OnInventoryLoaded.AddListener(UpdateEquippedItemUI);
             
         }
         // ¾ÆÀÌÅÛ ½½·Ô
@@ -133,7 +134,7 @@ namespace Litkey.InventorySystem
             }
         }
 
-        private void LoadInventory(List<Item> items)
+        private void LoadInventoryUI()
         {
             if (itemSlotPool == null)
             {
@@ -143,17 +144,17 @@ namespace Litkey.InventorySystem
             }
 
             ClearSlots();
-
-            for (int i = 0; i < items.Count; i++)
+            foreach (var kValue in _inventory._inventory)
             {
+                int index = kValue.Key;
+
                 var slot = itemSlotPool.Get();
-                int index = i;
-                slot.SetSlot(items[i], () =>
+                slot.SetSlot(kValue.Value, () =>
                 {
                     // ½½·ÔÀ» Å¬¸¯ 2¹ø ÇßÀ» ¶§, ¾ÆÀÌÅÛÀ» »ç¿ë È¤Àº ÀåÂø È¤Àº ÇØÁ¦
-                    OnSlotClick(index, slot);
+                    OnSlotSecondClick(index, slot);
                 });
-                slot.gameObject.SetActive(true);
+                slot.OnFirstClick.AddListener(() => OnSlotClick(index, slot));
                 itemSlots[index] = slot;
             }
         }
@@ -248,6 +249,33 @@ namespace Litkey.InventorySystem
                 }
             }
             currentSelectedSlot = null;
+        }
+
+        private void UpdateEquippedItemUI()
+        {
+            foreach(var slot in _inventory.EquipmentSlots.Values)
+            {
+                if (slot.IsEquipped)
+                {
+                    int index = _inventory.FindItemInInventory(slot.EquippedItem.ID);
+                    if (index != -1)
+                    {
+                        SetItemEquipped(slot.EquippedItem, index);
+
+                    } else
+                    {
+                        Debug.LogError($"Could not Item with ID {slot.EquippedItem.ID} in inventory");
+                    }
+                }
+            }
+        }
+        private void SetItemEquipped(EquipmentItem equipmentItem, int slotIndex)
+        {
+            _inventory.EquipItem(equipmentItem); // ÀåÂø ½½·Ô ÀåÂø
+            playerStatContainer.EquipEquipment(equipmentItem); // ½ºÅÝ ÀåÂø
+
+            equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // ÀÎµ¦½ºÀúÀå
+            itemSlots[slotIndex].SetEquipped(); // ½½·ÔÀåÂø
         }
 
 

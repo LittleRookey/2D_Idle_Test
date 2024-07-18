@@ -44,7 +44,7 @@ namespace Litkey.InventorySystem
             // // ½ºÅÝ ÀåÂøÇÏ±â
             // Àåºñ ÀåÂø
             this.equippedItem = equipItem;
-
+            Debug.Log("ÀåºñÃ¢ ÀåÂø");
             OnEquip?.Invoke(this.equippedItem);
         }
 

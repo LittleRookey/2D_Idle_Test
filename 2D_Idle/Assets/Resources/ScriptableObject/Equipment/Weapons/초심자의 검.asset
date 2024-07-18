@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _iconSprite: {fileID: -1162612220, guid: 31c66159d826a894a807136ee0b81868, type: 3}
   _name: "\uCD08\uC2EC\uC790\uC758 \uAC80"
-  intID: 0
+  intID: 2
   _rarity: 2
+  _itemType: 0
   _weight: 0
+  _sellPrice: 0
   _tooltip: "\uCD08\uBCF4 \uBAA8\uD5D8\uAC00\uB4E4\uC774 \uC0AC\uC6A9\uD558\uB294
     \uAE30\uBCF8\uC801\uC778 \uAC80\uC774\uB2E4"
   _maxDurability: 100

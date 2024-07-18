@@ -11,10 +11,14 @@ namespace Litkey.InventorySystem
         public float Value => _value;
         [SerializeField] private float _value;
 
-        public override Item CreateItem()
+        public override Item CreateItem(string newID = default)
         {
-            //string _id = UniqueIDGenerator.GenerateUnqiueIDDateTime(Name);
-            return new CraftItem(this, intID.ToString());
+            string _id = $"{intID.ToString()}_{Name}_{UniqueIDGenerator.GenerateUniqueID()}";
+            if (!string.IsNullOrEmpty(newID))
+            {
+                _id = newID;
+            }
+            return new CraftItem(this, _id);
         }
     }
 }

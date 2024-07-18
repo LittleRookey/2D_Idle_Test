@@ -8,12 +8,15 @@ namespace Litkey.InventorySystem
     public class ArmorItemData : EquipmentItemData
     {
         /// <summary> ¹æ¾î·Â </summary>
-        public override Item CreateItem()
+        public override Item CreateItem(string newID=default)
         {
             string _id = $"{intID.ToString()}_{Name}_{UniqueIDGenerator.GenerateUniqueID()}";
-            var item = new ArmorItem(this, _id);
+            if (!string.IsNullOrEmpty(newID))
+            {
+                _id = newID;
+            }
             //ResourceManager.Instance.MakeRandomStats(item);
-            return item;
+            return new ArmorItem(this, _id);
         }
 
     }
