@@ -19,11 +19,11 @@ public class NPCInteractor : Interactor
             WarningMessageInvoker.Instance.ShowMessage($"Cannot interact with {_npcName} right now.");
             return;
         }
+        player.DisableMovement();
         if (_dialogueLines != null)
         {
             StartCoroutine(DialogueCoroutine(player, OnEnd));
         }
-        OnDialogueEnd?.Invoke();
     }
 
     private IEnumerator DialogueCoroutine(PlayerController player, UnityAction OnEnd)

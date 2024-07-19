@@ -38,7 +38,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  currentExp: 54
+  currentExp: 0
   growthFactor: 1.1
   extraExpPerLevel: 50
   MaxExpByLevel:
@@ -63,9 +63,14 @@ MonoBehaviour:
   - 11091
   - 12917
   initMaxExp: 10
+  totalEXPTilMaxLevel: 73168.04
+  minutesTilMaxLevel: 1219
+  hoursTilMaxLevel: 20
+  daysTilMaxLevel: 1
+  expGainPerSec: 1
   skillName: SwordMastery
   extraLevelOnRankup: 0
-  isMaxLevel: 1
+  isMaxLevel: 0
   OnLevelMax:
     m_PersistentCalls:
       m_Calls: []

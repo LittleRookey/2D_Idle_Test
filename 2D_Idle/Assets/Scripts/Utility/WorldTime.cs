@@ -16,69 +16,72 @@ namespace WorldTime
     public class WorldTime : MonoBehaviour
     {
         public event EventHandler<TimeSpan> WorldTimeChanged;
-        [SerializeField] private float _dayLength; // in seconds
 
-        private TimeSpan _currentTime;
-        [ShowInInspector] public float _minuteLength => _dayLength / WorldTimeConstants.MinutesInDay;
+        [SerializeField, Range(0f, 1f)]
+        private float _percentOfDay;
 
-        [SerializeField] private bool stopTimer;
-        WaitForSeconds waitTime;
-        private void Start()
+        [ShowInInspector]
+        public float PercentOfDay
         {
-            StartCoroutine(AddMinute());
-            waitTime = new WaitForSeconds(_minuteLength);
-        }
-        private IEnumerator AddMinute()
-        {
-            _currentTime += TimeSpan.FromMinutes(1);
-            WorldTimeChanged?.Invoke(this, _currentTime);
-
-            yield return waitTime;
-            StartCoroutine(AddMinute());
-        }
-
-        float Timer;
-        private void Update()
-        {
-            if (stopTimer) return;
-
-            Timer += Time.deltaTime;
-            if (Timer >= _minuteLength)
+            get => _percentOfDay;
+            set
             {
-                _currentTime += TimeSpan.FromMinutes(1);
-                WorldTimeChanged?.Invoke(this, _currentTime);
-                Timer = 0f;
+                _percentOfDay = Mathf.Clamp01(value);
+                UpdateCurrentTime();
             }
         }
 
-        public float PercentOfDay()
+        [SerializeField] private float _dayLength = 24f * 60f; // day length in seconds
+        [ShowInInspector] public float MinuteLength => _dayLength / WorldTimeConstants.MinutesInDay;
+
+        [SerializeField] private bool _stopTimer;
+        private TimeSpan _currentTime;
+
+        private void OnValidate()
         {
-            return (float)_currentTime.TotalMinutes % WorldTimeConstants.MinutesInDay / WorldTimeConstants.MinutesInDay;
+            // This ensures changes in the inspector are immediately reflected
+            PercentOfDay = _percentOfDay;
+        }
+
+        private void Start()
+        {
+            UpdateCurrentTime();
+        }
+
+        private void Update()
+        {
+            if (_stopTimer) return;
+
+            _percentOfDay += Time.deltaTime / _dayLength;
+            if (_percentOfDay >= 1f)
+            {
+                _percentOfDay -= 1f;
+            }
+
+            UpdateCurrentTime();
+        }
+
+        private void UpdateCurrentTime()
+        {
+            int totalMinutes = Mathf.FloorToInt(_percentOfDay * WorldTimeConstants.MinutesInDay);
+            _currentTime = TimeSpan.FromMinutes(totalMinutes);
+            WorldTimeChanged?.Invoke(this, _currentTime);
         }
 
         public void SetTime(TimeSpan newTime)
         {
-            stopTimer = true;
-            _currentTime = newTime;
-            WorldTimeChanged?.Invoke(this, _currentTime);
-            Timer = 0f; // Reset the timer to avoid immediate update
-            stopTimer = false; 
+            _stopTimer = true;
+            PercentOfDay = (float)newTime.TotalMinutes / WorldTimeConstants.MinutesInDay;
+            _stopTimer = false;
         }
 
-        public void SetTime(int hour, int minute, int sec)
+        public void SetTime(int hour, int minute, int second)
         {
-            stopTimer = true;
-            _currentTime = new TimeSpan(hour, minute, sec);
-
-            WorldTimeChanged?.Invoke(this, _currentTime);
-            Timer = 0f; // Reset the timer to avoid immediate update
-            stopTimer = false;
+            SetTime(new TimeSpan(hour, minute, second));
         }
 
-        public void StartTimer() => stopTimer = false;
-
-        public void StopTimer() => stopTimer = true;
+        public void StartTimer() => _stopTimer = false;
+        public void StopTimer() => _stopTimer = true;
     }
-
 
 }

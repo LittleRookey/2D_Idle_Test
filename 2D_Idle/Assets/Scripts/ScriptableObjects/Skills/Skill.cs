@@ -21,6 +21,7 @@ namespace Litkey.Skill
         ∫“∏Í,
         Ω≈»≠,
     }
+    [InlineEditor]
     [System.Serializable]
     public abstract class Skill : SerializedScriptableObject
     {
@@ -53,7 +54,7 @@ namespace Litkey.Skill
 
         protected virtual void Awake() 
         {
-            //Level = Instantiate(Resources.Load<SkillLevel>(skillLevelPath));
+
         }
 
         protected virtual void OnEnable() { }

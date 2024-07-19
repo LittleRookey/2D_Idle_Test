@@ -21,7 +21,7 @@ public class UnitLevel : ScriptableObject
 {
     [SerializeField] public int maxLevel = 100;
     public bool showLog;
-    [ShowInInspector] public int level { get; protected set; } = 0;
+    [ShowInInspector] public int level { get; protected set; } = 1;
 
     public float CurrentExp => currentExp;
     public float MaxExp
@@ -92,7 +92,7 @@ public class UnitLevel : ScriptableObject
     }
 
 
-    public void SetLevel(int level, float currentExp)
+    public virtual void SetLevel(int level, float currentExp)
     {
         this.level = level;
         maxExp = MaxExpByLevel[level - 1];

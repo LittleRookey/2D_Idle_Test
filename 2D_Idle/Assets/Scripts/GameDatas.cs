@@ -53,6 +53,9 @@ public class PlayerData
 
     public Dictionary<string, SkillData> skillDatas;
 
+    public Dictionary<int, string> equippedActiveSkills;
+
+    public int unlockedActiveSkillSlots;
     public PlayerData()
     {
         level = 1;
@@ -65,6 +68,13 @@ public class PlayerData
         IntLevel = 0;
 
         skillDatas = new Dictionary<string, SkillData>();
+        equippedActiveSkills = new Dictionary<int, string>();
+        unlockedActiveSkillSlots = 1;
+        for (int i = 0; i < unlockedActiveSkillSlots; i++)
+        {
+            equippedActiveSkills.Add(i, string.Empty);
+        }
+
 
         weapon = new EquipmentUpgradeStatus();
         topArmor = new EquipmentUpgradeStatus();
@@ -94,6 +104,17 @@ public class PlayerData
         this.SensationLevel = statContainer.Sensation.LevelAddedStats;
         this.IntLevel = statContainer.Int.LevelAddedStats;
     }
+
+    public void SaveEquippedSkills(int index, ActiveSkill active)
+    {
+        if (active == null)
+        {
+            equippedActiveSkills[index] = string.Empty;
+            return;
+        }
+        equippedActiveSkills.Add(index, active.skillName);
+    }
+
     public void SaveSkills(List<Skill> skills)
     {
         for (int i = 0; i < skills.Count; i++)
@@ -101,6 +122,18 @@ public class PlayerData
             SaveSkill(skills[i]);
         }
     }
+
+    public void SaveEquippedActiveSkills(SkillInventory skillInventory)
+    {
+        var equipped = skillInventory.equippedActiveSkills;
+        for (int i = 0; i < equipped.Length; i++)
+        {
+            if (!equippedActiveSkills.ContainsKey(i)) equippedActiveSkills.Add(i, string.Empty);
+            equippedActiveSkills[i] = equipped[i].skillName;
+        }
+        this.unlockedActiveSkillSlots = Mathf.Max(1, equipped.Length);
+    }
+
     public void SaveSkill(Skill skill)
     {
         if (!skillDatas.ContainsKey(skill.skillName))

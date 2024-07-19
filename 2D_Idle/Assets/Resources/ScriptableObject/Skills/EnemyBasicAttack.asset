@@ -12,8 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762bd0f2b1e598d40a011d4e41c2e4b8, type: 3}
   m_Name: EnemyBasicAttack
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: rankUpgrades
+      Entry: 6
+      Data: 
   _icon: {fileID: 0}
-  skillName: 
-  skillLevel: 0
+  skillName: "\uC801\uC77C\uBC18\uACF5\uACA9"
+  startRank: 0
+  currentRank: 0
+  maxRank: 0
+  baseSkillDamage: 0
+  Level: {fileID: 0}
   abilityUseSound: 
+  skillExplanation: 
+  OnIncreaseExp:
+    m_PersistentCalls:
+      m_Calls: []
   damagePercent: 0
+  OnApplyEffect:
+    m_PersistentCalls:
+      m_Calls: []

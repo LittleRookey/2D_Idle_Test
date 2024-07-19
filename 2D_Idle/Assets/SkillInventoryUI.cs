@@ -79,7 +79,7 @@ public class SkillInventoryUI : MonoBehaviour
     {
         windowTransform.gameObject.SetActive(true);
         ActiveMode();
-        ShowSkillInfo(skillInventory.GetSkill("»ïÀç°Ë¹ý"));
+        //ShowSkillInfo(skillInventory.GetSkill("»ïÀç°Ë¹ý"));
     }
 
     public void CloseInventory()
@@ -159,9 +159,12 @@ public class SkillInventoryUI : MonoBehaviour
         skillExpText.SetText($"{current} / {max}");
     }
 
+    string levelText;
     private void UpdateSkillLevel(float current, float max)
     {
-        skillTitleText.SetText($"{currentSkill.skillName} +{currentSkill.skillLevel}");
+        levelText = string.Empty;
+        if (currentSkill.skillLevel > 1) levelText += $"+{currentSkill.skillLevel - 1}";
+        skillTitleText.SetText($"{currentSkill.skillName} {levelText}");
     }
 
     private void UpdateSkillOnLevelUp(float x, float y)
@@ -193,8 +196,10 @@ public class SkillInventoryUI : MonoBehaviour
         currentSkill.Level.OnLevelUp += UpdateSkillOnLevelUp;
 
         skillIcon.sprite = skill._icon;
+        levelText = string.Empty;
+        if (skill.skillLevel > 1) levelText += $"+{skill.skillLevel - 1}";
 
-        skillTitleText.SetText($"{skill.skillName} +{skill.skillLevel}");
+        skillTitleText.SetText($"{skill.skillName} {levelText}");
         skillRankText.SetText($"{TMProUtility.GetColorText(skill.currentRank.ToString(), skillRarity.GetSkillColor(skill.currentRank))}");
         skillExplanationText.SetText(skill.skillExplanation);
 

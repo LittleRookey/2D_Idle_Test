@@ -15,7 +15,7 @@ public class SkillLevel : UnitLevel
 
     private void Awake()
     {
-        level = 0;
+        level = 1;
         currentExp = 0;
     }
 
@@ -62,6 +62,16 @@ public class SkillLevel : UnitLevel
 
         UpdateMaxExpsPerLevel();
         OnLevelMax?.Invoke();
+    }
+
+    public override void SetLevel(int level, float currentExp)
+    {
+        this.level = level;
+        maxExp = MaxExpByLevel[level - 1];
+        this.currentExp = currentExp;
+        OnInitSetup?.Invoke(currentExp, maxExp);
+        isMaxLevel = level == maxLevel;
+        
     }
 
     public SkillLevel CloneSkillLevel()

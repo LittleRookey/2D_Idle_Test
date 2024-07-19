@@ -23,7 +23,7 @@ namespace WorldTime
 
         private void OnWorldTimeChanged(object sender, TimeSpan e)
         {
-            _light.SetTime(PercentOfDay(e));
+            _light.SetTime(_worldTime.PercentOfDay);
         }
 
         public float PercentOfDay(TimeSpan timeSpan)
@@ -52,7 +52,7 @@ namespace WorldTime
         // Update is called once per frame
         void Update()
         {
-            _light.SetTime(_worldTime.PercentOfDay());
+            _light.SetTime(_worldTime.PercentOfDay);
         }
     }
 }
