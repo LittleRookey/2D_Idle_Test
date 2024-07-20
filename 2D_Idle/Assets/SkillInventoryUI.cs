@@ -50,6 +50,8 @@ public class SkillInventoryUI : MonoBehaviour
     private List<SkillSlotUI> skillSlots;
 
     private Pool<SkillSlotUI> skillSlotPool;
+
+    public bool DisableSkillWindowOnStart;
     private void Awake()
     {
         skillSlots = new List<SkillSlotUI>();
@@ -72,7 +74,7 @@ public class SkillInventoryUI : MonoBehaviour
     }
     private void Start()
     {
-        CloseInventory();
+        if (DisableSkillWindowOnStart) CloseInventory();
     }
 
     public void OpenInventory()

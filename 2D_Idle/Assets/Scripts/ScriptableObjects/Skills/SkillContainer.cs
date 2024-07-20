@@ -39,8 +39,8 @@ public class SkillContainer : MonoBehaviour
 
     public void UpdateObtainedSkills()
     {
-        passiveSkills = SkillInventory.Instance.GetPassives();
-        activeSkills = SkillInventory.Instance.GetActives();
+        //passiveSkills = SkillInventory.Instance.GetPassives();
+        //activeSkills = SkillInventory.Instance.GetActives();
     }
 
     public ActiveSkill FindUsableSkill()
