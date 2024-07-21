@@ -9,6 +9,7 @@ public class SkillSlotUI : MonoBehaviour
 {
     [SerializeField] private Image slotIcon;
     [SerializeField] private Button slotClickBtn;
+    [SerializeField] private Image highlight;
     //public UnityEvent<Skill> OnClickSlot;
 
     private Skill skill;
@@ -24,11 +25,24 @@ public class SkillSlotUI : MonoBehaviour
         slotClickBtn.onClick.AddListener(() => onClick(skill));
     }
 
+    public void RemoveListener(UnityAction<Skill> onClick)
+    {
+        slotClickBtn.onClick.RemoveListener(() => onClick(skill));
+    }
+
+    public void RemoveAllListener() => slotClickBtn.onClick.RemoveAllListeners();
+
     public void ClearSlot()
     {
         slotIcon.sprite = null;
-        slotClickBtn.onClick.RemoveAllListeners();
+        skill = null;
+        RemoveAllListener();
+        Highlight(false);
     }
 
-    
+    public void Highlight(bool on) => highlight.gameObject.SetActive(on);
+
+
+
+
 }

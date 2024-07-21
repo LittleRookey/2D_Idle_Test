@@ -32,9 +32,11 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
     [SerializeField] private GameDatas gameDatas;
     [SerializeField] private SkillDatabase skillDB;
 
-    public ActiveSkill[] equippedActiveSkills;
+    public SkillEquipSlot[] equippedActiveSkills;
 
+    [SerializeField] private int maxSkillEquipSlotNumber = 5;
 
+    [HideInInspector] public UnityEvent OnSkillInventoryLoaded;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -85,43 +87,114 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
 
         OnAddSkill?.Invoke(skill);
         Debug.Log($"스킬 {skill.skillName}가 성공적으로 추가돼었습니다");
-        Save();
+        //Save();
 
+    }
+
+    public SkillEquipSlot GetSkillEquipSlot(int index)
+    {
+        if (index >= equippedActiveSkills.Length) return null;
+        if (index < 0) return null;
+        return equippedActiveSkills[index];
     }
 
     private bool IsSkillSlotsFull()
     {
-        bool isNotFull = false;
         for (int i = 0; i < equippedActiveSkills.Length; i++)
         {
-            isNotFull = isNotFull || equippedActiveSkills[i] == null;
+            if (!equippedActiveSkills[i].IsEquipped)
+            {
+                return false; // If any slot is not equipped, the slots are not full
+            }
         }
-        return isNotFull;
+        return true; // All slots are equipped
     }
 
-    public void EquipActiveSkill(ActiveSkill activeSkill, int slotIndex)
+    public bool EquipActiveSkill(ActiveSkill activeSkill, int slotIndex)
     {
         if (IsSkillSlotsFull())
         {
             WarningMessageInvoker.Instance.ShowMessage($"스킬 슬롯이 꽉 찼습니다");
-            return;
+            return false;
         }
         if (slotIndex >= equippedActiveSkills.Length || slotIndex < 0)
         {
             WarningMessageInvoker.Instance.ShowMessage($"스킬 슬롯{slotIndex}은 없습니다");
-            return;
+            return false;
+        }
+        if (slotIndex >= gameDatas.dataSettings.playerData.unlockedActiveSkillSlots)
+        {
+            WarningMessageInvoker.Instance.ShowMessage($"스킬 슬롯{slotIndex}은 잠겨있습니다");
+            return false;
         }
 
-        equippedActiveSkills[slotIndex] = activeSkill;
         PlayerData playerData = gameDatas.dataSettings.playerData;
-        playerData.SaveEquippedSkills(slotIndex, activeSkill);
-    }
 
-    public void UnEquipActiveSkill(int slotIndex)
+        //만약 같은 스킬을 장착하려고 하면 장착이 해제된다. 
+        if (equippedActiveSkills[slotIndex].IsSameSkill(activeSkill))
+        {
+            equippedActiveSkills[slotIndex].UnEquip();
+            playerData.SaveEquippedActiveSkills(this);
+            Save();
+            return true;
+        }
+
+        // 이미 장착돼있는스킬을 다른 비어있는 스킬칸에다가 장착하면 스킬이 그 칸으로 옮겨 장착된다
+        // 만약 해당 스킬칸이 비어있지않고 스킬이 있으면 Swap하기
+        int currentEquippedIndex = GetEquippedSlotIndexWithSkill(activeSkill);
+        if (currentEquippedIndex != -1)
+        {
+            if (!equippedActiveSkills[slotIndex].IsEquipped)
+            {
+                // Move the skill to the new slot
+                equippedActiveSkills[currentEquippedIndex].UnEquip();
+                equippedActiveSkills[slotIndex].Equip(activeSkill);
+            }
+            else
+            {
+                // Swap skills
+                ActiveSkill skillInTargetSlot = equippedActiveSkills[slotIndex].EquippedSkill;
+                equippedActiveSkills[slotIndex].Equip(activeSkill);
+                equippedActiveSkills[currentEquippedIndex].Equip(skillInTargetSlot);
+            }
+        }
+        else
+        {
+            // 평범하게 해당 스킬칸이 빈 스킬칸이면 그대로 장착
+            equippedActiveSkills[slotIndex].Equip(activeSkill);
+        }
+
+        playerData.SaveEquippedActiveSkills(this);
+        Save();
+        return true;
+    }
+    private int GetEquippedSlotIndexWithSkill(ActiveSkill skill)
     {
-        equippedActiveSkills[slotIndex] = null;
-        PlayerData playerData = gameDatas.dataSettings.playerData;
-        playerData.SaveEquippedSkills(slotIndex, null);
+        for (int i = 0; i < equippedActiveSkills.Length; i++)
+        {
+            if (equippedActiveSkills[i].IsLocked) continue;
+            if (!equippedActiveSkills[i].IsEquipped) continue;
+
+            if (equippedActiveSkills[i].IsSameSkill(skill))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    private bool IsAlreadyEquipped(ActiveSkill activeSkill)
+    {
+        for (int i = 0; i < equippedActiveSkills.Length; i++)
+        {
+            if (equippedActiveSkills[i].IsLocked) continue;
+            if (!equippedActiveSkills[i].IsEquipped) continue;
+
+            if (equippedActiveSkills[i].IsSameSkill(activeSkill)) 
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<PassiveSkill> GetPassives()
@@ -196,18 +269,28 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
         Debug.Log("스킬 데이터 로드 완료");
 
         int activeSkillSlots = playerData.unlockedActiveSkillSlots;
-        if (equippedActiveSkills != null && equippedActiveSkills.Length == activeSkillSlots)
-        {
-            Debug.Log("스킬 슬롯 이미 로드 완료");
-            return;
-        }
+        //if (equippedActiveSkills != null && equippedActiveSkills.Length == activeSkillSlots)
+        //{
+        //    Debug.Log("스킬 슬롯 이미 로드 완료");
+        //    return;
+        //}
         Debug.Log("스킬 슬롯 로드 시작...");
-        equippedActiveSkills = new ActiveSkill[activeSkillSlots];
+        equippedActiveSkills = new SkillEquipSlot[maxSkillEquipSlotNumber];
+        for (int i = 0; i < equippedActiveSkills.Length; i++)
+        {
+            equippedActiveSkills[i] = new SkillEquipSlot(i);
+            if (i < activeSkillSlots)
+            {
+                equippedActiveSkills[i].Unlock();
+            }
+        }
+        
         foreach (var kValue in playerData.equippedActiveSkills)
         {
             if (kValue.Value.Equals(string.Empty)) continue;
-            equippedActiveSkills[kValue.Key] = GetActiveSkill(kValue.Value);
+            equippedActiveSkills[kValue.Key].Equip(GetActiveSkill(kValue.Value));
         }
+        OnSkillInventoryLoaded?.Invoke();
     }
 
     // 이미 인벤토리에 있는 스킬들의 데이터를 업데이트
@@ -230,5 +313,41 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
         {
             Debug.LogError("Skill not found!: " + skillData.skillName);
         }
+    }
+}
+
+[System.Serializable]
+public class SkillEquipSlot
+{
+    public bool IsLocked;
+    public int Index { private set; get; }
+    public ActiveSkill EquippedSkill;
+    public bool IsEquipped => EquippedSkill != null;
+    
+    public SkillEquipSlot(int index)
+    {
+        IsLocked = true;
+        Index = index;
+        EquippedSkill = null;
+    }
+
+    public void Equip(ActiveSkill skill)
+    {
+        if (IsLocked) return;
+        EquippedSkill = skill;
+    }
+
+    public void UnEquip()
+    {
+        EquippedSkill = null;
+    }
+
+    public void Lock() => IsLocked = true;
+    public void Unlock() => IsLocked = false;
+
+    public bool IsSameSkill(ActiveSkill skill)
+    {
+        if (EquippedSkill == null) return false;
+        return EquippedSkill.skillName.Equals(skill.skillName);
     }
 }

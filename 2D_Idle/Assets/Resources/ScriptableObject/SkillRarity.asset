@@ -23,12 +23,12 @@ MonoBehaviour:
     SerializationNodes:
     - Name: rankColor
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[eSkillRank, Assembly-CSharp],[UnityEngine.Color,
+      Data: 0|System.Collections.Generic.Dictionary`2[[Litkey.Skill.eSkillRank, Assembly-CSharp],[UnityEngine.Color,
         UnityEngine.CoreModule]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[eSkillRank, Assembly-CSharp]],
-        mscorlib
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Litkey.Skill.eSkillRank,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -52,13 +52,13 @@ MonoBehaviour:
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.8584906
+      Data: 0.3803922
     - Name: 
       Entry: 4
-      Data: 0.8584906
+      Data: 0.494117677
     - Name: 
       Entry: 4
-      Data: 0.8584906
+      Data: 0.5411765
     - Name: 
       Entry: 4
       Data: 1
@@ -79,13 +79,13 @@ MonoBehaviour:
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.07058824
+      Data: 0.378913432
     - Name: 
       Entry: 4
-      Data: 0.9882353
+      Data: 0.6981132
     - Name: 
       Entry: 4
-      Data: 0.08235294
+      Data: 0.3786935
     - Name: 
       Entry: 4
       Data: 1
@@ -133,13 +133,13 @@ MonoBehaviour:
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.8156863
+      Data: 0.596078455
     - Name: 
       Entry: 4
-      Data: 0.258823544
+      Data: 0.207843155
     - Name: 
       Entry: 4
-      Data: 0.9529412
+      Data: 1
     - Name: 
       Entry: 4
       Data: 1
@@ -160,13 +160,13 @@ MonoBehaviour:
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0.321568638
     - Name: 
       Entry: 4
-      Data: 0.647058845
+      Data: 0.8431373
     - Name: 
       Entry: 4
-      Data: 0.286274523
+      Data: 0.007843138
     - Name: 
       Entry: 4
       Data: 1
@@ -268,13 +268,13 @@ MonoBehaviour:
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0.905882359
     - Name: 
       Entry: 4
-      Data: 0.6392157
+      Data: 0.905882359
     - Name: 
       Entry: 4
-      Data: 0.6392157
+      Data: 0.905882359
     - Name: 
       Entry: 4
       Data: 1

@@ -106,16 +106,6 @@ public class PlayerData
         this.IntLevel = statContainer.Int.LevelAddedStats;
     }
 
-    public void SaveEquippedSkills(int index, ActiveSkill active)
-    {
-        if (active == null)
-        {
-            equippedActiveSkills[index] = string.Empty;
-            return;
-        }
-        equippedActiveSkills.Add(index, active.skillName);
-    }
-
     public void SaveSkills(List<Skill> skills)
     {
         for (int i = 0; i < skills.Count; i++)
@@ -129,20 +119,25 @@ public class PlayerData
     {
         // 현재 스킬창의 장착스킬들
         var equipped = skillInventory.equippedActiveSkills;
-        Debug.Log("equipped skill? "+equipped == null);
-        Debug.Log("equipped skill length? "+equipped.Length);
 
-        for (int i = 0; i < equipped.Length; i++)
+        int unlockedSlotCount = 0;
+        foreach (var skillSlot in equipped)
         {
-            if (!equippedActiveSkills.ContainsKey(i)) 
-                equippedActiveSkills.Add(i, string.Empty);
-
-            // 스킬장착창이 비어있지 않으면 스킬이름을 저장
-            if (!equipped[i].skillName.Equals(string.Empty)) 
-                equippedActiveSkills[i] 
-                    = equipped[i].skillName;
+            if (skillSlot.IsLocked) continue;
+            
+            unlockedSlotCount++;
+            
+            if (skillSlot.IsEquipped)
+            {
+                equippedActiveSkills[skillSlot.Index] = skillSlot.EquippedSkill.skillName;
+            } else
+            {
+                equippedActiveSkills[skillSlot.Index] = string.Empty;
+            }
         }
-        this.unlockedActiveSkillSlots = Mathf.Max(1, equipped.Length);
+
+
+        this.unlockedActiveSkillSlots = Mathf.Max(1, unlockedSlotCount);
     }
 
     public void SaveSkill(Skill skill)

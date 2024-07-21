@@ -262,6 +262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotIcon: {fileID: 7450990943471601018}
   slotClickBtn: {fileID: 7450990942602794320}
+  highlight: {fileID: 1414526272}
 --- !u!114 &7450990942602794320
 MonoBehaviour:
   m_ObjectHideFlags: 0

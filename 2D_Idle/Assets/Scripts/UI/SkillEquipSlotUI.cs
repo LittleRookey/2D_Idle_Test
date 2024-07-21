@@ -20,6 +20,13 @@ public class SkillEquipSlotUI : MonoBehaviour
         lockedImage.gameObject.SetActive(false);
     }
 
+    public void SetEquipped()
+    {
+        plusImage.gameObject.SetActive(false);
+        iconBGImage.gameObject.SetActive(true);
+        lockedImage.gameObject.SetActive(false);
+    }
+
     public void SetLocked()
     {
         plusImage.gameObject.SetActive(false);
@@ -38,7 +45,7 @@ public class SkillEquipSlotUI : MonoBehaviour
 
     public void EquipSkill(ActiveSkill skill)
     {
-        SetEmpty();
+        SetEquipped();
         skillIconImage.sprite = skill._icon;
     }
 
