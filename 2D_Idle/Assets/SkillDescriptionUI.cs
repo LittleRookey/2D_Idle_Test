@@ -13,99 +13,31 @@ public class SkillDescriptionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statRankReachText;
     [SerializeField] private RarityColor rarityColor;
 
+    private readonly string 달성시 = " 달성시";
+    private readonly string 달성 = "(달성)";
+    private readonly string 미달성 = "(미달성)";
     public void UpdateDescription(Skill skill, eSkillRank rank)
     {
-        if (skill is PassiveSkill passiveSkill)
+        reachRankText.SetText(TMProUtility.GetColorText( rank.ToString() + 달성시, rarityColor.GetSkillColor(rank)));
+        if (skill.currentRank >= rank)
         {
-            // 스킬의 각 랭크마다 Dscription을 만들어서 
-
-            reachRankText.SetText($"{TMProUtility.GetColorText(rank.ToString(), rarityColor.GetSkillColor(rank))} 달성시");
-            if (passiveSkill.currentRank >= rank)
-            {
-                // 이미 달성했다면
-                reachText.SetText("(달성)");
-            }
-            else
-            {
-                reachText.SetText("(미달성)");
-            }
-            // 해당 랭크의 스텟의 총합을 딕셔너리에 묶어서 순서대로 나열
-
-            var stats = passiveSkill.rankUpgrades[rank];
-
-            string statText = string.Empty;
-
-            foreach (var upgradeInfo in stats)
-            {
-                statText += $"{upgradeInfo.upgradeExplanation}\n";
-            }
-            statRankReachText.SetText(statText);
-
-
+            // 이미 달성했다면
+            reachText.SetText(달성);
         }
-        else if (skill is ActiveSkill activeSkill)
+        else
         {
-            reachRankText.SetText($"{TMProUtility.GetColorText(rank.ToString(), rarityColor.GetSkillColor(rank))} 달성시");
-            if (activeSkill.currentRank >= rank)
-            {
-                // 이미 달성했다면
-                reachText.SetText("(달성)");
-            }
-            else
-            {
-                reachText.SetText("(미달성)");
-            }
-            // 해당 랭크의 스텟의 총합을 딕셔너리에 묶어서 순서대로 나열
-
-            var stats = activeSkill.rankUpgrades[rank];
-
-            string statText = string.Empty;
-
-            foreach (var upgradeInfo in stats)
-            {
-                statText += $"{upgradeInfo.upgradeExplanation}\n";
-            }
-            statRankReachText.SetText(statText);
+            reachText.SetText(미달성);
         }
+        var stats = skill.rankUpgrades[rank];
 
+        string statText = string.Empty;
+
+        foreach (var upgradeInfo in stats)
+        {
+            statText += $"{upgradeInfo.upgradeExplanation}\n";
+        }
+        statRankReachText.SetText(statText);
     }
-
-    //public void UpdateDescription(Skill skill, eSkillRank rank)
-    //{
-    //    if (skill is PassiveSkill passiveSkill)
-    //    {
-    //            // 스킬의 각 랭크마다 Dscription을 만들어서 
-
-    //            reachRankText.SetText($"{rank} 달성시");
-    //        if (passiveSkill.currentRank >= rank)
-    //        {
-    //            // 이미 달성했다면
-    //            reachText.SetText("(달성)");
-    //        } else
-    //        {
-    //            reachText.SetText("(미달성)");
-    //        }
-    //        // 해당 랭크의 스텟의 총합을 딕셔너리에 묶어서 순서대로 나열
-
-    //        var stats = StatUtility.GetSumOfStats(passiveSkill.LevelUpgrades[rank]);
-
-    //        string statText = string.Empty;
-    //        foreach(var statType in stats.Keys)
-    //        {
-    //            if (stats[statType] > 0)
-    //                statText += $"{statType} +{stats[statType]}\n";
-    //            else if (stats[statType] < 0)
-    //                statText += $"{statType} {stats[statType]}\n";
-    //        }
-    //        statRankReachText.SetText(statText);
-
-
-    //    } else if (skill is ActiveSkill activeSkill)
-    //    {
-
-    //    }
-
-    //}
 
 
 }

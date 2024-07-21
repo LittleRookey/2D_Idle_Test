@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameData.LoadDataLocal();
+        //gameData.LoadDataLocal();
     }
     private void StartEvent()
     {

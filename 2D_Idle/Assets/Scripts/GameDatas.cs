@@ -70,6 +70,7 @@ public class PlayerData
         skillDatas = new Dictionary<string, SkillData>();
         equippedActiveSkills = new Dictionary<int, string>();
         unlockedActiveSkillSlots = 1;
+
         for (int i = 0; i < unlockedActiveSkillSlots; i++)
         {
             equippedActiveSkills.Add(i, string.Empty);
@@ -123,13 +124,23 @@ public class PlayerData
         }
     }
 
+    // 현재 장비해있는 스킬을 저장, 없으면 저장안함
     public void SaveEquippedActiveSkills(SkillInventory skillInventory)
     {
+        // 현재 스킬창의 장착스킬들
         var equipped = skillInventory.equippedActiveSkills;
+        Debug.Log("equipped skill? "+equipped == null);
+        Debug.Log("equipped skill length? "+equipped.Length);
+
         for (int i = 0; i < equipped.Length; i++)
         {
-            if (!equippedActiveSkills.ContainsKey(i)) equippedActiveSkills.Add(i, string.Empty);
-            equippedActiveSkills[i] = equipped[i].skillName;
+            if (!equippedActiveSkills.ContainsKey(i)) 
+                equippedActiveSkills.Add(i, string.Empty);
+
+            // 스킬장착창이 비어있지 않으면 스킬이름을 저장
+            if (!equipped[i].skillName.Equals(string.Empty)) 
+                equippedActiveSkills[i] 
+                    = equipped[i].skillName;
         }
         this.unlockedActiveSkillSlots = Mathf.Max(1, equipped.Length);
     }

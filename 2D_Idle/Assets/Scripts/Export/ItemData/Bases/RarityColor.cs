@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 
 namespace Litkey.Skill
 {
+    [InlineEditor]
     [CreateAssetMenu(menuName ="Litkey/SkillRarity")]
     public class RarityColor : SerializedScriptableObject
     {

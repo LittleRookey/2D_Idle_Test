@@ -49,9 +49,11 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
     [Button("AddSkill")]
     public void AddToInventory(Skill skill)
     {
-        Debug.Log($"스킬 {skill.skillName}가 성공적으로 추가돼었습니다");
+        
         skill.Level.Init();
-        skillInventory.Add(skill);
+
+        bool alreadyContainsSkill = true;
+
         if (skill is PassiveSkill passive)
         {
             if (!passives.ContainsKey(passive.skillName))
@@ -62,6 +64,7 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
                 playerStat.OnEquipPassive(passive);
                 
                 passives.Add(passive.skillName, passive);
+                alreadyContainsSkill = false;
             }
         }
         else if (skill is ActiveSkill active)
@@ -71,10 +74,19 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
             if (!actives.ContainsKey(active.skillName))
             {
                 actives.Add(active.skillName, active);
+                alreadyContainsSkill = false;
             }
         }
+
+        if (!alreadyContainsSkill)
+        {
+            skillInventory.Add(skill);
+        }
+
         OnAddSkill?.Invoke(skill);
+        Debug.Log($"스킬 {skill.skillName}가 성공적으로 추가돼었습니다");
         Save();
+
     }
 
     private bool IsSkillSlotsFull()
@@ -114,12 +126,14 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
 
     public List<PassiveSkill> GetPassives()
     {
-        
+        if (passives.Values.Count <= 0) return null;
         return passives.Values.ToList();
     }
 
     public List<ActiveSkill> GetActives()
     {
+        if (actives.Values.Count <= 0) return null;
+
         return actives.Values.ToList();
     }
 
