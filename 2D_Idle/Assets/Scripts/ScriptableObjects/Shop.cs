@@ -6,18 +6,20 @@ using Litkey.Utility;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-[CreateAssetMenu(menuName = "Litkey/Shop")]
+[CreateAssetMenu(menuName = "Litkey/Shop/RandomShop")]
 public class Shop : ScriptableObject
 {
-    [SerializeField] private Inventory _inventory;
-    [field: SerializeField] public List<Product> Products { private set; get; }
+    [Header("Actual product to sell")]
+    [SerializeField] protected Inventory _inventory;
+    [field: SerializeField, ReadOnly] public List<Product> Products { protected set; get; }
+    [Header("Inspector product")]
     public Product[] thingsToSell;
     public WeightedRandomPicker<Product> shopContainer; // 정보저장 
     //public int baseProductCounts = 6;
     public int _productCounts => shopProductCount;
 
     public int shopProductCount = 6;
-    private Dictionary<int, bool> bag;
+    protected Dictionary<int, bool> bag;
 
     [field: SerializeField] public int currentPriceTotal { private set; get; } = 0;
 
@@ -27,7 +29,7 @@ public class Shop : ScriptableObject
     [HideInInspector] public UnityEvent<Product> OnItemAdded;
 
 
-    public void Initialize()
+    public virtual void Initialize()
     {
         currentPriceTotal = 0;
         shopContainer = new WeightedRandomPicker<Product>();
@@ -52,7 +54,7 @@ public class Shop : ScriptableObject
     }
 
     [Button("RefreshShop")]
-    public void RefreshShop()
+    public virtual void RefreshShop()
     {
         Debug.Log("Shop Refreshed");
         if (bag == null)
@@ -108,7 +110,7 @@ public class Shop : ScriptableObject
         }
     }
 
-    private void ClearBag()
+    protected void ClearBag()
     {
         for (int i = 0; i < _productCounts; i++)
         {
@@ -118,7 +120,7 @@ public class Shop : ScriptableObject
         currentPriceTotal = 0;
     }
 
-    public bool BuyItems()
+    public virtual bool BuyItems()
     {
         if (bag == null) return false;
         if (currentPriceTotal <= 0) return false;

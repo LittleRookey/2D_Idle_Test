@@ -9,6 +9,7 @@ using UnityEngine.Events;
 
 public class ShopUI : MonoBehaviour
 {
+    public static ShopUI Instance;
     [InlineEditor]
     [SerializeField] private Shop shop;
 
@@ -25,33 +26,65 @@ public class ShopUI : MonoBehaviour
     public UnityEvent OnShopWindowOpened;
     private void Awake()
     {
-        shop.Initialize();
+        Instance = this;
+
         shopSlotPool = Pool.Create<ShopSlotUI>(shopSlotPrefab, 6, shopSlotParent);
         shopSlots = new Dictionary<int, ShopSlotUI>();
-        for (int i = 0; i < shop._productCounts; i++)
+        if (shop != null)
         {
-            if (!shopSlots.ContainsKey(i)) shopSlots.Add(i, null);
+            shop.Initialize();
+            for (int i = 0; i < shop._productCounts; i++)
+            {
+                if (!shopSlots.ContainsKey(i)) shopSlots.Add(i, null);
+            }
+
         }
     }
 
     private void OnEnable()
     {
-        shop.OnItemBought.AddListener(SetSold);
-        shop.OnBagUpdated.AddListener(UpdateTotalPrice);
-        shop.OnItemAdded.AddListener(AddShopSlotUI);
-        shop.OnClearBag.AddListener(UpdateTotalPriceToZero);
+        if (shop != null)
+        {
+            shop.OnItemBought.AddListener(SetSold);
+            shop.OnBagUpdated.AddListener(UpdateTotalPrice);
+            shop.OnItemAdded.AddListener(AddShopSlotUI);
+            shop.OnClearBag.AddListener(UpdateTotalPriceToZero);
+        }
     }
 
     private void OnDisable()
     {
-        shop.OnItemBought.RemoveListener(SetSold);
-        shop.OnBagUpdated.RemoveListener(UpdateTotalPrice);
-        shop.OnItemAdded.RemoveListener(AddShopSlotUI);
-        shop.OnClearBag.RemoveListener(UpdateTotalPriceToZero);
+        if (shop != null)
+        {
+            shop.OnItemBought.RemoveListener(SetSold);
+            shop.OnBagUpdated.RemoveListener(UpdateTotalPrice);
+            shop.OnItemAdded.RemoveListener(AddShopSlotUI);
+            shop.OnClearBag.RemoveListener(UpdateTotalPriceToZero);
+
+        }
     }
 
     private void Start()
     {
+        //shop.RefreshShop();
+    }
+
+    public void SetShop(Shop shop)
+    {
+        if (this.shop != null)
+        {
+            shop.OnItemBought.RemoveListener(SetSold);
+            shop.OnBagUpdated.RemoveListener(UpdateTotalPrice);
+            shop.OnItemAdded.RemoveListener(AddShopSlotUI);
+            shop.OnClearBag.RemoveListener(UpdateTotalPriceToZero);
+            ClearAllSlots();
+        }
+        this.shop = shop;
+        shop.OnItemBought.AddListener(SetSold);
+        shop.OnBagUpdated.AddListener(UpdateTotalPrice);
+        shop.OnItemAdded.AddListener(AddShopSlotUI);
+        shop.OnClearBag.AddListener(UpdateTotalPriceToZero);
+        shop.Initialize();
         shop.RefreshShop();
     }
 
@@ -110,6 +143,7 @@ public class ShopUI : MonoBehaviour
     {
         for (int i = 0; i < shop._productCounts; i++)
         {
+            if (!shopSlots.ContainsKey(i)) shopSlots.Add(i, null);
             if (shopSlots[i] == null) return i;
         }
 
@@ -132,7 +166,18 @@ public class ShopUI : MonoBehaviour
 
     private void SetSold(int index)
     {
-        shopSlots[index].SetSold();
+        if (shop is StaticShop staticShop)
+        {
+            if (!staticShop.isUnLimitedProduct)
+            {
+                shopSlots[index].SetSold();
+            }
+        }
+        else
+        {
+            shopSlots[index].SetSold();
+        }
+        
         Debug.Log($"Slot {index} is Sold!");
     }
 

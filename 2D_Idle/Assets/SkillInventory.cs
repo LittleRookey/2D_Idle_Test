@@ -134,7 +134,6 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
         if (equippedActiveSkills[slotIndex].IsSameSkill(activeSkill))
         {
             equippedActiveSkills[slotIndex].UnEquip();
-            playerData.SaveEquippedActiveSkills(this);
             Save();
             return true;
         }
@@ -164,7 +163,6 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
             equippedActiveSkills[slotIndex].Equip(activeSkill);
         }
 
-        playerData.SaveEquippedActiveSkills(this);
         Save();
         return true;
     }
