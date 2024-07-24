@@ -1,0 +1,1191 @@
+fileFormatVersion: 2
+guid: 31c66159d826a894a807136ee0b81868
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd1e0576c89e5154a942da2d17774c10
+      internalID: 1558032387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba47e84db00bc7443a9cb52bf43fc2c3
+      internalID: -2051248444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1971be263e0f6fc489b047b30bf2836b
+      internalID: 1696335126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39cdafe22bfa4204b92fa9b0119bf1a9
+      internalID: -343070013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ee5282efcbdd96488b4c8ab9804ab03
+      internalID: 731622569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23f88b938c4db5d48a1104e2171f135e
+      internalID: -1758775493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 915857c1c701fe14ba41f4ac7ac80ea5
+      internalID: 1351818577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0d0069f7df5c114d86243fc985ba88f
+      internalID: 2136683366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84d125ef2cfe0e9468abc2e59d771a6f
+      internalID: -1443031731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8d157a9eb2899d438bf5b73d3d2cf08
+      internalID: 629396571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd410cd90afc3ed49888b2e22de27922
+      internalID: -753109821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66245f5f283a5f646b1dcc7d9f66786c
+      internalID: 640926075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f292de11e1bd60940a425b079848aae2
+      internalID: -1392293716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 109988e35485bdb4595c2d7208344088
+      internalID: -1509717607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13548e415ead448499b5744db49be713
+      internalID: 1743653094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c959f52a7df3d1b4cad8a71e778f3fff
+      internalID: 847844416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdc39ccdc4b5d024dbb7d9db1d7ec228
+      internalID: 1207710163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_17
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61a6ebb53fd434640919650147f00dfc
+      internalID: 31512753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f045f5f128681646be6fab55dded17a
+      internalID: 1784399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_19
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d6f2812b23900d4981a67e357d81007
+      internalID: -1731254061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_20
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 302dfa65658c3b6478373b880f1b9941
+      internalID: -1515038718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_21
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29ad3f7d3541f864a8cb6f5e4c27dae1
+      internalID: -2095590297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_22
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f43e3ab0f80205342a7b24c6dc770227
+      internalID: -398802965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_23
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac677fb3b0a7ffe479a3879f77a6d889
+      internalID: 840315213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_24
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c04f9146b3d70b48abda0553233b164
+      internalID: -427553440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_25
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31a5ca0e2f63aa1438a5ac0b2d281f67
+      internalID: -1451564280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_26
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff713a659af6e2a47a76ea212c3aa3e0
+      internalID: -803198093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_27
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8980f2a5aa404a04ca9d02174656e9d3
+      internalID: -212378902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_28
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdf4473d579feed45a9be6d4954cfbdc
+      internalID: 1026561602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_29
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c543e063f1efec4cb2caf725d266dfc
+      internalID: 454949133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_30
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4a2114cef074044fad1f14de62aa939
+      internalID: -122599169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_31
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c96de9d1c0ea014478820415823401b9
+      internalID: -1664514797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 682b4478513e1754fb029aad25f94624
+      internalID: 2052410866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_33
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 578d8b2b6ca91b9408bad479b4fa01b2
+      internalID: -1162612220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_34
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42a9130e01bd5ba4fb00c16b8e81123a
+      internalID: -400891481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_35
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67b3ac21e6ef5504ea45905d26033dbe
+      internalID: -805368956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_36
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c4f4f53733893940b834f4f7bbdf77b
+      internalID: 739655319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_37
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72880f04018930544a85d08f8fcc44b6
+      internalID: -1636006473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_38
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7fe2f3d726b2e1448d83a4b7924b932
+      internalID: -959433466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_39
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3084e0bd26cd20e47a5d9c037b6350e9
+      internalID: -1447696295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_40
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 906ad48298cf7bd4aa8f41c499735110
+      internalID: -1830724553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_41
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1d49c05c19c69b42b9a8fc698e972dc
+      internalID: -8130307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_42
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cee7bf07418c5e44e872c961266f847d
+      internalID: -1797312532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_43
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f64a2135dfaa5f14198b0b5ed1caec6b
+      internalID: 831851382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_44
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 674d229b48c90d1438c2ebb000d80e74
+      internalID: 365535357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_45
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6520fb27a9ff713419adbc8f4ebca13b
+      internalID: 111683141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_46
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b6fa77e8cc76004399c2e40a3de0389
+      internalID: 84380339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_47
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ab17d1833f785048ae4c6c4d14c23bb
+      internalID: 1112111169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_44: 365535357
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_30: -122599169
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_3: -343070013
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_37: -1636006473
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_13: -1509717607
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_21: -2095590297
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_35: -805368956
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_39: -1447696295
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_1: -2051248444
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_19: -1731254061
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_41: -8130307
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_24: -427553440
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_9: 629396571
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_20: -1515038718
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_11: 640926075
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_2: 1696335126
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_14: 1743653094
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_12: -1392293716
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_33: -1162612220
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_22: -398802965
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_25: -1451564280
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_46: 84380339
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_43: 831851382
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_27: -212378902
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_38: -959433466
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_7: 2136683366
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_29: 454949133
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_8: -1443031731
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_31: -1664514797
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_32: 2052410866
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_34: -400891481
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_40: -1830724553
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_42: -1797312532
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_15: 847844416
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_4: 731622569
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_16: 1207710163
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_47: 1112111169
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_0: 1558032387
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_5: -1758775493
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_26: -803198093
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_36: 739655319
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_28: 1026561602
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_18: 1784399
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_6: 1351818577
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_17: 31512753
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_23: 840315213
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_45: 111683141
+      SODA's Realistic 32x32 Daggers Swords Greatswords Icon Pack_10: -753109821
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

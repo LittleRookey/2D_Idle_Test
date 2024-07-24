@@ -31,10 +31,13 @@ public class ShopSlotUI : MonoBehaviour
     private readonly string _onOpen = "OnOpen";
     private readonly string _onSelected = "OnSelected";
 
+    public ItemData Product;
     public void SetShopSlotUI(ItemData item, int itemCount, bool isSold=false, UnityAction OnSlotSelected=null)
     {
         _isSold = isSold;
-        
+
+        this.Product = item;
+
         titleText.SetText($"[{item.rarity}] {item.Name}");
         countText.SetText($"x{itemCount}");
         priceText.SetText($"{item.SellPrice * itemCount}G");
@@ -79,6 +82,7 @@ public class ShopSlotUI : MonoBehaviour
     {
         _isSold = false;
 
+        this.Product = null;
         //titleBG.color = rarityColor.GetColor(item.rarity);
         iconImage.sprite = null;
 

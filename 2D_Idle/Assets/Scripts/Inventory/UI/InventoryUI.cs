@@ -119,16 +119,16 @@ namespace Litkey.InventorySystem
                 itemIndex = _inventory.FindItemInInventory(equipItem.ID);
                 // 장비템이면
                 slotUI = itemSlotPool.Get();
-                slotUI.SetSlot(item, () => OnSlotSecondClick(itemIndex, slotUI));
-                slotUI.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, slotUI));
+                slotUI.SetSlot(item);
+
                 slotUI.gameObject.SetActive(true);
                 itemSlots[itemIndex] = slotUI;
             } else
             {
                 // 장비템 아니고 슬롯 없으면
                 slotUI = itemSlotPool.Get();
-                slotUI.SetSlot(item, () => OnSlotSecondClick(itemIndex, slotUI));
-                slotUI.OnFirstClick.AddListener(() => OnSlotClick(itemIndex, slotUI));
+                slotUI.SetSlot(item);
+
                 slotUI.gameObject.SetActive(true);
                 itemSlots[itemIndex] = slotUI;
             }
@@ -149,34 +149,19 @@ namespace Litkey.InventorySystem
                 int index = kValue.Key;
 
                 var slot = itemSlotPool.Get();
-                slot.SetSlot(kValue.Value, () =>
-                {
-                    // 슬롯을 클릭 2번 했을 때, 아이템을 사용 혹은 장착 혹은 해제
-                    OnSlotSecondClick(index, slot);
-                });
-                slot.OnFirstClick.AddListener(() => OnSlotClick(index, slot));
+                slot.SetSlot(kValue.Value);
                 itemSlots[index] = slot;
             }
         }
 
 
-        // 슬롯이 처음 눌렸을때
-        private void OnSlotClick(int slotIndex, ItemSlotUI slot)
-        {
-            if (currentSelectedSlot != null && currentSelectedSlot != slot)
-            {
-                currentSelectedSlot.ResetClickState(); // 이전 슬롯의 상태 초기화
-            }
-
-            currentSelectedSlot = slot;
-        }
 
         // 장착한 장비를 장착햇을떄
         // 슬롯이 2번 눌렷을때 누른곳의 인덱스의 아이템이 장착돼있으면 스텟해제, 장착해제
         // // 새로운 아이템 눌럿을떄 
         // 전에 끼고잇는 아이템 스텟해제 슬롯해제
         // 새로운 아이템 스텟장착, 슬롯 장착
-        private void OnSlotSecondClick(int slotIndex, ItemSlotUI slot)
+        public void UseOrEquipItem(int slotIndex)
         {
             var item = _inventory.GetItem(slotIndex);
            

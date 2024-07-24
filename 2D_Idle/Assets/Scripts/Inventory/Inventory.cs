@@ -245,6 +245,10 @@ namespace Litkey.InventorySystem
         #endregion
 
         #region EquipmentSlot
+        public bool IsEquipped(EquipmentItem equipmentItem)
+        {
+            return equipmentSlots[equipmentItem.EquipmentData.Parts].IsSameEquippedItem(equipmentItem);
+        }
 
         public void EquipItem(EquipmentItem item2Equip)
         {

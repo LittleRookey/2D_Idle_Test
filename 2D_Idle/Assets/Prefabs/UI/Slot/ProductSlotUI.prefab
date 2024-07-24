@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 4129064388204589337}
   - component: {fileID: 4129064388204589336}
   - component: {fileID: 4803955548977708387}
+  - component: {fileID: 8106798835600678935}
   m_Layer: 5
   m_Name: ProductSlotUI
   m_TagString: Untagged
@@ -452,6 +453,7 @@ MonoBehaviour:
   slotButton: {fileID: 4129064388204589336}
   onSelectedAnim: {fileID: 4129064388204589337}
   rarityColor: {fileID: 11400000, guid: 85feeb2f5d8753f4cb150ca3ff6999ac, type: 2}
+  Product: {fileID: 0}
 --- !u!114 &4129064388204589337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,6 +714,21 @@ MonoBehaviour:
   optionalScrambleMode: 0
   optionalShakeRandomnessMode: 0
   optionalString: 
+--- !u!114 &8106798835600678935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4129064388204589332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 076d486dcb9f87744aede323c31d01f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useOnClick: 0
+  useOnButtonDown: 1
+  holdDuration: 0.5
 --- !u!1 &4129064388351995545
 GameObject:
   m_ObjectHideFlags: 0

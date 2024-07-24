@@ -26,6 +26,12 @@ public class EquipmentSlotUI : MonoBehaviour
     }
     private void OnEquipped(EquipmentItem equipItem)
     {
+        if (equipItem == null)
+        {
+            Debug.LogError("EquipItem is null");
+            return;
+        }
+        Debug.Log($"equipItem: {equipItem.EquipmentData.Name}");
         icon.gameObject.SetActive(true);
         icon.sprite = equipItem.EquipmentData.IconSprite;
         backImage.gameObject.SetActive(false);

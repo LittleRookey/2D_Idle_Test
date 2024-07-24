@@ -11,6 +11,7 @@ public class Shop : ScriptableObject
 {
     [Header("Actual product to sell")]
     [SerializeField] protected Inventory _inventory;
+    public string shopID;
     [field: SerializeField, ReadOnly] public List<Product> Products { protected set; get; }
     [Header("Inspector product")]
     public Product[] thingsToSell;

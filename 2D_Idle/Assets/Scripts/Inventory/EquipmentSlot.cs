@@ -61,6 +61,13 @@ namespace Litkey.InventorySystem
             // 장비 해제
             this.equippedItem = null;
         }
+
+        public bool IsSameEquippedItem(EquipmentItem equipmentItem)
+        {
+            if (!IsEquipped) return false;
+            return this.equippedItem.ID.Equals(equipmentItem.ID)
+                && this.equippedItem.EquipmentData.Parts == equippedItem.EquipmentData.Parts;
+        }
     }
 
 }

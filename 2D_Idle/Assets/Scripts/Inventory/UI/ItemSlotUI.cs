@@ -11,10 +11,9 @@ namespace Litkey.InventorySystem
     {
         [SerializeField] private Image slotBG;
         [SerializeField] private Image iconImage;
-        [SerializeField] private Image useBG;
+        [SerializeField] private Image selectedBG;
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private TextMeshProUGUI amountText;
-        [SerializeField] private TextMeshProUGUI useText;
         [SerializeField] private Button slotButton;
 
         [SerializeField] private Image equippedImage;
@@ -23,51 +22,28 @@ namespace Litkey.InventorySystem
 
         [SerializeField] private float highlightAlpha;
         [SerializeField] private EquipmentRarityColor eRarityColor;
-        public UnityEvent OnSlotClick;
-        public UnityEvent OnFirstClick;
-        private bool isFirstClick;
 
         private bool isDirty;
         public bool IsDirty => isDirty;
 
         public bool HasItem => iconImage != null;
 
+        public Item EquippedItem { get; private set; }
         public void SetDirty()
         {
             isDirty = true;
         }
 
-        private void SlotClicked()
-        {
-            if (isFirstClick)
-            {
-                // 첫 번째 클릭: 상태 저장
-                isFirstClick = false;
-                useBG.gameObject.SetActive(true);
-                highlightImage.gameObject.SetActive(true);
-                itemNameBG.gameObject.SetActive(true);
-                OnFirstClick?.Invoke();
-                
-            }
-            else
-            {
-                // 두 번째 클릭: 아이템 장착
-                OnSlotClick?.Invoke(); // 슬롯 클릭 이벤트 호출
-                ResetClickState();
-
-            }
-        }
-
         public void ResetClickState()
         {
-            isFirstClick = true;
-            useBG.gameObject.SetActive(false);
+            selectedBG.gameObject.SetActive(false);
             highlightImage.gameObject.SetActive(false);
             itemNameBG.gameObject.SetActive(false);
         }
 
-        public void SetSlot(Item item, UnityAction clickAction=null)
+        public void SetSlot(Item item)
         {
+            EquippedItem = item;
             if (item is EquipmentItem equipItem)
             {
                 iconImage.sprite = equipItem.EquipmentData.IconSprite;
@@ -81,18 +57,9 @@ namespace Litkey.InventorySystem
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
                 amountText.gameObject.SetActive(false);
-                useBG.gameObject.SetActive(false);
-
-                useText.SetText($"장착");
+                selectedBG.gameObject.SetActive(false);
 
                 equippedImage.gameObject.SetActive(false);
-
-                if (clickAction != null)
-                {
-                    OnFirstClick.RemoveAllListeners();
-                    OnSlotClick.RemoveAllListeners();
-                    OnSlotClick.AddListener(clickAction);
-                }
             }
             else if (item is CountableItem countableItem)
             {
@@ -106,24 +73,15 @@ namespace Litkey.InventorySystem
 
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
-                useBG.gameObject.SetActive(false);
+                selectedBG.gameObject.SetActive(false);
                 amountText.gameObject.SetActive(true);
 
                 amountText.SetText($"x{countableItem.Amount}");
-                useText.SetText($"사용");
 
                 equippedImage.gameObject.SetActive(false);
-
-                if (clickAction != null)
-                {
-                    OnFirstClick.RemoveAllListeners();
-                    OnSlotClick.RemoveAllListeners();
-                    OnSlotClick.AddListener(clickAction);
-                }
             }
-            slotButton.onClick.RemoveAllListeners();
-            isFirstClick = true;
-            slotButton.onClick.AddListener(SlotClicked);
+            
+            
         }
 
         public void UpdateCount(int count)
@@ -144,11 +102,17 @@ namespace Litkey.InventorySystem
             highlightImage.gameObject.SetActive(false);
             itemNameBG.gameObject.SetActive(false);
             amountText.gameObject.SetActive(false);
-            useBG.gameObject.SetActive(false);
-
+            selectedBG.gameObject.SetActive(false);
+            EquippedItem = null;
             ResetClickState();
             SetUnEquipped();
         }
+        public void SelectSlot()
+        {
+            selectedBG.gameObject.SetActive(true);
+        }
+
+        public void DeselectSlot() => selectedBG.gameObject.SetActive(false);
 
         public void SetEquipped()
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+[InlineEditor]
 [CreateAssetMenu(menuName = "Litkey/EquipmentRarity")]
 public class EquipmentRarityColor : SerializedScriptableObject
 {
