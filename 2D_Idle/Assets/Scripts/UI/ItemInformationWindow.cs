@@ -11,8 +11,8 @@ using UnityEngine.Events;
 public class ItemInformationWindow : MonoBehaviour
 {
     public static ItemInformationWindow Instance;
-    [SerializeField] private RectTransform orientation;
-
+    [SerializeField] private RectTransform orientation; // 아이템창과 주위배경
+    [SerializeField] private DraggableUI onlyWindow; // 아이템창만
 
     [SerializeField] private Image rankTopImage;
     [SerializeField] private Image iconImage;
@@ -50,7 +50,7 @@ public class ItemInformationWindow : MonoBehaviour
         itemInfoStored = new List<ItemInfoBasicOption>();
         itemInfoPool = Pool.Create<ItemInfoBasicOption>(itemBasicOptionPrefab);
         itemInfoPool.SetContainer(itemBasicOptionParent);
-        if (DisableOnStart) orientation.gameObject.SetActive(false);
+        ClearItemAndCloseInformationWindow();
     }
 
     public void ShowItemInfo(Item item, bool enableButton, UnityAction OnClosed = null)
@@ -99,7 +99,7 @@ public class ItemInformationWindow : MonoBehaviour
         // 버튼 초기화
         ResetButtons();
         OnClosedEvent.RemoveAllListeners();
-
+        onlyWindow.ResetPosition();
         exitBackground.gameObject.SetActive(false);
         orientation.gameObject.SetActive(false);
     }

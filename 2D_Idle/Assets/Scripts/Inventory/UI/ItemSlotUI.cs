@@ -109,10 +109,10 @@ namespace Litkey.InventorySystem
         }
         public void SelectSlot()
         {
-            selectedBG.gameObject.SetActive(true);
+            highlightImage.gameObject.SetActive(true);
         }
 
-        public void DeselectSlot() => selectedBG.gameObject.SetActive(false);
+        public void DeselectSlot() => highlightImage.gameObject.SetActive(false);
 
         public void SetEquipped()
         {

@@ -17,6 +17,7 @@ public class ShowItemInformationOnClick : MonoBehaviour
         slotButton = GetComponent<Button>();
         slotButton.onClick.AddListener(() =>
         {
+            itemSlotUI.SelectSlot();
             ItemInformationWindow.Instance.ShowItemInfo(itemSlotUI.EquippedItem, true, () =>
             {
                 itemSlotUI.ResetClickState();
