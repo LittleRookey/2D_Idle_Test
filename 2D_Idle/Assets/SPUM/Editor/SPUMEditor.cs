@@ -12,7 +12,7 @@ public class SPUMEditor : Editor
         Material spriteDiffuseMaterial = AssetDatabase.LoadAssetAtPath("Assets/Materials/Enemy.mat", typeof(Material)) as Material;
 
         // Load SPUM Character Prefabs
-        string folderPath = "Assets/Resources/SPUM/SPUM_Units/";
+        string folderPath = "Assets/Prefabs/Monsters/1_1_One/";
         string[] prefabGUIDs = AssetDatabase.FindAssets("t:Prefab", new[] { folderPath });
         for (int i = 0; i < prefabGUIDs.Length; i++)
         {

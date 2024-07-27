@@ -58,7 +58,6 @@ public class EnemyAI : MonoBehaviour
 
     protected Health health;
 
-    [SerializeField] protected Material enemyMat;
     [SerializeField] protected SpriteRenderer enemySprite;
 
     protected Vector2 moveDir;
@@ -108,7 +107,10 @@ public class EnemyAI : MonoBehaviour
     [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private int spawnProjectileCount = 3;
     [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private float spawnProjectileSpreadAngle = 90f;
 
-    Material[] mats;
+    private static readonly int FadeAmountProperty = Shader.PropertyToID("_FadeAmount");
+    private static readonly int HitEffectBlendProperty = Shader.PropertyToID("_HitEffectBlend");
+
+    //Material[] mats;
     public enum eEndOfLifeStrategy
     {
         Default,
@@ -116,18 +118,19 @@ public class EnemyAI : MonoBehaviour
         SpawnProjectiles
     }
 
-
+    private MaterialPropertyBlock mpb;
+    SpriteRenderer[] allSprites;
     protected void Awake()
     {
         SpawnPoint = transform.position;
-        var sprites = GetComponentsInChildren<SpriteRenderer>();
-        mats = new Material[sprites.Length];
+        allSprites = GetComponentsInChildren<SpriteRenderer>();
+        //mats = new Material[sprites.Length];
+        mpb = new MaterialPropertyBlock();
+        //for (int i = 0; i < sprites.Length; i++)
+        //{
+        //    mats[i] = sprites[i].material;
+        //}
 
-        for (int i = 0; i < sprites.Length; i++)
-        {
-            mats[i] = sprites[i].material;
-        }
-        
 
         onStateEnterBeahviors = new Dictionary<eEnemyBehavior, UnityEvent<Health>>()
         {
@@ -316,24 +319,52 @@ public class EnemyAI : MonoBehaviour
 
     private void FadeOut()
     {
-        foreach (var mat in mats) 
-        {
-            float startValue = -0.1f;
-
-            DOTween.To(() => startValue, x => {
-                startValue = x;
-                mat.SetFloat("_FadeAmount", startValue);
-            }, 1f, 1f).SetDelay(0.5f).SetEase(Ease.OutQuad);
-        }
+        DOTween.To(() => -0.1f, SetFadeAmount, 1f, 1f)
+            .SetDelay(0.5f)
+            .SetEase(Ease.OutQuad);
     }
 
     private void FadeIn()
     {
+        SetFadeAmount(1f);
+        DOTween.To(() => 1f, SetFadeAmount, -0.1f, 1f)
+            .SetEase(Ease.InQuad);
+    }
 
-        foreach (var mat in mats)
+    private void SetFadeAmount(float value)
+    {
+        ApplyToAllSprites(renderer =>
         {
-            float startValue = -0.1f;
-            mat.SetFloat("_FadeAmount", startValue);
+            renderer.GetPropertyBlock(mpb);
+            mpb.SetFloat(FadeAmountProperty, value);
+            renderer.SetPropertyBlock(mpb);
+        });
+    }
+
+    private float startValue = 0f;
+    private void OnHitEnter(float current, float max)
+    {
+        DOTween.Sequence()
+            .Append(DOTween.To(() => 0f, SetHitEffectBlend, 0.5f, 0.1f))
+            .AppendInterval(0.1f)
+            .Append(DOTween.To(() => 0.5f, SetHitEffectBlend, 0f, 0.1f));
+    }
+
+    private void SetHitEffectBlend(float value)
+    {
+        ApplyToAllSprites(renderer =>
+        {
+            renderer.GetPropertyBlock(mpb);
+            mpb.SetFloat(HitEffectBlendProperty, value);
+            renderer.SetPropertyBlock(mpb);
+        });
+    }
+
+    private void ApplyToAllSprites(System.Action<SpriteRenderer> action)
+    {
+        foreach (var sprite in allSprites)
+        {
+            action(sprite);
         }
     }
 
@@ -348,24 +379,7 @@ public class EnemyAI : MonoBehaviour
         SpawnManager.Instance.TakeToPool(health);
     }
 
-    private float startValue = 0f;
-    private void OnHitEnter(float current, float max)
-    {
-        onStateEnterBeahviors[eEnemyBehavior.hit]?.Invoke(health);
-        var hitSequence = DOTween.Sequence();
 
-        hitSequence.Append(DOTween.To(() => startValue, x => startValue = x, 0.5f, 0.1f)
-            .OnUpdate(() =>
-            {
-                enemyMat.SetFloat("_HitEffectBlend", startValue);
-            }))
-            .AppendInterval(0.1f) // Optional: Delay before the hit effect fades out
-            .Append(DOTween.To(() => startValue, x => startValue = x, 0f, 0.1f)
-            .OnUpdate(() =>
-            {
-                enemyMat.SetFloat("_HitEffectBlend", startValue);
-            }));
-    }
 
     protected bool HasNoTarget()
     {

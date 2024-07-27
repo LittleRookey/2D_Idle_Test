@@ -119,7 +119,6 @@ public class PlayerController : MonoBehaviour
         _interactor = GetComponent<ResourceInteractor>();
 
         stateMachine = new StateMachine();
-        float attackAnimDuration = 0.6f;
 
         var idleState = new Player_IdleState(this, anim, "idle");
         var moveState = new Player_MoveState(this, anim, "move");

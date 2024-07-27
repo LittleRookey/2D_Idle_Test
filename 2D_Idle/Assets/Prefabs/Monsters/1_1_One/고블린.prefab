@@ -618,7 +618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 9184409796975015163}
   scanDistance: 1.59
-  attackRange: 0.9
+  attackRange: 1.8
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -642,8 +642,25 @@ MonoBehaviour:
   OnStun:
     m_PersistentCalls:
       m_Calls: []
-  enemyMat: {fileID: 0}
-  attackOnSearched: 0
+  enemySprite: {fileID: 0}
+  stateMachine:
+    currentState: 
+  attackOnSearched: 1
+  attackType: 1
+  _strategy: 2
+  homingStrength: 1
+  _targetCountPerProjectile: 1
+  _damageCount: 1
+  _disappearTime: 1
+  _damagePercent: 1
+  _projectileSpeed: 2
+  enableKnockback: 0
+  knockbackForce: 0.5
+  _endOfLifeStrategy: 2
+  explosionRadius: 1
+  explosionDamage: 150
+  spawnProjectileCount: 3
+  spawnProjectileSpreadAngle: 90
   isAttacking: 0
 --- !u!114 &8499623147719185557
 MonoBehaviour:
@@ -753,7 +770,7 @@ MonoBehaviour:
   passiveSkills: []
   activeSkills: []
   equippedActiveSkills: []
-  activeslotNumbers: 5
+  skillInterval: 0
 --- !u!114 &8499623147719185553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,7 +916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8499623148033227487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1017,7 +1034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8499623148094191978
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1280,6 +1297,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebuggingStateMachine
       objectReference: {fileID: 0}
+    - target: {fileID: 1922287337449238319, guid: c8b86d21a471fa64881730b68d685b98, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8472777201646541754, guid: c8b86d21a471fa64881730b68d685b98, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1488,6 +1509,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07b8bc25c174efb449b9cc86f27ba1fd, type: 3}
+--- !u!1 &96083780611409547 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8404246354820579258, guid: 07b8bc25c174efb449b9cc86f27ba1fd, type: 3}
+  m_PrefabInstance: {fileID: 8499623147710363953}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4542232322715594386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96083780611409547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f1ba882071f094bbc90e72596b5b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyMaterial: {fileID: 2100000, guid: ab74febb3f5c1294a83a209c2c35620c, type: 2}
 --- !u!95 &4403822451022264744 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5253799810550775961, guid: 07b8bc25c174efb449b9cc86f27ba1fd, type: 3}

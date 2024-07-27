@@ -33,7 +33,11 @@ public class MonsterNameLevelDisplay : MonoBehaviour
     }
     public void SetMonsterNameLevel()
     {
-        var playerLevel = GameObject.FindGameObjectWithTag("Player").GetComponent<LevelSystem>().GetLevel();
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null) return;
+        var playerLevels = player.GetComponent<LevelSystem>();
+        if (playerLevels == null) return;
+        var playerLevel = playerLevels.GetLevel();
         // 강함 나타내기
         Color tagColor;
         if (_statContainer.MonsterLevel > playerLevel+5) tagColor = StrongColor;
