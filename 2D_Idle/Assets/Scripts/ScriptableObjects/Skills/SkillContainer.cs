@@ -19,7 +19,10 @@ public class SkillContainer : MonoBehaviour
     PlayerController player;
 
     [HideInInspector] public ActiveSkill[] equippedActiveSkills;
-    public int activeslotNumbers = 5;
+    [SerializeField] private float skillInterval; // 스킬 사용사이의 쿨타임
+
+    CountdownTimer countdownTimer;
+
     private void Awake()
     {
         if (!isEnemy)
@@ -29,6 +32,9 @@ public class SkillContainer : MonoBehaviour
 
         statContainer = GetComponent<StatContainer>();
         cooldownSystem = GetComponent<CooldownSystem>();
+        passiveSkills = new List<PassiveSkill>();
+        activeSkills = new List<ActiveSkill>();
+        countdownTimer = new CountdownTimer(skillInterval);
     }
 
     private void Start()
@@ -37,16 +43,30 @@ public class SkillContainer : MonoBehaviour
             UpdateObtainedSkills();    
     }
 
+
     public void UpdateObtainedSkills()
     {
+        activeSkills.Clear();
+        passiveSkills.Clear();
+        // 패시브랑 액티브 스킬들 장착시키기
+        for (int i = 0; i < SkillInventory.Instance.maxSkillEquipSlotNumber; i++)
+        {
+            var equipSlot = SkillInventory.Instance.GetSkillEquipSlot(i);
+            if (equipSlot != null)
+            {
+                activeSkills.Add(equipSlot.EquippedSkill);
+            }
+        }
+        passiveSkills = SkillInventory.Instance.GetPassives();
         //passiveSkills = SkillInventory.Instance.GetPassives();
         //activeSkills = SkillInventory.Instance.GetActives();
     }
 
     public ActiveSkill FindUsableSkill()
     {
-        ActiveSkill bestSkill = null;
+        if (countdownTimer.IsRunning) return null;
 
+        ActiveSkill bestSkill = null;
         foreach (var skill in activeSkills)
         {
             if (cooldownSystem.IsOnCooldown(skill.skillName))
@@ -60,7 +80,7 @@ public class SkillContainer : MonoBehaviour
 
     private void Update()
     {
-
+        countdownTimer.Tick(Time.deltaTime);
     }
 
     public void EquipPassiveEffects(StatContainer target)
@@ -77,6 +97,7 @@ public class SkillContainer : MonoBehaviour
     {
         skill.Use(statContainer, target);
         cooldownSystem.PutOnColdown(skill);
+        countdownTimer.Start();
         //skill.Use(target);
     }
 }

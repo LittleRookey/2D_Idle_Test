@@ -13,17 +13,18 @@ public class StateMachineDebugger : MonoBehaviour
     {
         enemyAI = transform.parent.GetComponent<EnemyAI>();
         player = transform.parent.GetComponent<PlayerController>();
-        if (enemyAI != null)
-            enemyAI.stateMachine.OnStateChanged += SetState;
-        if (player != null)
-        {
-            player.stateMachine.OnStateChanged += SetState;
-        }
+        
     }
 
     private void OnEnable()
     {
-        
+        if (enemyAI != null)
+            enemyAI.stateMachine.OnStateChanged += SetState;
+        if (player != null)
+        {
+            Debug.Log("Debugger state change added to event");
+            player.stateMachine.OnStateChanged += SetState;
+        }
     }
     private void OnDisable()
     {
@@ -34,8 +35,8 @@ public class StateMachineDebugger : MonoBehaviour
             player.stateMachine.OnStateChanged -= SetState;
         }
     }
-    public void SetState(IState state)
+    public void SetState(string state)
     {
-        stateText.SetText(state.StateName);
+        stateText.SetText(state);
     }
 }

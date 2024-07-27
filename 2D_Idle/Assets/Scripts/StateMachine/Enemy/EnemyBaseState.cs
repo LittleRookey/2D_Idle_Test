@@ -40,5 +40,10 @@ namespace Litkey.AI
         public virtual void OnExit() {
             // noop
         }
+
+        public virtual bool CanTransition()
+        {
+            return true;
+        }
     }
 }

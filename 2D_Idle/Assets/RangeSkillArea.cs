@@ -114,7 +114,7 @@ namespace Litkey.Skill
 
             if (targetEnemies.Count > 0)
             {
-                ApplyDamageToTargets(targetEnemies);
+                ApplyDamageToTargets(targetEnemies, showDmgText);
             }
         }
         private void OnDrawGizmos()

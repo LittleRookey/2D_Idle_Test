@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-
+[System.Serializable]
 public abstract class Timer {
     protected float initialTime;
     public float Time { get; set; }
@@ -36,7 +36,7 @@ public abstract class Timer {
 
     public abstract void Tick(float deltaTime);
 }
-
+[System.Serializable]
 public class CountdownTimer : Timer {
     public CountdownTimer(float value) : base(value) { }
 

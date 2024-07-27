@@ -50,5 +50,10 @@ namespace Litkey.AI
         {
             // noop
         }
+
+        public virtual bool CanTransition()
+        {
+            return true; // By default, allow transitions
+        }
     }
 }

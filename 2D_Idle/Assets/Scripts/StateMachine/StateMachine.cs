@@ -12,8 +12,8 @@ namespace Litkey.AI
         [ShowInInspector] public StateNode current { get; private set; }
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
-
-        public UnityAction<IState> OnStateChanged;
+        [SerializeField] private string currentState; 
+        public UnityAction<string> OnStateChanged;
 
         float stateEnteredTime;
 
@@ -37,11 +37,14 @@ namespace Litkey.AI
             current.State?.FixedUpdate();
         }
         StateNode baseStateNode;
+
         public void SetState(IState state) {
             current = nodes[state.GetType()];
             baseStateNode = current;
             current.State?.OnEnter();
             stateEnteredTime = Time.time;
+            currentState = state.StateName;
+            OnStateChanged?.Invoke(currentState);
         }
 
         public void SetToBaseState()
@@ -49,23 +52,29 @@ namespace Litkey.AI
             if (baseStateNode == null) Debug.LogError("There is no base State yet");
 
             SetState(baseStateNode.State);
-            OnStateChanged?.Invoke(baseStateNode.State);
+            currentState = baseStateNode.State.StateName;
+            OnStateChanged?.Invoke(currentState);
         }
 
         void ChangeState(IState state) {
             if (state == current.State) return;
-            
+
+            if (!current.State.CanTransition()) return; // Check if current state allows transition
+
             var previousState = current.State;
             var nextState = nodes[state.GetType()].State;
             //Debug.Log("Enemy entered state: " + nextState.ToString());
             previousState?.OnExit();
             nextState?.OnEnter();
-            OnStateChanged?.Invoke(nextState);
+            OnStateChanged?.Invoke(nextState.StateName);
             current = nodes[state.GetType()];
             stateEnteredTime = Time.time;
         }
 
-        ITransition GetTransition() {
+        ITransition GetTransition() 
+        {
+            if (!current.State.CanTransition()) return null; // Check if current state allows transition
+
             foreach (var transition in anyTransitions)
                 if (transition.Condition.Evaluate())
                     return transition;

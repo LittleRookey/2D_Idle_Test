@@ -15,7 +15,7 @@ namespace Litkey.AI
         public override void OnEnter()
         {
             Debug.Log("Player Entered Idle State");
-            anim.CrossFade(IdleHash, crossFadeDuration*2);
+            anim.CrossFade(IdleHash, crossFadeDuration);
             if (!player.HasNoTarget())
             {
                 //player.EnableAIPath();

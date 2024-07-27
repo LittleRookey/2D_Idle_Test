@@ -363,7 +363,7 @@ namespace Litkey.Utility
         protected static DamageNumberMesh dmg;
         protected static DamageNumberMesh missText;
         protected static DamageNumberMesh critDamageText;
-        protected static Vector3 dmgOffset = new Vector3(0f, 0.6f, 0f);
+        protected static Vector3 dmgOffset = new Vector3(0f, 0.3f, 0f);
 
 
         public static IEnumerator ShowDmgText(Vector3 spawnPosition, List<Damage> damages, bool[] misses)
@@ -375,7 +375,7 @@ namespace Litkey.Utility
                 //Debug.Log("Show damage text count: " + damages.Count);
                 for (int i = 0; i < damages.Count; i++)
                 {
-                    var spawnPos = spawnPosition + Vector3.up * 0.7f + dmgOffset * (i + 1);
+                    var spawnPos = spawnPosition + Vector3.up * 0.5f + dmgOffset * (i + 1);
                     if (!misses[i])
                     {
                         ShowMissText(spawnPos);

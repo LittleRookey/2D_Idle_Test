@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         _interactor = GetComponent<ResourceInteractor>();
 
         stateMachine = new StateMachine();
-        float attackAnimDuration = 0.5f;
+        float attackAnimDuration = 0.6f;
 
         var idleState = new Player_IdleState(this, anim, "idle");
         var moveState = new Player_MoveState(this, anim, "move");
@@ -134,10 +134,10 @@ public class PlayerController : MonoBehaviour
 
         At(idleState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto()));
         At(chaseState, attackState, new FuncPredicate(() => !HasNoTarget() && TargetWithinAttackRange() && !AttackCooldown() && Auto()));
-        At(attackState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto()), true, attackAnimDuration);
+        At(attackState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto()));
 
         At(idleState, attackState, new FuncPredicate(() => !HasNoTarget() && TargetWithinAttackRange() && !AttackCooldown() && Auto()));
-        At(attackState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto() && AttackCooldown()), true, attackAnimDuration);
+        At(attackState, chaseState, new FuncPredicate(() => !HasNoTarget() && !TargetWithinAttackRange() && Auto() && AttackCooldown()));
         At(chaseState, idleState, new FuncPredicate(() => HasNoTarget() || !Auto()));
 
         Any(deathState, new FuncPredicate(() => IsDead()));
@@ -336,26 +336,23 @@ public class PlayerController : MonoBehaviour
     {
         //CheckGrounded(); // ¶¥¿¡ ´ê¾ÆÀÕ´ÂÁö¸¦ Ã¼Å©
         attackTimer.Tick(Time.deltaTime);
+
         stateMachine.Update();
         
 
     }
 
-    public void UseAttackOrSkill()
+    public void UseSkill()
     {
         ActiveSkill usableSkill = _skillContainer.FindUsableSkill();
         if (usableSkill != null && TargetWithinAttackRange())
         {
             _skillContainer.UseActiveSkill(usableSkill, Target);
         }
-        else
-        {
-            // Trigger normal attack animations or mechanics
-            Attack();
-        }
+
     }
 
-    private void Attack()
+    public void Attack()
     {
         if (basicAttack == null)
         {
@@ -370,7 +367,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator AttackDelay(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        if (Target == null) yield return null;
+        if (Target == null) yield break;
         basicAttack.ApplyEffect(_statContainer, Target.GetComponent<StatContainer>());
     }
 

@@ -47,7 +47,7 @@ public class ExtraSlash : ActiveSkill
             .SetEnemyLayer(enemyLayer)
             .SetAlly(ally)
             .FaceTarget(ally.transform, target.transform)
-            .AddListenerOnEnd(() => skillRange.ExecuteAttack())
+            .AddListenerOnEnd(() => skillRange.ExecuteAttack(true))
             .StartRange();
     }
 

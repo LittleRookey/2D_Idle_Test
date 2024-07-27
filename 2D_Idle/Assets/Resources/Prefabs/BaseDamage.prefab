@@ -53,7 +53,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
+  - {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
+  - {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,10 +183,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <cspace=0.1><size=-3.02>1111</size></cspace>
+  m_text: <cspace=0.1><size=-1.97>19</size></cspace>
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a50e85261c47743468fb8649eced36e7, type: 2}
-  m_sharedMaterial: {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
+  m_sharedMaterial: {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -319,7 +319,7 @@ MonoBehaviour:
     farScale: 0.5
   cameraOverride: {fileID: 0}
   enableNumber: 1
-  number: 1111
+  number: 19
   numberSettings:
     bold: 0
     italic: 0
@@ -333,7 +333,7 @@ MonoBehaviour:
     horizontal: 0
     vertical: 0
     characterSpacing: 0.1
-    size: -3.02
+    size: -1.97
   digitSettings:
     decimals: 0
     decimalChar: .
@@ -718,7 +718,7 @@ MonoBehaviour:
   enablePooling: 1
   poolSize: 50
   disableOnSceneLoad: 1
-  editorLastFont: Pixel-Shadow
+  editorLastFont: Maplestory Bold SDF
   position: {x: 0, y: 0, z: 0}
 --- !u!210 &6323344755239107247
 SortingGroup:
@@ -784,7 +784,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -178917677106001470, guid: a50e85261c47743468fb8649eced36e7, type: 2}
+  - {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

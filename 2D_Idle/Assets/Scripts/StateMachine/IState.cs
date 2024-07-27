@@ -8,5 +8,7 @@ namespace Litkey.AI {
         void Update();
         void FixedUpdate();
         void OnExit();
+
+        bool CanTransition(); // New method
     }
 }

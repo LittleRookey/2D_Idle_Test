@@ -31,6 +31,7 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void ResetPosition()
     {
+        if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
         rectTransform.anchoredPosition = originalPosition;
     }
 }
