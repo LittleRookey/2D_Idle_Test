@@ -29,6 +29,7 @@ public class StaticShop : Shop
             Products = new List<Product>();
         }
 
+        ClearBag();
         Products.Clear();
 
         for (int i = 0; i < thingsToSell.Length; i++)

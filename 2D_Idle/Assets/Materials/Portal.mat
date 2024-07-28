@@ -11,6 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 79ee6cefbc672a44e97359d4d14ea301, type: 3}
   m_ValidKeywords:
   - GLOWLIGHT_ON
+  - GLOW_ON
   - ROTATEUV_ON
   m_InvalidKeywords:
   - _GLOWAFFECTLIGHT_ON
@@ -170,9 +171,9 @@ Material:
     - _GlitchAmount: 3
     - _GlitchSize: 1.37
     - _GlossinessSource: 0
-    - _Glow: 0.5
+    - _Glow: 0
     - _GlowAffectLight: 1
-    - _GlowGlobal: 2.8
+    - _GlowGlobal: 1.2
     - _GradBlend: 1
     - _GradBoostX: 1.2
     - _GradBoostY: 1.2
@@ -295,7 +296,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FadeBurnColor: {r: 1, g: 1, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowColor: {r: 0.6236441, g: 1, b: 0, a: 1}
     - _GradBotLeftCol: {r: 0, g: 0, b: 1, a: 1}
     - _GradBotRightCol: {r: 0, g: 1, b: 0, a: 1}
     - _GradTopLeftCol: {r: 1, g: 0, b: 0, a: 1}

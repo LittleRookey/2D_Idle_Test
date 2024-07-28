@@ -183,13 +183,33 @@ public class ShopUI : MonoBehaviour
 
     private void ClearAllSlots()
     {
-        foreach (int slotIndex in shopSlots.Keys)
+        if (shopSlots == null)
         {
-            shopSlots[slotIndex].ClearSlot();
-            shopSlotPool.Take(shopSlots[slotIndex]);
-            shopSlots[slotIndex] = null;
-
+            Debug.Log("shopSlots is null");
+            return;
         }
+
+        Debug.Log($"Number of slots: {shopSlots.Count}");
+
+        // Create a list of keys to avoid modifying the dictionary while enumerating
+        List<int> slotKeys = new List<int>(shopSlots.Keys);
+
+        foreach (int slotIndex in slotKeys)
+        {
+            if (shopSlots[slotIndex] != null)
+            {
+                Debug.Log($"Clearing slot {slotIndex}");
+                shopSlots[slotIndex].ClearSlot();
+                shopSlotPool.Take(shopSlots[slotIndex]);
+                shopSlots[slotIndex] = null;
+            }
+            else
+            {
+                Debug.Log($"Slot {slotIndex} is already null");
+            }
+        }
+
+        Debug.Log("Finished clearing all slots");
     }
 
 

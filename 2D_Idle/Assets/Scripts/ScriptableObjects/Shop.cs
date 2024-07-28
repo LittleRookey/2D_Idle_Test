@@ -80,6 +80,7 @@ public class Shop : ScriptableObject
         }
 
         Products.Clear();
+        ClearBag();
 
         for (int i = 0; i < _productCounts; i++)
         {
