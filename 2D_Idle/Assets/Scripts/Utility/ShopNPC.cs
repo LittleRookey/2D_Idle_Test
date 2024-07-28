@@ -9,5 +9,6 @@ public class ShopNPC : MonoBehaviour
     public void SetShop()
     {
         ShopUI.Instance.SetShop(shop);
+        ShopUI.Instance.OpenShopWindow();
     }
 }

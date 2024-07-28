@@ -51,15 +51,15 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
 
     public void GainGold(int extraGold)
     {
-        gold += extraGold;
         OnGainGold?.Invoke(extraGold);
+        gold += extraGold;
         Save();
     }
 
     public void UseGold(int usedGold)
     {
+        OnUseGold?.Invoke(-1 * usedGold);
         gold -= usedGold;
-        OnUseGold?.Invoke(gold);
         Save();
     }
 

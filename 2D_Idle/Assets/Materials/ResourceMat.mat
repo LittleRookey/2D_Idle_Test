@@ -154,7 +154,7 @@ Material:
     - _DistortTexXSpeed: 5
     - _DistortTexYSpeed: 5
     - _DstBlend: 0
-    - _EditorDrawers: 15
+    - _EditorDrawers: 0
     - _EnableExternalAlpha: 0
     - _FadeAmount: -0.1
     - _FadeBurnGlow: 2
@@ -170,7 +170,7 @@ Material:
     - _GlitchAmount: 3
     - _GlitchSize: 1
     - _GlossinessSource: 0
-    - _Glow: 0.5
+    - _Glow: 0
     - _GlowAffectLight: 0
     - _GlowGlobal: 1
     - _GradBlend: 1
@@ -216,7 +216,7 @@ Material:
     - _OffsetUvY: 0
     - _OnlyInnerOutline: 0
     - _OnlyOutline: 0
-    - _OutlineAlpha: 1
+    - _OutlineAlpha: 0
     - _OutlineDistortAmount: 0.5
     - _OutlineDistortTexXSpeed: 5
     - _OutlineDistortTexYSpeed: 5

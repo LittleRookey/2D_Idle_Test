@@ -22,14 +22,15 @@ public class ResourceLoader : MonoBehaviour
     }
 
    
-    public void UpdateExtraGold(int extraGold)
+    public void UpdateExtraGold(int usedGold)
     {
-        if (extraGold < 0) return;
-        int prevGold = ResourceManager.Instance.Gold - extraGold;
-        DOTween.To(() => prevGold, x => {
-            prevGold = x;
+        // °ñµå´Â ÀÌ¹Ì »ç¿ëµÊ 100 -25 75, ÀÌ¹Ì ÇÕÃÄÁü 100, 25, 125
+        int currentGold = ResourceManager.Instance.Gold;
+        Debug.Log($"Current Gold: {currentGold} ////// ResultGold: {currentGold + usedGold}");
+        DOTween.To(() => currentGold, x => {
+            currentGold = x;
             goldText.SetText(Mathf.Round(x).ToString("N0"));
-        }, prevGold + extraGold, 0.5f).SetEase(Ease.OutQuad);
+        }, currentGold + usedGold, 0.5f).SetEase(Ease.OutQuad);
     }
 
     public void UpdateGold()

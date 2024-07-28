@@ -380,6 +380,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 926cdad46da8d3946a06209965661efb, type: 3}
   - {fileID: 21300000, guid: c2c79fd4c551bed49bdeb943f2fc7cdb, type: 3}
   - {fileID: 21300000, guid: 10a769e4101ade64992eb7887ae56e4b, type: 3}
+  - {fileID: -613985864, guid: 368f83f49d30a4543a951e0221a05adb, type: 3}
+  - {fileID: 1748561888, guid: 368f83f49d30a4543a951e0221a05adb, type: 3}
+  - {fileID: 491456868, guid: 368f83f49d30a4543a951e0221a05adb, type: 3}
   - {fileID: 21300000, guid: cc8f2bf4a4b345e4799dd75ee1815128, type: 3}
   - {fileID: 1058137457, guid: e88fb9055f20fa14aaac336078013995, type: 3}
   - {fileID: 1689319760, guid: e88fb9055f20fa14aaac336078013995, type: 3}
@@ -1752,6 +1755,9 @@ SpriteAtlas:
   - Tools_Hammer
   - Icon_13
   - RecoverHP(EdgeOutline)5
+  - merchant_idle-sheet_2
+  - merchant_idle-sheet_1
+  - merchant_idle-sheet_0
   - Joystick
   - Minings_67
   - Minings_38

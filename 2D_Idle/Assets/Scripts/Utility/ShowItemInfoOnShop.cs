@@ -7,16 +7,17 @@ using UnityEngine.UI;
 public class ShowItemInfoOnShop : MonoBehaviour
 {
     private ShopSlotUI shopSlotUI;
-    private Button slotButton;
+    [SerializeField] private Button slotButton;
     private void Awake()
     {
         shopSlotUI = GetComponent<ShopSlotUI>();
-        slotButton = GetComponent<Button>();
+        if (slotButton == null) slotButton = GetComponent<Button>();
+
         slotButton.onClick.AddListener(() =>
         {
             ItemInformationWindow.Instance.ShowItemInfo(shopSlotUI.Product, () =>
             {
-                shopSlotUI.DeselectSlot();
+                //shopSlotUI.DeselectSlot();
             });
         });
     }

@@ -12,6 +12,8 @@ public class NPCInteractor : Interactor
     public UnityEvent OnDialogueEnd;
     private int _currentDialogueIndex = 0;
 
+    public bool DisableUIOnEnd;
+
     public override void Interact(PlayerController player, UnityAction OnEnd = null)
     {
         if (!CanInteract(player))
@@ -41,6 +43,11 @@ public class NPCInteractor : Interactor
         player.EnableMovement();
         OnEnd?.Invoke();
         OnDialogueEnd?.Invoke();
+
+        if (DisableUIOnEnd)
+        {
+            UIManager.Instance.ToggleUIOnOff();
+        }
     }
 
     private void ShowNextDialogue()
