@@ -7,26 +7,32 @@ using Sirenix.OdinInspector;
 public class SpawnPoint : MonoBehaviour
 {
     [InlineEditor]
-    [SerializeField] private MonsterTable monsterTable;
+    //[SerializeField] private MonsterTable monsterTable;
     [SerializeField] private int maxMonsterNum;
     [SerializeField] private float spawnRange;
     [SerializeField] private float cellSize = 1f; // Size of each cell in the grid
     public bool isXZ; // 3D용
 
     private int currentNumber;
-    private List<Health> spawnedEnemy;
+    private List<Health> spawnedEnemy; // 소환된 몬스터들
     private bool[,] grid; // 2D grid to track occupied cells
     private int gridSize; // Size of the grid
     Dictionary<string, Pool<Health>> monsterPool;
+    //Pool<Health> monsterPool;
     public bool startSpawn;
     public bool isLocked;
     [SerializeField] private float spawnTimer = 5;
     float timer = 0f;
+    private Health monsterToSpawn;
+
     private void OnValidate()
     {
         gridSize = Mathf.CeilToInt(spawnRange * 2f / cellSize);
         grid = new bool[gridSize, gridSize];
     }
+
+    public void StartSpawn() => startSpawn = true;
+    public void StopSpawn() => startSpawn = false;
 
     private void Awake()
     {
@@ -39,19 +45,30 @@ public class SpawnPoint : MonoBehaviour
         grid = new bool[gridSize, gridSize];
 
         monsterPool = new Dictionary<string, Pool<Health>>();
-        var monsters = monsterTable.GetAllMonsters();
-        for (int i = 0; i < monsters.Count; i++)
-        {
-            var pool = Pool.Create<Health>(monsters[i]);
-            pool.SetContainer(transform);
-            monsterPool.Add(monsters[i].Name, pool);
-        }
+        //var monsters = monsterTable.GetAllMonsters();
+        //for (int i = 0; i < monsters.Count; i++)
+        //{
+        //    var pool = Pool.Create<Health>(monsters[i]);
+        //    pool.SetContainer(transform);
+        //    monsterPool.Add(monsters[i].Name, pool);
+        //}
     }
-
-    public void SetupSpawnpoint()
+    public void SetSpawnPoint(Health monster) 
     {
+        this.monsterToSpawn = monster;
+        SetMonsterPool(this.monsterToSpawn);
 
     }
+
+    public void SetMonsterPool(Health monster)
+    {
+        if (monsterPool == null) monsterPool = new Dictionary<string, Pool<Health>>();
+
+        var pool = Pool.Create<Health>(monster);
+        pool.SetContainer(transform);
+        monsterPool.Add(monster.Name, pool);
+    }
+
     private void Update() 
     {
         if (isLocked) return;
@@ -67,23 +84,21 @@ public class SpawnPoint : MonoBehaviour
         }
         if (!startSpawn) return;
         // Spawn monsters if the current number is less than the maximum
-        if (currentNumber < maxMonsterNum)
+        if (currentNumber < maxMonsterNum && monsterToSpawn != null)
         {
-           
-            SpawnMonster();
+            SpawnMonster(monsterToSpawn);
         } else
         {
             startSpawn = false;
         }
     }
 
-    private void SpawnMonster()
+    private void SpawnMonster(Health monsterToSpawn)
     {
         Vector3 spawnPosition = GetEmptyCell();
         if (spawnPosition != Vector3.zero)
         {
             // Spawn a monster at the empty cell
-            var monsterToSpawn = monsterTable.GetRandomMonster();
             Health monster = monsterPool[monsterToSpawn.Name].Get();
             
             // Set Stat based on its difficulty

@@ -13,31 +13,8 @@ MonoBehaviour:
   m_Name: New Shop
   m_EditorClassIdentifier: 
   _inventory: {fileID: 11400000, guid: 95c39ce0635f4db49aaa2e025ae58d2f, type: 2}
-  <Products>k__BackingField:
-  - Item: {fileID: 11400000, guid: 6672740962d99d541ad43bbcb82826fd, type: 2}
-    Count: 20
-    IsSold: 0
-    Weight: 1000
-  - Item: {fileID: 11400000, guid: 6672740962d99d541ad43bbcb82826fd, type: 2}
-    Count: 20
-    IsSold: 0
-    Weight: 1000
-  - Item: {fileID: 11400000, guid: 6672740962d99d541ad43bbcb82826fd, type: 2}
-    Count: 20
-    IsSold: 0
-    Weight: 1000
-  - Item: {fileID: 11400000, guid: 6672740962d99d541ad43bbcb82826fd, type: 2}
-    Count: 20
-    IsSold: 0
-    Weight: 1000
-  - Item: {fileID: 11400000, guid: 85f8279450c481344a6bcf95d6f8ac31, type: 2}
-    Count: 1
-    IsSold: 1
-    Weight: 100
-  - Item: {fileID: 11400000, guid: 6672740962d99d541ad43bbcb82826fd, type: 2}
-    Count: 20
-    IsSold: 0
-    Weight: 1000
+  shopID: 1
+  <Products>k__BackingField: []
   thingsToSell:
   - Item: {fileID: 11400000, guid: 85f8279450c481344a6bcf95d6f8ac31, type: 2}
     Count: 1
@@ -52,6 +29,10 @@ MonoBehaviour:
     IsSold: 0
     Weight: 1000
   - Item: {fileID: 11400000, guid: 07dd4d362e44a3c489865cffc1767df0, type: 2}
+    Count: 1
+    IsSold: 0
+    Weight: 500
+  - Item: {fileID: 11400000, guid: 7e026518f5f6af44f90f52b22a520ddf, type: 2}
     Count: 1
     IsSold: 0
     Weight: 500

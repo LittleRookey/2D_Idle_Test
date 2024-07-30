@@ -6,12 +6,14 @@ using Litkey.Utility;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
+[InlineEditor]
 [CreateAssetMenu(menuName = "Litkey/Shop/RandomShop")]
 public class Shop : ScriptableObject
 {
     [Header("Actual product to sell")]
     [SerializeField] protected Inventory _inventory;
     public string shopID;
+    // 실제 물품들이 들어가는 리스트
     [field: SerializeField, ReadOnly] public List<Product> Products { protected set; get; }
     [Header("Inspector product")]
     public Product[] thingsToSell;
@@ -28,10 +30,20 @@ public class Shop : ScriptableObject
     [HideInInspector] public UnityEvent<int> OnItemBought;
     [HideInInspector] public UnityEvent<int, int> OnBagUpdated; // index와 total price를 이벤트로 보냄
     [HideInInspector] public UnityEvent<Product> OnItemAdded;
-
+    private void OnEnable()
+    {
+        Products = null;
+    }
+    public bool HasProducts()
+    {
+        if (Products == null) return false;
+        return Products.Count > 0;
+    }
 
     public virtual void Initialize()
     {
+        if (HasProducts()) return;
+        Debug.Log("Shop initialized");
         currentPriceTotal = 0;
         shopContainer = new WeightedRandomPicker<Product>();
         for (int i = 0; i < thingsToSell.Length; i++)
@@ -39,19 +51,18 @@ public class Shop : ScriptableObject
             shopContainer.Add(thingsToSell[i], thingsToSell[i].Weight);
         }
 
-        if (bag == null)
+        
+        bag = new Dictionary<int, bool>();
+        for (int i = 0; i < shopProductCount; i++)
         {
-            bag = new Dictionary<int, bool>();
-            for (int i = 0; i < shopProductCount; i++)
-            {
-                bag.Add(i, false);
-            }
+            bag.Add(i, false);
         }
+        
         if (Products == null)
         {
             Products = new List<Product>();
         }
-
+        RefreshShop();
     }
 
     [Button("RefreshShop")]
@@ -93,6 +104,7 @@ public class Shop : ScriptableObject
 
     public void AddToBag(int index)
     {
+        if (!bag.ContainsKey(index)) return;
         if (!bag[index])
         {
             bag[index] = true;
@@ -103,6 +115,7 @@ public class Shop : ScriptableObject
 
     public void RemoveFromBag(int index)
     {
+        if (!bag.ContainsKey(index)) return;
         if (bag[index])
         {
             bag[index] = false;

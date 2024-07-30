@@ -32,11 +32,7 @@ public class ShopUI : MonoBehaviour
         shopSlots = new Dictionary<int, ShopSlotUI>();
         if (shop != null)
         {
-            shop.Initialize();
-            for (int i = 0; i < shop._productCounts; i++)
-            {
-                if (!shopSlots.ContainsKey(i)) shopSlots.Add(i, null);
-            }
+            shop = null;
 
         }
     }
@@ -69,25 +65,45 @@ public class ShopUI : MonoBehaviour
         //shop.RefreshShop();
     }
 
-    public void SetShop(Shop shop)
+    public void SetShop(Shop newShop)
     {
+        //오픈한게 같은 상점이면 아무것도안하기
+        if (this.shop != null && this.shop.shopID.Equals(newShop.shopID)) return;
+
         if (this.shop != null)
         {
-            shop.OnItemBought.RemoveListener(SetSold);
-            shop.OnBagUpdated.RemoveListener(UpdateTotalPrice);
-            shop.OnItemAdded.RemoveListener(AddShopSlotUI);
-            shop.OnClearBag.RemoveListener(UpdateTotalPriceToZero);
-            ClearAllSlots();
+            ClearShop();
         }
-        this.shop = shop;
-        shop.OnItemBought.AddListener(SetSold);
-        shop.OnBagUpdated.AddListener(UpdateTotalPrice);
-        shop.OnItemAdded.AddListener(AddShopSlotUI);
-        shop.OnClearBag.AddListener(UpdateTotalPriceToZero);
-        shop.Initialize();
-        shop.RefreshShop();
+
+        // this.shop becomes null
+        // 만약 상점에 제품이 이미 있으면 그냥 업데이트
+        this.shop = newShop;
+        this.shop.OnItemBought.AddListener(SetSold);
+        this.shop.OnBagUpdated.AddListener(UpdateTotalPrice);
+        this.shop.OnItemAdded.AddListener(AddShopSlotUI);
+        this.shop.OnClearBag.AddListener(UpdateTotalPriceToZero);
+        if (newShop.HasProducts())
+        {
+            Debug.Log("Updated Shop");
+            UpdateShop(this.shop);
+        }
+        // 상점에 제품이 없으면 새 아이템 Refresh하기
+        else
+        {
+            this.shop.Initialize();
+        }
+        
+        
     }
 
+    private void UpdateShop(Shop shop)
+    {
+        // 샵 슬롯들이 비어잇어야함
+        foreach (var product in shop.Products)
+        {
+            AddShopSlotUI(product);
+        }
+    }
     public void OpenShopWindow()
     {
         shopWindow.gameObject.SetActive(true);
@@ -128,7 +144,7 @@ public class ShopUI : MonoBehaviour
         if (index != -1)
         {
             var shopSlot = shopSlotPool.Get();
-            shopSlot.SetShopSlotUI(product.Item, product.Count, false, () => UpdateSlotState(index));
+            shopSlot.SetShopSlotUI(product.Item, product.Count, product.IsSold, () => UpdateSlotState(index));
             shopSlots[index] = shopSlot;
         }
         else
@@ -141,7 +157,7 @@ public class ShopUI : MonoBehaviour
 
     private int GetEmptyIndex()
     {
-        for (int i = 0; i < shop._productCounts; i++)
+        for (int i = 0; i < 20; i++)
         {
             if (!shopSlots.ContainsKey(i)) shopSlots.Add(i, null);
             if (shopSlots[i] == null) return i;
@@ -212,5 +228,19 @@ public class ShopUI : MonoBehaviour
         Debug.Log("Finished clearing all slots");
     }
 
+    private void ClearShop()
+    {
+        if (this.shop == null) return;
 
+        this.shop.OnItemBought.RemoveListener(SetSold);
+        this.shop.OnBagUpdated.RemoveListener(UpdateTotalPrice);
+        this.shop.OnItemAdded.RemoveListener(AddShopSlotUI);
+        this.shop.OnClearBag.RemoveListener(UpdateTotalPriceToZero);
+
+        // 모든 슬롯 초기화
+        ClearAllSlots();
+
+        this.shop = null;
+
+    }
 }

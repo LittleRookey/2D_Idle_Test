@@ -1,4 +1,5 @@
 using Litkey.Stat;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Litkey.Weather
 
 
     }
+    [InlineEditor]
     [CreateAssetMenu(menuName ="Litkey/Weather")]
     public class Weather : ScriptableObject
     {

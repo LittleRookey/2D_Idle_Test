@@ -1,19 +1,15 @@
+using DG.Tweening;
+using Litkey.InventorySystem;
+using Litkey.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Litkey.Interface;
-using Litkey.InventorySystem;
-using Litkey.Utility;
-using DG.Tweening;
-using Litkey.Character.Cooldowns;
 using UnityEngine.Events;
 
-public class MineInteractor : Interactor
+public class TreeInteractor : Interactor
 {
-    [Header("Mine-specific Settings")]
     [SerializeField] private ParticleSystem _particle;
-    [SerializeField] private float animationRate=0;
-    [SerializeField] private LeveledRankLootTable _mineLoot;
+    [SerializeField] private LeveledRankLootTable loot;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private ResourceCapacity _capacity;
 
@@ -27,14 +23,6 @@ public class MineInteractor : Interactor
         _dotweenAnim = GetComponent<DOTweenAnimation>();
     }
 
-    public MineInteractor SetMine(string id, float cooldownTime, float interactionTime, int remainingChanceToGainResource)
-    {
-        this.ID = id;
-        this._cooldownTime = cooldownTime;
-        this._interactionTime = interactionTime;
-        this._capacity.SetCapacity(remainingChanceToGainResource);
-        return this;
-    }
 
     public override void Interact(PlayerController player, UnityAction OnEnd = null)
     {
@@ -50,6 +38,7 @@ public class MineInteractor : Interactor
             OnEnd?.Invoke();
         }));
     }
+
     public override bool CanInteract(PlayerController player)
     {
         if (base.CanInteract(player))
@@ -59,9 +48,9 @@ public class MineInteractor : Interactor
                 WarningMessageInvoker.Instance.ShowMessage($"This resource is depleted.");
                 return false;
             }
-            if (!_inventory.IsMiningEquipped())
+            if (!_inventory.IsAxingEquipped())
             {
-                WarningMessageInvoker.Instance.ShowMessage("Mining tool is not equipped.");
+                WarningMessageInvoker.Instance.ShowMessage("µµ³¢¸¦ Âø¿ëÇÏÁö ¾Ê¾Ò½À´Ï´Ù");
                 return false;
             }
             return true;
@@ -78,9 +67,9 @@ public class MineInteractor : Interactor
 
     private void MakeDropResource(PlayerController player)
     {
-        _inventory.UseResourceEquipmentItem(eResourceType.±¤¼®);
+        _inventory.UseResourceEquipmentItem(eResourceType.³ª¹«);
         _capacity.DecrementChance();
-        var lootedResource = _mineLoot.GetRankedLootTable().GetSingleItem();
+        var lootedResource = loot.GetRankedLootTable().GetSingleItem();
         if (lootedResource is CountableItem countableItem)
         {
             DropItemCreator.CreateDrop(transform.position, countableItem.CountableData, countableItem.Amount, player.bagTarget, () =>
@@ -94,35 +83,5 @@ public class MineInteractor : Interactor
                 }
             });
         }
-    }
-
-    public override void Initialize()
-    {
-        base.Initialize();
-        gameObject.SetActive(true);
-        _capacity.SetCapacity(5);
-    }
-}
-
-[System.Serializable]
-public class ResourceCapacity
-{
-    public int ID; // ÀÌ°÷ÀÇ ID
-    public int remainingChance; // ³²Àº Ã¤±¤, ¹ú¸ñ, ³¬½Ã È½¼ö
-
-    public void SetCapacity(int chance)
-    {
-        remainingChance = chance;
-    } 
-
-    public bool DecrementChance()
-    {
-        if (remainingChance <= 0)
-        {
-            Debug.LogError("There is no more remaining chance to gain resource");
-            return false;
-        }
-        remainingChance -= 1;
-        return true;
     }
 }

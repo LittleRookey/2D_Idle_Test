@@ -10,7 +10,8 @@ public class ResourceInteractor : MonoBehaviour
     [SerializeField] private LayerMask resourceLayer;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private float searchRange = 1f;
-
+    [SerializeField] private SpriteRenderer resourceGetterSprite;
+    
     private PlayerController _player;
     private IInteractable _currentTarget;
 
@@ -84,12 +85,29 @@ public class ResourceInteractor : MonoBehaviour
             if (_currentTarget.CanInteract(_player))
             {
                 IsInteracting = true;
+                resourceGetterSprite.sprite = GetResourceGetterSprite(GetResourceType(_currentTarget));
                 _currentTarget.Interact(_player, () => IsInteracting = false);
             }
         });
         InteractorUI.Instance.EnableOrientation();
     }
 
+    private Sprite GetResourceGetterSprite(eResourceType resourceType)
+    {
+        if (resourceType == eResourceType.광석)
+        {
+            return _inventory.GetEquippedMiningItem().EquipmentData.IconSprite;
+        } 
+        else if (resourceType == eResourceType.나무)
+        {
+            return _inventory.GetEquippedAxingItem().EquipmentData.IconSprite;
+        } 
+        else if (resourceType == eResourceType.물고기)
+        {
+            return _inventory.GetEquippedFishingItem().EquipmentData.IconSprite;
+        }
+        return _inventory.GetEquippedMiningItem().EquipmentData.IconSprite;
+    }
     private eResourceType GetResourceType(IInteractable interactable)
     {
         // Implement logic to determine resource type based on the interactable
@@ -101,6 +119,10 @@ public class ResourceInteractor : MonoBehaviour
         else if (interactable is NPCInteractor)
         {
             return eResourceType.말걸기;
+        }
+        else if (interactable is TreeInteractor)
+        {
+            return eResourceType.나무;
         }
         
         // Add other types as needed

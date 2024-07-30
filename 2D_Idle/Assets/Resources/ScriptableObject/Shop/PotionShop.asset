@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: PotionShop
   m_EditorClassIdentifier: 
   _inventory: {fileID: 11400000, guid: 95c39ce0635f4db49aaa2e025ae58d2f, type: 2}
+  shopID: 123
   <Products>k__BackingField:
   - Item: {fileID: 11400000, guid: 6672740962d99d541ad43bbcb82826fd, type: 2}
-    Count: 200
+    Count: 10
     IsSold: 0
     Weight: 10
   thingsToSell:

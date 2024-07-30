@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89c1f6f2b02a9ea4aa744a6b77a770bb, type: 3}
-  m_Name: New Leveled Rank Loot Table
+  m_Name: "\uB7AD\uD06C\uBCC4\uAD11\uC11D\uB4E4"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -54,4 +54,4 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  resourceLevel: {fileID: 11400000, guid: 46f2aaf761fbd454ba3ca20e66d2d97b, type: 2}
+  resourceLevel: {fileID: 11400000, guid: 73c0f2a8077d0a94492a7a2075bac20e, type: 2}
