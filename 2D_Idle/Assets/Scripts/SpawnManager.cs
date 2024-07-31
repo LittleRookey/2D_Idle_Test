@@ -99,21 +99,21 @@ public class SpawnManager : MonoBehaviour
 
     public void Spawn()
     {
-        StopTimer();
-        var monsterToSpawn = mapManager.CurrentArea.monsterTable.GetRandomMonster();
-        //var monsterToSpawn = MobManager.Instance.GetEnemy(eRegion.One);
+        //StopTimer();
+        //var monsterToSpawn = mapManager.CurrentArea.monsterTable.GetRandomMonster();
+        ////var monsterToSpawn = MobManager.Instance.GetEnemy(eRegion.One);
 
-        // 가져온 몬스터가 풀에 없으면 풀을 만들어서 딕셔너리에 저장
-        if (!monsterDict.TryGetValue(monsterToSpawn.Name, out Pool<Health> pool))
-        {
-            monsterDict[monsterToSpawn.Name] = Pool.Create(monsterToSpawn, 3).NonLazy();
-            Debug.Log($"{monsterToSpawn.Name}의 풀을 생성 성공");
-        }
-        var mons = monsterDict[monsterToSpawn.Name].Get();
-        mons.transform.position = spawnPosition.position;
-        //var mons = Instantiate(, spawnPosition.position, Quaternion.identity);
-        mons.OnDeath.AddListener(OnMonsterDeath);
-        spawnedMonster = mons;
+        //// 가져온 몬스터가 풀에 없으면 풀을 만들어서 딕셔너리에 저장
+        //if (!monsterDict.TryGetValue(monsterToSpawn.Name, out Pool<Health> pool))
+        //{
+        //    monsterDict[monsterToSpawn.Name] = Pool.Create(monsterToSpawn, 3).NonLazy();
+        //    Debug.Log($"{monsterToSpawn.Name}의 풀을 생성 성공");
+        //}
+        //var mons = monsterDict[monsterToSpawn.Name].Get();
+        //mons.transform.position = spawnPosition.position;
+        ////var mons = Instantiate(, spawnPosition.position, Quaternion.identity);
+        //mons.OnDeath.AddListener(OnMonsterDeath);
+        //spawnedMonster = mons;
     }
 
     private void OnMonsterDeath(LevelSystem attacker)

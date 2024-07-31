@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 public class CameraSwitcher : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class CameraSwitcher : MonoBehaviour
     public static CinemachineVirtualCamera ActiveCamera = null;
 
     private static CinemachineVirtualCamera PreviousCamera = null;
+
+    public static event Action<CinemachineVirtualCamera> OnCameraActivated;
+
     public static bool IsActiveCamera(CinemachineVirtualCamera camera)
     {
         return camera == ActiveCamera;
@@ -27,6 +31,7 @@ public class CameraSwitcher : MonoBehaviour
                 c.Priority = 0;
             }
         }
+        OnCameraActivated?.Invoke(camera);
     }
 
     public static void SwitchCamera(CinemachineVirtualCamera camera)
@@ -44,6 +49,7 @@ public class CameraSwitcher : MonoBehaviour
                 c.Priority = 0;
             }
         }
+        OnCameraActivated?.Invoke(camera);
     }
 
     public static void SwitchToPreviousCamera()

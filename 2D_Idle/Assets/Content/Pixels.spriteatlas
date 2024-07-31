@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 4096
+      m_MaxTextureSize: 8192
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 1
@@ -38,7 +38,7 @@ SpriteAtlas:
       padding: 4
       blockOffset: 1
       allowAlphaSplitting: 0
-      enableRotation: 1
+      enableRotation: 0
       enableTightPacking: 1
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
@@ -733,6 +733,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 88ec87e63a97b43a9b2272acc73145ca, type: 3}
   - {fileID: 21300000, guid: 7577ede6fa44a2b4b84f95ec3c595f58, type: 3}
   - {fileID: 21300000, guid: cb51f5f6f8281453c8c25dd38c756e34, type: 3}
+  - {fileID: 21300000, guid: ec1e7ff61cebddb4ea3c69e1e08e3599, type: 3}
   - {fileID: 21300000, guid: 04310307c42ff4e7fa0eb91e7b35af84, type: 3}
   - {fileID: 21300000, guid: a5a484077db1ef94d85dc0ef14d4c599, type: 3}
   - {fileID: 21300000, guid: 95eaf707503c5c54a868104c52db064c, type: 3}
@@ -1114,6 +1115,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c56ecff87d3024239b350580276bb9d0, type: 3}
   - {fileID: 21300000, guid: cd249709b396e40e8b99e4d88ce6ffbc, type: 3}
   - {fileID: 21300000, guid: 2b7668097896e4ffba5bef0ff1ee2e5a, type: 3}
+  - {fileID: 21300000, guid: 5d060419c27bf05489c567d1e9983ce4, type: 3}
   - {fileID: 21300000, guid: c57f5b19decd44526aa002e99d435543, type: 3}
   - {fileID: 21300000, guid: d75b3d19f9d6b41b599cc3b9728b38ec, type: 3}
   - {fileID: 21300000, guid: fe7b8029ae8d74a438e969a58088470c, type: 3}
@@ -2397,6 +2399,7 @@ SpriteAtlas:
   - Spum_Icon52
   - A_Inventory_frame2
   - Spum_Icon105
+  - dottedLine
   - Body_Icon
   - Icon_14
   - LossHP6
@@ -2778,6 +2781,7 @@ SpriteAtlas:
   - Spum_Icon275
   - BasicFrame_Rectangle01_l
   - Spum_Icon269
+  - "\uC810\uBC30\uACBD"
   - IconGroup_StatsIcon_Defense
   - Spum_Icon164
   - Spum_Icon25

@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Events;
 
 public class RegisterCamera : MonoBehaviour
 {
     CinemachineVirtualCamera camera;
     public bool SetAsBaseCamera;
+
+    public UnityEvent OnCameraActivated;
 
     private void Awake()
     {
@@ -15,12 +18,17 @@ public class RegisterCamera : MonoBehaviour
     private void OnEnable()
     {
         CameraSwitcher.Register(camera);
+        // Subscribe to the OnCameraActivated event in CameraSwitcher
+        CameraSwitcher.OnCameraActivated += CheckIfThisCamera;
     }
 
     private void OnDisable()
     {
         CameraSwitcher.Unregister(camera);
+        // Unsubscribe from the OnCameraActivated event in CameraSwitcher
+        CameraSwitcher.OnCameraActivated -= CheckIfThisCamera;
     }
+
 
     private void Start()
     {
@@ -36,6 +44,14 @@ public class RegisterCamera : MonoBehaviour
         else
         {
             CameraSwitcher.SwitchCamera(camera);
+        }
+    }
+
+    private void CheckIfThisCamera(CinemachineVirtualCamera activatedCamera)
+    {
+        if (activatedCamera == camera)
+        {
+            OnCameraActivated.Invoke();
         }
     }
 }

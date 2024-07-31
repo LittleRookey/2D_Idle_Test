@@ -23,7 +23,7 @@ public class EventTable : ScriptableObject
     public InGameEvent GetRandomEvent()
     {
         var events = eventTable.GetRandomPick();
-        events.eventPosition = new Vector2(Random.Range(MapManager.mapMinX, MapManager.mapMaxX), Random.Range(MapManager.mapMinY, MapManager.mapMaxY));
+
         return events;
     }
 }
