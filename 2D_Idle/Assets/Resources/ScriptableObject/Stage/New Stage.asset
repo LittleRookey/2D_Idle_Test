@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf525df02d8c59468402fedb412b7da, type: 3}
+  m_Name: New Stage
+  m_EditorClassIdentifier: 
+  index: 0
+  stageTitle: "\uBAB0\uB824\uC624\uB294 \uC801\uC73C\uB85C\uBD80\uD130 \uC0DD\uC874"
+  tileType: 0
+  Monster: {fileID: 0}
+  HasBoss: 0
+  Boss: {fileID: 0}
+  enemyCount: 0
+  difficultyRate: 1
+  weather: {fileID: 0}
+  IsCompleted: 0
+  IsLocked: 1

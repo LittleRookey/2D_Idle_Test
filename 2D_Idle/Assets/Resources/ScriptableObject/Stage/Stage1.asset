@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf525df02d8c59468402fedb412b7da, type: 3}
   m_Name: Stage1
   m_EditorClassIdentifier: 
-  missionType: 0
-  monsterTable: {fileID: 11400000, guid: 16629c87ff417424db735b86d6e77aad, type: 2}
-  difficultyRate: 1.03
+  index: 0
+  stageTitle: "\uC791\uC740 \uBC8C\uD310 \uC678\uACFD\uC9C0\uC5ED"
+  tileType: 0
+  Monster: {fileID: 8499623147719185562, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+  HasBoss: 0
+  Boss: {fileID: 0}
+  enemyCount: 100
+  difficultyRate: 1
   weather: {fileID: 11400000, guid: a0b71fd266b34ef41a0f13d4d66bdfd5, type: 2}
-  shop: {fileID: 11400000, guid: 93b7493677b61f64a9c9cf4aa0f34228, type: 2}
-  appearningResourceType: 0
-  TimeLimit: 22
-  mapPrefab: {fileID: 0}
+  IsCompleted: 0
+  IsLocked: 1

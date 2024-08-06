@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SPUM_Equip : MonoBehaviour
 {
-    SPUM_SpriteList spriteList;
+    [SerializeField] private SPUM_SpriteList spriteList;
 
     [Header("Weapons")]
     SpriteRenderer LWeapon;
@@ -12,9 +12,18 @@ public class SPUM_Equip : MonoBehaviour
     SpriteRenderer RWeapon;
     SpriteRenderer RShield;
 
+    SpriteRenderer[] allSprites;
+    private MaterialPropertyBlock mpb;
+
+    private static readonly int GreyScaleProperty = Shader.PropertyToID("_GreyscaleLuminosity");
+
     private void Awake()
     {
-        spriteList = GetComponent<SPUM_SpriteList>();
+        allSprites = GetComponentsInChildren<SpriteRenderer>();
+        mpb = new MaterialPropertyBlock();
+        
+        if (spriteList == null) spriteList = GetComponent<SPUM_SpriteList>();
+
 
         if (spriteList == null)
         {
@@ -51,5 +60,48 @@ public class SPUM_Equip : MonoBehaviour
 
         LShield.sprite = isShield ? sprite : null;
         LWeapon.sprite = !isShield ? sprite : null;
+    }
+
+    public void SetBlack()
+    {
+        if (allSprites == null) allSprites = GetComponentsInChildren<SpriteRenderer>();
+        ApplyToAllSprites(renderer =>
+        {
+            renderer.GetPropertyBlock(mpb);
+            mpb.SetFloat(GreyScaleProperty, -1);
+            renderer.SetPropertyBlock(mpb);
+        });
+    }
+
+    public void SetGrey()
+    {
+        if (allSprites == null) allSprites = GetComponentsInChildren<SpriteRenderer>();
+        if (mpb == null) mpb = new MaterialPropertyBlock();
+        ApplyToAllSprites(renderer =>
+        {
+            if (renderer == null) Debug.LogError("SpriteRenderer is null");
+            renderer.GetPropertyBlock(mpb);
+            mpb.SetFloat(GreyScaleProperty, 0);
+            renderer.SetPropertyBlock(mpb);
+        });
+    }
+    private void ApplyToAllSprites(System.Action<SpriteRenderer> action)
+    {
+        if (allSprites == null) allSprites = GetComponentsInChildren<SpriteRenderer>();
+        if (mpb == null) mpb = new MaterialPropertyBlock();
+        foreach (var sprite in allSprites)
+        {
+            action(sprite);
+        }
+    }
+
+    public SPUM_SpriteList GetAvatarInfo()
+    {
+        return spriteList;
+    } 
+
+    public void UpdateAvatar(SPUM_SpriteList spriteList)
+    {
+        this.spriteList.LoadSprite(spriteList);
     }
 }

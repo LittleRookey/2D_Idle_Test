@@ -10,7 +10,7 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager Instance;
     [InlineEditor]
-    [SerializeField] private Tile _currentStage;
+    [SerializeField] private Stage _currentStage;
 
     private int currentStageIndex = 0;
 
@@ -26,25 +26,26 @@ public class StageManager : MonoBehaviour
 
     public int resourceNumber;
 
-    public void SetupStage(Tile stageInfo)
+    // ¾À ³Ñ¾î°¡¼­ ¹èÆ²¾À¿¡¼­ ¸Ê ¼¼ÆÃ 
+    public void SetupStage(Stage stageInfo)
     {
         this._currentStage = stageInfo;
-        var resourceType = stageInfo.appearingResourceType;
+
         bool hasBoss = stageInfo.Boss != null;
         int resourceNumber = Random.Range(1, resourcesPositions.Length);
          //stageInfo.appearingResourceType;
-         if (!hasBoss)
-        {
-            foreach (var spawnPoint in spawnPoints)
-            {
-                spawnPoint.SetSpawnPoint(stageInfo.Monster);
-            }
-            // TODO load resource informations
-            foreach(var resource in resourcesPositions)
-            {
-                //resource.Initialize();
-            }
-        }
+        // if (!hasBoss)
+        //{
+        //    foreach (var spawnPoint in spawnPoints)
+        //    {
+        //        spawnPoint.SetSpawnPoint(stageInfo.Monster);
+        //    }
+        //    // TODO load resource informations
+        //    foreach(var resource in resourcesPositions)
+        //    {
+        //        //resource.Initialize();
+        //    }
+        //}
     }
 
     private Vector2 PickRandomPositionWithin(Transform spawnPos)

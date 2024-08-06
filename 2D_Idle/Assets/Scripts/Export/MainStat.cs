@@ -496,6 +496,27 @@ namespace Litkey.Stat
             return val;
         }
 
+        public float GetFinalValueWithoutBuff()
+        {
+            float valueWithoutBuff = this.BaseStat;
+
+            // Apply multiplied values except buff
+            float multipliedValueWithoutBuff = _multipliedStatValue + _multipliedEquipValue + _multipliedEtcValue;
+            valueWithoutBuff *= (1f + multipliedValueWithoutBuff);
+
+            // Apply plus values except buff
+            float plusValueWithoutBuff = _plusStatValue + _plusEquipValue + _plusEtcValue;
+            valueWithoutBuff += plusValueWithoutBuff;
+
+            // Apply min and max constraints if they exist
+            if (minValue >= 0f && maxValue >= 0f)
+            {
+                valueWithoutBuff = Mathf.Clamp(valueWithoutBuff, minValue, maxValue);
+            }
+
+            return valueWithoutBuff;
+        }
+
         // 공격력 적용 공식
         // 기본 공격력 * (1+ 곱셈 공격력) + 덧셈 공격력
         // 덧셈 공격력 = (스텟 추가 공격력 + 장비 공격력)

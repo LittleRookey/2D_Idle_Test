@@ -4,10 +4,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+[InlineEditor]
 [CreateAssetMenu(menuName ="Litkey/Stage")]
 public class Stage : ScriptableObject
 {
+    public int index;
+    [TextArea]
+    public string stageTitle;
 
+    [EnumToggleButtons]
+    public eTileType tileType;
+    [InlineEditor]
+    public Health Monster;
+
+    public bool HasBoss;
+
+    [ShowIf("HasBoss", true)]
+    public Health Boss;
+    [ShowIf("Monster", true)]
+    public int enemyCount;
+    [Range(0.1f, 100f)]
+    public float difficultyRate = 1f;
+
+    public Weather weather;
+    public bool IsCompleted = false;
+    public bool IsLocked = true;
+
+    public void Unlock()
+    {
+        IsLocked = false;
+        IsCompleted = false;
+        difficultyRate = 1f + 0.03f * index;
+    }
+
+    public void Complete()
+    {
+        IsCompleted = true;
+    }
 
 }
 

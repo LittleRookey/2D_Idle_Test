@@ -98,6 +98,7 @@ namespace TransitionsPlus {
         float captureProgress;
         int lastCaptureFrame = -1;
 
+        public bool IsTransitionCompleted;
         static class ShaderParams {
             public static readonly int T = Shader.PropertyToID("_T");
             public static readonly int NoiseIntensity = Shader.PropertyToID("_NoiseIntensity");
@@ -224,7 +225,9 @@ namespace TransitionsPlus {
             SetProgress(t);
 
             if (t >= 1) {
+                Debug.Log("Transition Ended");
                 enabled = false;
+                IsTransitionCompleted = true;
                 onTransitionEnd?.Invoke();
                 if (autoDestroy) {
                     if (destroyAllTransitions) {
@@ -534,14 +537,17 @@ namespace TransitionsPlus {
         /// <summary>
         /// Plays the transition from start
         /// </summary>
-        public void Play() {
+        public TransitionAnimator Play() {
             
             progress = 0;
             enabled = true;
+            Debug.Log("Transition Started");
+            IsTransitionCompleted = false;
             Start();
             if (!autoPlay) {
                 StartTransition();
             }
+            return this;
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ public class StageSlotUI : MonoBehaviour
     [SerializeField] private Image bottomStage;
     [SerializeField] private DOTweenAnimation pointer;
     [SerializeField] private ParticleImage onSelectedParticle;
-    [SerializeField] private Image stageBalloon;
+    //[SerializeField] private Image stageBalloon;
     [SerializeField] private TextMeshProUGUI stageTitleText;
 
     public bool isLocked = true;
@@ -24,10 +24,6 @@ public class StageSlotUI : MonoBehaviour
 
     private void Awake()
     {
-        pointer.onComplete.AddListener(() =>
-        {
-            stageBalloon.gameObject.SetActive(true);
-        });
         Deselect();
     }
 
@@ -38,6 +34,7 @@ public class StageSlotUI : MonoBehaviour
         if (this.isLocked)
         {
             bottomStage.color = lockedColor;
+            stageTitleText.gameObject.SetActive(false);
         }
     }
 
@@ -67,7 +64,7 @@ public class StageSlotUI : MonoBehaviour
         onSelectedParticle.gameObject.SetActive(false);
         onSelectedParticle.Stop();
 
-        stageBalloon.gameObject.SetActive(false);
+        //stageTitleText.gameObject.SetActive(false);
 
         foreach (var tween in pointer.GetTweens())
         {
@@ -79,5 +76,6 @@ public class StageSlotUI : MonoBehaviour
     {
         isLocked = false;
         bottomStage.color = Color.white;
+        stageTitleText.gameObject.SetActive(true);
     }
 }

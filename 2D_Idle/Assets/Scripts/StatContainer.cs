@@ -300,6 +300,29 @@ public class StatContainer : MonoBehaviour
         return total;
     }
 
+    /// <summary>
+    /// 총 전투력을 계산한다
+    /// </summary>
+    /// <returns></returns>
+    public float GetTotalPower(bool onlyBaseStat=false)
+    {
+        if (onlyBaseStat)
+        {
+            return baseStat.Attack * 2f
+                 + baseStat.MaxHP * 0.5f
+                + baseStat.Defense * 1.5f
+                + baseStat.AttackSpeed * 1000f
+                + baseStat.Precision * 2f
+                + baseStat.Evasion * 3f;
+        }
+
+        return Attack.GetFinalValueWithoutBuff() * 2f
+            + HP.GetFinalValueWithoutBuff() * 0.5f
+            + Defense.GetFinalValueWithoutBuff() * 1.5f
+            + AttackSpeed.GetFinalValueWithoutBuff() * 1000f
+            + Precision.GetFinalValueWithoutBuff() * 2f
+            + Evasion.GetFinalValueWithoutBuff() * 3f;
+    }
 
     public void SumStatModifier(StatModifier statModifier)
     {

@@ -156,7 +156,7 @@ Material:
     - _DstBlend: 0
     - _EditorDrawers: 11
     - _EnableExternalAlpha: 0
-    - _FadeAmount: 0.055
+    - _FadeAmount: -0.1
     - _FadeBurnGlow: 25.7
     - _FadeBurnTransition: 0.075
     - _FadeBurnWidth: 0.034

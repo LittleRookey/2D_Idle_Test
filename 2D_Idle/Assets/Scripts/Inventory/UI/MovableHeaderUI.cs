@@ -1,10 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// 날짜 : 2021-03-18 PM 9:05:42
-// 작성자 : Rito
-
-namespace Rito
+namespace Litkey
 {
     /// <summary> 헤더 드래그 앤 드롭에 의한 UI 이동 </summary>
     public class MovableHeaderUI : MonoBehaviour, IPointerDownHandler, IDragHandler

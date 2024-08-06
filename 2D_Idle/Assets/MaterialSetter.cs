@@ -9,7 +9,18 @@ public class MaterialSetter : MonoBehaviour
     [SerializeField] private Material enemyMaterial;
     private string prefabsPath = "Assets/Prefabs/Monsters";
 #if UNITY_EDITOR
-    [Button("SetMaterial")]
+
+    [Button("SetChildsMaterial")]
+    public void SetMonsterMaterial()
+    {
+        var childs = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var child in childs)
+        {
+            child.material = enemyMaterial;
+        }
+    }
+
+    [Button("SetMaterialToPrefab")]
     public void LoadMonsterPrefabs()
     {
 
