@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 
 public class StageTitleUI : MonoBehaviour
 {
+    public static StageTitleUI Instance;
     [SerializeField] private Transform TitleBGOrientation;
     [SerializeField] private Image topImage;
     [SerializeField] private TextMeshProUGUI titleText;
@@ -16,6 +17,7 @@ public class StageTitleUI : MonoBehaviour
     public bool disableOnStart;
     private void Awake()
     {
+        Instance = this;
         transparent = new Color(0f, 0f, 0f, 0f);
         if (disableOnStart) TitleBGOrientation.gameObject.SetActive(false);
     }

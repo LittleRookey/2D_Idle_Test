@@ -54,13 +54,21 @@ public class ResourceInteractor : MonoBehaviour
         HandleInteractableChange(nearestInteractable);
     }
 
+    public void ResetInteractor()
+    {
+        _currentTarget = null;
+        InteractorUI.Instance.DisableOrientation();
+    }
+
     private void HandleInteractableChange(IInteractable newTarget)
     {
         if (_currentTarget != null && (_currentTarget != newTarget || Vector2.Distance(transform.position, ((MonoBehaviour)_currentTarget).transform.position) > searchRange))
         {
+
             if (_currentTarget is IDeselectable deselectable)
             {
-                deselectable.Deselect();
+                if (deselectable != null)
+                    deselectable.Deselect();
             }
             _currentTarget = null;
             InteractorUI.Instance.DisableOrientation();

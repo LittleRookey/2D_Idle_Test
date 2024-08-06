@@ -1,5 +1,98 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &230995768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 230995770}
+  - component: {fileID: 230995769}
+  m_Layer: 0
+  m_Name: Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &230995770
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230995768}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6387021010055424935}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &230995769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230995768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a34663ca705a54eac3205e225a6d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightType: 1
+  lightPresetId: 0
+  eventPresetId: 0
+  lightLayer: 0
+  occlusionLayer: 0
+  translucentLayer: 0
+  translucentPresetId: 0
+  color: {r: 0.5, g: 0.5, b: 0.5, a: 0.293}
+  size: 1.4
+  spotAngleInner: 360
+  spotAngleOuter: 360
+  coreSize: 0.5
+  falloff: 0
+  lightStrength: 0
+  outerAngle: 15
+  lightRadius: 1
+  shadowDistanceClose: 0
+  shadowDistanceFar: 5
+  maskTranslucencyQuality: 1
+  maskTranslucencyStrength: 0.5
+  applyRotation: 0
+  textureSize: 1
+  meshMode:
+    enable: 0
+    alpha: 0.5
+    shader: 0
+    materials:
+    - {fileID: 0}
+    sortingLayer:
+      name: Default
+      Order: 0
+  bumpMap:
+    intensity: 1
+    depth: 1
+  whenInsideCollider: 0
+  lightSprite: 0
+  sprite: {fileID: 21300000, guid: 6592d6be03fd808449716a11558d506f, type: 3}
+  spriteFlipX: 0
+  spriteFlipY: 0
+  freeFormFalloff: 1
+  freeFormPoint: 1
+  freeFormFalloffStrength: 1
+  freeFormPoints:
+    points:
+    - {x: 1, y: 0}
+    - {x: -0.50000006, y: 0.8660254}
+    - {x: -0.4999999, y: -0.86602545}
+  drawingEnabled: 1
+  drawingTranslucencyEnabled: 0
 --- !u!1 &1274268348
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +168,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -2124590632, guid: e88fb9055f20fa14aaac336078013995, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -266,6 +359,7 @@ Transform:
   - {fileID: 6387021010060543574}
   - {fileID: 6387021009870433269}
   - {fileID: 3257818033078942824}
+  - {fileID: 230995770}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -282,7 +376,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3858152}
+  m_Offset: {x: 0.027412415, y: -0.34550244}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -293,7 +387,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.2183696}
+  m_Size: {x: 0.2323227, y: 0.29899514}
   m_EdgeRadius: 0
 --- !u!50 &6387021010055424933
 Rigidbody2D:
@@ -412,6 +506,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   moveDir: {x: 0, y: 0}
+  stateMachine:
+    currentState: 
   isAuto: 0
   isStunned: 0
   goldTarget: {fileID: 6387021010060543574}
@@ -633,10 +729,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnemy: 0
   passiveSkills: []
-  activeSkills:
-  - {fileID: 11400000, guid: b53a7a318a16ecb4cafa1cdc69cf190a, type: 2}
+  activeSkills: []
   equippedActiveSkills: []
-  activeslotNumbers: 5
+  skillInterval: 0
 --- !u!114 &6387021010055424941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +854,7 @@ MonoBehaviour:
     m_Bits: 4096
   _inventory: {fileID: 11400000, guid: 95c39ce0635f4db49aaa2e025ae58d2f, type: 2}
   searchRange: 1
+  resourceGetterSprite: {fileID: 1274268350}
 --- !u!1 &6387021010060271516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,7 +1374,8 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2138641141231482722, guid: c8b86d21a471fa64881730b68d685b98, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c8b86d21a471fa64881730b68d685b98, type: 3}
 --- !u!224 &3257818033078942824 stripped
 RectTransform:

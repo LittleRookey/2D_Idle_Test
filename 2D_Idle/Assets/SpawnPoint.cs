@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Redcode.Pools;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 public class SpawnPoint : MonoBehaviour
 {
     [InlineEditor]
     //[SerializeField] private MonsterTable monsterTable;
-    [SerializeField] private int maxMonsterNum;
-    [SerializeField] private float spawnRange;
+    [SerializeField] private int maxMonsterNum = 6;
+    [SerializeField] private float spawnRange = 2.5f;
     [SerializeField] private float cellSize = 1f; // Size of each cell in the grid
     public bool isXZ; // 3D¿ë
 
@@ -24,6 +25,11 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] private float spawnTimer = 5;
     float timer = 0f;
     private Health monsterToSpawn;
+    [SerializeField] private SpriteRenderer spawnOutline;
+    [SerializeField] private SpriteRenderer spawnEnemyIcon;
+
+    [SerializeField] private Color enabledColor = new Color(0f, 0f, 0f, 255f);
+    [SerializeField] private Color disabledColor = new Color(0f, 0f, 0f, 50f);
 
     private void OnValidate()
     {
@@ -31,8 +37,18 @@ public class SpawnPoint : MonoBehaviour
         grid = new bool[gridSize, gridSize];
     }
 
-    public void StartSpawn() => startSpawn = true;
-    public void StopSpawn() => startSpawn = false;
+    public void StartSpawn()
+    {
+        startSpawn = true;
+        spawnOutline.DOColor(enabledColor, 0.5f);
+        spawnEnemyIcon.DOColor(enabledColor, 0.5f);
+    }
+    public void StopSpawn()
+    {
+        startSpawn = false;
+        spawnOutline.DOColor(disabledColor, 0.5f);
+        spawnEnemyIcon.DOColor(disabledColor, 0.5f);
+    }
 
     private void Awake()
     {
@@ -52,15 +68,17 @@ public class SpawnPoint : MonoBehaviour
         //    pool.SetContainer(transform);
         //    monsterPool.Add(monsters[i].Name, pool);
         //}
+        StopSpawn();
     }
     public void SetSpawnPoint(Health monster) 
     {
+        Debug.Log($"SEt spawnpoint for monster {monster.Name}");
         this.monsterToSpawn = monster;
         SetMonsterPool(this.monsterToSpawn);
 
     }
 
-    public void SetMonsterPool(Health monster)
+    private void SetMonsterPool(Health monster)
     {
         if (monsterPool == null) monsterPool = new Dictionary<string, Pool<Health>>();
 
@@ -222,7 +240,7 @@ public class SpawnPoint : MonoBehaviour
 
         }
     }
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, spawnRange);
@@ -249,5 +267,21 @@ public class SpawnPoint : MonoBehaviour
         float localY = (y - gridSize / 2) * cellSize;
         if (isXZ) return new Vector3(localX, 0f, localY);
         else return new Vector3(localX, localY, 0f);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            StartSpawn();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            StopSpawn();
+        }
     }
 }

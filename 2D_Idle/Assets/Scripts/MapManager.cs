@@ -31,7 +31,7 @@ public class MapManager : MonoBehaviour
     private StageSlotUI prevSelected;
 
     private bool isLoadingStage = false;
-
+    [SerializeField] private ResourceInteractor player;
     private void Awake()
     {
         Instance = this;
@@ -142,6 +142,8 @@ public class MapManager : MonoBehaviour
         yield return StartCoroutine(FadeInScreenCoroutine());
         Debug.Log("222222222222");
         CloseWindow();
+
+        player.ResetInteractor();
         // Step 2: Unload Town scene
         yield return StartCoroutine(UnloadSceneAsync("Town"));
         Debug.Log("3333333333");
@@ -158,6 +160,7 @@ public class MapManager : MonoBehaviour
             yield return null;
             Debug.Log("Fading out screen");
             yield return FadeOutScreen().WaitForCompletion();
+            StageTitleUI.Instance.SetStageTitleUI(stage.stageTitle);
         }
         else
         {

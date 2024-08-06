@@ -180,13 +180,13 @@ Material:
     - _GradIsRadial: 0
     - _GrassManualAnim: 1
     - _GrassManualToggle: 0
-    - _GrassRadialBend: 0.1
-    - _GrassSpeed: 2
-    - _GrassWind: 20
+    - _GrassRadialBend: 0.05
+    - _GrassSpeed: 1.5
+    - _GrassWind: 0.6
     - _GreyscaleBlend: 1
     - _GreyscaleLuminosity: 0
     - _GreyscaleOutline: 0
-    - _HandDrawnAmount: 10
+    - _HandDrawnAmount: 6.18
     - _HandDrawnSpeed: 5.02
     - _HitEffectBlend: 0
     - _HitEffectGlow: 3.5

@@ -33,19 +33,20 @@ public class StageManager : MonoBehaviour
 
         bool hasBoss = stageInfo.Boss != null;
         int resourceNumber = Random.Range(1, resourcesPositions.Length);
-         //stageInfo.appearingResourceType;
-        // if (!hasBoss)
-        //{
-        //    foreach (var spawnPoint in spawnPoints)
-        //    {
-        //        spawnPoint.SetSpawnPoint(stageInfo.Monster);
-        //    }
-        //    // TODO load resource informations
-        //    foreach(var resource in resourcesPositions)
-        //    {
-        //        //resource.Initialize();
-        //    }
-        //}
+        //stageInfo.appearingResourceType;
+        
+        
+        foreach (var spawnPoint in spawnPoints)
+        {
+            spawnPoint.SetSpawnPoint(stageInfo.Monster);
+        }
+        // TODO load resource informations
+        foreach (var resource in resourcesPositions)
+        {
+            //resource.Initialize();
+        }
+        
+        // TODO set quest 
     }
 
     private Vector2 PickRandomPositionWithin(Transform spawnPos)

@@ -39,7 +39,7 @@ SpriteAtlas:
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 0
-      enableTightPacking: 1
+      enableTightPacking: 0
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
@@ -458,6 +458,17 @@ SpriteAtlas:
   - {fileID: -687741302, guid: 0d844254433da4445abeba8397347932, type: 3}
   - {fileID: 21300000, guid: f9e0b354f56d26d49be36b802f640580, type: 3}
   - {fileID: 21300000, guid: d347a864e04889f46bed0de8266c3a16, type: 3}
+  - {fileID: -1203300937, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: -404177383, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: -1214497301, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: 1112897168, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: 1821081213, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: 1522258240, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: 337270496, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: 119013401, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: -1002984710, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: -314899610, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
+  - {fileID: 1383058765, guid: 1ec6796438ac3c54c9eeb3bc1a1ffd6e, type: 3}
   - {fileID: 21300000, guid: 6afc1474ff17f4467b2b27b1780bbd4b, type: 3}
   - {fileID: 21300000, guid: ca0ad474a8ec041d28159498150a13f6, type: 3}
   - {fileID: 21300000, guid: 23bcc674312b743d8a5dcea17039e8ee, type: 3}
@@ -2124,6 +2135,17 @@ SpriteAtlas:
   - Stamina_4
   - Fill2
   - RecoverHP6
+  - blacksmith_8
+  - blacksmith_9
+  - blacksmith_0
+  - blacksmith_1
+  - blacksmith_2
+  - blacksmith_3
+  - blacksmith_4
+  - blacksmith_5
+  - blacksmith_6
+  - blacksmith_7
+  - blacksmith_10
   - Spum_Icon217
   - Spum_Icon14
   - function_icon_knight
