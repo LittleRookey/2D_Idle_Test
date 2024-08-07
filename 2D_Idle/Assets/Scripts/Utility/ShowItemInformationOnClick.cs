@@ -5,24 +5,41 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-[RequireComponent(typeof(ItemSlotUI))]
 public class ShowItemInformationOnClick : MonoBehaviour
 {
     private ItemSlotUI itemSlotUI;
     private Button slotButton;
 
+    private EquipmentSlotUI equipmentSlotUI;
     private void Awake()
     {
         itemSlotUI = GetComponent<ItemSlotUI>();
         slotButton = GetComponent<Button>();
-        slotButton.onClick.AddListener(() =>
+        if (itemSlotUI != null)
         {
-            itemSlotUI.SelectSlot();
-            ItemInformationWindow.Instance.ShowItemInfo(itemSlotUI.EquippedItem, true, () =>
+            slotButton.onClick.AddListener(() =>
             {
-                itemSlotUI.ResetClickState();
+                itemSlotUI.SelectSlot();
+                ItemInformationWindow.Instance.ShowItemInfo(itemSlotUI.EquippedItem, true, () =>
+                {
+                    itemSlotUI.ResetClickState();
+                });
             });
-        });
+        }
+
+        equipmentSlotUI = GetComponent<EquipmentSlotUI>();
+        if (equipmentSlotUI != null)
+        {
+            slotButton.onClick.AddListener(() =>
+            {
+                //itemSlotUI.SelectSlot();
+                if (equipmentSlotUI.EquippedItem == null) return;
+                ItemInformationWindow.Instance.ShowItemInfo(equipmentSlotUI.EquippedItem, true, () =>
+                {
+                    
+                });
+            });
+        }
     }
     
 }

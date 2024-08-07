@@ -10,6 +10,14 @@ public class EquipmentSlotUI : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private Image backImage;
 
+    public EquipmentItem EquippedItem
+    {
+        get
+        {
+            if (!equipmentSlot.IsEquipped) return null;
+            return equipmentSlot.EquippedItem;
+        }
+    }
     private void Awake()
     {
         Debug.Log("장비창 UI 이벤트함수 등록 완료");
