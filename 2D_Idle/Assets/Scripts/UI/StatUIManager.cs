@@ -9,6 +9,8 @@ using DarkTonic.MasterAudio;
 public class StatUIManager : MonoBehaviour
 {
     [Header("StatBar")]
+
+    [SerializeField] private TextMeshProUGUI totalPowerText;
     [SerializeField] private TextMeshProUGUI apText;
     [SerializeField] private List<StatBarUI> statBarUIs;
     [SerializeField] private Transform statWindow;
@@ -41,23 +43,28 @@ public class StatUIManager : MonoBehaviour
         
         playerStat.OnApplyStat.AddListener(UpdateStats);
         playerStat.OnApplyStat.AddListener(UpdatePreviewStatDisplays);
-
+        playerStat.OnApplyStat.AddListener(UpdateTotalPowerText);
         // 각 StatBarUI의 UI를 이벤트에 넣어준다. 
 
         foreach (var mainStatType in playerStat.mainStats.Keys)
         {
             playerStat.OnTryIncreaseStat.AddListener(statBarUIDict[mainStatType].SetStatBarUIs);
         }
+        totalPowerText.SetText(playerStat.GetTotalPower().ToString("F0"));
     }
 
     private void OnDisable()
     {
         playerStat.OnCancelStat.RemoveListener(UpdateStats);
         playerStat.OnCancelStat.RemoveListener(UpdateStatDisplays);
+
         playerStat.OnApplyStat.RemoveListener(UpdateStats);
         playerStat.OnApplyStat.RemoveListener(UpdatePreviewStatDisplays);
+        playerStat.OnApplyStat.RemoveListener(UpdateTotalPowerText);
+
         playerStat.OnTryIncreaseStat.RemoveListener(TryUpdateStat);
         playerStat.OnTryIncreaseStat.RemoveListener(TryUpdateSubStatDisplay);
+
         playerStat.OnIncreaseStat.RemoveListener(UpdateStat);
     }
 
@@ -67,6 +74,10 @@ public class StatUIManager : MonoBehaviour
         statWindow.gameObject.SetActive(false);
     }
 
+    private void UpdateTotalPowerText()
+    {
+        totalPowerText.SetText(playerStat.GetTotalPower().ToString("F0"));
+    }
     private void InitStatDisplayUI()
     {
         statDisplayUIDict = new Dictionary<eSubStatType, StatDisplayUI>();

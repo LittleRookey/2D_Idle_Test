@@ -12,6 +12,7 @@ using UnityEngine.Events;
 using System.Linq;
 using Litkey.Skill;
 using Litkey.InventorySystem;
+using Litkey.Quest;
 
 [System.Serializable]
 public class GameData
@@ -21,11 +22,14 @@ public class GameData
 
     public SerializableInventory inventoryData;
 
+    public QuestData questData;
+
     public GameData()
     {
         gold = 100;
         playerData = new PlayerData();
         inventoryData = new SerializableInventory();
+        questData = new QuestData();
     }
     public void SetGold(int gold) => this.gold = gold;
 

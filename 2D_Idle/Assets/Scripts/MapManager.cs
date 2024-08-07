@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 using Redcode.Pools;
 using TransitionsPlus;
 using UnityEngine.SceneManagement;
+using Litkey.Quest;
 
 public class MapManager : MonoBehaviour
 {
@@ -156,6 +157,7 @@ public class MapManager : MonoBehaviour
         {
             Debug.Log("StageManager Setting up stage");
             stageManager.SetupStage(stage);
+            QuestManager.Instance.ActivateQuest(stage.quest.questID);
             Debug.Log("StageManager Setup Complete");
             yield return null;
             Debug.Log("Fading out screen");

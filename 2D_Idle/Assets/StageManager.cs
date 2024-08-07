@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using TMPro;
 using Redcode.Pools;
+using Litkey.Quest;
 
 public class StageManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class StageManager : MonoBehaviour
     }
 
     public int resourceNumber;
+    public Quest quest;
 
     // ¾À ³Ñ¾î°¡¼­ ¹èÆ²¾À¿¡¼­ ¸Ê ¼¼ÆÃ 
     public void SetupStage(Stage stageInfo)
@@ -34,7 +36,7 @@ public class StageManager : MonoBehaviour
         bool hasBoss = stageInfo.Boss != null;
         int resourceNumber = Random.Range(1, resourcesPositions.Length);
         //stageInfo.appearingResourceType;
-        
+
         
         foreach (var spawnPoint in spawnPoints)
         {

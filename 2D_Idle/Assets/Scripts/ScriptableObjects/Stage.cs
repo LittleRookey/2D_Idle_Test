@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Litkey.Quest;
 
 [InlineEditor]
 [CreateAssetMenu(menuName ="Litkey/Stage")]
@@ -27,6 +28,8 @@ public class Stage : ScriptableObject
     public float difficultyRate = 1f;
 
     public Weather weather;
+
+    public Quest quest;
     public bool IsCompleted = false;
     public bool IsLocked = true;
 

@@ -308,18 +308,18 @@ public class StatContainer : MonoBehaviour
     {
         if (onlyBaseStat)
         {
-            return baseStat.Attack * 2f
+            return baseStat.Attack * 1.5f
                  + baseStat.MaxHP * 0.5f
                 + baseStat.Defense * 1.5f
-                + baseStat.AttackSpeed * 1000f
+                + baseStat.AttackSpeed * 500f
                 + baseStat.Precision * 2f
                 + baseStat.Evasion * 3f;
         }
 
-        return Attack.GetFinalValueWithoutBuff() * 2f
+        return Attack.GetFinalValueWithoutBuff() * 1.5f
             + HP.GetFinalValueWithoutBuff() * 0.5f
             + Defense.GetFinalValueWithoutBuff() * 1.5f
-            + AttackSpeed.GetFinalValueWithoutBuff() * 1000f
+            + AttackSpeed.GetFinalValueWithoutBuff() * 500f
             + Precision.GetFinalValueWithoutBuff() * 2f
             + Evasion.GetFinalValueWithoutBuff() * 3f;
     }

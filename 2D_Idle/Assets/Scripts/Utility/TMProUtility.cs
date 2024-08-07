@@ -12,6 +12,10 @@ namespace TMPro
             return $"<color=#{ColorUtility.ToHtmlStringRGBA(col)}>{returnText}</color>";
         }
 
+        public static string GetLinkText(string displayText, string linkID)
+        {
+            return $"<link=\"{linkID}\">{displayText}</link>";
+        }
     }
 
 }
