@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using Litkey.Interface;
 using DarkTonic.MasterAudio;
 using Litkey.Utility;
+using Litkey.Quest;
 
 public class Health : MonoBehaviour, IPoolObject, IParryable
 {
@@ -184,6 +185,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             //rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
             //Debug.Log("attacker is null? " + attacker);
+            QuestEvents.ReportAction(QuestType.KillEnemies, Name, 1);
             OnDeath?.Invoke(attacker);
             return true;
         }

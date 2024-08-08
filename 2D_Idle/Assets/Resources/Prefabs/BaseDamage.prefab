@@ -53,7 +53,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
+  - {fileID: -6245147879248726382, guid: 3015d2c5ebbad4fbc944c8238764609f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,7 +141,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
+  - {fileID: -6245147879248726382, guid: 3015d2c5ebbad4fbc944c8238764609f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,10 +183,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <cspace=0.1><size=-1.97>19</size></cspace>
+  m_text: <cspace=0.1><size=-1.97>0</size></cspace>
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
-  m_sharedMaterial: {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3015d2c5ebbad4fbc944c8238764609f, type: 2}
+  m_sharedMaterial: {fileID: -6245147879248726382, guid: 3015d2c5ebbad4fbc944c8238764609f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -319,7 +319,7 @@ MonoBehaviour:
     farScale: 0.5
   cameraOverride: {fileID: 0}
   enableNumber: 1
-  number: 19
+  number: 0
   numberSettings:
     bold: 0
     italic: 0
@@ -718,7 +718,7 @@ MonoBehaviour:
   enablePooling: 1
   poolSize: 50
   disableOnSceneLoad: 1
-  editorLastFont: Maplestory Bold SDF
+  editorLastFont: JosefinSans-Bold SDF
   position: {x: 0, y: 0, z: 0}
 --- !u!210 &6323344755239107247
 SortingGroup:
@@ -784,7 +784,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4349326466108622059, guid: a2d9199cb7341eb41856f1a0cae960e4, type: 2}
+  - {fileID: -6245147879248726382, guid: 3015d2c5ebbad4fbc944c8238764609f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

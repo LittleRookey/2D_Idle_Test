@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 
 namespace Litkey.Quest
 {
+    [InlineEditor]
     [CreateAssetMenu(menuName = "Litkey/Quest/QuestDatabase")]
     public class QuestDatabase : SerializedScriptableObject
     {

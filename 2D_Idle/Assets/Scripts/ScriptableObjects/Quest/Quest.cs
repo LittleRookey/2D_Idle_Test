@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
 namespace Litkey.Quest
 {
@@ -26,6 +27,8 @@ namespace Litkey.Quest
         public QuestType questType;
         public List<Objective> objectives;
         public List<string> prerequisiteQuestIds;
+
+
     }
 
     [System.Serializable]

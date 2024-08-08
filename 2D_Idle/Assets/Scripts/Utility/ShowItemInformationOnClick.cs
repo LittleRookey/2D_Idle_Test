@@ -11,6 +11,8 @@ public class ShowItemInformationOnClick : MonoBehaviour
     private Button slotButton;
 
     private EquipmentSlotUI equipmentSlotUI;
+
+    public bool onlyDisplayPurpose;
     private void Awake()
     {
         itemSlotUI = GetComponent<ItemSlotUI>();
@@ -20,7 +22,7 @@ public class ShowItemInformationOnClick : MonoBehaviour
             slotButton.onClick.AddListener(() =>
             {
                 itemSlotUI.SelectSlot();
-                ItemInformationWindow.Instance.ShowItemInfo(itemSlotUI.EquippedItem, true, () =>
+                ItemInformationWindow.Instance.ShowItemInfo(itemSlotUI.EquippedItem, !onlyDisplayPurpose, () =>
                 {
                     itemSlotUI.ResetClickState();
                 });
@@ -34,7 +36,7 @@ public class ShowItemInformationOnClick : MonoBehaviour
             {
                 //itemSlotUI.SelectSlot();
                 if (equipmentSlotUI.EquippedItem == null) return;
-                ItemInformationWindow.Instance.ShowItemInfo(equipmentSlotUI.EquippedItem, true, () =>
+                ItemInformationWindow.Instance.ShowItemInfo(equipmentSlotUI.EquippedItem, !onlyDisplayPurpose, () =>
                 {
                     
                 });

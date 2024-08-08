@@ -21,7 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  questId: QUEST_GOBLIN_SLAYER_1
+  questID: KILL_GOBLIN_99
   questName: "\uACE0\uBE14\uB9B0 \uB300\uD559\uC0B4 - (1)"
   description: "\uACE0\uBE14\uB9B0\uB4E4\uC774 \uC6B0\uB9AC \uB9C8\uC744 \uC8FC\uBCC0\uC5D0\uC11C
     \uB0A0\uB6F0\uACE0 \uC788\uC2B5\uB2C8\uB2E4! \uADF8\uB4E4\uC758 \uC22B\uC790\uAC00
@@ -32,10 +32,11 @@ MonoBehaviour:
     \uC601\uC6C5\uC774\uC5EC. \uACE0\uBE14\uB9B0\uB4E4\uC758 \uC218\uB97C \uB300\uD3ED
     \uC904\uC5EC \uC6B0\uB9AC \uB9C8\uC744\uC5D0 \uD3C9\uD654\uB97C \uB418\uCC3E\uC544
     \uC8FC\uC2ED\uC2DC\uC624."
+  questType: 0
   objectives:
   - objectiveId: KILL_99_GOBLINS
-    description: "99\uB9C8\uB9AC\uC758 \uACE0\uBE14\uB9B0\uC744 \uCC98\uCE58\uD558\uC138\uC694."
-    requiredAmount: 99
+    description: "\uACE0\uBE14\uB9B0"
+    requiredAmount: 5
     targetId: "\uACE0\uBE14\uB9B0"
-    actionType: EnemyKilled
+    actionType: 0
   prerequisiteQuestIds: []

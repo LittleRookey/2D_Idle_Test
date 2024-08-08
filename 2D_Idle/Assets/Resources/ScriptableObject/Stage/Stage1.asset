@@ -21,5 +21,6 @@ MonoBehaviour:
   enemyCount: 100
   difficultyRate: 1
   weather: {fileID: 11400000, guid: a0b71fd266b34ef41a0f13d4d66bdfd5, type: 2}
+  quest: {fileID: 11400000, guid: 834623c8fa8a3a442b81393c6d6f4b49, type: 2}
   IsCompleted: 0
   IsLocked: 1

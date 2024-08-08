@@ -11,7 +11,7 @@ namespace Litkey.Quest
         public string description;
         public int requiredAmount;
         public string targetId; // E.g., enemy type ID, item ID, location ID
-        public string actionType; // E.g., "EnemyKilled", "ItemCollected", "LocationReached"
+        public QuestType actionType; // E.g., "EnemyKilled", "ItemCollected", "LocationReached"
     }
 
     [System.Serializable]

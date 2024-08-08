@@ -22,12 +22,14 @@ namespace Litkey.InventorySystem
 
         [SerializeField] private float highlightAlpha;
         [SerializeField] private EquipmentRarityColor eRarityColor;
+        [SerializeField] private Image glowImage;
 
         private bool isDirty;
         public bool IsDirty => isDirty;
 
         public bool HasItem => iconImage != null;
 
+        private Color colorVariant = new Color(30f,30f,30f);
         public Item EquippedItem { get; private set; }
         public void SetDirty()
         {
@@ -52,12 +54,15 @@ namespace Litkey.InventorySystem
                 slotBG.color = rarityColor;
 
                 itemNameText.color = rarityColor;
+                glowImage.color = rarityColor + colorVariant;
+
                 itemNameText.SetText($"{TMProUtility.GetColorText($"[{equipItem.EquipmentData.rarity.ToString()}]", rarityColor)} {equipItem.EquipmentData.Name}");
 
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
                 amountText.gameObject.SetActive(false);
                 selectedBG.gameObject.SetActive(false);
+                glowImage.gameObject.SetActive(true);
 
                 equippedImage.gameObject.SetActive(false);
             }
@@ -70,15 +75,18 @@ namespace Litkey.InventorySystem
 
                 itemNameText.color = rarityColor;
                 itemNameText.SetText($"{TMProUtility.GetColorText($"[{countableItem.CountableData.rarity.ToString()}]", rarityColor)} {countableItem.CountableData.Name}");
+                glowImage.color = rarityColor + colorVariant;
 
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
                 selectedBG.gameObject.SetActive(false);
                 amountText.gameObject.SetActive(true);
+                glowImage.gameObject.SetActive(true);
 
                 amountText.SetText($"x{countableItem.Amount}");
 
                 equippedImage.gameObject.SetActive(false);
+
             }
             
             

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Litkey.Quest
 {
@@ -14,6 +15,9 @@ namespace Litkey.Quest
 
         private QuestData questData;
         private HashSet<string> activeQuestIds = new HashSet<string>();
+
+        //public UnityEvent<Quest> OnProgressUpdated;
+        //public UnityEvent<Quest> OnQuestCompleted;
 
         private void Awake()
         {
@@ -50,7 +54,34 @@ namespace Litkey.Quest
                     }
                     questData.questProgresses.Add(newProgress);
                 }
+                else
+                {
+
+                }
             }
+        }
+
+        public Quest GetQuest(string questID)
+        {
+            return questDatabase.GetQuest(questID);
+        }
+
+        public QuestProgress GetQuestProgress(string questID)
+        {
+            if (questData == null)
+            {
+                Debug.LogError("QuestData is null");
+                return null;
+            }
+            if (!questData.questProgresses.Exists(qp => qp.questId == questID))
+            {
+                return null;
+            }
+            var questProgress = this.questData.questProgresses.Find(qp => qp.questId == questID);
+            
+            if (questProgress == null) return null;
+
+            return questProgress;
         }
 
         public void ActivateQuest(string questId)
@@ -79,7 +110,7 @@ namespace Litkey.Quest
                 questData.questProgresses.Exists(qp => qp.questId == preReqId && qp.isCompleted));
         }
 
-        private void HandleActionPerformed(string actionType, string targetId, int amount)
+        private void HandleActionPerformed(QuestType actionType, string targetId, int amount)
         {
             foreach (var questId in activeQuestIds)
             {
@@ -87,7 +118,7 @@ namespace Litkey.Quest
             }
         }
 
-        private void UpdateQuestProgress(string questId, string actionType, string targetId, int amount)
+        private void UpdateQuestProgress(string questId, QuestType actionType, string targetId, int amount)
         {
             Quest quest = questDatabase.GetQuest(questId);
             QuestProgress progress = questData.questProgresses.Find(qp => qp.questId == questId);
@@ -96,8 +127,8 @@ namespace Litkey.Quest
 
             foreach (var objective in quest.objectives)
             {
-                if (objective.actionType == actionType &&
-                    (objective.targetId == targetId || objective.targetId == "any"))
+                if (objective.actionType.Equals(actionType) 
+                    && (objective.targetId == targetId || objective.targetId == "any"))
                 {
                     if (progress.objectiveProgress.TryGetValue(objective.objectiveId, out int currentProgress))
                     {
@@ -107,6 +138,24 @@ namespace Litkey.Quest
             }
 
             CheckQuestCompletion(progress, quest);
+        }
+
+        public bool CheckQuestCompleted(Quest quest)
+        {
+            var questProgress = GetQuestProgress(quest.questID);
+
+            bool allCompleted = quest.objectives.TrueForAll(objective =>
+            {
+                return questProgress.objectiveProgress.TryGetValue(objective.objectiveId, out int progress)
+                    && progress >= objective.requiredAmount;
+            });
+            
+            // 퀘스트가 아직 완료가 안된 상태에서 퀘스타가 완료되면
+            if (allCompleted && !questProgress.isCompleted)
+            {
+                return true;
+            }
+            return false;
         }
 
         private void CheckQuestCompletion(QuestProgress questProgress, Quest quest)
@@ -120,12 +169,34 @@ namespace Litkey.Quest
             if (allCompleted && !questProgress.isCompleted)
             {
                 questProgress.isCompleted = true;
-                activeQuestIds.Remove(questProgress.questId);
+
                 QuestEvents.QuestCompleted(questProgress.questId);
                 Debug.Log($"Quest {quest.questName} completed!");
             }
         }
 
+        public void RemoveQuest(string questId)
+        {
+            Quest quest = questDatabase.GetQuest(questId);
+            if (quest == null)
+            {
+                Debug.LogWarning($"Attempted to remove non-existent quest with ID: {questId}");
+                return;
+            }
+
+            // Remove from active quests if it's active
+            activeQuestIds.Remove(questId);
+
+            // Remove quest progress
+            questData.questProgresses.RemoveAll(qp => qp.questId == questId);
+
+            Debug.Log($"Quest {questId} has been removed.");
+
+            // You might want to trigger an event here to notify other systems
+            // For example: QuestEvents.QuestRemoved(questId);
+            QuestEvents.QuestRemoved(questId);
+
+        }
 
         // Call this method when you want to save the game
         public void SaveQuestData()
@@ -143,11 +214,12 @@ namespace Litkey.Quest
 
     public static class QuestEvents
     {
-        public static event Action<string, string, int> OnActionPerformed;
+        public static event Action<QuestType, string, int> OnActionPerformed;
         public static event Action<string> OnQuestActivated;
         public static event Action<string> OnQuestCompleted;
+        public static event Action<string> OnQuestRemoved;
 
-        public static void ReportAction(string actionType, string targetId, int amount = 1)
+        public static void ReportAction(QuestType actionType, string targetId, int amount = 1)
         {
             OnActionPerformed?.Invoke(actionType, targetId, amount);
         }
@@ -155,6 +227,11 @@ namespace Litkey.Quest
         public static void QuestActivated(string questId)
         {
             OnQuestActivated?.Invoke(questId);
+        }
+
+        public static void QuestRemoved(string questId)
+        {
+            OnQuestRemoved?.Invoke(questId);
         }
 
         public static void QuestCompleted(string questId)
@@ -167,7 +244,7 @@ namespace Litkey.Quest
     {
         public static void ReportItemCollected(string itemId, int amount = 1)
         {
-            QuestEvents.ReportAction("ItemCollected", itemId, amount);
+            QuestEvents.ReportAction(QuestType.CollectItems, itemId, amount);
         }
     }
 }
