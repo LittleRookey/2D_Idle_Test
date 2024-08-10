@@ -27,7 +27,7 @@ namespace Litkey.Quest
         public QuestType questType;
         public List<Objective> objectives;
         public List<string> prerequisiteQuestIds;
-
+        public RewardGroup reward;
 
     }
 

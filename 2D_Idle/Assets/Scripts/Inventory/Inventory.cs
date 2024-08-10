@@ -333,6 +333,40 @@ namespace Litkey.InventorySystem
             }
         }
 
+        private void AddOrUpdateItem(ItemData itemData, int count)
+        {
+            var item = itemData.CreateItem();
+
+            if (item is CountableItem countableItem)
+            {
+                int itemIndex = FindItemInInventory(countableItem.CountableData.intID);
+                if (itemIndex != -1)
+                {
+                    // Here, you should possibly fetch the existing item and add to its count.
+                    CountableItem existingItem = _inventory[itemIndex] as CountableItem;
+                    existingItem.SetAmount(count);
+                    if (existingItem != null)
+                    {
+                        UpdateItemAmount(count, itemIndex);  // Increment existing amount by new item's amount.
+                        Debug.Log($"Incremented count for {countableItem.CountableData.Name}, total count now: {count}");
+                        OnGainItem?.Invoke(existingItem);
+                    }
+                }
+                else
+                {
+                    countableItem.SetAmount(count);
+                    AddNewItem(countableItem);
+                    OnGainItem?.Invoke(countableItem);
+                    Debug.Log($"New countable item added: {countableItem.CountableData.Name} with count: {countableItem.Amount}");
+                }
+            }
+            else if (item is EquipmentItem equipmentItem)
+            {
+                AddNewItem(equipmentItem);
+                OnGainItem?.Invoke(equipmentItem);
+            }
+        }
+
 
         private void UpdateItemAmount(int additionalAmount, int itemIndex)
         {
@@ -344,6 +378,13 @@ namespace Litkey.InventorySystem
         {
             int emptyIndex = GetNextEmptyIndex();
             _inventory.Add(emptyIndex, item);
+        }
+
+        public void AddToInventory(ItemData itemData, int itemCount)
+        {
+            if (_inventory == null || _itemsByType == null) InitInventory();
+            AddOrUpdateItem(itemData, itemCount);
+            Save();
         }
 
         [Button("AddItem")]

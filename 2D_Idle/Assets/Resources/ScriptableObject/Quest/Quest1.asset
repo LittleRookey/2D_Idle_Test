@@ -40,3 +40,4 @@ MonoBehaviour:
     targetId: "\uACE0\uBE14\uB9B0"
     actionType: 0
   prerequisiteQuestIds: []
+  reward: {fileID: 11400000, guid: ab6ad873b43dbf74280fca52ade1a0c2, type: 2}

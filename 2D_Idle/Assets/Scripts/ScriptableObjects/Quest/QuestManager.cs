@@ -112,6 +112,10 @@ namespace Litkey.Quest
 
         private void HandleActionPerformed(QuestType actionType, string targetId, int amount)
         {
+            //if (activeQuestIds.Contains(questId))
+            //{
+            //    UpdateQuestProgress(questId, actionType, targetId, amount);
+            //}
             foreach (var questId in activeQuestIds)
             {
                 UpdateQuestProgress(questId, actionType, targetId, amount);
@@ -244,7 +248,7 @@ namespace Litkey.Quest
     {
         public static void ReportItemCollected(string itemId, int amount = 1)
         {
-            QuestEvents.ReportAction(QuestType.CollectItems, itemId, amount);
+            //QuestEvents.ReportAction(QuestType.CollectItems, itemId, amount);
         }
     }
 }

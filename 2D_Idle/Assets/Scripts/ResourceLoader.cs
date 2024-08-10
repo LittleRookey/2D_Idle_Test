@@ -7,6 +7,12 @@ using DG.Tweening;
 public class ResourceLoader : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI plusGoldText;
+
+    private void Awake()
+    {
+        plusGoldText.gameObject.SetActive(false);
+    }
 
     private void OnEnable()
     {
@@ -21,12 +27,18 @@ public class ResourceLoader : MonoBehaviour
         UpdateExtraGold(0);
     }
 
-   
+    string plus = "+";
     public void UpdateExtraGold(int usedGold)
     {
         // °ñµå´Â ÀÌ¹Ì »ç¿ëµÊ 100 -25 75, ÀÌ¹Ì ÇÕÃÄÁü 100, 25, 125
         int currentGold = ResourceManager.Instance.Gold;
         Debug.Log($"Current Gold: {currentGold} ////// ResultGold: {currentGold + usedGold}");
+        plusGoldText.gameObject.SetActive(true);
+        plusGoldText.SetText(plus + usedGold.ToString("N0"));
+        plusGoldText.transform.DOScale(1.1f, 0.5f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(()=>plusGoldText.gameObject.SetActive(false));
+
         DOTween.To(() => currentGold, x => {
             currentGold = x;
             goldText.SetText(Mathf.Round(x).ToString("N0"));

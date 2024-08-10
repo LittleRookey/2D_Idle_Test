@@ -282,6 +282,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a87aac12f232b42b6a5a28df391e0529, type: 3}
   - {fileID: 21300000, guid: f9366f12f32b74e0794f68dbd8b90b1e, type: 3}
   - {fileID: 21300000, guid: 30b68722aef039742b437cebc51af932, type: 3}
+  - {fileID: 21300000, guid: 06207a329e0653743b3a91cbdf64b309, type: 3}
   - {fileID: 21300000, guid: c874784278a8dcc47b076f3862e19536, type: 3}
   - {fileID: 21300000, guid: e7a4e842b19b84b43a817bb930c83dd7, type: 3}
   - {fileID: 21300000, guid: 0d12b052f0179dc4bbd2cd20366dec74, type: 3}
@@ -1959,6 +1960,7 @@ SpriteAtlas:
   - Spum_Icon73
   - Spum_Icon46
   - BloodSplash2
+  - exp
   - Fill6
   - GlassBreak7
   - RecoverHP5

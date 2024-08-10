@@ -44,17 +44,30 @@ public class QuestSlotUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void UpdateQuestProgression(QuestType qType, string questID, int amount)
+    private void UpdateQuestProgression(QuestType qType, string targetId, int amount)
     {
-        if (questID != currentQuest.questID)
-        {
-            Debug.Log($"Quest {currentQuest.questID} is not update beause it's not same quest {questID}");
-            return;
-        }
+        if (currentQuest == null || currentQuestProgress == null) return;
+
         var objective = currentQuest.objectives[0];
-        Debug.Log("Updated quest progression" + $"{objective.description} ({currentQuestProgress.objectiveProgress[objective.objectiveId]+amount} / {objective.requiredAmount})");
-        questProgressionText.SetText($"{objective.description} ({currentQuestProgress.objectiveProgress[objective.objectiveId] + amount} / {objective.requiredAmount})");
+        if (objective.actionType == qType && (objective.targetId == targetId || objective.targetId == "any"))
+        {
+            // Update the current quest progress
+            if (currentQuestProgress.objectiveProgress.TryGetValue(objective.objectiveId, out int currentAmount))
+            {
+                //currentQuestProgress.objectiveProgress[objective.objectiveId] = currentAmount + amount;
+                UpdateProgressionText();
+            }
+        }
     }
+
+    private void UpdateProgressionText()
+    {
+        var objective = currentQuest.objectives[0];
+        int currentAmount = currentQuestProgress.objectiveProgress[objective.objectiveId];
+        questProgressionText.SetText($"{objective.description} ({currentAmount} / {objective.requiredAmount})");
+        Debug.Log($"Updated quest progression for {currentQuest.questName}: {currentAmount} / {objective.requiredAmount}");
+    }
+
 
     private void OnQuestCompleted(string questID)
     {

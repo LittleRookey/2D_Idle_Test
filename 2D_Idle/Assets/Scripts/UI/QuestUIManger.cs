@@ -6,6 +6,7 @@ using TMPro;
 using Redcode.Pools;
 using Litkey.Quest;
 using DG.Tweening;
+using Litkey.InventorySystem;
 
 public class QuestUIManger : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class QuestUIManger : MonoBehaviour
     [SerializeField] private QuestDatabase questDB;
     Vector3 one;
     Vector3 minusOne;
+    [SerializeField] private Inventory inventory;
+
     private void Awake()
     {
         one = Vector3.one;
@@ -64,7 +67,18 @@ public class QuestUIManger : MonoBehaviour
         questSlot.SetQuestSlotUI(quest, () =>
         {
             Debug.Log($"[System]: Quest {questID} Reward Given");
-            //RemoveQuestSlot(questID);
+            if (quest.reward.items != null)
+            {
+                foreach (var rewardItem in quest.reward.items) 
+                {
+                    inventory.AddToInventory(rewardItem.itemData, rewardItem.count); 
+                }
+            }
+            ResourceManager.Instance.GainGold(quest.reward.gold);
+            
+            //inventory.AddToInventory()
+            RewardManager.Instance.ShowReward(quest.reward.items, quest.reward.gold, quest.reward.playerExp);
+            RemoveQuestSlot(questID);
         });
     }
 

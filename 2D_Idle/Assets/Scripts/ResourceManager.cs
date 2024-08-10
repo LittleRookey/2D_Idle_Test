@@ -7,6 +7,7 @@ using Litkey.Interface;
 using Redcode.Pools;
 using Litkey.InventorySystem;
 using DG.Tweening;
+using TMPro;
 
 public class ResourceManager : MonoBehaviour, ILoadable, ISavable
 {
@@ -27,6 +28,7 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
     [SerializeField] private DOTweenAnimation goldDotween;
     [SerializeField] private DOTweenAnimation bagDotween;
 
+
     public static UnityEvent<int> OnGainGold = new();
     public static UnityEvent<int> OnUseGold = new();
     public UnityEvent OnResourceLoaded;
@@ -45,12 +47,13 @@ public class ResourceManager : MonoBehaviour, ILoadable, ISavable
         dropItemDisplayPool = Pool.Create<DropItemDisplayUI>(dropItemDisplayUIPrefab);
         dropItemDisplayPool.SetContainer(dropItemDisplayParent);
         gameData.OnGameDataLoaded.AddListener(Load);
-        
+
         //gold = 1000;
     }
 
     public void GainGold(int extraGold)
     {
+        if (extraGold <= 0) return;
         OnGainGold?.Invoke(extraGold);
         gold += extraGold;
         Save();
