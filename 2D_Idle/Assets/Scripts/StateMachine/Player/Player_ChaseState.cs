@@ -19,6 +19,7 @@ namespace Litkey.AI
             //anim.CrossFade(EnterRunHash, crossFadeDuration);
             Debug.Log("Player Entered Chase State");
             isRunning = false;
+            idleTimer = idleDuration;
 
         }
 

@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     protected SkillContainer _skillContainer;
     private PlayerInput _playerInput;
-
+    [SerializeField]
     public StateMachine stateMachine;
     private CountdownTimer attackTimer;
 
@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
 
         stateMachine = new StateMachine();
 
+        var stunState = new Player_StunState(this, anim, "stun");
         var idleState = new Player_IdleState(this, anim, "idle");
         var moveState = new Player_MoveState(this, anim, "move");
         var attackState = new Player_AttackState(this, anim, "attack");
@@ -128,6 +129,8 @@ public class PlayerController : MonoBehaviour
 
         attackTimer = attackState.attackTimer;
 
+        Any(stunState, new FuncPredicate(() => !IsDead() && IsStunned()));
+        At(stunState, idleState, new FuncPredicate(() => !IsDead() && !IsStunned()));
         Any(moveState, new FuncPredicate(() => !IsStunned() && JoystickMoving() && !IsDead() && !IsInteracting()));
         At(moveState, idleState, new FuncPredicate(() => !JoystickMoving()));
 
@@ -231,6 +234,17 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    public void Stun(float stunTime)
+    {
+        StartCoroutine(StartStun(stunTime));
+    }
+
+    private IEnumerator StartStun(float stunTime)
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
+    }
     public void PlayMineInteract()
     {
         anim.CrossFade(_Interacting, 0.1f);

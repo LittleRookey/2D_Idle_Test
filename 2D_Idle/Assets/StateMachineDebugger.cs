@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Litkey.AI;
+using Sirenix.OdinInspector;
 
 public class StateMachineDebugger : MonoBehaviour
 {
@@ -38,5 +39,14 @@ public class StateMachineDebugger : MonoBehaviour
     public void SetState(string state)
     {
         stateText.SetText(state);
+    }
+
+    [Button("AddDebugger")]
+    public void AddListienerToPlayer()
+    {
+        if (player != null)
+        {
+            player.stateMachine.OnStateChanged += SetState;
+        }
     }
 }

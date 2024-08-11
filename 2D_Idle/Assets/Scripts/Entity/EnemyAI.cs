@@ -97,16 +97,18 @@ public class EnemyAI : MonoBehaviour
     [SerializeField, ShowIf("attackType", eAttackType.원거리)] private float _disappearTime=4f;
     [SerializeField, ShowIf("attackType", eAttackType.원거리)] private float _damagePercent=1f;
     [SerializeField, ShowIf("attackType", eAttackType.원거리)] private float _projectileSpeed=1f;
-    [SerializeField, ShowIf("attackType", eAttackType.원거리)] private bool enableKnockback;
-    [SerializeField, Range(0, 50f), ShowIf("enableKnockback", true)] private float knockbackForce = 0.5f;
 
     [Header("Projectile End Settings")]
     [SerializeField, EnumToggleButtons, ShowIf("attackType", eAttackType.원거리)] private eEndOfLifeStrategy _endOfLifeStrategy;
-    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionRadius = 1f;
-    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionDamage = 10f;
-    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private int spawnProjectileCount = 3;
-    [SerializeField, ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private float spawnProjectileSpreadAngle = 90f;
 
+    [SerializeField, ShowIf("attackType", eAttackType.원거리), ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private int spawnProjectileCount = 3;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리), ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.SpawnProjectiles)] private float spawnProjectileSpreadAngle = 90f;
+
+    [SerializeField, ShowIf("attackType", eAttackType.원거리), ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionRadius = 1f;
+    [SerializeField, ShowIf("attackType", eAttackType.원거리), ShowIf("_endOfLifeStrategy", eEndOfLifeStrategy.Explosion)] private float explosionDamage = 10f;
+
+    [SerializeField] private bool enableKnockback;
+    [SerializeField, Range(0, 50f), ShowIf("enableKnockback", true)] private float knockbackForce = 0.5f;
     private static readonly int FadeAmountProperty = Shader.PropertyToID("_FadeAmount");
     private static readonly int HitEffectBlendProperty = Shader.PropertyToID("_HitEffectBlend");
 

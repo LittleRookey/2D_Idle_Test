@@ -27,7 +27,7 @@ namespace Litkey.AI
         {
             if (player.Auto())
             {
-                if (player.HasNoTarget() && !player.IsInteracting())
+                if (player.HasNoTarget() && !player.IsInteracting() && !player.IsStunned())
                     player.SearchForTarget();
             }
         }

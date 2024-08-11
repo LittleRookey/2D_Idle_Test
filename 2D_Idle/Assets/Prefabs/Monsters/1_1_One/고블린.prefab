@@ -655,13 +655,13 @@ MonoBehaviour:
   _disappearTime: 1
   _damagePercent: 1
   _projectileSpeed: 2
-  enableKnockback: 0
-  knockbackForce: 0.5
-  _endOfLifeStrategy: 2
-  explosionRadius: 1
-  explosionDamage: 150
+  _endOfLifeStrategy: 0
   spawnProjectileCount: 3
   spawnProjectileSpreadAngle: 90
+  explosionRadius: 1
+  explosionDamage: 150
+  enableKnockback: 0
+  knockbackForce: 0.5
   isAttacking: 0
 --- !u!114 &8499623147719185557
 MonoBehaviour:
