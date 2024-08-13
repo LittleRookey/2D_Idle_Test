@@ -24,7 +24,7 @@ public class SpawnPoint : MonoBehaviour
     public bool isLocked;
     [SerializeField] private float spawnTimer = 5;
     float timer = 0f;
-    private Health monsterToSpawn;
+    [SerializeField] private Health monsterToSpawn;
     [SerializeField] private SpriteRenderer spawnOutline;
     [SerializeField] private SpriteRenderer spawnEnemyIcon;
 
@@ -69,6 +69,10 @@ public class SpawnPoint : MonoBehaviour
         //    monsterPool.Add(monsters[i].Name, pool);
         //}
         StopSpawn();
+        if (monsterToSpawn != null)
+        {
+            SetSpawnPoint(monsterToSpawn);
+        }
     }
     public void SetSpawnPoint(Health monster) 
     {

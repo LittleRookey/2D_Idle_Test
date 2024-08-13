@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "1_1_\uACE0\uBE14\uB9B0"
   m_EditorClassIdentifier: 
   MonsterLevel: 5
-  MaxHP: 80
+  MaxHP: 700
   Attack: 25
   MagicAttack: 0
   Defense: 5

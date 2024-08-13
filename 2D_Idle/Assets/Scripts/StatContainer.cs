@@ -146,7 +146,7 @@ public class StatContainer : MonoBehaviour
             { eMainStatType.지혜, this.Int },
         };
 
-        
+
         _subStats = new Dictionary<eSubStatType, SubStat>() {
             { eSubStatType.체력, this.HP },
             { eSubStatType.물리공격력, this.Attack },
@@ -172,7 +172,7 @@ public class StatContainer : MonoBehaviour
         //{
         //    Debug.Log($"Initialized _subStats[{entry.Key}] = {entry.Value.DisplayName} in gameobject: " + gameObject.name);
         //}
-        
+
     }
 
     private void Start()
@@ -267,7 +267,7 @@ public class StatContainer : MonoBehaviour
         Precision.AddAsInfluencer(StatUtility.StatPerValue(Sensation, 2, 1f));
         Evasion.AddAsInfluencer(StatUtility.StatPerValue(Avi, 5, 1f));
         Debug.Log("스텟 셋업 완료");
-        
+
     }
 
     public void ApplyDifficulty(float difficulty)
@@ -287,7 +287,7 @@ public class StatContainer : MonoBehaviour
     {
         float total = 0f;
         var influencers = subStats[subStatType].Influencers;
-        for (int i = 0; i< influencers.Count; i++)
+        for (int i = 0; i < influencers.Count; i++)
         {
             // statGiven[mainStatType] != 0 => 
             var mainStatUsed = statGiven[influencers[i]._mainStat.mainStatType];
@@ -304,7 +304,7 @@ public class StatContainer : MonoBehaviour
     /// 총 전투력을 계산한다
     /// </summary>
     /// <returns></returns>
-    public float GetTotalPower(bool onlyBaseStat=false)
+    public float GetTotalPower(bool onlyBaseStat = false)
     {
         if (onlyBaseStat)
         {
@@ -352,10 +352,10 @@ public class StatContainer : MonoBehaviour
         }
         // apply passive rank effects
         //passive.ApplyEffect(this, null);
-        
+
         passive.EquipPassiveStat(this);
     }
-    
+
     public void UnEquipStat(Skill skill)
     {
 
@@ -377,7 +377,7 @@ public class StatContainer : MonoBehaviour
         foreach (var stat in equipmentItem.EquipmentData.GetStats())
         {
             var subStat = subStats[stat.statType];
-            
+
             subStat.EquipValue(equipmentItem.ID, stat);
         }
     }
@@ -414,7 +414,7 @@ public class StatContainer : MonoBehaviour
     // 1, 1, 4
     // 2, 1, 3
     // 3, 1, 2
-    public void TryAddMainStat(eMainStatType mainStat, int val=1)
+    public void TryAddMainStat(eMainStatType mainStat, int val = 1)
     {
         if (this.addedStat + val > this.AbilityPoint) return;
         if (this.addedStat + val < 0) return;
@@ -464,7 +464,7 @@ public class StatContainer : MonoBehaviour
     // => 적체력 - ((아공 - 적방) * (100 - (적군저항 - 아군관통력 / 100)) 
     // 데미지 * ( 
     // 공격자가 부름,
-    public Damage GetDamageAgainst(StatContainer enemyStat, float multiplier=1f)
+    public Damage GetDamageAgainst(StatContainer enemyStat, float multiplier = 1f)
     {
 
         float dmg;
@@ -472,7 +472,7 @@ public class StatContainer : MonoBehaviour
 
         if (m_AttackVal.isPhysicalDmg)
         {
-            float attackDmg = (m_AttackVal.damage * (1f + (p_penetration.FinalValue - enemyStat.p_resist.FinalValue))) 
+            float attackDmg = (m_AttackVal.damage * (1f + (p_penetration.FinalValue - enemyStat.p_resist.FinalValue)))
                 - (enemyStat.Defense.FinalValue * 1f + (enemyStat.p_resist.FinalValue - p_penetration.FinalValue));
 
             dmg = GetRandomExtentDamage(attackDmg);
@@ -520,7 +520,7 @@ public class StatContainer : MonoBehaviour
                 dmg = (Mathf.Clamp(dmg, 1f, float.MaxValue));
             }
             damages.Add(new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg));
-            
+
         }
         return damages;
     }
@@ -530,7 +530,7 @@ public class StatContainer : MonoBehaviour
     /// </summary>
     /// <param name="multiplier"></param>
     /// <returns></returns>    
-    private Damage GetFinalDamage(float multiplier=1f)
+    private Damage GetFinalDamage(float multiplier = 1f)
     {
         bool isPhysic = Attack.FinalValue >= MagicAttack.FinalValue;
         if (isPhysic)
@@ -550,7 +550,7 @@ public class StatContainer : MonoBehaviour
             return new Damage(MagicAttack.FinalValue * multiplier, false, false);
         }
     }
-    
+
     // 스킬쓸때 데미지용
     public Damage GetSkillDamage(float skillDmgPercent, bool isPhysic)
     {
@@ -569,7 +569,7 @@ public class StatContainer : MonoBehaviour
     {
         float hitChance = (Precision.FinalValue - enemyStat.Evasion.FinalValue) / (Precision.FinalValue + enemyStat.Evasion.FinalValue);
         // 5/15 = .333 /.
-        
+
         if (TryGetComponent<LevelSystem>(out LevelSystem levelSystem))
         {
             // 적 레벨이 높으면 적 회피치가 올라감
@@ -614,10 +614,174 @@ public class StatContainer : MonoBehaviour
         return this.baseStat;
     }
 
-    public void AddBuffEffect(StatModifier statModifier)
+    public List<BuffInfo> appliedBuffs = new List<BuffInfo>();
+    public UnityEvent<BuffInfo> OnAddBuff = new UnityEvent<BuffInfo>();
+    public UnityEvent<BuffInfo> OnUpdateBuff = new UnityEvent<BuffInfo>();
+    public UnityEvent<BuffInfo> OnRemoveBuff = new UnityEvent<BuffInfo>();
+    private Dictionary<int, List<Coroutine>> buffTimers = new Dictionary<int, List<Coroutine>>();
+
+    public void ApplyBuff(Buff buff, int buffStack = 1)
     {
-        // TODO
+        BuffInfo existingBuff = appliedBuffs.Find(b => b.buff.BuffID == buff.BuffID);
+
+        if (existingBuff != null)
+        {
+            if (buff.Stackable)
+            {
+                int increasedStack = existingBuff.IncreaseStack(buffStack);
+                if (increasedStack > 0)
+                {
+                    Debug.Log("Player buff increased Stack: " + increasedStack);
+                    ApplyBuffEffect(existingBuff, increasedStack);
+                    OnUpdateBuff?.Invoke(existingBuff);
+                }
+            }
+            else
+            {
+                //RemoveBuffEffect(existingBuff, existingBuff.stackCount);
+                //existingBuff.stackCount = buffStack;
+                //ApplyBuffEffect(existingBuff, buffStack);
+                Debug.Log($"Refreshing non-stackable buff: {buff.BuffName}");
+            }
+        }
+        else
+        {
+            existingBuff = new BuffInfo(buff, buffStack);
+            appliedBuffs.Add(existingBuff);
+            ApplyBuffEffect(existingBuff, buffStack);
+            OnAddBuff?.Invoke(existingBuff);
+        }
+
+        // Apply timer for non-permanent buffs
+        if (!buff.PermanentDuration)
+        {
+            UpdateBuffTimer(existingBuff);
+        }
+
+        OnUpdateBuff?.Invoke(existingBuff);
     }
+
+    private void ApplySingleBuffStack(BuffInfo buffInfo)
+    {
+        buffInfo.stackCount++;
+        ApplyBuffEffect(buffInfo, 1);
+
+        if (!buffInfo.buff.PermanentDuration)
+        {
+            if (!buffTimers.ContainsKey(buffInfo.buff.BuffID))
+            {
+                buffTimers[buffInfo.buff.BuffID] = new List<Coroutine>();
+            }
+            buffTimers[buffInfo.buff.BuffID].Add(StartCoroutine(BuffTimer(buffInfo)));
+        }
+
+        OnUpdateBuff?.Invoke(buffInfo);
+    }
+
+    private void ApplyBuffEffect(BuffInfo buffInfo, int stacks)
+    {
+        foreach (var buffStat in buffInfo.buff.BuffStats)
+        {
+            for (int i = 0; i < stacks; i++)
+            {
+                subStats[buffStat.statType].AddBuffValue(buffStat);
+            }
+        }
+    }
+
+    private void RemoveBuffEffect(BuffInfo buffInfo, int stacks)
+    {
+        foreach (var buffStat in buffInfo.buff.BuffStats)
+        {
+            for (int i = 0; i < stacks; i++)
+            {
+                subStats[buffStat.statType].RemoveBuffValue(buffStat);
+            }
+        }
+    }
+
+    private void RemoveSingleBuffStack(BuffInfo buffInfo)
+    {
+        if (buffInfo.stackCount > 0)
+        {
+            buffInfo.stackCount--;
+            RemoveBuffEffect(buffInfo, 1);
+
+            OnUpdateBuff?.Invoke(buffInfo);
+
+            if (buffInfo.stackCount == 0)
+            {
+                appliedBuffs.Remove(buffInfo);
+                OnRemoveBuff?.Invoke(buffInfo);
+            }
+        }
+    }
+
+
+    private IEnumerator BuffTimer(BuffInfo buffInfo)
+    {
+        yield return new WaitForSeconds(buffInfo.buff.Duration);
+        RemoveSingleBuffStack(buffInfo);
+
+        if (buffTimers.ContainsKey(buffInfo.buff.BuffID))
+        {
+            buffTimers[buffInfo.buff.BuffID].RemoveAt(0);
+            if (buffTimers[buffInfo.buff.BuffID].Count == 0)
+            {
+                buffTimers.Remove(buffInfo.buff.BuffID);
+            }
+        }
+    }
+
+    private void UpdateBuffTimer(BuffInfo buffInfo)
+    {
+        if (buffTimers.ContainsKey(buffInfo.buff.BuffID))
+        {
+            // Stop all existing coroutines for this buff
+            foreach (var coroutine in buffTimers[buffInfo.buff.BuffID])
+            {
+                StopCoroutine(coroutine);
+            }
+
+            // Clear the list of coroutines
+            buffTimers[buffInfo.buff.BuffID].Clear();
+        }
+        else
+        {
+            // If the buff doesn't have an entry in buffTimers, create one
+            buffTimers[buffInfo.buff.BuffID] = new List<Coroutine>();
+        }
+
+        // Start new coroutines for each stack of the buff
+        for (int i = 0; i < buffInfo.stackCount; i++)
+        {
+            Coroutine newCoroutine = StartCoroutine(BuffTimer(buffInfo));
+            buffTimers[buffInfo.buff.BuffID].Add(newCoroutine);
+        }
+    }
+
+    public void RemoveBuff(Buff buff)
+    {
+        BuffInfo buffToRemove = appliedBuffs.Find(b => b.buff.BuffID == buff.BuffID);
+        if (buffToRemove != null)
+        {
+            int stacksToRemove = buffToRemove.stackCount;
+            for (int i = 0; i < stacksToRemove; i++)
+            {
+                RemoveSingleBuffStack(buffToRemove);
+            }
+
+            if (buffTimers.ContainsKey(buff.BuffID))
+            {
+                foreach (var coroutine in buffTimers[buff.BuffID])
+                {
+                    StopCoroutine(coroutine);
+                }
+                buffTimers.Remove(buff.BuffID);
+            }
+        }
+    }
+
 
 
 }

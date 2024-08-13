@@ -9,10 +9,12 @@ namespace Litkey.AI
         public CountdownTimer attackTimer;
 
         private bool isAttackAnimationFinished = true;
-        private float attackAnimationDuration;
+        private float downslashAnimationDuration;
+        private float upslashAnimationDuration;
+        int attackIndex = 0;
         public Player_AttackState(PlayerController Player, Animator Anim, string stateName) : base(Player, Anim, stateName)
         {
-            attackTimer = new CountdownTimer(1.5f);
+            attackTimer = new CountdownTimer(1f);
 
             // Get the duration of the attack animation
             AnimationClip[] clips = Anim.runtimeAnimatorController.animationClips;
@@ -20,8 +22,13 @@ namespace Litkey.AI
             {
                 if (clip.name == "downslash") // Replace with your actual attack animation name
                 {
-                    attackAnimationDuration = clip.length;
-                    break;
+                    downslashAnimationDuration = clip.length;
+                    continue;
+                }
+                else if (clip.name == "upslash")
+                {
+                    upslashAnimationDuration = clip.length;
+                    continue;
                 }
             }
         }
@@ -31,6 +38,7 @@ namespace Litkey.AI
             //player.EnableAIPath();
             Debug.Log("Player Entered Attack State");
             SetIdle();
+            attackIndex = 0;
             player.DisableMovement();
             Attack();
 
@@ -54,12 +62,23 @@ namespace Litkey.AI
         {
             if (!isAttackAnimationFinished) return;
 
+            if (attackIndex == 0)
+            {
+                anim.CrossFadeInFixedTime(DownSlashHash, crossFadeDuration);
+                attackIndex++;
+            }
+            else if (attackIndex == 1)
+            {
+                anim.CrossFadeInFixedTime(UpSlashHash, crossFadeDuration);
+                attackIndex = 0;
+                attackTimer.Start();
+            }
+
             player.TurnToTarget();
-            anim.CrossFadeInFixedTime(DownSlashHash, crossFadeDuration);
             player.Attack();
 
             //attackTimer.Reset(attackInterval);
-            attackTimer.Start();
+            
 
             isAttackAnimationFinished = false;
             player.StartCoroutine(WaitForAttackAnimationToFinish());
@@ -67,7 +86,10 @@ namespace Litkey.AI
 
         private IEnumerator WaitForAttackAnimationToFinish()
         {
-            yield return new WaitForSeconds(attackAnimationDuration);
+            yield return new WaitForSeconds(downslashAnimationDuration*0.1f);
+            Attack();
+            yield return new WaitForSeconds(upslashAnimationDuration* 0.8f);
+            
             isAttackAnimationFinished = true;
         }
 
@@ -76,6 +98,7 @@ namespace Litkey.AI
             base.OnExit();
             player.StopAllCoroutines(); // Stop the attack animation coroutine if it's still running
             isAttackAnimationFinished = true;
+            attackTimer.Start();
         }
 
         public override bool CanTransition()

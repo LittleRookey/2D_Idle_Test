@@ -5321,6 +5321,91 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 138124292}
+--- !u!1001 &1702906888
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8499623147719185552, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_Name
+      value: "\uACE0\uBE14\uB9B0 (1)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185552, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185558, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: _strategy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185558, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: attackType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185558, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: enableKnockback
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185558, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: _endOfLifeStrategy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185562, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: Name
+      value: "\uACE0\uBE14\uB9B0 (1)"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.534027
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -25.9249
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499623148033227486, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
 --- !u!1001 &1710135955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5729,6 +5814,7 @@ MonoBehaviour:
   startSpawn: 0
   isLocked: 0
   spawnTimer: 5
+  monsterToSpawn: {fileID: 0}
   spawnOutline: {fileID: 0}
   spawnEnemyIcon: {fileID: 0}
   enabledColor: {r: 0, g: 0, b: 0, a: 0}
@@ -6117,11 +6203,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd871d53529d25b4ea663ccb71c63bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentStage: {fileID: 0}
+  _currentStage: {fileID: 11400000, guid: f96ae50032bff6a4897e414d85be6b0d, type: 2}
   spawnPoints:
   - {fileID: 7566983580287292941}
   resourcesPositions: []
   resourceNumber: 0
+  quest: {fileID: 11400000, guid: 834623c8fa8a3a442b81393c6d6f4b49, type: 2}
 --- !u!1 &1932530178
 GameObject:
   m_ObjectHideFlags: 0
@@ -6768,6 +6855,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7566983582315273794, guid: 508d82ee17b9f6f4aa2372ac48dfb402, type: 3}
+      propertyPath: monsterToSpawn
+      value: 
+      objectReference: {fileID: 8499623147719185562, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 508d82ee17b9f6f4aa2372ac48dfb402, type: 3}
 --- !u!114 &7566983580287292941 stripped

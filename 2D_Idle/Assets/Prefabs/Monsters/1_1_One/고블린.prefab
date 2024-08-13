@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0f2052b73ad51c4ea9e5a8262ea0e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: "\uACE0\uBE14\uB9B0"
+  Name: "\uACE0\uBE14\uB9B0 (1)"
   canParry: 0
   isInterrupted: 0
   maxHealth: 25
@@ -648,7 +648,7 @@ MonoBehaviour:
     currentState: 
   attackOnSearched: 1
   attackType: 1
-  _strategy: 2
+  _strategy: 0
   homingStrength: 1
   _targetCountPerProjectile: 1
   _damageCount: 1
@@ -930,7 +930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8499623148033227487
 RectTransform:
   m_ObjectHideFlags: 0

@@ -245,6 +245,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(stunTime);
         isStunned = false;
     }
+
     public void PlayMineInteract()
     {
         anim.CrossFade(_Interacting, 0.1f);

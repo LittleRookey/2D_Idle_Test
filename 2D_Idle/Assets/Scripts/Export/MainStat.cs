@@ -403,6 +403,14 @@ namespace Litkey.Stat
         {
             buffStats.Add(statModifier);
 
+            if (statModifier.oper == OperatorType.plus)
+            {
+                _plusBuffValue += statModifier.value;    
+            } 
+            else if (statModifier.oper == OperatorType.multiply)
+            {
+                _multipliedBuffValue += statModifier.value;
+            }
             UpdateFinalValue();
         }
         
@@ -410,6 +418,14 @@ namespace Litkey.Stat
         {
             buffStats.Remove(statModifier);
 
+            if (statModifier.oper == OperatorType.plus)
+            {
+                _plusBuffValue -= statModifier.value;
+            }
+            else if (statModifier.oper == OperatorType.multiply)
+            {
+                _multipliedBuffValue -= statModifier.value;
+            }
             UpdateFinalValue();
         }
         // Required to use when creating substats

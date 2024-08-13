@@ -57,7 +57,7 @@ namespace Litkey.Projectile
                 playedOnce = true;
                 currentTween = projectile.transform.DOJump(destination, arcHeight, 1, duration)
                     .SetEase(easeType)
-                    .OnPlay(() => projectile.DisableCollisionWithEnemy());
+                    .OnComplete(() => projectile.EnableCollisionWithEnemy());
             }
         }
 

@@ -112,6 +112,7 @@ public class EnemyAI : MonoBehaviour
     private static readonly int FadeAmountProperty = Shader.PropertyToID("_FadeAmount");
     private static readonly int HitEffectBlendProperty = Shader.PropertyToID("_HitEffectBlend");
 
+    private bool isStunned;
     //Material[] mats;
     public enum eEndOfLifeStrategy
     {
@@ -333,6 +334,20 @@ public class EnemyAI : MonoBehaviour
             .SetEase(Ease.InQuad);
     }
 
+    public bool IsStunned() => isStunned;
+
+    public void Stun(float stunTime)
+    {
+        StartCoroutine(StartStun(stunTime));
+    }
+
+    private IEnumerator StartStun(float stunTime)
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
+    }
+
     private void SetFadeAmount(float value)
     {
         ApplyToAllSprites(renderer =>
@@ -464,7 +479,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     DamageDecorator damageDecorator;
-    private void Attack()
+    public void Attack()
     {
 
         if (basicAttack == null)
