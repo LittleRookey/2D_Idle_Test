@@ -19,7 +19,7 @@ MonoBehaviour:
   IsDebuff: 0
   Stackable: 1
   MaxStackableAmount: 5
-  PermanentDuration: 1
+  PermanentDuration: 0
   Duration: 20
   BuffStats:
   - statType: 0

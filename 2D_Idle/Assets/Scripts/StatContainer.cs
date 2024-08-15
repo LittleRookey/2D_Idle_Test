@@ -45,8 +45,18 @@ public class StatContainer : MonoBehaviour
     public SubStat p_penetration { private set; get; } // 물리 관통력 %
     public SubStat m_penetration { private set; get; } // 마법 관통력 %
 
+    public SubStat Defense_Penetration { private set; get; } // 방어구 관통력
+
     public SubStat ExtraGold; // 추가 골드
     public SubStat ExtraExp; // 추가 경험치 
+
+    public SubStat GiveMoreDamage; // 주는 모든 데미지 (증가 / 감소)
+    public SubStat GiveLessDamage;
+    public SubStat ReceiveLessDamage; // 받는 데미지 (증가 / 감소)
+    public SubStat ReceiveMoreDamage;
+    public SubStat ExtraSkillDamage; // 스킬데미지
+    
+
     #endregion
 
     [SerializeField] protected Alias alias;
@@ -468,7 +478,7 @@ public class StatContainer : MonoBehaviour
     {
 
         float dmg;
-        var m_AttackVal = GetFinalDamage(multiplier);
+        var m_AttackVal = GetFinalDamage(enemyStat, multiplier);
 
         if (m_AttackVal.isPhysicalDmg)
         {
@@ -490,19 +500,20 @@ public class StatContainer : MonoBehaviour
         }
         return new Damage(dmg, m_AttackVal.isCrit, m_AttackVal.isPhysicalDmg);
     }
-
+    // ally 에서 불림
     public List<Damage> GetDamagesAgainst(StatContainer enemyStat, int damageCount, float multiplier = 1f)
     {
         List<Damage> damages = new List<Damage>();
         for (int i = 0; i < damageCount; i++)
         {
             float dmg;
-            var m_AttackVal = GetFinalDamage(multiplier);
+            var m_AttackVal = GetFinalDamage(enemyStat, multiplier);
 
             if (m_AttackVal.isPhysicalDmg)
             {
-                float attackDmg = (m_AttackVal.damage * (1f + (p_penetration.FinalValue - enemyStat.p_resist.FinalValue)))
-                    - (enemyStat.Defense.FinalValue * 1f + (enemyStat.p_resist.FinalValue - p_penetration.FinalValue));
+                float attackDmg = m_AttackVal.damage
+                    * (1f + GiveMoreDamage.FinalValue - GiveLessDamage.FinalValue)
+                    * (1f + enemyStat.ReceiveMoreDamage.FinalValue - enemyStat.ReceiveLessDamage.FinalValue);
 
 
                 dmg = GetRandomExtentDamage(attackDmg);
@@ -513,8 +524,9 @@ public class StatContainer : MonoBehaviour
                 // magic dmg
                 //float attackDmg = m_AttackVal.damage - enemyStat.MagicDefense.FinalValue;
                 //dmg = (Mathf.Clamp(attackDmg, 1f, 999999999) * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue) / 100f));
-                float attackDmg = (m_AttackVal.damage * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue)))
-                    - (enemyStat.MagicDefense.FinalValue * 1f + (enemyStat.m_resist.FinalValue - m_penetration.FinalValue));
+                float attackDmg = m_AttackVal.damage
+                     * (1f + GiveMoreDamage.FinalValue - GiveLessDamage.FinalValue)
+                     * (1f + enemyStat.ReceiveMoreDamage.FinalValue - enemyStat.ReceiveLessDamage.FinalValue);
 
                 dmg = GetRandomExtentDamage(attackDmg);
                 dmg = (Mathf.Clamp(dmg, 1f, float.MaxValue));
@@ -530,24 +542,30 @@ public class StatContainer : MonoBehaviour
     /// </summary>
     /// <param name="multiplier"></param>
     /// <returns></returns>    
-    private Damage GetFinalDamage(float multiplier = 1f)
+    private Damage GetFinalDamage(StatContainer enemyStat, float multiplier = 1f)
     {
         bool isPhysic = Attack.FinalValue >= MagicAttack.FinalValue;
         if (isPhysic)
         {
+            var baseDMG = (Attack.FinalValue - (enemyStat.Defense.FinalValue * (1f - Defense_Penetration.FinalValue)))
+                * (1 - Mathf.Max(0f, Mathf.Min(enemyStat.p_resist.FinalValue - p_penetration.FinalValue, 0.8f)));
+
             if (ProbabilityCheck.GetThisChanceResult(CritChance.FinalValue))
             {
-                return new Damage(Attack.FinalValue * multiplier * (1 + CritDamage.FinalValue), true, isPhysic);
+                return new Damage(baseDMG  * multiplier * (1 + CritDamage.FinalValue), true, isPhysic);
             }
-            return new Damage(Attack.FinalValue * multiplier, false, isPhysic);
+            return new Damage(baseDMG * multiplier, false, isPhysic);
         }
         else
         {
+            var baseDMG = (MagicAttack.FinalValue - (enemyStat.MagicDefense.FinalValue * (1f - Defense_Penetration.FinalValue)))
+                * (1 - Mathf.Max(0f, Mathf.Min(enemyStat.m_resist.FinalValue - m_penetration.FinalValue, 0.8f)));
+
             if (ProbabilityCheck.GetThisChanceResult(CritChance.FinalValue))
             {
-                return new Damage(MagicAttack.FinalValue * multiplier * (1 + CritDamage.FinalValue), true, false);
+                return new Damage(baseDMG * multiplier * (1 + CritDamage.FinalValue), true, false);
             }
-            return new Damage(MagicAttack.FinalValue * multiplier, false, false);
+            return new Damage(baseDMG * multiplier, false, false);
         }
     }
 
@@ -760,7 +778,7 @@ public class StatContainer : MonoBehaviour
         }
     }
 
-    public void RemoveBuff(Buff buff)
+    public int RemoveBuff(Buff buff)
     {
         BuffInfo buffToRemove = appliedBuffs.Find(b => b.buff.BuffID == buff.BuffID);
         if (buffToRemove != null)
@@ -779,9 +797,153 @@ public class StatContainer : MonoBehaviour
                 }
                 buffTimers.Remove(buff.BuffID);
             }
+            return stacksToRemove;
+        }
+        return 0;
+    }
+
+    public bool HasBuff(Buff buff, int stackCount)
+    {
+        BuffInfo existingBuff = appliedBuffs.Find(b => b.buff.BuffID == buff.BuffID);
+        if (existingBuff != null && existingBuff.stackCount >= stackCount)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool UseBuff(Buff buff, int stackCount)
+    {
+        BuffInfo existingBuff = appliedBuffs.Find(b => b.buff.BuffID == buff.BuffID);
+        if (existingBuff != null && existingBuff.stackCount >= stackCount)
+        {
+            int removedStacks = RemoveBuff(buff, stackCount);
+            return removedStacks > 0;
+        }
+        return false;
+    }
+    public int RemoveBuff(Buff buff, int removeStackCount)
+    {
+        BuffInfo buffToRemove = appliedBuffs.Find(b => b.buff.BuffID == buff.BuffID);
+        if (buffToRemove != null)
+        {
+            int stacksToRemove = Mathf.Clamp(removeStackCount, 0, buffToRemove.stackCount);
+
+            RemoveBuffEffect(buffToRemove, stacksToRemove);
+            buffToRemove.stackCount -= stacksToRemove;
+
+            if (buffTimers.ContainsKey(buff.BuffID))
+            {
+                for (int i = 0; i < stacksToRemove && buffTimers[buff.BuffID].Count > 0; i++)
+                {
+                    StopCoroutine(buffTimers[buff.BuffID][0]);
+                    buffTimers[buff.BuffID].RemoveAt(0);
+                }
+
+                if (buffTimers[buff.BuffID].Count == 0)
+                {
+                    buffTimers.Remove(buff.BuffID);
+                }
+            }
+
+            if (buffToRemove.stackCount <= 0)
+            {
+                appliedBuffs.Remove(buffToRemove);
+                OnRemoveBuff?.Invoke(buffToRemove);
+            }
+            else
+            {
+                OnUpdateBuff?.Invoke(buffToRemove);
+            }
+
+            return stacksToRemove;
+        }
+        return 0;
+    }
+
+    #region AllStats
+
+    private Dictionary<string, List<StatModifier>> allStatModifiers = new Dictionary<string, List<StatModifier>>();
+
+    public void ApplyAllStatModifier(string modifierID, float value, OperatorType operatorType)
+    {
+        if (!allStatModifiers.ContainsKey(modifierID))
+        {
+            allStatModifiers[modifierID] = new List<StatModifier>();
+        }
+
+        foreach (var mainStat in mainStats.Values)
+        {
+            foreach (var subStat in mainStat.ChildSubstats)
+            {
+                StatModifier modifier = new StatModifier
+                {
+                    statType = subStat.statType,
+                    oper = operatorType,
+                    value = value
+                };
+
+                allStatModifiers[modifierID].Add(modifier);
+
+                ApplyModifierToSubStat(subStat, modifier);
+            }
+        }
+
+        OnStatSetupComplete?.Invoke(this);
+    }
+
+    private void ApplyModifierToSubStat(SubStat subStat, StatModifier modifier)
+    {
+        switch (modifier.oper)
+        {
+            case OperatorType.plus:
+            case OperatorType.subtract:
+                float modValue = modifier.oper == OperatorType.plus ? modifier.value : -modifier.value;
+                subStat.AddStatValue(modValue);
+                break;
         }
     }
 
+    public void RemoveAllStatModifier(string modifierID)
+    {
+        if (allStatModifiers.TryGetValue(modifierID, out List<StatModifier> modifiers))
+        {
+            foreach (var modifier in modifiers)
+            {
+                SubStat subStat = GetSubStatByType(modifier.statType);
+                if (subStat != null)
+                {
+                    RemoveModifierFromSubStat(subStat, modifier);
+                }
+            }
 
+            allStatModifiers.Remove(modifierID);
+            OnStatSetupComplete?.Invoke(this);
+        }
+    }
+
+    private void RemoveModifierFromSubStat(SubStat subStat, StatModifier modifier)
+    {
+        switch (modifier.oper)
+        {
+            case OperatorType.plus:
+                subStat.AddStatValue(-modifier.value);
+                break;
+            case OperatorType.subtract:
+                subStat.AddStatValue(modifier.value);
+                break;
+            case OperatorType.multiply:
+            case OperatorType.divide:
+                subStat.UnEquipETCStat(modifier);
+                break;
+        }
+    }
+
+    private SubStat GetSubStatByType(eSubStatType statType)
+    {
+        return subStats.TryGetValue(statType, out SubStat subStat) ? subStat : null;
+    }
+
+    #endregion
 
 }

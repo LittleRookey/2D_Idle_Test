@@ -20,5 +20,17 @@ namespace Litkey.Stat
         {
             statContainer.ApplyBuff(buff);
         }
+
+
+        [Button("UseBuff")]
+        public bool UseBuff(Buff buff, int stackCount)
+        {
+            return statContainer.UseBuff(buff, stackCount);
+        }
+
+        public bool HasBuff(Buff buff, int stackCount)
+        {
+            return statContainer.HasBuff(buff, stackCount);
+        }
     }
 }
