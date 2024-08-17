@@ -13,7 +13,8 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] private float spawnRange = 2.5f;
     [SerializeField] private float cellSize = 1f; // Size of each cell in the grid
     public bool isXZ; // 3D용
-
+    [Range(0f, 360f)]
+    public float XRotation;
     private int currentNumber;
     private List<Health> spawnedEnemy; // 소환된 몬스터들
     private bool[,] grid; // 2D grid to track occupied cells
@@ -130,7 +131,7 @@ public class SpawnPoint : MonoBehaviour
 
             // set spawn position
             monster.transform.position = GetRandomPositionInCell(spawnPosition) + transform.position;
-            
+            monster.transform.rotation = Quaternion.Euler(XRotation, 0f, 0f);
             // Set EnemyAI baseState
             monster.GetComponent<EnemyAI>().Init();
             

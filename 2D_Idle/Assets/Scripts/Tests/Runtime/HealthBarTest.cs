@@ -38,18 +38,27 @@ namespace ACF.Tests
 		[SerializeField] private TextMeshProUGUI currentHealthText;
 
 		public bool disableOnStart;
+        private void Awake()           
+		{
+            if (targetHealth == null)
+            {
+                if (transform.parent.TryGetComponent<Health>(out Health targHealth))
 
-
-        private void Awake()
-        {
-			if (targetHealth == null)
-			{
-				if (transform.parent.TryGetComponent<Health>(out Health targHealth))
 					targetHealth = targHealth;
-			}
-			
-        }
-        private void Start()
+            }
+		}
+
+		private void OnEnable()
+		{
+			targetHealth.onTakeDamage += UpdateHealth;
+			targetHealth.OnDeath.AddListener(DisableHealthBar);
+			targetHealth.OnReturnFromPool += ResetHealthBar;
+
+			ResetHealthBar();
+			orientation.gameObject.SetActive(false); // Always start with the health bar hidden
+		}
+
+		private void Start()
 		{
 			newSPVec = Vector3.one;
 			newHPVec = Vector3.one;
@@ -88,16 +97,7 @@ namespace ACF.Tests
 			//#endif
 		}
 
-		private void OnEnable()
-		{
-			targetHealth.onTakeDamage += UpdateHealth;
-			targetHealth.OnDeath.AddListener(DisableHealthBar);
-			targetHealth.OnReturnFromPool += ResetHealthBar;
-
-			if (disableOnStart) orientation.gameObject.SetActive(false);
-			ResetHealthBar();
-
-		}
+		
 
 		private void OnDisable()
 		{
@@ -117,8 +117,32 @@ namespace ACF.Tests
 			orientation.gameObject.SetActive(false);
 		}
 
+		
+		float currentHealth;
+		public void UpdateHealth(float current, float max)
+		{
+			float final = Mathf.Clamp01(current / max);
+
+			// Only show the health bar if the enemy has taken damage
+			if (current < max)
+			{
+				orientation.gameObject.SetActive(true);
+			}
+
+			Debug.Log($"Updated health with difference: {Mathf.Abs(current - currentHealth)}");
+
+			// Tween the text counter
+			DOTween.To(() => currentHealth, x => {
+				currentHealth = x;
+				currentHealthText.SetText(Mathf.Round(x).ToString());
+			}, current, 0.5f).SetEase(Ease.OutQuad);
+
+			hp.fillAmount = final;
+			damaged.DOFillAmount(final, 0.2f);
+		}
+
 		public void ResetHealthBar()
-        {
+		{
 			sp.transform.localScale = Vector3.one;
 			hp.transform.localScale = Vector3.one;
 			damaged.transform.localScale = Vector3.one;
@@ -127,32 +151,10 @@ namespace ACF.Tests
 
 			Hp = targetHealth.CurrentHealth;
 			MaxHp = targetHealth.MaxHealth;
+			orientation.gameObject.SetActive(false); // Hide the health bar when resetting
 			UpdateHealth(Hp, MaxHp);
 			Sp = 0;
-
-			orientation.gameObject.SetActive(true);
-
 		}
-		float currentHealth;
-		public void UpdateHealth(float current, float max)
-		{
-			if (orientation.gameObject.activeInHierarchy) orientation.gameObject.SetActive(true);
-			
-			float final = Mathf.Clamp01(current / max);
-
-			// Tween the text counter
-			DOTween.To(() => currentHealth, x => {
-				currentHealth = x;
-				currentHealthText.SetText(Mathf.Round(x).ToString());
-			}, current, 0.5f).SetEase(Ease.OutQuad);
-			
-			//currentHealthText.SetText(current.ToString());
-			hp.fillAmount = final;
-			damaged.DOFillAmount(final, 0.2f);
-
-            //DOTween.To(() => damaged.fillAmount, x => damaged.fillAmount = x, current / max, 0.2f);
-
-        }
 
 		//Vector3 newDamagedVec;
 

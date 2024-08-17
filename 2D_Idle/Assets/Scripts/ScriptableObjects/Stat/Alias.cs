@@ -12,6 +12,7 @@ namespace Litkey.Stat
         public int level;
         public List<StatModifier> extraStats;
 
+        
     }
 
 }

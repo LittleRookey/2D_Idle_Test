@@ -4,11 +4,17 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 namespace Litkey.Stat
 {
+    public interface IBuff
+    {
+        public int BuffID { get;}
+    }
     [InlineEditor]
     [CreateAssetMenu(menuName ="Litkey/Buff/Buff")]
-    public class Buff : ScriptableObject
+    public class Buff : ScriptableObject, IBuff
     {
-        public int BuffID;
+        [SerializeField] private int buffID;
+        public int BuffID { get => buffID; }
+
         [HorizontalGroup("Buff", 100f), PreviewField(100f)]
         public Sprite BuffIcon;
         [HorizontalGroup("Buff"), VerticalGroup("Buff/Right")]
@@ -26,6 +32,7 @@ namespace Litkey.Stat
         public List<StatModifier> BuffStats;
 
     }
+    
 
     public class BuffInfo
     {

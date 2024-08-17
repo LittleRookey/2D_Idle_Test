@@ -224,6 +224,17 @@ public class EnemyAI : MonoBehaviour
     {
         SpawnPoint = transform.position;
         //SetTarget(null);
+        if (attackType == eAttackType.근거리)
+        {
+            attackRange = 0.7f;
+        }
+        else if (attackType == eAttackType.원거리)
+        {
+            attackRange = 1.8f;
+        }else if (attackType == eAttackType.마법)
+        {
+            attackRange = 1.5f;
+        }
 
         //aiPath.endReachedDistance = attackRange;
         //anim.Play("0_idle");

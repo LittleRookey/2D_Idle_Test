@@ -11,7 +11,8 @@ public class ResourceInteractor : MonoBehaviour
     [SerializeField] private Inventory _inventory;
     [SerializeField] private float searchRange = 1f;
     [SerializeField] private SpriteRenderer resourceGetterSprite;
-    
+    public bool twoPointFiveD;
+
     private PlayerController _player;
     private IInteractable _currentTarget;
 
@@ -33,20 +34,40 @@ public class ResourceInteractor : MonoBehaviour
 
     public void SearchForInteractable()
     {
-        var colliders = Physics2D.OverlapCircleAll(transform.position, searchRange, resourceLayer);
-
         IInteractable nearestInteractable = null;
         float nearestDistance = float.MaxValue;
 
-        foreach (var collider in colliders)
+        if (twoPointFiveD)
         {
-            if (collider.TryGetComponent<IInteractable>(out var interactable))
+            // 3D (2.5D) search
+            Collider[] colliders = Physics.OverlapSphere(transform.position, searchRange, resourceLayer);
+            foreach (var collider in colliders)
             {
-                float distance = Vector2.Distance(transform.position, collider.transform.position);
-                if (distance < nearestDistance)
+                if (collider.TryGetComponent<IInteractable>(out var interactable))
                 {
-                    nearestInteractable = interactable;
-                    nearestDistance = distance;
+                    float distance = Vector3.Distance(transform.position, collider.transform.position);
+                    if (distance < nearestDistance)
+                    {
+                        nearestInteractable = interactable;
+                        nearestDistance = distance;
+                    }
+                }
+            }
+        }
+        else
+        {
+            // 2D search
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, searchRange, resourceLayer);
+            foreach (var collider in colliders)
+            {
+                if (collider.TryGetComponent<IInteractable>(out var interactable))
+                {
+                    float distance = Vector2.Distance(transform.position, collider.transform.position);
+                    if (distance < nearestDistance)
+                    {
+                        nearestInteractable = interactable;
+                        nearestDistance = distance;
+                    }
                 }
             }
         }

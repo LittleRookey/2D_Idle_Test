@@ -84,7 +84,6 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     }
     protected void UpdateMaxHealth(float mH)
     {
-
         float prevMaxHealth = maxHealth;
         maxHealth = mH;
         AddCurrentHealth(maxHealth - prevMaxHealth);
@@ -94,14 +93,14 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     {
         isDead = false;
         this.currentHealth = this.maxHealth;
-        onTakeDamage?.Invoke(currentHealth, maxHealth);
+        UpdateHealth();
     }
 
     private void LoadHealth()
     {
         maxHealth = _statContainer.HP.FinalValue;
         currentHealth = maxHealth;
-        onTakeDamage?.Invoke(currentHealth, maxHealth);
+        UpdateHealth();
     }
     protected void UpdateHealth(StatContainer stat)
     {
@@ -113,31 +112,12 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         onTakeDamage?.Invoke(currentHealth, maxHealth);
         //Debug.Log("Health에서 스텟 업데이트: " + currentHealth + " / " + maxHealth );
     }
+    
+    protected void UpdateHealth()
+    {
+        onTakeDamage?.Invoke(currentHealth, maxHealth);
+    }
 
-    // return true when enemy death
-    //public bool TakeDamage(LevelSystem attacker, List<float> damages)
-    //{
-    //    if (isDead) return true;
-    //    //StartCoroutine(ShowDmgText(damages));
-    //    for (int i = 0; i < damages.Count; i++)
-    //    {
-    //        currentHealth -= damages[i];
-    //        onTakeDamage?.Invoke(currentHealth, maxHealth);
-    //        if (currentHealth <= 0f)
-    //        {
-    //            currentHealth = 0f;
-    //            isDead = true;
-    //            //bCollider.isTrigger = true;
-    //            //rb.constraints = RigidbodyConstraints2D.FreezeAll;
-
-
-    //            OnDeath?.Invoke(attacker);
-
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-    //}
     /// <summary>
     /// 플레이어에서 부르는 TakeDamage
     /// </summary>
@@ -162,7 +142,6 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         //}
         if (showDmgText)
             StartCoroutine(DamagePopup.ShowDmgText(transform.position, damages, Hit));
-        //StartCoroutine(ShowDmgText(damages, Hit));
 
         // 명중 통과하면 데미지 계산
         for (int i = 0; i < damages.Count; i++)

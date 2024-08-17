@@ -572,6 +572,31 @@ MonoBehaviour:
     OnValueChanged:
       m_PersistentCalls:
         m_Calls: []
+  GiveMoreDamage:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  GiveLessDamage:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  ReceiveLessDamage:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  ReceiveMoreDamage:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  ExtraSkillDamage:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
   alias: {fileID: 0}
   OnIncreaseStat:
     m_PersistentCalls:
@@ -590,6 +615,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnEquipSkill:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAddBuff:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUpdateBuff:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRemoveBuff:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &8499623147719185559
@@ -647,7 +681,7 @@ MonoBehaviour:
   stateMachine:
     currentState: 
   attackOnSearched: 1
-  attackType: 1
+  attackType: 0
   _strategy: 0
   homingStrength: 1
   _targetCountPerProjectile: 1
