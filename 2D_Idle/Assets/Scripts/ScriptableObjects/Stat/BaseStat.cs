@@ -75,7 +75,16 @@ namespace Litkey.Stat
         [BoxGroup("BasicInfo")]
         [LabelWidth(100)]
         public float ExtraExp; // %
-
+        [LabelWidth(100)]
+        public float Defense_Penetration; // %
+        [LabelWidth(100)]
+        public float GiveMoreDamage; // %
+        [LabelWidth(100)]
+        public float GiveLessDamage; // %
+        [LabelWidth(100)]
+        public float ReceiveMoreDamage; // %
+        [LabelWidth(100)]
+        public float ReceiveLessDamage; // %
 
         public float Attack_Interval;
         //[Space]

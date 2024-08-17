@@ -175,6 +175,11 @@ public class StatContainer : MonoBehaviour
             { eSubStatType.마법저항, this.m_resist },
             { eSubStatType.추가경험치, this.ExtraExp },
             { eSubStatType.추가골드, this.ExtraGold },
+            { eSubStatType.방어구관통력, this.Defense_Penetration },
+            { eSubStatType.주는피해증가, this.GiveMoreDamage },
+            { eSubStatType.주는피해감소, this.GiveLessDamage },
+            { eSubStatType.받는피해증가, this.ReceiveMoreDamage },
+            { eSubStatType.받는피해감소, this.ReceiveLessDamage },
         };
 
         // Log the initialization of each SubStat
@@ -231,10 +236,12 @@ public class StatContainer : MonoBehaviour
         p_penetration = new SubStat("물리 관통력", baseStat.p_penetration, eSubStatType.물리관통력, 0f, 100f).SetMaxUIValue(100f);
         m_penetration = new SubStat("마법 관통력", baseStat.magic_penetration, eSubStatType.마법관통력, 0f, 100f).SetMaxUIValue(100f);
 
-        //receiveAdditionalDamage = new SubStat("받는 피해 증가", 0f, eSubStatType.받는피해증가, true);
-        //giveAdditionalDamage = new SubStat("주는 피해 증가", 0f, eSubStatType.주는피해증가, true);
-        //receiveLessDamage = new SubStat("받는 피해 감소", 0f, eSubStatType.받는피해감소, true);
-        //giveLessDamage = new SubStat("주는 피해 감소", 0f, eSubStatType.받는피해증가, true);
+        Defense_Penetration = new SubStat("방어구 관통력", baseStat.Defense_Penetration, eSubStatType.방어구관통력, true);
+
+        ReceiveMoreDamage = new SubStat("받는 피해 증가", 0f, eSubStatType.받는피해증가, true);
+        GiveMoreDamage = new SubStat("주는 피해 증가", 0f, eSubStatType.주는피해증가, true);
+        ReceiveLessDamage = new SubStat("받는 피해 감소", 0f, eSubStatType.받는피해감소, true);
+        GiveLessDamage = new SubStat("주는 피해 감소", 0f, eSubStatType.받는피해증가, true);
 
 
         Strength.AddSubStatAsChild(Attack);
@@ -522,8 +529,6 @@ public class StatContainer : MonoBehaviour
             else
             {
                 // magic dmg
-                //float attackDmg = m_AttackVal.damage - enemyStat.MagicDefense.FinalValue;
-                //dmg = (Mathf.Clamp(attackDmg, 1f, 999999999) * (1f + (m_penetration.FinalValue - enemyStat.m_resist.FinalValue) / 100f));
                 float attackDmg = m_AttackVal.damage
                      * (1f + GiveMoreDamage.FinalValue - GiveLessDamage.FinalValue)
                      * (1f + enemyStat.ReceiveMoreDamage.FinalValue - enemyStat.ReceiveLessDamage.FinalValue);

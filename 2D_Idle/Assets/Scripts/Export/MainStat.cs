@@ -808,4 +808,5 @@ public enum eSubStatType
     추가골드,
     추가경험치,
     스킬데미지,
+    방어구관통력,
 };
