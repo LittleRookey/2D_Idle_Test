@@ -632,6 +632,19 @@ public class StatContainer : MonoBehaviour
         this.alias = alias;
     }
 
+    public void RemoveAlias(Alias alias)
+    {
+        if (this.alias == null) return;
+
+        if (alias.aliasName != this.alias.aliasName) return;
+        
+        foreach (var buffStat in alias.extraStats)
+        {
+            
+            subStats[buffStat.statType].AddBuffValue(buffStat);
+            
+        }
+    }
     public BaseStat GetBaseStat()
     {
         return this.baseStat;

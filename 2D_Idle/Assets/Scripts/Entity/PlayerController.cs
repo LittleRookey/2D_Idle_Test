@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
     protected bool isGrounded;
 
     protected Health Target;
-    protected Rigidbody2D rb2D;
 
     protected bool canMove;
 
@@ -107,7 +106,6 @@ public class PlayerController : MonoBehaviour
         one = Vector3.one;
         minusOne = new Vector3(-1f, 1f, 1f);
 
-        rb2D = GetComponent<Rigidbody2D>();
         _statContainer = GetComponent<StatContainer>();
         _levelSystem = GetComponent<LevelSystem>();
         _health = GetComponent<Health>();
@@ -455,7 +453,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private RaycastHit2D[] raycastHits = new RaycastHit2D[20]; // Adjust size as needed
+    private RaycastHit[] raycastHits = new RaycastHit[20]; // Adjust size as needed
     public bool SearchForTarget()
     {
         // Create a circle around the transform's position with the specified scanDistance radius
@@ -463,7 +461,7 @@ public class PlayerController : MonoBehaviour
         float circleRadius = scanDistance;
 
         // Perform a CircleCastAll to detect any colliders within the circle
-        int hitCount = Physics2D.CircleCastNonAlloc(circleCenter, circleRadius, Vector2.zero, raycastHits, 0f, enemyLayer);
+        int hitCount = Physics.SphereCastNonAlloc(circleCenter, circleRadius, Vector2.zero, raycastHits, 0f, enemyLayer);
 
         if (hitCount > 0 && Target == null)
         {

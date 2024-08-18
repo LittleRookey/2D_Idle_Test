@@ -34,7 +34,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     protected Vector3 dmgOffset = new Vector3(0f, 0.6f, 0f);
 
-    protected BoxCollider2D bCollider;
+    protected BoxCollider bCollider;
     protected Rigidbody2D rb;
 
     public delegate void OnTakeDamage(float current, float max);
@@ -56,9 +56,9 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     {
         isDead = false;
         dmgOffset = new Vector3(0f, 0.55f, 0f);
-        bCollider = GetComponent<BoxCollider2D>();
-        rb = GetComponent<Rigidbody2D>();
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        bCollider = GetComponent<BoxCollider>();
+        //rb = GetComponent<Rigidbody2D>();
+        //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         _statContainer = GetComponent<StatContainer>();
         _statContainer.OnStatSetupComplete.AddListener(UpdateHealth);
 
@@ -292,7 +292,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         currentHealth = maxHealth;
         isDead = false;
         bCollider.isTrigger = false;
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         OnReturnFromPool?.Invoke();
 
