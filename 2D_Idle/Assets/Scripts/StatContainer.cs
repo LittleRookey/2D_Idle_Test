@@ -55,7 +55,8 @@ public class StatContainer : MonoBehaviour
     public SubStat ReceiveLessDamage; // 받는 데미지 (증가 / 감소)
     public SubStat ReceiveMoreDamage;
     public SubStat ExtraSkillDamage; // 스킬데미지
-    
+
+    public SubStat HP_Regeneration;
 
     #endregion
 
@@ -180,6 +181,7 @@ public class StatContainer : MonoBehaviour
             { eSubStatType.주는피해감소, this.GiveLessDamage },
             { eSubStatType.받는피해증가, this.ReceiveMoreDamage },
             { eSubStatType.받는피해감소, this.ReceiveLessDamage },
+            { eSubStatType.체력재생, this.HP_Regeneration },
         };
 
         // Log the initialization of each SubStat
@@ -242,7 +244,7 @@ public class StatContainer : MonoBehaviour
         GiveMoreDamage = new SubStat("주는 피해 증가", 0f, eSubStatType.주는피해증가, true);
         ReceiveLessDamage = new SubStat("받는 피해 감소", 0f, eSubStatType.받는피해감소, true);
         GiveLessDamage = new SubStat("주는 피해 감소", 0f, eSubStatType.받는피해증가, true);
-
+        HP_Regeneration = new SubStat("체력재생", baseStat.HP_Regeneration, eSubStatType.체력재생);
 
         Strength.AddSubStatAsChild(Attack);
         Strength.AddSubStatAsChild(HP);

@@ -47,6 +47,10 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     protected StatContainer _statContainer;
 
+    protected float hpRegenerationRate;
+    protected float regenerationInterval = 1f; // Regenerate every second
+    protected Coroutine regenerationCoroutine;
+
     protected void OnValidate()
     {
         Name = gameObject.name;
@@ -62,31 +66,64 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         _statContainer = GetComponent<StatContainer>();
         _statContainer.OnStatSetupComplete.AddListener(UpdateHealth);
 
-        
     }
 
     protected virtual void OnEnable()
     {
         // load health
-        
         _statContainer.HP.OnValueChanged.AddListener(UpdateMaxHealth);
-       
+        _statContainer.HP_Regeneration.OnValueChanged.AddListener(UpdateRegenerationRate);
+        if (regenerationCoroutine == null && hpRegenerationRate > 0f)
+        {
+            regenerationCoroutine = StartCoroutine(RegenerateHealth());
+        }
+
+
     }
 
     protected virtual void OnDisable()
     {
         _statContainer.HP.OnValueChanged.RemoveListener(UpdateMaxHealth);
+        _statContainer.HP_Regeneration.OnValueChanged.RemoveListener(UpdateRegenerationRate);
+        if (regenerationCoroutine != null && hpRegenerationRate > 0f)
+        {
+            StopCoroutine(regenerationCoroutine);
+            regenerationCoroutine = null;
+        }
     }
 
     private void Start()
     {
         LoadHealth();
     }
+
+    protected IEnumerator RegenerateHealth()
+    {
+        WaitForSeconds wait = new WaitForSeconds(regenerationInterval);
+
+        while (true)
+        {
+            yield return wait;
+
+            if (!isDead && currentHealth < maxHealth)
+            {
+                float regenerationAmount = hpRegenerationRate * regenerationInterval;
+                AddCurrentHealth(regenerationAmount);
+            }
+        }
+    }
+
     protected void UpdateMaxHealth(float mH)
     {
+
         float prevMaxHealth = maxHealth;
         maxHealth = mH;
         AddCurrentHealth(maxHealth - prevMaxHealth);
+    }
+
+    protected void UpdateRegenerationRate(float regen)
+    {
+        hpRegenerationRate = _statContainer.HP_Regeneration.FinalValue;
     }
 
     protected void RefillToMaxHealth()
@@ -98,6 +135,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     private void LoadHealth()
     {
+        hpRegenerationRate = _statContainer.HP_Regeneration.FinalValue;
         maxHealth = _statContainer.HP.FinalValue;
         currentHealth = maxHealth;
         UpdateHealth();
@@ -106,13 +144,14 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     {
         float originMax = maxHealth;
         maxHealth = _statContainer.HP.FinalValue;
+        hpRegenerationRate = _statContainer.HP_Regeneration.FinalValue;
         Debug.Log("Health¿¡¼­ ½ºÅÝ ºÒ·¯¿È: " + _statContainer.HP.FinalValue);
         currentHealth += (maxHealth - originMax);
 
         onTakeDamage?.Invoke(currentHealth, maxHealth);
         //Debug.Log("Health¿¡¼­ ½ºÅÝ ¾÷µ¥ÀÌÆ®: " + currentHealth + " / " + maxHealth );
     }
-    
+
     protected void UpdateHealth()
     {
         onTakeDamage?.Invoke(currentHealth, maxHealth);
@@ -125,7 +164,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     /// <param name="damages"></param>
     /// <returns></returns>
     [Button("TakeDamage")]
-    public virtual bool TakeDamage(LevelSystem attacker, List<Damage> damages, bool showDmgText=true)
+    public virtual bool TakeDamage(LevelSystem attacker, List<Damage> damages, bool showDmgText = true)
     {
         var attackerStat = attacker.GetComponent<StatContainer>();
         bool[] Hit = new bool[damages.Count];
@@ -177,7 +216,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     /// <param name="attacker"></param>
     /// <param name="damages"></param>
     /// <returns></returns>
-    public virtual bool TakeDamage(StatContainer attacker, List<Damage> damages, bool showDmgText=true, bool sfxOn=false)
+    public virtual bool TakeDamage(StatContainer attacker, List<Damage> damages, bool showDmgText = true, bool sfxOn = false)
     {
         if (isDead) return true;
         var attackerStat = attacker;
@@ -212,7 +251,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             }
             currentHealth -= damages[i].damage;
             onTakeDamage?.Invoke(currentHealth, maxHealth);
-            
+
         }
 
         OnHit?.Invoke(attacker.GetComponent<LevelSystem>());
@@ -293,7 +332,10 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         isDead = false;
         bCollider.isTrigger = false;
         //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
+        if (regenerationCoroutine == null && hpRegenerationRate > 0f)
+        {
+            regenerationCoroutine = StartCoroutine(RegenerateHealth());
+        }
         OnReturnFromPool?.Invoke();
 
     }
@@ -313,5 +355,5 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     public void ActivateParry() => canParry = true;
 
     public void DisactivateParry() => canParry = false;
-    
+
 }

@@ -19,6 +19,9 @@ namespace Litkey.Stat
         public float MaxHP;
         [BoxGroup("BasicInfo")]
         [LabelWidth(100)]
+        public float HP_Regeneration;
+        [BoxGroup("BasicInfo")]
+        [LabelWidth(100)]
         public float Attack;
         [BoxGroup("BasicInfo")]
         [LabelWidth(100)]
