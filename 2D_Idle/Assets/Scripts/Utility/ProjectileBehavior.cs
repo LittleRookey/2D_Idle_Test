@@ -9,6 +9,7 @@ namespace Litkey.Projectile
 
     public class ProjectileBehavior : MonoBehaviour
     {
+        [SerializeField] public string projectileID;
         public float Speed => speed;
         public Vector3 Direction => direction;
         public float DamagePercent => damagePercent;
@@ -134,7 +135,7 @@ namespace Litkey.Projectile
         #endregion
         private void ReturnToPool()
         {
-            ProjectileCreator.ReturnProjectile(this);
+            ProjectileCreator.ReturnProjectile(projectileID, this);
         }
 
         public ProjectileBehavior AddDecorator(IProjectileDecorator decorator)
@@ -180,7 +181,7 @@ namespace Litkey.Projectile
             {
                 DisableCollisionWithEnemy();
                 //PerformEndOfLifeBehavior();
-                ProjectileCreator.ReturnProjectile(this);
+                ProjectileCreator.ReturnProjectile(projectileID, this);
             }
         }
 

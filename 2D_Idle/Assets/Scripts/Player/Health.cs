@@ -34,7 +34,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
 
     protected Vector3 dmgOffset = new Vector3(0f, 0.6f, 0f);
 
-    protected BoxCollider bCollider;
+    protected BoxCollider2D bCollider;
     protected Rigidbody2D rb;
 
     public delegate void OnTakeDamage(float current, float max);
@@ -60,7 +60,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     {
         isDead = false;
         dmgOffset = new Vector3(0f, 0.55f, 0f);
-        bCollider = GetComponent<BoxCollider>();
+        bCollider = GetComponent<BoxCollider2D>();
         //rb = GetComponent<Rigidbody2D>();
         //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         _statContainer = GetComponent<StatContainer>();
@@ -180,7 +180,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         //    return false;
         //}
         if (showDmgText)
-            StartCoroutine(DamagePopup.ShowDmgText(transform.position, damages, Hit));
+            StartCoroutine(DamagePopup.ShowDmgText(transform, damages, Hit));
 
         // 명중 통과하면 데미지 계산
         for (int i = 0; i < damages.Count; i++)

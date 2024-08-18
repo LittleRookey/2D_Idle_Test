@@ -79,7 +79,22 @@ namespace Litkey.Skill
                 Debug.Log("Argument exception: " + arg.Message);
             }
         }
-
+        public static IEnumerator ReturnSkillRange(RangeSkillArea usedBar, float returnTime)
+        {
+            yield return new WaitForSeconds(returnTime);
+            try
+            {
+                skillPools[usedBar.SkillRangeType].Take(usedBar);
+            }
+            catch (NullReferenceException nl)
+            {
+                Debug.Log("Bar is null: " + nl.Message);
+            }
+            catch (ArgumentException arg)
+            {
+                Debug.Log("Argument exception: " + arg.Message);
+            }
+        }
         private static void CheckPoolExists(eSkillRangeType skillRangeType, string skillRangePrefabPath)
         {
             if (skillPools == null)

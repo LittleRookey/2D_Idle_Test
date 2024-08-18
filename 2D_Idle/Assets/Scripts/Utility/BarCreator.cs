@@ -396,6 +396,38 @@ namespace Litkey.Utility
             }
         }
 
+        public static IEnumerator ShowDmgText(Transform spawnPosition, List<Damage> damages, bool[] misses)
+        {
+            CheckPoolExists();
+            WaitForSeconds delay = new WaitForSeconds(0.05f);
+            if (misses != null)
+            {
+                //Debug.Log("Show damage text count: " + damages.Count);
+                for (int i = 0; i < damages.Count; i++)
+                {
+                    var spawnPos = spawnPosition.position + Vector3.up * 0.5f + dmgOffset * (i + 1);
+                    if (!misses[i])
+                    {
+                        ShowMissText(spawnPos);
+                        yield return delay;
+                        continue;
+                    }
+
+                    if (damages[i].isCrit)
+                    {
+                        critDamageText.Spawn(spawnPos, damages[i].damage);
+                        critDamageText.transform.rotation = Quaternion.Euler(spawnPosition.rotation.x, spawnPosition.rotation.y, spawnPosition.rotation.z);
+                    }
+                    else
+                    {
+                        dmg.Spawn(spawnPos, damages[i].damage);
+                        dmg.transform.rotation = Quaternion.Euler(spawnPosition.rotation.x, spawnPosition.rotation.y, spawnPosition.rotation.z);
+                    }
+                    yield return delay;
+                }
+            }
+        }
+
         protected static void ShowMissText(Vector3 spawnPosition)
         {
             missText.Spawn(spawnPosition);

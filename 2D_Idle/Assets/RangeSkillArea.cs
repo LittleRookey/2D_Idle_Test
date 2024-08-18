@@ -102,7 +102,7 @@ namespace Litkey.Skill
                 if (Collider.OverlapPoint(enemyCollider.transform.position))
                 {
                     Health enemyHealth = enemyCollider.GetComponent<Health>();
-                    if (enemyHealth != null)
+                    if (enemyHealth != null && !enemyHealth.IsDead)
                     {
                         targetEnemies.Add(enemyHealth);
                     }
@@ -160,7 +160,7 @@ namespace Litkey.Skill
             dotweenAnim.onComplete.RemoveAllListeners();
             gameObject.transform.localScale = new Vector3(width, height, 1f);
             var baseDuration = dotweenAnim.tween.Duration();
-
+            StartCoroutine(SkillRangeCreator.ReturnSkillRange(this, duration));
             // timescale = 1 * 0.25;
             dotweenAnim.tween.timeScale = baseDuration / duration;
 
@@ -172,8 +172,9 @@ namespace Litkey.Skill
                 });
             if (destroyOnEnd)
                 dotweenAnim.onComplete.AddListener(DestroyIt);
-            
         }
+
+
 
         public RangeSkillArea AddListenerOnEnd(UnityAction OnEnd)
         {

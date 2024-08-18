@@ -306,7 +306,7 @@ MonoBehaviour:
   permanent: 0
   lifetime: 0.7
   unscaledTime: 0
-  enable3DGame: 0
+  enable3DGame: 1
   faceCameraView: 1
   lookAtCamera: 0
   renderThroughWalls: 0
@@ -718,7 +718,7 @@ MonoBehaviour:
   enablePooling: 1
   poolSize: 50
   disableOnSceneLoad: 1
-  editorLastFont: Pixel-Shadow
+  editorLastFont: Pixel-Shadow3D
   position: {x: 0, y: 0, z: 0}
 --- !u!210 &6323344755239107247
 SortingGroup:

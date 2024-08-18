@@ -131,7 +131,8 @@ public class SpawnPoint : MonoBehaviour
 
             // set spawn position
             monster.transform.position = GetRandomPositionInCell(spawnPosition) + transform.position;
-            monster.transform.rotation = Quaternion.Euler(XRotation, 0f, 0f);
+            //monster.transform.GetChildCou
+            //monster.transform.rotation = Quaternion.Euler(XRotation, 0f, 0f);
             // Set EnemyAI baseState
             monster.GetComponent<EnemyAI>().Init();
             
@@ -245,7 +246,7 @@ public class SpawnPoint : MonoBehaviour
 
         }
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, spawnRange);

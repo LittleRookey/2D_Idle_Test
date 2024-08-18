@@ -203,6 +203,11 @@ MonoBehaviour:
     OnValueChanged:
       m_PersistentCalls:
         m_Calls: []
+  HP_Regeneration:
+    statType: 0
+    OnValueChanged:
+      m_PersistentCalls:
+        m_Calls: []
   alias: {fileID: 0}
   OnIncreaseStat:
     m_PersistentCalls:
@@ -5334,11 +5339,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.523
+      value: 14.67
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -25.917
+      value: -30.814
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5346,23 +5351,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.81915194
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.57357657
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 290
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8499623147719185564, guid: 1fec073110abf254fb89763773d5a0d2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y

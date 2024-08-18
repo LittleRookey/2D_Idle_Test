@@ -96,7 +96,7 @@ namespace Litkey.Projectile
                 float angle = (i / (float)(projectileCount - 1) - 0.5f) * spreadAngle;
                 Vector3 direction = Quaternion.Euler(0, 0, angle) * projectile.Direction;
 
-                ProjectileCreator.CreateProjectile(projectile.transform.position, projectile.OwnerStat, projectile.EnemyLayer)
+                ProjectileCreator.CreateProjectile(projectile, projectile.transform.position, projectile.OwnerStat, projectile.EnemyLayer)
                     .SetDirection(direction)
                     .SetSpeed(projectile.Speed)
                     .SetDamagePercent(projectile.DamagePercent * 0.5f)

@@ -236,10 +236,13 @@ public class EnemyAI : MonoBehaviour
             attackRange = 1.5f;
         }
 
+        boxCollider2D.enabled = true;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         //aiPath.endReachedDistance = attackRange;
         //anim.Play("0_idle");
         StartMovement();
-        stateMachine.SetState(wanderState);
+        stateMachine.SetToBaseState();
+        //stateMachine.SetState(wanderState);
         FadeIn();
     }
 
@@ -315,7 +318,7 @@ public class EnemyAI : MonoBehaviour
         Target = null;
         boxCollider2D.isTrigger = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-
+        boxCollider2D.enabled = false;
         FadeOut();
         //float startValue = -0.1f;
 
@@ -505,7 +508,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (attackType == eAttackType.¿ø°Å¸®)
         {
-            var projectile = ProjectileCreator.CreateProjectile(transform.position, _statContainer, enemyLayer);
+            var projectile = ProjectileCreator.CreateProjectile("Arrow", transform.position, _statContainer, enemyLayer);
 
             if (enableKnockback) projectile.AddDecorator(new KnockBackDecorator()
                                                                 .SetKnockbackForce(knockbackForce));

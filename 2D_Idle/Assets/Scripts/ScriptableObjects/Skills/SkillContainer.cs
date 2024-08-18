@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using Litkey.Skill;
-
+using Litkey.Stat;
 
 public class SkillContainer : MonoBehaviour
 {
@@ -22,6 +22,7 @@ public class SkillContainer : MonoBehaviour
     [SerializeField] private float skillInterval; // 스킬 사용사이의 쿨타임
 
     CountdownTimer countdownTimer;
+    BuffReceiver buffReceiver;
 
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class SkillContainer : MonoBehaviour
         {
             player = GetComponent<PlayerController>();
         }
-
+        buffReceiver = GetComponent<BuffReceiver>();
         statContainer = GetComponent<StatContainer>();
         cooldownSystem = GetComponent<CooldownSystem>();
         passiveSkills = new List<PassiveSkill>();
@@ -83,14 +84,13 @@ public class SkillContainer : MonoBehaviour
         countdownTimer.Tick(Time.deltaTime);
     }
 
-    public void EquipPassiveEffects(StatContainer target)
-    {
-        foreach (var skill in passiveSkills)
-        {
-            //skill.ApplyEffect(target);
-            //skill.ApplyEffect
-        }
-    }
+    //public void EquipPassiveEffects(StatContainer target)
+    //{
+    //    foreach (var buff in passiveSkills)
+    //    {
+    //        buffReceiver.UseBuff(buff, 1);
+    //    }
+    //}
 
     [Button("UseSkill")]
     public void UseActiveSkill(ActiveSkill skill, Health target)
