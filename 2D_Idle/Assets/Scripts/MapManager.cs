@@ -49,6 +49,10 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public void MixStages()
+    {
+
+    }
     private void SetupStageUI()
     {
         var stageUIs = stagesParent.GetComponentsInChildren<StageSlotUI>();

@@ -640,7 +640,7 @@ MonoBehaviour:
     currentState: 
   attackOnSearched: 1
   attackType: 1
-  _strategy: 0
+  _strategy: 1
   homingStrength: 1
   _targetCountPerProjectile: 1
   _damageCount: 1
@@ -652,7 +652,7 @@ MonoBehaviour:
   spawnProjectileSpreadAngle: 90
   explosionRadius: 1
   explosionDamage: 150
-  enableKnockback: 0
+  enableKnockback: 1
   knockbackForce: 0.5
   isAttacking: 0
 --- !u!114 &8499623147719185557

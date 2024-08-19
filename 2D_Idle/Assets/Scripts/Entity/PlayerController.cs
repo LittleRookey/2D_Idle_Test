@@ -393,16 +393,9 @@ public class PlayerController : MonoBehaviour
         // 타겟방향으로 조금 나아감
         // Calculate direction to the target
         Vector3 directionToTarget = (Target.transform.position - transform.position).normalized;
-
-        // Move slightly towards the target
-        float attackLungeDistance = 0.2f; // Adjust this value to control how far the player moves
-        Vector3 newPosition = transform.position + directionToTarget * attackLungeDistance;
-
-        // Use DOTween to smoothly move the player
-        transform.DOMove(newPosition, 0.3f).SetEase(Ease.OutQuad).OnComplete(() => {
-            // After moving, apply the attack effect
-            StartCoroutine(AttackDelay(0.2f));
-        });
+        
+        StartCoroutine(AttackDelay(0.2f));
+       
 
         // Turn to face the target
         Turn(directionToTarget.x > 0);

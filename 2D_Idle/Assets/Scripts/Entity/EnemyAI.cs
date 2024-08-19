@@ -508,7 +508,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (attackType == eAttackType.¿ø°Å¸®)
         {
-            var projectile = ProjectileCreator.CreateProjectile("Arrow", transform.position, _statContainer, enemyLayer);
+            var projectile = ProjectileCreator.CreateProjectile("Projectile", transform.position, _statContainer, enemyLayer);
 
             if (enableKnockback) projectile.AddDecorator(new KnockBackDecorator()
                                                                 .SetKnockbackForce(knockbackForce));
@@ -521,6 +521,7 @@ public class EnemyAI : MonoBehaviour
                     .SetDirection((Target.transform.position - transform.position).normalized)
                     .SetTargetCount(_targetCountPerProjectile)
                     .SetSpeed(_projectileSpeed)
+                    .SetFaceDirection(true)
                     .SetStrategy(_strategy, _disappearTime, Target.transform.position, OnProjectileReachDestination)
                     .AddDecorator(damageDecorator
                         .ShowDamagePopup(false)

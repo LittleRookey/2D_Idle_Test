@@ -28,7 +28,7 @@ namespace Litkey.Projectile
 
         [ShowInInspector] private ProjectileStrategy strategy;
         [ShowInInspector] private List<IProjectileDecorator> decorators = new List<IProjectileDecorator>();
-
+        [SerializeField] private bool faceDirection = false;
         private EndOfLifeStrategy endOfLifeStrategy;
 
         CountdownTimer timer;
@@ -167,7 +167,26 @@ namespace Litkey.Projectile
             if (strategy != null)
             {
                 strategy.Move(this);
+                //if (faceDirection)
+                //{
+                //    UpdateRotation();
+                //}
             }
+        }
+
+        private void UpdateRotation()
+        {
+            if (direction != Vector3.zero)
+            {
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            }
+        }
+
+        public ProjectileBehavior SetFaceDirection(bool shouldFace)
+        {
+            faceDirection = shouldFace;
+            return this;
         }
 
         public void OnHit(GameObject target)
