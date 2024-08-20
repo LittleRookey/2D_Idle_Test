@@ -143,7 +143,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="7" name="terrain-river" width="41" height="40">
+ <layer id="7" name="terrain-river" width="41" height="40" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -236,7 +236,7 @@
   <object id="164" gid="2425" x="282" y="628" width="128" height="64"/>
   <object id="165" gid="2425" x="110" y="1017" width="128" height="64"/>
  </objectgroup>
- <layer id="13" name="holes" width="41" height="40">
+ <layer id="13" name="holes" width="41" height="40" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -368,10 +368,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="9" name="props0">
+ <objectgroup id="9" name="props0" visible="0">
   <object id="176" gid="1692" x="362.667" y="794.333" width="64" height="64"/>
  </objectgroup>
- <objectgroup id="6" name="props1">
+ <objectgroup id="6" name="props1" visible="0">
   <object id="1" gid="1538" x="226.167" y="587.333" width="32" height="64"/>
   <object id="6" gid="1847" x="158.667" y="568" width="32" height="96"/>
   <object id="7" gid="1848" x="155.333" y="587.667" width="32" height="96"/>
@@ -412,7 +412,7 @@
   <object id="184" gid="2380" x="192" y="800" width="64" height="96"/>
   <object id="188" gid="2440" x="360" y="662" width="64" height="64"/>
  </objectgroup>
- <objectgroup id="8" name="props2">
+ <objectgroup id="8" name="props2" visible="0">
   <object id="87" gid="1535" x="698" y="995.5" width="544" height="288"/>
   <object id="89" gid="1636" x="928" y="480" width="160" height="160"/>
   <object id="97" gid="1697" x="965" y="944" width="64" height="128"/>

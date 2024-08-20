@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: PlayerBaseStat
   m_EditorClassIdentifier: 
   MonsterLevel: 0
-  MaxHP: 600
+  MaxHP: 20
+  HP_Regeneration: 0
   Attack: 100
   MagicAttack: 0
-  Defense: 10
+  Defense: 0
   MagicDefense: 0
   AttackSpeed: 1
   MoveSpeed: 2
@@ -30,4 +31,9 @@ MonoBehaviour:
   p_resist: 0
   ExtraGold: 0
   ExtraExp: 0
+  Defense_Penetration: 0
+  GiveMoreDamage: 0
+  GiveLessDamage: 0
+  ReceiveMoreDamage: 0
+  ReceiveLessDamage: 0
   Attack_Interval: 0

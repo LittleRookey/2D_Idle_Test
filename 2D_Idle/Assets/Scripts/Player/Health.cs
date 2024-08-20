@@ -61,7 +61,7 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         isDead = false;
         dmgOffset = new Vector3(0f, 0.55f, 0f);
         bCollider = GetComponent<BoxCollider2D>();
-        //rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         _statContainer = GetComponent<StatContainer>();
         _statContainer.OnStatSetupComplete.AddListener(UpdateHealth);

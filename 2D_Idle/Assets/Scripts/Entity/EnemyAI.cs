@@ -501,6 +501,13 @@ public class EnemyAI : MonoBehaviour
             basicAttack = Resources.Load<EnemyBasicAttack>("ScriptableObject/Skills/EnemyBasicAttack");
         }
         if (Target == null) return;
+
+        if (Target.IsDead)
+        {
+            SetTarget(null);
+            return;
+        }
+
         // 데미지 계산
         if (attackType == eAttackType.근거리)
         {

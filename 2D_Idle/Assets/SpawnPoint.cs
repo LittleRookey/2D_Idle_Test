@@ -89,7 +89,8 @@ public class SpawnPoint : MonoBehaviour
 
         var pool = Pool.Create<Health>(monster);
         pool.SetContainer(transform);
-        monsterPool.Add(monster.Name, pool);
+        if (!monsterPool.ContainsKey(monster.Name))
+            monsterPool.Add(monster.Name, pool);
     }
 
     private void Update() 

@@ -11,6 +11,7 @@ using Redcode.Pools;
 using TransitionsPlus;
 using UnityEngine.SceneManagement;
 using Litkey.Quest;
+using Litkey.InventorySystem;
 
 public class MapManager : MonoBehaviour
 {
@@ -33,9 +34,12 @@ public class MapManager : MonoBehaviour
 
     private bool isLoadingStage = false;
     [SerializeField] private ResourceInteractor player;
+    [SerializeField] private Inventory _inventory;
+    [SerializeField] private PlayerDeathUI playerDeathUI;
     private void Awake()
     {
         Instance = this;
+        stageProgress = new StageProgress();
         InitializeStages();
         SetupStageUI();
         stageInfoWindow.CloseInfoWindow();
@@ -78,6 +82,11 @@ public class MapManager : MonoBehaviour
         if (!stageSlots.ContainsKey(stageIndex)) stageSlots.Add(stageIndex, stageUI);
     }
 
+    public void OnReturnToTown()
+    {
+        stageProgress.ClearStageProgress();
+        StartCoroutine(LoadToTown());
+    }
     private void OnStageClicked(int stageIndex, StageSlotUI stageUI)
     {
         if (isLoadingStage) return; // Exit if already loading a stage
@@ -93,10 +102,27 @@ public class MapManager : MonoBehaviour
             transition.onTransitionEnd.AddListener(() =>
             {
                 //Debug.Log("Starting Transition Scene");
+                stageProgress.ClearStageProgress();
+                var levelSystem = player.GetComponent<LevelSystem>();
+                stageProgress.previousLevel = levelSystem.GetLevel();
+                stageProgress.previousGold = ResourceManager.Instance.Gold;
+                stageProgress.previousExp = levelSystem.GetCurrentExpRate();
+                _inventory.OnGainItem.AddListener(SaveItemToProgress);
             });
         });
     }
 
+    private void SaveItemToProgress(Item item)
+    {
+        if (item is EquipmentItem equipmentItem)
+        {
+            stageProgress.AddItem(item.Data, 1);
+        }
+        else if (item is CountableItem countableItem)
+        {
+            stageProgress.AddItem(countableItem.CountableData, countableItem.Amount);
+        }
+    }
     public void OpenMap()
     {
         mapWindow.gameObject.SetActive(true);
@@ -140,6 +166,8 @@ public class MapManager : MonoBehaviour
         ClearStages();
         stageInfoWindow.CloseInfoWindow();
     }
+    public StageProgress stageProgress { get; private set; }
+
     private IEnumerator LoadBattleSceneAsync(Stage stage)
     {
         // Step 1: Fade in
@@ -164,6 +192,8 @@ public class MapManager : MonoBehaviour
             QuestManager.Instance.ActivateQuest(stage.quest.questID);
             Debug.Log("StageManager Setup Complete");
             yield return null;
+            // 새로운 스테이지 Progress만들기
+
             Debug.Log("Fading out screen");
             yield return FadeOutScreen().WaitForCompletion();
             StageTitleUI.Instance.SetStageTitleUI(stage.stageTitle);
@@ -173,6 +203,23 @@ public class MapManager : MonoBehaviour
             Debug.LogError("StageManager not found in the Battle scene!");
         }
         isLoadingStage = false;
+    }
+
+    private IEnumerator LoadToTown()
+    {
+        yield return StartCoroutine(FadeInScreenCoroutine());
+        playerDeathUI.CloseWindow();
+        player.ResetInteractor();
+        yield return StartCoroutine(UnloadSceneAsync("BattleScene"));
+
+        yield return StartCoroutine(LoadSceneAsync("Town", LoadSceneMode.Additive));
+
+        yield return null;
+        // 새로운 스테이지 Progress만들기
+
+        Debug.Log("Fading out screen");
+        yield return FadeOutScreen().WaitForCompletion();
+        StageTitleUI.Instance.SetStageTitleUI("마을");
     }
 
     private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode)

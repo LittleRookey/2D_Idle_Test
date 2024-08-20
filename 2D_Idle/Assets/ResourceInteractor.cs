@@ -111,7 +111,7 @@ public class ResourceInteractor : MonoBehaviour
         // This is a simplified version. You might need to adjust based on your specific UI setup
         InteractorUI.Instance.SetInteractor(GetResourceType(_currentTarget), () =>
         {
-            if (_currentTarget.CanInteract(_player))
+            if (_currentTarget.CanInteract(_player) && _player.HasNoTarget())
             {
                 IsInteracting = true;
                 resourceGetterSprite.sprite = GetResourceGetterSprite(GetResourceType(_currentTarget));
