@@ -339,6 +339,49 @@ public class PlayerController : MonoBehaviour
         // 스킬 쿨다운 등등
     }
 
+    public void Revive(bool hasReviveTime=true)
+    {
+
+        // 애니메이션
+        //Invoke(nameof(), 2f);
+        if (hasReviveTime) 
+        {
+            anim.Play(this._Revive);
+            var currentBar = BarCreator.CreateFillBar(transform.position + Vector3.up * 1.2f, transform, false);
+
+            currentBar.SetOuterColor(Color.black);
+            currentBar.SetInnerColor(Color.red);
+
+            currentBarTween = currentBar.StartFillBar(2f, () =>
+            {
+                // 부활시간 끝나면 리바이브하기
+                isDead = false;
+                //onAttackExit();
+
+                MoveFromReviveToBattleMode();
+                currentBarTween = null;
+                //BarCreator.ReturnBar(currentBar);
+
+                OnRevive?.Invoke();
+            });
+        
+        }
+        else
+        {
+            isDead = false;
+            //onAttackExit();
+
+            MoveFromReviveToBattleMode();
+            currentBarTween = null;
+            //BarCreator.ReturnBar(currentBar);
+
+            OnRevive?.Invoke();
+        }
+        // HP
+
+        // 스킬 쿨다운 등등
+    }
+
     private void SetTargetNullOnDead(LevelSystem levelSystem)
     {
         Debug.Log("Target set to null on death");

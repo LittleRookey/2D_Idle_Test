@@ -210,6 +210,7 @@ public class MapManager : MonoBehaviour
         yield return StartCoroutine(FadeInScreenCoroutine());
         playerDeathUI.CloseWindow();
         player.ResetInteractor();
+        player.GetComponent<PlayerController>().Revive(false);
         yield return StartCoroutine(UnloadSceneAsync("BattleScene"));
 
         yield return StartCoroutine(LoadSceneAsync("Town", LoadSceneMode.Additive));

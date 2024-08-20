@@ -51,7 +51,7 @@ public class PlayerDeathUI : MonoBehaviour
         string startText = string.Empty;
 
         var stageProgress = MapManager.Instance.stageProgress;
-        DOTween.To(() => startText, x => startText = x, _resultText, _resultText.Length / 5f)
+        DOTween.To(() => startText, x => startText = x, _resultText, _resultText.Length / 8f)
             .OnUpdate(() =>
             {
                 resultText.SetText(startText);
