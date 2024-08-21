@@ -137,7 +137,7 @@ public class SkillInformationWindowUI : MonoBehaviour
         if (skill is ActiveSkill activeSkill)
         {
             skillDamageText.SetText($"{activeSkill.GetTotalDamage()}%");
-            cooldownText.SetText($"{activeSkill.cooldown}√ ");
+            cooldownText.SetText($"{activeSkill.CooldownDuration}√ ");
             for (int i = (int)activeSkill.startRank; i < (int)activeSkill.GetMaxUpgradeRank(); i++)
             {
                 var currentRank = (eSkillRank)i;

@@ -115,7 +115,7 @@ namespace Litkey.Skill
 
     public abstract class ActiveSkill : Skill, IHasCooldown
     {
-        public float cooldown;
+        [SerializeField] private float cooldown;
         public float TimeTilActive; // 발동까지 걸리는시간
         public int targetNumber;
         public int attackNumber; // 공격횟수

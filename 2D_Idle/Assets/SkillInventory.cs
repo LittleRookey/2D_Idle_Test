@@ -37,6 +37,8 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
     [SerializeField] public int maxSkillEquipSlotNumber { get; private set; } = 5;
 
     [HideInInspector] public UnityEvent OnSkillInventoryLoaded;
+    [HideInInspector] public UnityEvent OnSkillEquipped;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -138,6 +140,7 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
         {
             equippedActiveSkills[slotIndex].UnEquip();
             Save();
+            OnSkillEquipped.Invoke();
             return true;
         }
 
@@ -165,7 +168,7 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
             // 평범하게 해당 스킬칸이 빈 스킬칸이면 그대로 장착
             equippedActiveSkills[slotIndex].Equip(activeSkill);
         }
-
+        OnSkillEquipped.Invoke();
         Save();
         return true;
     }

@@ -15,13 +15,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private RectTransform timeUI;
     [SerializeField] private RectTransform playerInfo;
     [SerializeField] private RectTransform goldInfo;
-
+    [SerializeField] private RectTransform Menus;
     bool isOn = true;
 
     private void Awake()
     {
         Instance = this;
     }
+
+    public void HideMenus() => Menus.gameObject.SetActive(false);
+
+    public void ShowMenus() => Menus.gameObject.SetActive(true);
+
+
     public void DisableUIs()
     {
         isOn = false;

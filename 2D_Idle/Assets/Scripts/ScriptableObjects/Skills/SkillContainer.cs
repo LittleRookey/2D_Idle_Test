@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Litkey.Skill;
 using Litkey.Stat;
+using UnityEngine.Events;
 
 public class SkillContainer : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class SkillContainer : MonoBehaviour
 
     CountdownTimer countdownTimer;
     BuffReceiver buffReceiver;
-
+    public UnityEvent<ActiveSkill> OnUseSkill;
     private void Awake()
     {
         if (!isEnemy)
@@ -36,6 +37,7 @@ public class SkillContainer : MonoBehaviour
         passiveSkills = new List<PassiveSkill>();
         activeSkills = new List<ActiveSkill>();
         countdownTimer = new CountdownTimer(skillInterval);
+        
     }
 
     private void Start()
@@ -95,6 +97,7 @@ public class SkillContainer : MonoBehaviour
     [Button("UseSkill")]
     public void UseActiveSkill(ActiveSkill skill, Health target)
     {
+        OnUseSkill?.Invoke(skill);
         skill.Use(statContainer, target);
         cooldownSystem.PutOnColdown(skill);
         countdownTimer.Start();

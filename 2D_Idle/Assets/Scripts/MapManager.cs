@@ -182,6 +182,9 @@ public class MapManager : MonoBehaviour
         Debug.Log("3333333333");
         // Step 3: Load Battle scene
         yield return StartCoroutine(LoadSceneAsync("BattleScene", LoadSceneMode.Additive));
+
+        UIManager.Instance.HideMenus();
+
         Debug.Log("44444444444");
         // Step 4: Setup the stage
         StageManager stageManager = FindObjectOfType<StageManager>();
@@ -217,6 +220,7 @@ public class MapManager : MonoBehaviour
 
         yield return null;
         // 새로운 스테이지 Progress만들기
+        UIManager.Instance.ShowMenus();
 
         Debug.Log("Fading out screen");
         yield return FadeOutScreen().WaitForCompletion();

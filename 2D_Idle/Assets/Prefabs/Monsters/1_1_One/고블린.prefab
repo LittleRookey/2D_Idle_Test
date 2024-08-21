@@ -652,7 +652,7 @@ MonoBehaviour:
   spawnProjectileSpreadAngle: 90
   explosionRadius: 1
   explosionDamage: 150
-  enableKnockback: 1
+  enableKnockback: 0
   knockbackForce: 0.5
   isAttacking: 0
 --- !u!114 &8499623147719185557
