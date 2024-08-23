@@ -176,7 +176,7 @@ Material:
     - _GradBoostX: 1.2
     - _GradBoostY: 1.2
     - _GradIsRadial: 0
-    - _GrassManualAnim: 1
+    - _GrassManualAnim: 0.882
     - _GrassManualToggle: 0
     - _GrassRadialBend: 0.05
     - _GrassSpeed: 1.5

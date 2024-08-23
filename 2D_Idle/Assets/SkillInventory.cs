@@ -98,7 +98,7 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
         if (index >= equippedActiveSkills.Length) return null;
         if (index < 0) return null;
         if (equippedActiveSkills[index].IsLocked) return null;
-        if (!equippedActiveSkills[index].IsEquipped) return null;
+        //if (!equippedActiveSkills[index].IsEquipped) return null;
 
         return equippedActiveSkills[index];
     }

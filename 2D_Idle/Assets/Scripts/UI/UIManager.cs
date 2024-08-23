@@ -15,17 +15,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private RectTransform timeUI;
     [SerializeField] private RectTransform playerInfo;
     [SerializeField] private RectTransform goldInfo;
-    [SerializeField] private RectTransform Menus;
+    [SerializeField] private Canvas Menus; 
     bool isOn = true;
-
+    [SerializeField] private Canvas skillCooldownCanvas;
     private void Awake()
     {
         Instance = this;
+        HideSkillCooldownCanvas();
+        ShowMenus();
     }
 
-    public void HideMenus() => Menus.gameObject.SetActive(false);
+    public void ShowSkillCooldownCanvas() => skillCooldownCanvas.enabled = true;
+    public void HideSkillCooldownCanvas() => skillCooldownCanvas.enabled = false;
+    public void HideMenus() => Menus.enabled = false;
 
-    public void ShowMenus() => Menus.gameObject.SetActive(true);
+    public void ShowMenus() => Menus.enabled = true;
 
 
     public void DisableUIs()

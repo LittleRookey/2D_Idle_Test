@@ -129,7 +129,7 @@ namespace ACF.Tests
 				orientation.gameObject.SetActive(true);
 			}
 
-			Debug.Log($"Updated health with difference: {Mathf.Abs(current - currentHealth)}");
+
 
 			// Tween the text counter
 			DOTween.To(() => currentHealth, x => {

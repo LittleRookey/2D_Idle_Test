@@ -25,6 +25,7 @@ public class SkillCooldownSlot : MonoBehaviour
 
         iconBG.gameObject.SetActive(true);
         skillIcon.sprite = activeSkill._icon;
+        cooldownImage.fillAmount = 0f;
         this.activeSkill = activeSkill;
     }
 

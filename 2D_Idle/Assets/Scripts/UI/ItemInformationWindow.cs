@@ -43,6 +43,7 @@ public class ItemInformationWindow : MonoBehaviour
     private List<ItemInfoBasicOption> itemInfoStored;
     public bool DisableOnStart;
 
+    
     UnityEvent OnClosedEvent = new();
     private void Awake()
     {
@@ -191,6 +192,16 @@ public class ItemInformationWindow : MonoBehaviour
         // 버튼들 설정
         if (!enableButton) return;
 
+        button1.gameObject.SetActive(true);
+        int itemIndex = inventory.FindItemInInventory(equipment.ID);
+
+        button1.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText("판매");
+        button1.onClick.AddListener(() =>
+        {
+            inventory.SellItem(itemIndex, 1);
+            ClearItemAndCloseInformationWindow();
+        });
+
         button4.gameObject.SetActive(true);
         if (inventory.IsEquipped(equipment))
         {
@@ -202,7 +213,7 @@ public class ItemInformationWindow : MonoBehaviour
         }
         button4.onClick.AddListener(() =>
         {
-            inventoryUI.UseOrEquipItem(inventory.FindItemInInventory(equipment.ID));
+            inventoryUI.UseOrEquipItem(itemIndex);
             ClearItemAndCloseInformationWindow();
         });
     }
@@ -277,6 +288,17 @@ public class ItemInformationWindow : MonoBehaviour
         // 버튼들 설정
         if (!enableButton) return;
 
+        
+        button1.gameObject.SetActive(true);
+        int itemIndex = inventory.FindItemInInventory(equipment.ID);
+
+        button1.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText("판매");
+        button1.onClick.AddListener(() =>
+        {
+            inventory.SellItem(itemIndex, 1);
+            ClearItemAndCloseInformationWindow();
+        });
+
         button4.gameObject.SetActive(true);
         if (inventory.IsEquipped(equipment))
         {
@@ -289,7 +311,7 @@ public class ItemInformationWindow : MonoBehaviour
         button4.onClick.AddListener(() =>
         {
             //inventory.EquipItem(equipment);
-            inventoryUI.UseOrEquipItem(inventory.FindItemInInventory(equipment.ID));
+            inventoryUI.UseOrEquipItem(itemIndex);
             ClearItemAndCloseInformationWindow();
         });
     }
@@ -379,6 +401,16 @@ public class ItemInformationWindow : MonoBehaviour
 
 
         if (!enableButton) return;
+
+        button1.gameObject.SetActive(true);
+        int itemIndex = inventory.FindItemInInventory(countableItem.ID);
+
+        button1.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText("판매");
+        button1.onClick.AddListener(() =>
+        {
+            inventory.SellItem(itemIndex, countableItem.Amount);
+            ClearItemAndCloseInformationWindow();
+        });
 
         button4.gameObject.SetActive(true);
 

@@ -36,6 +36,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private ResourceInteractor player;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private PlayerDeathUI playerDeathUI;
+
     private void Awake()
     {
         Instance = this;
@@ -96,6 +97,7 @@ public class MapManager : MonoBehaviour
         SelectStage(stageUI);
         stageInfoWindow.SetStageInfo(stages[stageIndex], () =>
         {
+            if (isLoadingStage) return;
             isLoadingStage = true; // Set the flag to prevent further executions
             //transition.Play();
             StartCoroutine(LoadBattleSceneAsync(stages[stageIndex]));
@@ -170,7 +172,6 @@ public class MapManager : MonoBehaviour
 
     private IEnumerator LoadBattleSceneAsync(Stage stage)
     {
-        // Step 1: Fade in
         Debug.Log("11111111111");
         yield return StartCoroutine(FadeInScreenCoroutine());
         Debug.Log("222222222222");
@@ -184,6 +185,7 @@ public class MapManager : MonoBehaviour
         yield return StartCoroutine(LoadSceneAsync("BattleScene", LoadSceneMode.Additive));
 
         UIManager.Instance.HideMenus();
+        UIManager.Instance.ShowSkillCooldownCanvas();
 
         Debug.Log("44444444444");
         // Step 4: Setup the stage

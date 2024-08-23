@@ -63,6 +63,7 @@ namespace Litkey.InventorySystem
 
             _inventory.OnInventoryLoaded.AddListener(LoadInventoryUI);
             _inventory.OnInventoryLoaded.AddListener(UpdateEquippedItemUI);
+            _inventory.OnItemSold.AddListener(UpdateSlot);
             
         }
         // æ∆¿Ã≈€ ΩΩ∑‘
@@ -305,9 +306,36 @@ namespace Litkey.InventorySystem
         private void RemoveItemAndSlot(int slotIndex)
         {
             _inventory.RemoveItem(slotIndex);  // Assuming this method removes the item from inventory.
+            RemoveSlot(slotIndex);
+        }
+
+        private void RemoveSlot(int slotIndex)
+        {
             itemSlots[slotIndex].ClearSlot();  // Clear the UI slot.
             itemSlotPool.Take(itemSlots[slotIndex]);
             itemSlots.Remove(slotIndex);
+        }
+        public void SellItem(int index, int count)
+        {
+            _inventory.SellItem(index, count);
+            UpdateSlot(index);
+        }
+        public void UpdateSlot(int index)
+        {
+            if (!_inventory.HasItem(index))
+            {
+                if (itemSlots.ContainsKey(index))
+                {
+                    RemoveSlot(index);
+                }
+                return;
+            }
+            var item = _inventory.GetItem(index);
+
+            if (item is CountableItem countableItem)
+            {
+                itemSlots[index].UpdateCount(countableItem.Amount);
+            }
         }
 
         private void CheckAllEmptySlotUpdate()

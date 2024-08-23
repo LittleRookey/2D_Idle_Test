@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Litkey.Skill
 {
+    [CreateAssetMenu(menuName ="Litkey/Skill/Kenki")]
     public class KenKi : ActiveSkill
     {
         [SerializeField] private ProjectileBehavior projectilePrefab;
@@ -46,11 +47,11 @@ namespace Litkey.Skill
                 //.SetSkillRadius(skillRadius)
                 .SetEnemyLayer(enemyLayer)
                 .SetAlly(ally)
-                .FaceTarget(ally.transform, target.transform)
+                .FaceDirection((target.transform.position - ally.transform.position).normalized)
                 .AddListenerOnEnd(() => {
-                    var projectile = ProjectileCreator.CreateProjectile(projectilePrefab, ally.transform.position, ally, enemyLayer);
+                    var projectile = ProjectileCreator.CreateProjectile("°Ë±â", ally.transform.position, ally, enemyLayer);
 
-                    projectile.SetDamagePercent(finalDamage)
+                    projectile.SetDamagePercent(finalDamage / 100f)
                         .SetDirection((target.transform.position - ally.transform.position).normalized)
                         .SetTargetCount(10)
                         .SetSpeed(5)

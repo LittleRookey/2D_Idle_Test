@@ -162,6 +162,12 @@ public class SkillInventoryUI : MonoBehaviour
     public void EnterSkillEquipMode(int skillSlotIndex)
     {
         if (enterEquipSkillMode) return;
+        var equipSlot = skillInventory.GetSkillEquipSlot(skillSlotIndex);
+        if (equipSlot == null)
+        {
+            Debug.LogError($"EquipSlot {equipSlot} is null at skillSlotIndex {skillSlotIndex}");
+            return;
+        }
         if (skillInventory.GetSkillEquipSlot(skillSlotIndex).IsLocked)
         {
             WarningMessageInvoker.Instance.ShowMessage($"스킬 슬롯{skillSlotIndex}은 잠겨있습니다");

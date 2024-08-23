@@ -39,6 +39,20 @@ namespace Litkey.InventorySystem
             SetAmount(Amount + amount);
         }
 
+        public int RemoveAmount(int amount)
+        {
+            if (Amount - amount >= 0)
+            {
+                Amount -= amount;
+                return amount;
+            }
+            else
+            {
+                int usedAmount = Amount;
+                Amount = 0;
+                return usedAmount;
+            }
+        }
         /// <summary> 개수 추가 및 최대치 초과량 반환(초과량 없을 경우 0) </summary>
         public int AddAmountAndGetExcess(int amount)
         {

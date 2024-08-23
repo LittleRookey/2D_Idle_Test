@@ -130,6 +130,7 @@ namespace Litkey.InventorySystem
         [SerializeField] private ItemDatabase itemDB;
 
         public UnityEvent<int> OnUseItem;
+        public UnityEvent<int> OnItemSold;
         public UnityEvent OnInventoryLoaded;
 
         private void Awake()
@@ -427,12 +428,71 @@ namespace Litkey.InventorySystem
         {
             return _inventory[index];
         }
+        public bool HasItem(int index)
+        {
+            return _inventory.ContainsKey(index);
+        }
 
         public Item RemoveItem(int index)
         {
             var removedItem = _inventory[index];
             _inventory.Remove(index);
             return removedItem;
+        }
+        public Item RemoveItem(int index, int count)
+        {
+            var removedItem = _inventory[index];
+            if (removedItem is EquipmentItem)
+            {
+                _inventory.Remove(index);
+                return removedItem;
+            }
+            else if (removedItem is CountableItem countableItem)
+            {
+                countableItem.RemoveAmount(count);
+                if (countableItem.IsEmpty)
+                {
+                    _inventory.Remove(index);
+                }
+                return countableItem;
+            }
+            return null; 
+        }
+
+        public void SellItem(int index, int count)
+        {
+            if (index == -1)
+            {
+                Debug.LogError("Can't find item at index " + index);
+                return;
+            }
+
+            var itemToSell = _inventory[index];
+            if (itemToSell is EquipmentItem equipItem)
+            {
+                if (!IsEquipped(equipItem))
+                {
+                    ResourceManager.Instance.GainGold(equipItem.EquipmentData.SellPrice);
+                    RemoveItem(index, 1);
+                    OnItemSold?.Invoke(index);
+                }
+            }
+            else if (itemToSell is CountableItem countableItem)
+            {
+                if (countableItem.Amount >= count)
+                {
+                    ResourceManager.Instance.GainGold(count * countableItem.CountableData.SellPrice);
+                    RemoveItem(index, count);
+                }
+                else
+                {
+                    ResourceManager.Instance.GainGold(countableItem.Amount * countableItem.CountableData.SellPrice);
+                    RemoveItem(index, countableItem.Amount);
+                }
+                OnItemSold?.Invoke(index);
+            }
+            Save();
+            
         }
 
         public bool UseItem(int index, PlayerStatContainer playerStat)
