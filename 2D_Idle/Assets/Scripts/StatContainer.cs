@@ -917,8 +917,7 @@ public class StatContainer : MonoBehaviour
         switch (modifier.oper)
         {
             case OperatorType.plus:
-            case OperatorType.subtract:
-                float modValue = modifier.oper == OperatorType.plus ? modifier.value : -modifier.value;
+                float modValue = modifier.value;
                 subStat.AddStatValue(modValue);
                 break;
         }
@@ -949,11 +948,7 @@ public class StatContainer : MonoBehaviour
             case OperatorType.plus:
                 subStat.AddStatValue(-modifier.value);
                 break;
-            case OperatorType.subtract:
-                subStat.AddStatValue(modifier.value);
-                break;
             case OperatorType.multiply:
-            case OperatorType.divide:
                 subStat.UnEquipETCStat(modifier);
                 break;
         }

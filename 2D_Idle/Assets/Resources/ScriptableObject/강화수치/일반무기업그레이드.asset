@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46158fbf75decd54fb8193ae5243e56a, type: 3}
+  m_Name: "\uC77C\uBC18\uBB34\uAE30\uC5C5\uADF8\uB808\uC774\uB4DC"
+  m_EditorClassIdentifier: 
+  equipmentRarity: 0
+  parts: 4
+  maxLevel: 10
+  base_UpgradeGold: 100
+  upgradeLevels:
+  - level: 0
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 3
+    requirements:
+      goldCost: 100
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 0
+  - level: 1
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 5
+    requirements:
+      goldCost: 200
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 1
+  - level: 2
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 10
+    requirements:
+      goldCost: 300
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 2
+  - level: 3
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 15
+    requirements:
+      goldCost: 400
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 3
+  - level: 4
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 20
+    requirements:
+      goldCost: 500
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 4
+  - level: 5
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 25
+    requirements:
+      goldCost: 600
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 5
+  - level: 6
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 30
+    requirements:
+      goldCost: 700
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 6
+  - level: 7
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 35
+    requirements:
+      goldCost: 800
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 7
+  - level: 8
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 40
+    requirements:
+      goldCost: 900
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 8
+  - level: 9
+    statModifiers:
+    - statType: 4
+      oper: 0
+      value: 45
+    requirements:
+      goldCost: 1000
+      requiredItems:
+      - item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+        quantity: 9

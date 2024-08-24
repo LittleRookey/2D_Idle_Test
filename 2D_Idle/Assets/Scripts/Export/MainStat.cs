@@ -354,20 +354,10 @@ namespace Litkey.Stat
                     _plusEquipValue -= stat.value;
                     Debug.Log("Unequipped Stat plus value: " + _plusEquipValue);
                 }
-                else if (stat.oper == OperatorType.subtract)
-                {
-                    _plusEquipValue += stat.value;
-                    Debug.Log("Unequipped Stat subtract value: " + _plusEquipValue);
-                }
                 else if (stat.oper == OperatorType.multiply)
                 {
                     _multipliedEquipValue -= stat.value;
                     Debug.Log("Unequipped Stat multiply value: " + _multipliedEquipValue);
-                }
-                else if (stat.oper == OperatorType.divide)
-                {
-                    _multipliedEquipValue += stat.value;
-                    Debug.Log("Unequipped Stat divide value: " + _multipliedEquipValue);
                 }
             }
             UpdateFinalValue();
@@ -685,11 +675,7 @@ namespace Litkey.Stat
                 {
 
                     statsSum[stats[i].statType] += stats[i].value;
-                } else if (stats[i].oper == OperatorType.subtract)
-                {
-                    
-                    statsSum[stats[i].statType] -= stats[i].value;
-                }
+                } 
                 //else if (stats[i].oper == OperatorType.multiply)
                 //{
 
@@ -733,16 +719,19 @@ namespace Litkey.Stat
     [System.Serializable]
     public class StatModifier
     {
-        [BoxGroup("Stat Details")]
+        [HorizontalGroup("StatModifier")]
         [LabelText("Stat Type")]
         public eSubStatType statType;
 
-        [BoxGroup("Stat Details")]
+
+        [HorizontalGroup("StatModifier")]
         [LabelText("Operator Type")]
+        [EnumToggleButtons]
         public OperatorType oper;
 
 
-        [BoxGroup("Stat Details")]
+
+        [HorizontalGroup("StatModifier")]
         [LabelText("Value")]
         public float value;
 

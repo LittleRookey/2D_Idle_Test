@@ -19,10 +19,12 @@ public interface IGrowable
 [CreateAssetMenu(fileName = "UnitLevel", menuName = "Litkey/UnitLevels")]
 public class UnitLevel : ScriptableObject
 {
+    [BoxGroup("Level")]
     [SerializeField] public int maxLevel = 100;
     public bool showLog;
+    [BoxGroup("Level")]
     [ShowInInspector] public int level { get; protected set; } = 1;
-
+    [BoxGroup("Level")]
     public float CurrentExp => currentExp;
     public float MaxExp
     {
@@ -32,18 +34,22 @@ public class UnitLevel : ScriptableObject
             return maxExp;
         }
     }
-
+    [BoxGroup("Level")]
     public AnimationCurve curve;
-
+    [BoxGroup("Level")]
     [SerializeField] protected float currentExp;
+    [BoxGroup("Level")]
     protected float maxExp = 100f;
 
-
+    [BoxGroup("Level")]
     public float growthFactor = 1.1f;
+    [BoxGroup("Level")]
     public float extraExpPerLevel = 50;
 
+    [BoxGroup("Level")]
     [ListDrawerSettings(ShowIndexLabels = true)]
     public List<float> MaxExpByLevel = new List<float>();
+    [BoxGroup("Level")]
     [SerializeField] protected float initMaxExp = 100f;
 
     public UnityAction<float, float> OnLevelUp;

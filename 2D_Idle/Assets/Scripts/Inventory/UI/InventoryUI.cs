@@ -39,7 +39,7 @@ namespace Litkey.InventorySystem
     // 나중에 필터할때 쓰임
     public class InventoryUI : MonoBehaviour
     {
-        [InlineEditor]
+
         [SerializeField] private Inventory _inventory;
         [SerializeField] private RectTransform slotsParent;
         [SerializeField] private ItemSlotUI itemSlotUIPrefab;
@@ -53,7 +53,10 @@ namespace Litkey.InventorySystem
         [ShowInInspector]
         public Dictionary<eEquipmentParts, int> equippedItemIndex; // 각 슬롯별 아이템 인벤토리의 장착한 아이템 인덱스를 저장
 
-        [SerializeField] private PlayerStatContainer playerStatContainer; 
+        [SerializeField] private PlayerStatContainer playerStatContainer;
+
+        [Header("아이템 강화창")]
+        [SerializeField] private ItemUpgradeUI itemUpgradeUI;
 
         private void Awake()
         {
@@ -64,7 +67,7 @@ namespace Litkey.InventorySystem
             _inventory.OnInventoryLoaded.AddListener(LoadInventoryUI);
             _inventory.OnInventoryLoaded.AddListener(UpdateEquippedItemUI);
             _inventory.OnItemSold.AddListener(UpdateSlot);
-            
+            CloseItemUpgradeWindow();
         }
         // 아이템 슬롯
         private void OnEnable()
@@ -91,6 +94,21 @@ namespace Litkey.InventorySystem
                 equippedItemIndex.Add(parts, -1);
             }
         }
+
+        #region 아이템 강화
+
+        public void OpenItemUpgradeWindow(EquipmentItem equipmentItem)
+        {
+            itemUpgradeUI.ShowUpgradeWindow(equipmentItem);
+            itemUpgradeUI.gameObject.SetActive(true);
+        }
+
+        public void CloseItemUpgradeWindow()
+        {
+            itemUpgradeUI.gameObject.SetActive(false);
+        }
+
+        #endregion
         private void AddItemUI(Item item)
         {
             if (itemSlotPool == null)

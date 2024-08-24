@@ -100,7 +100,7 @@ namespace Litkey.InventorySystem
         }
 
     }
-    [CreateAssetMenu(menuName ="Litkey/Inventory")]
+    [CreateAssetMenu(menuName = "Litkey/Inventory")]
     public class Inventory : SerializedScriptableObject, ISavable, ILoadable
     {
         [SerializeField, TableList]
@@ -154,7 +154,7 @@ namespace Litkey.InventorySystem
                 { eEquipmentParts.Fishing,  fishingSlot},
                 { eEquipmentParts.Axing,  axingSlot},
             };
-            
+
         }
 
         private void OnDisable()
@@ -228,7 +228,7 @@ namespace Litkey.InventorySystem
             // This might involve looking up the item in a database or item catalog based on the itemId
             // For now, I'll provide a placeholder implementation
             Item item = itemDB.GetItemByID(itemData.intID).CreateItem(itemData.itemID);
-            
+
             if (item == null) return null;
 
             if (item is CountableItem countableItem)
@@ -431,6 +431,44 @@ namespace Litkey.InventorySystem
         public bool HasItem(int index)
         {
             return _inventory.ContainsKey(index);
+        }
+
+
+        public bool ContainsItem(ItemData itemData, int count)
+        {
+            if (count <= 0) return true;
+            int totalCount = 0;
+
+            foreach (var item in _inventory.Values)
+            {
+                if (item.Data.intID == itemData.intID && item is CountableItem countableItem)
+                {
+                    totalCount += countableItem.Amount;
+                    if (totalCount >= count)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        // for equipmentItem
+        public bool ContainsItem(string uniqueID, int count)
+        {
+            if (count <= 0) return true;
+            int foundCount = 0;
+            foreach (var item in _inventory.Values)
+            {
+                if (item.ID == uniqueID)
+                {
+                    foundCount++;
+                    if (foundCount >= count)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public Item RemoveItem(int index)

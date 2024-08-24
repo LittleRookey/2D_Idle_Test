@@ -10,27 +10,11 @@ namespace Litkey.InventorySystem
     //{
     //    public void Equip();
     //}
-    public enum StatType
-    {
-        maxHP,
-        mana,
-        hpRegen,
-        manaGen,
-        p_attack,
-        p_critChance,
-        p_critDMG,
-        p_defense,
-        p_penetration,
-        attackSpeed,
-        moveSpeed
-    };
 
     public enum OperatorType
     {
         plus,
         multiply,
-        divide,
-        subtract
 
     }
     
@@ -50,10 +34,11 @@ namespace Litkey.InventorySystem
 
         public eEquipmentParts Parts => _parts;
 
-        protected int upgradeNum = 0;
 
-       
-        public int UpgradeNum => upgradeNum;
+        [SerializeField] protected EquipmentUpgradeData upgradeData;
+
+        public EquipmentUpgradeData UpgradeData => upgradeData;
+
         public StatModifier[] GetStats()
         {
             return baseStats;
@@ -91,17 +76,7 @@ namespace Litkey.InventorySystem
             return _parts;
         }
 
-        public void Upgrade()
-        {
-            upgradeNum += 1;
-            // 업그레이드하고 스텟을 몇올리는지 등등
 
-        }
-        //public override ItemSaveData ToSaveData(int currentAmount)
-        //{
-        //    itemType = "Equipment";
-        //    return new EquipItemSaveData(this, 1, _parts, IsEquipped);
-        //}
     }
 
     

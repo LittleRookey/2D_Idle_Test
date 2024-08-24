@@ -202,6 +202,17 @@ public class ItemInformationWindow : MonoBehaviour
             ClearItemAndCloseInformationWindow();
         });
 
+        button3.gameObject.SetActive(true);
+
+        button3.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText("강화");
+        button3.onClick.AddListener(() =>
+        {
+            // 강화창 열기
+            inventoryUI.OpenItemUpgradeWindow(equipment);
+
+            ClearItemAndCloseInformationWindow();
+        });
+
         button4.gameObject.SetActive(true);
         if (inventory.IsEquipped(equipment))
         {
