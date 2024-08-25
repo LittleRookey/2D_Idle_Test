@@ -27,6 +27,8 @@ public class ItemInfoBasicOption : MonoBehaviour
     private const string openParenth = "(";
     private const string closeParenth = ")";
 
+    private const string newline = "\n";
+
     private StringBuilder optionsBuilder = new StringBuilder();
 
 
@@ -55,34 +57,46 @@ public class ItemInfoBasicOption : MonoBehaviour
         optionText.SetText(optionsBuilder);
     }
 
-    public void SetOption(eItemOptionType optionType, StatModifier[] baseStats, Dictionary<eSubStatType, float> upgradedStats)
+    public void SetOption(eItemOptionType optionType, StatModifier[] baseStats, Dictionary<eSubStatType, float> upgradedStat)
     {
-
+        var upgradedStats = upgradedStat;
         optionTitleText.SetText(optionType.ToString() + option);
 
         optionsBuilder.Clear();
-        string options = string.Empty;
-        for (int i = 0; i < baseStats.Length; i++)
+
+        // Process base stats and their upgrades
+        foreach (var baseStat in baseStats)
         {
-            if (i > 0)
-            {
-                optionsBuilder.AppendLine();
-            }
             optionsBuilder.Append(arrow)
-                          .Append(baseStats[i].statType.ToString())
-                          .Append(' ')
-                          .Append(baseStats[i].value > 0 ? plus : minus)
-                          .Append(Mathf.Abs(baseStats[i].value));
-            Debug.Log($"Item contains upgrade Stat {upgradedStats.ContainsKey(baseStats[i].statType)} of type {baseStats[i].statType}");
-            if (upgradedStats.ContainsKey(baseStats[i].statType))
+                          .Append(baseStat.statType.ToString())
+                          .Append(whitespace)
+                          .Append(baseStat.value > 0 ? plus : minus)
+                          .Append(Mathf.Abs(baseStat.value));
+
+            if (upgradedStats.TryGetValue(baseStat.statType, out float upgradeValue))
             {
                 optionsBuilder.Append(whitespace)
                               .Append(TMProUtility.GetColorText(openParenth, Color.green))
                               .Append(TMProUtility.GetColorText(plus, Color.green))
-                              .Append(TMProUtility.GetColorText(upgradedStats[baseStats[i].statType].ToString(), Color.green))
+                              .Append(TMProUtility.GetColorText(upgradeValue.ToString(), Color.green))
                               .Append(TMProUtility.GetColorText(closeParenth, Color.green));
+
+                // Remove the processed stat from upgradedStats
+                upgradedStats.Remove(baseStat.statType);
             }
-                          
+
+            optionsBuilder.AppendLine();
+        }
+
+        // Add remaining upgraded stats that weren't in baseStats
+        foreach (var upgradeStat in upgradedStats)
+        {
+            optionsBuilder.Append(arrow)
+                          .Append(upgradeStat.Key.ToString())
+                          .Append(whitespace)
+                          .Append(TMProUtility.GetColorText(plus, Color.green))
+                          .Append(TMProUtility.GetColorText(upgradeStat.Value.ToString(), Color.green))
+                          .AppendLine();
         }
 
         optionText.SetText(optionsBuilder);

@@ -32,6 +32,8 @@ public class ItemInformationWindow : MonoBehaviour
     [SerializeField] private Button button4;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button exitBackground;
+    [SerializeField] private Slider durabilitySlider;
+    [SerializeField] private TextMeshProUGUI durabilityText;
 
     [Header("References")]
     [SerializeField] private EquipmentRarityColor rarityColor;
@@ -129,7 +131,7 @@ public class ItemInformationWindow : MonoBehaviour
 
     private void ShowEquipmentItemInfo(EquipmentItemData equipmentData, UnityAction OnClosed=null)
     {
-
+        durabilitySlider.gameObject.SetActive(false);
         OnClosedEvent.AddListener(OnClosed);
         exitBackground.gameObject.SetActive(true);
 
@@ -159,7 +161,7 @@ public class ItemInformationWindow : MonoBehaviour
 
     private void ShowEquipmentItemInfo(EquipmentItem equipment, bool enableButton, UnityAction OnClosed = null)
     {
-
+        durabilitySlider.gameObject.SetActive(false);
         // 재 설정
         var equipmentData = equipment.EquipmentData;
 
@@ -249,6 +251,10 @@ public class ItemInformationWindow : MonoBehaviour
 
         rankTopImage.color = rarityColor.GetColor(equipmentData.rarity);
 
+        durabilitySlider.gameObject.SetActive(true);
+        durabilitySlider.value = 1f;
+        durabilityText.SetText($"{equipmentData.MaxDurability} / {equipmentData.MaxDurability}");
+
         // 별 개수
         EnableStars(1);
 
@@ -266,7 +272,6 @@ public class ItemInformationWindow : MonoBehaviour
 
     private void ShowResourceGetterItemInfo(ResourceGetterItem equipment, bool enableButton, UnityAction OnClosed = null)
     {
-
         // 재 설정
         var equipmentData = equipment.EquipmentData;
 
@@ -283,6 +288,10 @@ public class ItemInformationWindow : MonoBehaviour
         itemRankText.SetText(equipmentData.rarity.ToString());
 
         rankTopImage.color = rarityColor.GetColor(equipmentData.rarity);
+
+        durabilitySlider.gameObject.SetActive(true);
+        durabilitySlider.value = equipment.Durability / equipmentData.MaxDurability;
+        durabilityText.SetText($"{equipment.Durability} / {equipmentData.MaxDurability}");
 
         // 별 개수
         EnableStars(1);
@@ -331,7 +340,7 @@ public class ItemInformationWindow : MonoBehaviour
     private void ShowCountableItemInfo(CountableItemData countableItemData, UnityAction OnClosed = null)
     {
         // 재 설정
-
+        durabilitySlider.gameObject.SetActive(false);
         OnClosedEvent.AddListener(OnClosed);
         exitBackground.gameObject.SetActive(true);
 
@@ -354,6 +363,7 @@ public class ItemInformationWindow : MonoBehaviour
 
     private void ShowCountableItemInfo(CountableItem countableItem, UnityAction OnClosed = null)
     {
+        durabilitySlider.gameObject.SetActive(false);
         // 재 설정
         var countableItemData = countableItem.CountableData;
 
@@ -381,7 +391,7 @@ public class ItemInformationWindow : MonoBehaviour
     private void ShowUsableItemInfo(CountableItem countableItem, bool enableButton, UnityAction OnClosed = null)
     {
         // 초기화 하기
-
+        durabilitySlider.gameObject.SetActive(false);
         // 재 설정
         var countableItemData = countableItem.CountableData;
 

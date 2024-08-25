@@ -33,6 +33,12 @@ public class ItemUpgradeUI : MonoBehaviour
 
     public void ShowUpgradeWindow(EquipmentItem equipmentItem)
     {
+        arrow.gameObject.SetActive(true);
+        afterUpgradeLevelText.gameObject.SetActive(true);
+        afterStatBG.gameObject.SetActive(true);
+        requirementBG.gameObject.SetActive(true);
+        UpgradeButton.gameObject.SetActive(true);
+
         glowAnim.DORestart();
         itemFrame.color = rarityColor.GetColor(equipmentItem.EquipmentData.rarity);
         itemIcon.sprite = equipmentItem.EquipmentData.IconSprite;
