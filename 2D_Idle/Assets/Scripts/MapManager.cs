@@ -222,6 +222,7 @@ public class MapManager : MonoBehaviour
 
         yield return null;
         // 새로운 스테이지 Progress만들기
+        UIManager.Instance.HideSkillCooldownCanvas();
         UIManager.Instance.ShowMenus();
 
         Debug.Log("Fading out screen");

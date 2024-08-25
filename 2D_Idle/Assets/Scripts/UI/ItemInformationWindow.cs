@@ -290,7 +290,7 @@ public class ItemInformationWindow : MonoBehaviour
         rankTopImage.color = rarityColor.GetColor(equipmentData.rarity);
 
         durabilitySlider.gameObject.SetActive(true);
-        durabilitySlider.value = equipment.Durability / equipmentData.MaxDurability;
+        durabilitySlider.value = (float)equipment.Durability / (float)equipmentData.MaxDurability;
         durabilityText.SetText($"{equipment.Durability} / {equipmentData.MaxDurability}");
 
         // º° °³¼ö
