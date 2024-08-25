@@ -87,7 +87,7 @@ namespace Litkey.InventorySystem
             _additiveStats = new Dictionary<eSubStatType, StatModifier>();
             _multiplicativeStats = new Dictionary<eSubStatType, StatModifier>();
         }
-        public Dictionary<eSubStatType, float> GetFinalStats()
+        public Dictionary<eSubStatType, float> GetFinalStats(OperatorType oper)
         {
             var finalStats = new Dictionary<eSubStatType, float>();
 
@@ -102,29 +102,66 @@ namespace Litkey.InventorySystem
                     finalStats[baseStat.statType] += baseStat.value;
                 }
             }
-
-            foreach (var additiveStat in _additiveStats)
+            if (oper == OperatorType.plus)
             {
-                if (!finalStats.ContainsKey(additiveStat.Key))
+                foreach (var additiveStat in _additiveStats)
                 {
-                    finalStats[additiveStat.Key] = additiveStat.Value.value;
-                }
-                else
-                {
-                    finalStats[additiveStat.Key] += additiveStat.Value.value;
+                    if (!finalStats.ContainsKey(additiveStat.Key))
+                    {
+                        finalStats[additiveStat.Key] = additiveStat.Value.value;
+                    }
+                    else
+                    {
+                        finalStats[additiveStat.Key] += additiveStat.Value.value;
+                    }
                 }
             }
-
-            foreach (var multiplicativeStat in _multiplicativeStats)
+            else
             {
-                if (finalStats.ContainsKey(multiplicativeStat.Key))
+                foreach (var multiplicativeStat in _multiplicativeStats)
                 {
-                    finalStats[multiplicativeStat.Key] += multiplicativeStat.Value.value;
+                    if (finalStats.ContainsKey(multiplicativeStat.Key))
+                    {
+                        finalStats[multiplicativeStat.Key] += multiplicativeStat.Value.value;
+                    }
                 }
             }
 
             return finalStats;
         }
+
+        public Dictionary<eSubStatType, float> GetFinalStatsWithoutBaseValue(OperatorType oper)
+        {
+            var finalStats = new Dictionary<eSubStatType, float>();
+            if (oper == OperatorType.plus)
+            {
+
+                foreach (var additiveStat in _additiveStats)
+                {
+                    if (!finalStats.ContainsKey(additiveStat.Key))
+                    {
+                        finalStats[additiveStat.Key] = additiveStat.Value.value;
+                    }
+                    else
+                    {
+                        finalStats[additiveStat.Key] += additiveStat.Value.value;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var multiplicativeStat in _multiplicativeStats)
+                {
+                    if (finalStats.ContainsKey(multiplicativeStat.Key))
+                    {
+                        finalStats[multiplicativeStat.Key] += multiplicativeStat.Value.value;
+                    }
+                }
+            }
+
+            return finalStats;
+        }
+
 
         public EquipmentItem(EquipmentItemData data, string uniqueID) : base(data, uniqueID)
         {

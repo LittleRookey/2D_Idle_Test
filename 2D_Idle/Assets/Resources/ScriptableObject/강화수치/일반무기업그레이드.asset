@@ -21,7 +21,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 3
+      value: 0
     requirements:
       goldCost: 100
       requiredItems:

@@ -36,6 +36,10 @@ MonoBehaviour:
     Count: 1
     IsSold: 0
     Weight: 500
+  - Item: {fileID: 11400000, guid: 3977c9362bcda2e48856b86e4e0b93a3, type: 2}
+    Count: 100
+    IsSold: 0
+    Weight: 1000
   shopProductCount: 6
   <currentPriceTotal>k__BackingField: 0
   OnClearBag:

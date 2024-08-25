@@ -384,31 +384,52 @@ public class StatContainer : MonoBehaviour
     {
         bool isEquipped = false;
         // 하나라도 이 장비의 스텟들이 장착돼있다면 
-        foreach (var stat in equipmentItem.EquipmentData.GetStats())
+        var finalPlusStats = equipmentItem.GetFinalStats(OperatorType.plus);
+        foreach (var stat in finalPlusStats)
         {
-            var subStat = subStats[stat.statType];
+            var subStat = subStats[stat.Key];
 
-            isEquipped = isEquipped || subStat.ContainsEquipmentStat(equipmentItem.ID, stat);
+            isEquipped = isEquipped || subStat.ContainsEquipmentStat(equipmentItem.ID, stat.Key, OperatorType.plus, stat.Value);
+        }
+        var finalmultiplicationStats = equipmentItem.GetFinalStats(OperatorType.multiply);
+        foreach (var stat in finalmultiplicationStats)
+        {
+            var subStat = subStats[stat.Key];
+
+            isEquipped = isEquipped || subStat.ContainsEquipmentStat(equipmentItem.ID, stat.Key, OperatorType.multiply, stat.Value);
         }
         // 장착하지않는다
         if (isEquipped) return;
 
-        foreach (var stat in equipmentItem.EquipmentData.GetStats())
+        foreach (var stat in finalPlusStats)
         {
-            var subStat = subStats[stat.statType];
+            var subStat = subStats[stat.Key];
 
-            subStat.EquipValue(equipmentItem.ID, stat);
+            subStat.EquipValue(equipmentItem.ID, stat.Key, OperatorType.plus, stat.Value);
+        }
+
+        foreach (var stat in finalmultiplicationStats)
+        {
+            var subStat = subStats[stat.Key];
+
+            subStat.EquipValue(equipmentItem.ID, stat.Key, OperatorType.multiply, stat.Value);
         }
     }
 
     public void UnEquipEquipment(EquipmentItem equipItem)
     {
-        var baseStats = equipItem.EquipmentData.GetStats();
+        var finalPlusStats = equipItem.GetFinalStats(OperatorType.plus);
 
-        foreach (var stat in baseStats)
+        foreach (var stat in finalPlusStats)
         {
-            subStats[stat.statType].UnEquipValue(equipItem.ID, stat);
+            subStats[stat.Key].UnEquipValue(equipItem.ID, stat.Key, OperatorType.plus, stat.Value);
         }
+        var finalMultipliStats = equipItem.GetFinalStats(OperatorType.multiply);
+        foreach (var stat in finalMultipliStats)
+        {
+            subStats[stat.Key].UnEquipValue(equipItem.ID, stat.Key, OperatorType.multiply, stat.Value);
+        }
+
     }
 
     // ETC 스텟들을 전부 Equip

@@ -65,12 +65,12 @@ public class CameraSwitcher : MonoBehaviour
     public static void Register(CinemachineVirtualCamera camera)
     {
         cameras.Add(camera);
-        Debug.Log("Registered Camera: " + camera);
+
     }
 
     public static void Unregister(CinemachineVirtualCamera camera)
     {
         cameras.Remove(camera);
-        Debug.Log("Camera unregistered: " + camera);
+
     }
 }

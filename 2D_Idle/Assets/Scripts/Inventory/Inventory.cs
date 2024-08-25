@@ -81,7 +81,7 @@ namespace Litkey.InventorySystem
         public string itemID;
         public int amount;
         public int durability;
-
+        public int currentUpgrade;
         public SerializableItem(int slotIndex, Item item)
         {
             this.slotIndex = slotIndex;
@@ -96,6 +96,7 @@ namespace Litkey.InventorySystem
             if (item is EquipmentItem equipmentItem)
             {
                 this.durability = equipmentItem.Durability;
+                this.currentUpgrade = equipmentItem.CurrentUpgrade;
             }
         }
 
@@ -238,6 +239,10 @@ namespace Litkey.InventorySystem
             else if (item is EquipmentItem equipmentItem)
             {
                 equipmentItem.Durability = itemData.durability;
+                for (int i = 0; i < itemData.currentUpgrade; i++)
+                {
+                    equipmentItem.Upgrade();
+                }
             }
 
             return item;

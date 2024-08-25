@@ -56,7 +56,7 @@ public class ItemInformationWindow : MonoBehaviour
 
     public void ShowItemInfo(Item item, bool enableButton, UnityAction OnClosed = null)
     {
-        if (item is ResourceGetterItem resourceGetterItem) ShowEquipmentItemInfo(resourceGetterItem, enableButton, OnClosed);
+        if (item is ResourceGetterItem resourceGetterItem) ShowResourceGetterItemInfo(resourceGetterItem, enableButton, OnClosed);
         else if (item is EquipmentItem equipmentItem) ShowEquipmentItemInfo(equipmentItem, enableButton, OnClosed);
         else if (item is IUsableItem && item is CountableItem countableItem) ShowUsableItemInfo(countableItem, enableButton, OnClosed);
         else if (item is CountableItem countableItems) ShowCountableItemInfo(countableItems, OnClosed);
@@ -71,7 +71,7 @@ public class ItemInformationWindow : MonoBehaviour
     /// <param name="OnClosed"></param>
     public void ShowItemInfo(ItemData itemData, UnityAction OnClosed = null)
     {
-        if (itemData is ResourceGetterItemData resourceGetterItemData) ShowEquipmentItemInfo(resourceGetterItemData, OnClosed);
+        if (itemData is ResourceGetterItemData resourceGetterItemData) ShowResourceGetterItemInfo(resourceGetterItemData, OnClosed);
         else if (itemData is EquipmentItemData equipmentItemData) ShowEquipmentItemInfo(equipmentItemData, OnClosed);
         else if (itemData is CountableItemData countableItems) ShowCountableItemInfo(countableItems, OnClosed);
         orientation.gameObject.SetActive(true);
@@ -168,7 +168,7 @@ public class ItemInformationWindow : MonoBehaviour
 
         iconImage.sprite = equipmentData.IconSprite;
         iconBG.color = rarityColor.GetColor(equipmentData.rarity);
-        itemNameText.SetText(equipmentData.Name); // TODO 후에 강화수치까지 표시하기
+        itemNameText.SetText($"{equipmentData.Name} +{equipment.CurrentUpgrade}"); // TODO 후에 강화수치까지 표시하기
 
         itemTypeText.SetText($"장비 / {equipmentData.Parts.ToString()}");
 
@@ -181,7 +181,8 @@ public class ItemInformationWindow : MonoBehaviour
 
         // 아이템 옵션보이기
         var itemInfo = itemInfoPool.Get();
-        itemInfo.SetOption(eItemOptionType.기본, equipmentData.GetStats());
+        var upgradedValues = equipment.GetFinalStatsWithoutBaseValue(OperatorType.plus);
+        itemInfo.SetOption(eItemOptionType.기본, equipmentData.GetStats(), upgradedValues);
         itemInfoStored.Add(itemInfo);
 
         itemInfo.transform.SetAsFirstSibling();
@@ -229,7 +230,7 @@ public class ItemInformationWindow : MonoBehaviour
         });
     }
 
-    private void ShowEquipmentItemInfo(ResourceGetterItemData equipmentData, UnityAction OnClosed = null)
+    private void ShowResourceGetterItemInfo(ResourceGetterItemData equipmentData, UnityAction OnClosed = null)
     {
 
         // 재 설정
@@ -263,7 +264,7 @@ public class ItemInformationWindow : MonoBehaviour
 
     }
 
-    private void ShowEquipmentItemInfo(ResourceGetterItem equipment, bool enableButton, UnityAction OnClosed = null)
+    private void ShowResourceGetterItemInfo(ResourceGetterItem equipment, bool enableButton, UnityAction OnClosed = null)
     {
 
         // 재 설정

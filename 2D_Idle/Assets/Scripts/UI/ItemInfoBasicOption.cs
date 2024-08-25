@@ -23,7 +23,70 @@ public class ItemInfoBasicOption : MonoBehaviour
     private const string arrow = "¡æ ";
     private const string durability = "³»±¸µµ ";
 
+    private const string whitespace = " ";
+    private const string openParenth = "(";
+    private const string closeParenth = ")";
+
     private StringBuilder optionsBuilder = new StringBuilder();
+
+
+    public void SetOption(eItemOptionType optionType, Dictionary<eSubStatType, float> stats)
+    {
+
+        optionTitleText.SetText(optionType.ToString() + option);
+
+        optionsBuilder.Clear();
+        string options = string.Empty;
+        int i = 0;
+        foreach (var kVal in stats)
+        {
+            if (i > 0)
+            {
+                optionsBuilder.AppendLine();
+            }
+            i++;
+            optionsBuilder.Append(arrow)
+                          .Append(kVal.Key.ToString())
+                          .Append(whitespace)
+                          .Append(kVal.Value > 0 ? plus : minus)
+                          .Append(Mathf.Abs(kVal.Value));
+        }
+
+        optionText.SetText(optionsBuilder);
+    }
+
+    public void SetOption(eItemOptionType optionType, StatModifier[] baseStats, Dictionary<eSubStatType, float> upgradedStats)
+    {
+
+        optionTitleText.SetText(optionType.ToString() + option);
+
+        optionsBuilder.Clear();
+        string options = string.Empty;
+        for (int i = 0; i < baseStats.Length; i++)
+        {
+            if (i > 0)
+            {
+                optionsBuilder.AppendLine();
+            }
+            optionsBuilder.Append(arrow)
+                          .Append(baseStats[i].statType.ToString())
+                          .Append(' ')
+                          .Append(baseStats[i].value > 0 ? plus : minus)
+                          .Append(Mathf.Abs(baseStats[i].value));
+            Debug.Log($"Item contains upgrade Stat {upgradedStats.ContainsKey(baseStats[i].statType)} of type {baseStats[i].statType}");
+            if (upgradedStats.ContainsKey(baseStats[i].statType))
+            {
+                optionsBuilder.Append(whitespace)
+                              .Append(TMProUtility.GetColorText(openParenth, Color.green))
+                              .Append(TMProUtility.GetColorText(plus, Color.green))
+                              .Append(TMProUtility.GetColorText(upgradedStats[baseStats[i].statType].ToString(), Color.green))
+                              .Append(TMProUtility.GetColorText(closeParenth, Color.green));
+            }
+                          
+        }
+
+        optionText.SetText(optionsBuilder);
+    }
 
     public void SetOption(eItemOptionType optionType, StatModifier[] stats)
     {

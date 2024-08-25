@@ -43,7 +43,7 @@ public class ItemUpgradeUI : MonoBehaviour
         afterUpgradeLevelText.SetText($"{equipmentItem.CurrentUpgrade+1}°­");
 
         string statText = string.Empty;
-        var finalStat = equipmentItem.GetFinalStats();
+        var finalStat = equipmentItem.GetFinalStats(OperatorType.plus);
         foreach (var stats in finalStat)
         {
             statText += $"{stats.Key} +{stats.Value}\n";
@@ -87,6 +87,7 @@ public class ItemUpgradeUI : MonoBehaviour
                 {
                     UpdateUpgradeStatus(equipmentItem);
                     successParticle.Play();
+                    inventory.Save();
                 }
             }
             else
@@ -122,7 +123,7 @@ public class ItemUpgradeUI : MonoBehaviour
         afterUpgradeLevelText.SetText($"{equipmentItem.CurrentUpgrade + 1}°­");
 
         string statText = string.Empty;
-        var finalStat = equipmentItem.GetFinalStats();
+        var finalStat = equipmentItem.GetFinalStats(OperatorType.plus);
         foreach (var stats in finalStat)
         {
             statText += $"{stats.Key} +{stats.Value}\n";

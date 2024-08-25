@@ -343,6 +343,51 @@ namespace Litkey.Stat
             Debug.Log($"Final {statType} Value after Equip: " + _finalValue);
         }
 
+        public void EquipValue(string equipmentID, eSubStatType _statType, OperatorType _oper,float _value)
+        {
+            StatModifier stat = new StatModifier();
+            stat.statType = _statType;
+            stat.oper = _oper;
+            stat.value = _value;
+
+
+            Debug.Log($"EquipValue called with: equipmentID={equipmentID}, statType={stat.statType}, value={stat.value}, operator={stat.oper}");
+
+            if (equipStats == null)
+            {
+                equipStats = new Dictionary<string, List<StatModifier>>();
+            }
+
+            // Additional null check to ensure equipmentID is not null
+            bool containsKey = equipStats.ContainsKey(equipmentID);
+            Debug.Log($"EquipValue: equipStats contains key {equipmentID}: {containsKey}");
+
+            if (!containsKey)
+            {
+                equipStats[equipmentID] = new List<StatModifier>();
+                Debug.Log($"EquipValue: Created new list for equipmentID: {equipmentID}");
+            }
+
+            equipStats[equipmentID].Add(stat);
+            Debug.Log($"EquipValue: Added stat to equipStats[{equipmentID}]. Count is now: {equipStats[equipmentID].Count}");
+
+            if (stat.oper == OperatorType.plus)
+            {
+                _plusEquipValue += stat.value;
+                Debug.Log($"EquipValue: _plusEquipValue updated to: {_plusEquipValue}");
+            }
+            else if (stat.oper == OperatorType.multiply)
+            {
+                _multipliedEquipValue += stat.value;
+                Debug.Log($"EquipValue: _multipliedEquipValue updated to: {_multipliedEquipValue}");
+            }
+
+            UpdateFinalValue();
+
+            Debug.Log($"Final {statType} Value after Equip: " + _finalValue);
+
+        }
+
         // 이 장비의 모든 스텟을 제거하기
         public void UnEquipValue(string equipmentID, StatModifier stat)
         {
@@ -364,11 +409,49 @@ namespace Litkey.Stat
             Debug.Log("Final Value after UnEquip: " + _finalValue);
         }
 
+        public void UnEquipValue(string equipmentID, eSubStatType _statType, OperatorType _oper, float _value)
+        {
+            var stat = equipStats[equipmentID].Find((StatModifier stat) => stat.Compare(_statType, _oper, _value));
+
+            if (stat != null)
+            {
+                var removedOne = equipStats[equipmentID].Remove(stat);
+                Debug.Log($"Contains equipmentID {equipmentID}: {equipStats.ContainsKey(equipmentID)}, it is removed {removedOne}");
+                if (equipStats.ContainsKey(equipmentID) &&  removedOne)
+                {
+                    if (stat.oper == OperatorType.plus)
+                    {
+                        _plusEquipValue -= stat.value;
+                        Debug.Log("Unequipped Stat plus value: " + _plusEquipValue);
+                    }
+                    else if (stat.oper == OperatorType.multiply)
+                    {
+                        _multipliedEquipValue -= stat.value;
+                        Debug.Log("Unequipped Stat multiply value: " + _multipliedEquipValue);
+                    }
+                }
+                UpdateFinalValue();
+                Debug.Log("Final Value after UnEquip: " + _finalValue);
+            }
+        }
+
         public bool ContainsEquipmentStat(string equipmentID, StatModifier stat)
         {
             if (!equipStats.ContainsKey(equipmentID)) return false;
 
             var foundStat = equipStats[equipmentID].Find((StatModifier _stat) => _stat.Compare(stat));
+            if (foundStat == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool ContainsEquipmentStat(string equipmentID, eSubStatType statType, OperatorType oper, float value)
+        {
+            if (!equipStats.ContainsKey(equipmentID)) return false;
+
+            var foundStat = equipStats[equipmentID].Find((StatModifier _stat) => _stat.Compare(statType, oper, value));
             if (foundStat == null)
             {
                 return false;
@@ -740,6 +823,13 @@ namespace Litkey.Stat
             return this.statType == other.statType
                 && this.oper == other.oper
                 && Math.Abs(this.value - other.value) < float.Epsilon;
+        }
+
+        public bool Compare(eSubStatType statType, OperatorType oper,float value)
+        {
+            return this.statType == statType
+                && this.oper == oper
+                && Math.Abs(this.value - value) < float.Epsilon;
         }
 
         public bool IsStatType(eSubStatType statType)

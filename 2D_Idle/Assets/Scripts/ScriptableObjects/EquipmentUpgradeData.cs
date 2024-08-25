@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 namespace Litkey.InventorySystem
 {
 
+    [InlineEditor]
     [CreateAssetMenu(fileName = "New Upgrade Data", menuName = "Litkey/Inventory/Upgrade Data")]
     public class EquipmentUpgradeData : ScriptableObject
     {
