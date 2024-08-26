@@ -12,6 +12,7 @@ namespace Litkey.InventorySystem
 {
     public class RecipeUI : MonoBehaviour, ILoadable, ISavable
     {
+        public static RecipeUI Instance;
         [SerializeField] private GameDatas gameData;
         [SerializeField] private Inventory inventory;
         [SerializeField] private Canvas recipeWindow;
@@ -19,25 +20,31 @@ namespace Litkey.InventorySystem
         [SerializeField] private RectTransform recipeSlotParent;
         [SerializeField] private RecipeDatabase recipeDB;
         [SerializeField] private TextMeshProUGUI goldText;
+        [SerializeField] private Button makeRecipeButton;
+        
         List<RecipeUISlot> activeRecipeSlots;
         Pool<RecipeUISlot> recipeSlotPool;
 
         private void Awake()
         {
+            Instance = this;
             recipeSlotPool = Pool.Create<RecipeUISlot>(recipeSlotPrefab);
             recipeSlotPool.SetContainer(recipeSlotParent);
             activeRecipeSlots = new List<RecipeUISlot>();
             goldText.SetText(0.ToString());
             gameData.OnGameDataLoaded.AddListener(Load);
+            CloseRecipeWindow();
 
         }
         private RecipeUISlot prevSelectedSlot;
         public void SelectSlot(RecipeUISlot slot)
         {
             if (prevSelectedSlot == null) prevSelectedSlot = slot;
-
+            makeRecipeButton.onClick.RemoveAllListeners();
             prevSelectedSlot.DeSelectSlot();
+
             slot.SelectSlot();
+            makeRecipeButton.onClick.AddListener(() => MakeRecipeProduct(slot.Recipe));
             goldText.SetText(slot.Recipe.requiredGold.ToString("N0"));
             prevSelectedSlot = slot;
         }
@@ -52,6 +59,7 @@ namespace Litkey.InventorySystem
         {
             recipeWindow.enabled = false;
             if (prevSelectedSlot != null) prevSelectedSlot.DeSelectSlot();
+            makeRecipeButton.onClick.RemoveAllListeners();
             prevSelectedSlot = null;
             goldText.SetText(0.ToString());
         }
@@ -68,6 +76,7 @@ namespace Litkey.InventorySystem
             var recipeSlot = recipeSlotPool.Get();
             var recipe = recipeDB.GetRecipe(recipeID);
             recipeSlot.SetSlot(recipe, Save);
+            recipeSlot.AddListener(SelectSlot);
             activeRecipeSlots.Add(recipeSlot);
 
         }
@@ -87,6 +96,7 @@ namespace Litkey.InventorySystem
             var recipe = recipeDB.GetRecipe(recipeID);
             recipe.SetLocked();
             recipeSlot.SetSlot(recipe, Save);
+            recipeSlot.AddListener(SelectSlot);
             activeRecipeSlots.Add(recipeSlot);
             Save();
         }

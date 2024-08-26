@@ -106,6 +106,13 @@ public class RecipeUISlot : MonoBehaviour
 
     }
 
+    public void AddListener(UnityAction<RecipeUISlot> OnSlotSelected)
+    {
+        indexButton.onClick.RemoveAllListeners();
+        indexButton.onClick.AddListener(() => OnSlotSelected?.Invoke(this));
+    }
+
+
     public void ClearSlot()
     {
         this.recipe = null;
