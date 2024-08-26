@@ -9,7 +9,7 @@ namespace Litkey.Skill
     [CreateAssetMenu(menuName ="Litkey/Skill/Kenki")]
     public class KenKi : ActiveSkill
     {
-        [SerializeField] private ProjectileBehavior projectilePrefab;
+        [SerializeField] protected ProjectileBehavior projectilePrefab;
 
         public override void ApplyEffect(StatContainer allyStat, StatContainer target)
         {

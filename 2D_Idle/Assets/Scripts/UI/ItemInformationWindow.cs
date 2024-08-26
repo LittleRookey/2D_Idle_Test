@@ -170,7 +170,9 @@ public class ItemInformationWindow : MonoBehaviour
 
         iconImage.sprite = equipmentData.IconSprite;
         iconBG.color = rarityColor.GetColor(equipmentData.rarity);
-        itemNameText.SetText($"{equipmentData.Name} +{equipment.CurrentUpgrade}"); // TODO 후에 강화수치까지 표시하기
+        itemNameText.SetText(equipmentData.Name);
+        if (equipment.CurrentUpgrade > 0)
+            itemNameText.SetText($"{equipmentData.Name} +{equipment.CurrentUpgrade}"); // TODO 후에 강화수치까지 표시하기
 
         itemTypeText.SetText($"장비 / {equipmentData.Parts.ToString()}");
 

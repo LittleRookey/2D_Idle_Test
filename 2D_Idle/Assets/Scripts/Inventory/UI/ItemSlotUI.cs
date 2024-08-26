@@ -31,6 +31,7 @@ namespace Litkey.InventorySystem
 
         private Color colorVariant = new Color(30f,30f,30f);
         public Item EquippedItem { get; private set; }
+
         public void SetDirty()
         {
             isDirty = true;
@@ -44,6 +45,57 @@ namespace Litkey.InventorySystem
         }
         
         public void SetSlot(ItemData itemData, int itemCount)
+        {
+            var item = itemData.CreateItem();
+
+            EquippedItem = item;
+            if (item is EquipmentItem equipItem)
+            {
+                iconImage.sprite = equipItem.EquipmentData.IconSprite;
+                var rarityColor = eRarityColor.GetColor(equipItem.EquipmentData.rarity);
+
+                slotBG.color = rarityColor;
+
+                itemNameText.color = rarityColor;
+                glowImage.color = rarityColor + colorVariant;
+
+                itemNameText.SetText($"{TMProUtility.GetColorText($"[{equipItem.EquipmentData.rarity.ToString()}]", rarityColor)} {equipItem.EquipmentData.Name}");
+                amountText.SetText($"x{itemCount}");
+
+                amountText.gameObject.SetActive(true);
+                highlightImage.gameObject.SetActive(false);
+                itemNameBG.gameObject.SetActive(false);
+                selectedBG.gameObject.SetActive(false);
+                glowImage.gameObject.SetActive(true);
+
+                equippedImage.gameObject.SetActive(false);
+            }
+            else if (item is CountableItem countableItem)
+            {
+                countableItem.SetAmount(itemCount);
+                iconImage.sprite = countableItem.CountableData.IconSprite;
+                var rarityColor = eRarityColor.GetColor(countableItem.CountableData.rarity);
+
+                slotBG.color = rarityColor;
+
+                itemNameText.color = rarityColor;
+                itemNameText.SetText($"{TMProUtility.GetColorText($"[{countableItem.CountableData.rarity.ToString()}]", rarityColor)} {countableItem.CountableData.Name}");
+                glowImage.color = rarityColor + colorVariant;
+
+                highlightImage.gameObject.SetActive(false);
+                itemNameBG.gameObject.SetActive(false);
+                selectedBG.gameObject.SetActive(false);
+                amountText.gameObject.SetActive(true);
+                glowImage.gameObject.SetActive(true);
+
+                amountText.SetText($"x{countableItem.Amount}");
+
+                equippedImage.gameObject.SetActive(false);
+
+            }
+        }
+
+        public void SetSlot(ItemData itemData, int itemCount, bool displayXInCount)
         {
             var item = itemData.CreateItem();
 
@@ -92,6 +144,7 @@ namespace Litkey.InventorySystem
 
             }
         }
+
 
         public void SetSlot(Item item)
         {

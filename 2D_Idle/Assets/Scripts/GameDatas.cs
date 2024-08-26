@@ -14,6 +14,8 @@ using Litkey.Skill;
 using Litkey.InventorySystem;
 using Litkey.Quest;
 
+
+#region Datas to Save & Load
 [System.Serializable]
 public class GameData
 {
@@ -21,7 +23,7 @@ public class GameData
     public PlayerData playerData;
 
     public SerializableInventory inventoryData;
-
+    public SerializableRecipes recipeData;
     public QuestData questData;
 
     public GameData()
@@ -30,6 +32,7 @@ public class GameData
         playerData = new PlayerData();
         inventoryData = new SerializableInventory();
         questData = new QuestData();
+        recipeData = new SerializableRecipes();
     }
     public void SetGold(int gold) => this.gold = gold;
 
@@ -203,6 +206,87 @@ public class EquipmentUpgradeStatus
         this.totalUpgradeLevel = eTier.totalUpgradeLevel;
     }
 }
+
+[System.Serializable]
+public class SerializableRecipes
+{
+    public Dictionary<int, RecipeStatus> gainedRecipes;
+
+    public SerializableRecipes()
+    {
+        gainedRecipes = new Dictionary<int, RecipeStatus>();
+    }
+
+    public void SaveRecipes(List<RecipeUISlot> recipeSlots)
+    {
+        for (int i = 0; i < recipeSlots.Count; i++)
+        {
+            if (HasGainedRecipe(recipeSlots[i].Recipe)) 
+            {
+                GetRecipeStatus(recipeSlots[i].Recipe)
+                    .SetStatus(recipeSlots[i].Recipe);
+            } else
+            {
+                AddRecipe(recipeSlots[i].Recipe);
+            }
+        }
+    }
+    public RecipeStatus GetRecipeStatus(ItemRecipe recipe)
+    {
+        return gainedRecipes[recipe.intID];
+    }
+    public RecipeStatus GetRecipeStatus(int intID)
+    {
+        return gainedRecipes[intID];
+    }
+    public void AddRecipe(ItemRecipe recipe)
+    {
+        if (gainedRecipes == null) gainedRecipes = new Dictionary<int, RecipeStatus>();
+        if (gainedRecipes.ContainsKey(recipe.intID)) return;
+        gainedRecipes.Add(recipe.intID, new RecipeStatus(recipe));
+    }
+
+    public bool HasGainedRecipe(ItemRecipe recipe)
+    {
+        if (gainedRecipes == null) gainedRecipes = new Dictionary<int, RecipeStatus>();
+        return gainedRecipes.ContainsKey(recipe.intID);
+    }
+    public bool HasGainedRecipe(int intID)
+    {
+        if (gainedRecipes == null) gainedRecipes = new Dictionary<int, RecipeStatus>();
+        return gainedRecipes.ContainsKey(intID);
+    }
+}
+
+[System.Serializable]
+public class RecipeStatus
+{
+    public int RecipeID;
+    public int madeCount; // 몇번이나 만들었는지
+    public bool IsUnlocked;
+    public RecipeStatus(ItemRecipe recipe)
+    {
+        this.RecipeID = recipe.intID;
+        this.IsUnlocked = !recipe.isLocked;
+        this.madeCount = 0;
+    }
+
+    public void SetStatus(ItemRecipe recipe)
+    {
+        if (this.RecipeID != recipe.intID)
+        {
+            Debug.LogError($"Recipe {recipe.intID} doesn't have same id as {RecipeID}");
+            return;
+        }
+        IsUnlocked = !recipe.isLocked;
+    }
+    public void AddMadeCount()
+    {
+        madeCount++;
+    }
+}
+
+#endregion
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Litkey/GameData")]
 public class GameDatas : ScriptableObject

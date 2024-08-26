@@ -6,7 +6,7 @@ using Litkey.InventorySystem;
 
 [InlineEditor]
 [CreateAssetMenu(menuName = "Litkey/Reward/RewardGroup")]
-public class RewardGroup : SerializedScriptableObject
+public class RewardGroup : ScriptableObject
 {
     [VerticalGroup("Top1")]
     public int gold;
@@ -20,5 +20,5 @@ public class RewardGroup : SerializedScriptableObject
 public class RewardItem
 {
     public ItemData itemData;
-    public int count;
+    public int count=1;
 }

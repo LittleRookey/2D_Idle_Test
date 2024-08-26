@@ -30,6 +30,8 @@ namespace Litkey.Projectile
         [ShowInInspector] private List<IProjectileDecorator> decorators = new List<IProjectileDecorator>();
         [SerializeField] private bool faceDirection = false;
         private EndOfLifeStrategy endOfLifeStrategy;
+        [SerializeField] private SpriteRenderer innerRange;
+        [SerializeField] private SpriteRenderer outerRange;
 
         CountdownTimer timer;
 
@@ -69,6 +71,18 @@ namespace Litkey.Projectile
             return this;
         }
 
+        public ProjectileBehavior HideInnerSkillRange()
+        {
+            innerRange.enabled = false;
+            return this;
+        }
+
+        public ProjectileBehavior HideOuterSkillRange()
+        {
+            outerRange.enabled = false;
+            return this;
+        }
+
         public ProjectileBehavior SetEnemyLayer(LayerMask enemyLayer)
         {
             this.enemyLayer = enemyLayer;
@@ -87,9 +101,14 @@ namespace Litkey.Projectile
             return this;
         }
 
-        public ProjectileBehavior SetDirection(Vector3 direction)
+        public ProjectileBehavior SetDirection(Vector2 direction)
         {
             this.direction = direction;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            // Create a quaternion representing the z-axis rotation
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+
             return this;
         }
 
@@ -149,6 +168,9 @@ namespace Litkey.Projectile
             if (decorators == null) decorators = new List<IProjectileDecorator>();
             decorators.Clear();
             this.strategy = null;
+            
+            outerRange.enabled = true;
+            innerRange.enabled = true;
 
             SetEndOfLifeStrategy(null);
 

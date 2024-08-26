@@ -3,6 +3,7 @@ using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using Sirenix.Utilities;
+using Litkey.InventorySystem;
 
 [CustomEditor(typeof(ItemRecipe))]
 public class ItemRecipeEditor : OdinEditor
