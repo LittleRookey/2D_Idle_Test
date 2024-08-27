@@ -123,6 +123,11 @@ namespace Litkey.InventorySystem
             }
 
             // 소비하기
+            foreach (var required in recipe.requiredItems)
+            {
+                inventory.UseItem(required.itemData, required.count);
+            }
+            ResourceManager.Instance.UseGold(recipe.requiredGold);
 
             // 아이템 만들기 (충분한재료가 있는시점)
             inventory.AddToInventory(recipe.resultItem.itemData, recipe.resultItem.count);

@@ -21,7 +21,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 0
+      value: 5
     requirements:
       goldCost: 100
       requiredItems:
@@ -31,7 +31,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 5
+      value: 10
     requirements:
       goldCost: 200
       requiredItems:
@@ -41,7 +41,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 10
+      value: 15
     requirements:
       goldCost: 300
       requiredItems:
@@ -51,7 +51,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 15
+      value: 20
     requirements:
       goldCost: 400
       requiredItems:
@@ -61,7 +61,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 20
+      value: 25
     requirements:
       goldCost: 500
       requiredItems:
@@ -71,7 +71,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 25
+      value: 30
     requirements:
       goldCost: 600
       requiredItems:
@@ -81,7 +81,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 30
+      value: 35
     requirements:
       goldCost: 700
       requiredItems:
@@ -91,7 +91,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 35
+      value: 40
     requirements:
       goldCost: 800
       requiredItems:
@@ -101,7 +101,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 40
+      value: 45
     requirements:
       goldCost: 900
       requiredItems:
@@ -111,7 +111,7 @@ MonoBehaviour:
     statModifiers:
     - statType: 4
       oper: 0
-      value: 45
+      value: 50
     requirements:
       goldCost: 1000
       requiredItems:

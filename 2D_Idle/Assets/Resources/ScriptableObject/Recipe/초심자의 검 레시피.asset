@@ -18,9 +18,7 @@ MonoBehaviour:
     \uC788\uB294 \uC81C\uC791\uBC95\uC774\uB2E4"
   maxIngredientCount: 4
   requiredItems:
-  - itemData: {fileID: 11400000, guid: 5344bb115e86db345a65e90acf5ccee6, type: 2}
-    count: 10
-  - itemData: {fileID: 11400000, guid: 4c0bf16a02219e149b7a4f095b2e1622, type: 2}
+  - itemData: {fileID: 11400000, guid: 85f8279450c481344a6bcf95d6f8ac31, type: 2}
     count: 1
   resultItem:
     itemData: {fileID: 11400000, guid: 4929992be36fe5f47bf251755bdc2615, type: 2}

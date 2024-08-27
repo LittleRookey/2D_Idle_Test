@@ -34,7 +34,17 @@ public class ResourceLoader : MonoBehaviour
         int currentGold = ResourceManager.Instance.Gold;
         Debug.Log($"Current Gold: {currentGold} ////// ResultGold: {currentGold + usedGold}");
         plusGoldText.gameObject.SetActive(true);
-        plusGoldText.SetText(plus + usedGold.ToString("N0"));
+        if (usedGold >= 0)
+        {
+            plusGoldText.SetText(plus + usedGold.ToString("N0"));
+            plusGoldText.color = Color.green;
+        }
+        else
+        {
+            plusGoldText.SetText(usedGold.ToString("N0"));
+            plusGoldText.color = Color.red;
+        }
+
         plusGoldText.transform.DOScale(1.1f, 0.5f)
             .SetEase(Ease.OutQuad)
             .OnComplete(()=>plusGoldText.gameObject.SetActive(false));

@@ -133,6 +133,7 @@ namespace Litkey.InventorySystem
         public UnityEvent<int> OnUseItem;
         public UnityEvent<int> OnItemSold;
         public UnityEvent OnInventoryLoaded;
+        [SerializeField] private InventoryUI _inventoryUI;
 
         private void Awake()
         {
@@ -162,6 +163,11 @@ namespace Litkey.InventorySystem
         {
             gameDatas.OnGameDataLoaded.RemoveListener(Load);
         }
+        public void SetInventoryUI(InventoryUI ui)
+        {
+            _inventoryUI = ui;
+        }
+
 
         #region Save + Load
         public void Save()
@@ -256,15 +262,31 @@ namespace Litkey.InventorySystem
             return equipmentSlots[equipmentItem.EquipmentData.Parts].IsSameEquippedItem(equipmentItem);
         }
 
-        public void EquipItem(EquipmentItem item2Equip)
+        public void EquipEquipment(EquipmentItem equipmentItem)
+        {
+            var index = FindItemInInventory(equipmentItem.ID);
+            if (index != -1)
+            {
+                _inventoryUI.UseOrEquipItem(index);
+            }
+        }
+
+        /// <summary>
+        /// 장비 슬롯에 아이템을 넣기
+        /// </summary>
+        /// <param name="item2Equip"></param>
+        public void EquipItemToSlot(EquipmentItem item2Equip)
         {
             Debug.Log("Equipped Item in inventory: " + item2Equip.EquipmentData.GetStats().Length);
             equipmentSlots[item2Equip.EquipmentData.Parts].EquipItem(item2Equip);
             Save();
         }
 
-
-        public void UnEquipItem(eEquipmentParts parts)
+        /// <summary>
+        /// 장비 슬롯에서 아이템을 빼기
+        /// </summary>
+        /// <param name="parts"></param>
+        public void UnEquipItemFromSlot(eEquipmentParts parts)
         {
             equipmentSlots[parts].UnEquipItem();
             Save();
@@ -454,6 +476,14 @@ namespace Litkey.InventorySystem
                         return true;
                     }
                 }
+                else if (item.Data.intID == itemData.intID && item is EquipmentItem equipmentItem)
+                {
+                    totalCount += 1;
+                    if (totalCount >= count)
+                    {
+                        return true;
+                    }
+                }
             }
             return false;
         }
@@ -478,6 +508,8 @@ namespace Litkey.InventorySystem
 
         public Item RemoveItem(int index)
         {
+            if (!HasItem(index)) return null;
+
             var removedItem = _inventory[index];
             _inventory.Remove(index);
             return removedItem;
@@ -536,6 +568,47 @@ namespace Litkey.InventorySystem
             }
             Save();
             
+        }
+
+        public bool UseItem(ItemData itemData, int count)
+        {
+            // Check if the item exists in the inventory at the given index.
+            if (!ContainsItem(itemData, count))
+            {
+                return false;
+            }
+            int index = FindItemInInventory(itemData.intID);
+            var item = _inventory[index];
+
+            // Check if the item is a countable and usable item.
+            if (item is CountableItem countableItem)
+            {
+                countableItem.RemoveAmount(count);
+                
+                    // UI에서 먼저 아이템슬롯을 삭제
+                OnUseItem?.Invoke(index);
+                // 인벤토리에서 아이템 삭제
+                if (countableItem.Amount <= 0)
+                {
+                    _inventory.Remove(index);
+                }
+                Save();
+                return true;
+            }
+            else if (item is EquipmentItem equipmentItem)
+            {
+                if (IsEquipped(equipmentItem))
+                {
+                    //UnEquipItem(equipmentItem.EquipmentData.Parts);
+                    // 장비가 채워져있으면 inventoryUI에서 UseOrEquipItem을 한번더 사용해서 스텟및 장비창에서 해제
+
+                    _inventoryUI.UseOrEquipItem(index);
+                }
+                _inventory.Remove(index);
+                OnUseItem?.Invoke(index);
+                return true;
+            }
+            return false;
         }
 
         public bool UseItem(int index, PlayerStatContainer playerStat)

@@ -27,3 +27,4 @@ MonoBehaviour:
     oper: 0
     value: 7
   _parts: 4
+  upgradeData: {fileID: 11400000, guid: cae57636647aba548a68b10c8defe614, type: 2}

@@ -94,7 +94,7 @@ namespace Litkey.InventorySystem
                     level = i,
                     statModifiers = new List<StatModifier>
                     {
-                        new StatModifier { statType = eSubStatType.물리공격력, oper = OperatorType.plus, value = i * 5 }
+                        new StatModifier { statType = eSubStatType.물리공격력, oper = OperatorType.plus, value = (i+1) * 5 }
                     },
                     requirements = new UpgradeRequirements
                     {

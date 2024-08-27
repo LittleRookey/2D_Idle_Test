@@ -14,6 +14,7 @@ namespace Litkey.InventorySystem
         [SerializeField] private Image selectedBG;
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private TextMeshProUGUI amountText;
+        [SerializeField] private TextMeshProUGUI upgradeText;
         [SerializeField] private Button slotButton;
 
         [SerializeField] private Image equippedImage;
@@ -51,6 +52,8 @@ namespace Litkey.InventorySystem
             EquippedItem = item;
             if (item is EquipmentItem equipItem)
             {
+                upgradeText.gameObject.SetActive(true);
+                
                 iconImage.sprite = equipItem.EquipmentData.IconSprite;
                 var rarityColor = eRarityColor.GetColor(equipItem.EquipmentData.rarity);
 
@@ -61,6 +64,11 @@ namespace Litkey.InventorySystem
 
                 itemNameText.SetText($"{TMProUtility.GetColorText($"[{equipItem.EquipmentData.rarity.ToString()}]", rarityColor)} {equipItem.EquipmentData.Name}");
                 amountText.SetText($"x{itemCount}");
+                if (equipItem.CurrentUpgrade <= 0)
+                {
+                    upgradeText.gameObject.SetActive(false);
+                }
+                upgradeText.SetText($"+{equipItem.CurrentUpgrade}");
 
                 amountText.gameObject.SetActive(true);
                 highlightImage.gameObject.SetActive(false);
@@ -82,6 +90,7 @@ namespace Litkey.InventorySystem
                 itemNameText.SetText($"{TMProUtility.GetColorText($"[{countableItem.CountableData.rarity.ToString()}]", rarityColor)} {countableItem.CountableData.Name}");
                 glowImage.color = rarityColor + colorVariant;
 
+                upgradeText.gameObject.SetActive(false);
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
                 selectedBG.gameObject.SetActive(false);
@@ -102,6 +111,8 @@ namespace Litkey.InventorySystem
             EquippedItem = item;
             if (item is EquipmentItem equipItem)
             {
+                upgradeText.gameObject.SetActive(true);
+
                 iconImage.sprite = equipItem.EquipmentData.IconSprite;
                 var rarityColor = eRarityColor.GetColor(equipItem.EquipmentData.rarity);
 
@@ -111,6 +122,11 @@ namespace Litkey.InventorySystem
                 glowImage.color = rarityColor + colorVariant;
 
                 itemNameText.SetText($"{TMProUtility.GetColorText($"[{equipItem.EquipmentData.rarity.ToString()}]", rarityColor)} {equipItem.EquipmentData.Name}");
+                if (equipItem.CurrentUpgrade <= 0)
+                {
+                    upgradeText.gameObject.SetActive(false);
+                }
+                upgradeText.SetText($"+{equipItem.CurrentUpgrade}");
 
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
@@ -137,6 +153,7 @@ namespace Litkey.InventorySystem
                 selectedBG.gameObject.SetActive(false);
                 amountText.gameObject.SetActive(true);
                 glowImage.gameObject.SetActive(true);
+                upgradeText.gameObject.SetActive(false);
 
                 amountText.SetText($"x{countableItem.Amount}");
 
@@ -151,6 +168,7 @@ namespace Litkey.InventorySystem
             EquippedItem = item;
             if (item is EquipmentItem equipItem)
             {
+                upgradeText.gameObject.SetActive(true);
                 iconImage.sprite = equipItem.EquipmentData.IconSprite;
                 var rarityColor = eRarityColor.GetColor(equipItem.EquipmentData.rarity);
                 
@@ -160,6 +178,11 @@ namespace Litkey.InventorySystem
                 glowImage.color = rarityColor + colorVariant;
 
                 itemNameText.SetText($"{TMProUtility.GetColorText($"[{equipItem.EquipmentData.rarity.ToString()}]", rarityColor)} {equipItem.EquipmentData.Name}");
+                if (equipItem.CurrentUpgrade <= 0)
+                {
+                    upgradeText.gameObject.SetActive(false);
+                }
+                upgradeText.SetText($"+{equipItem.CurrentUpgrade}");
 
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
@@ -180,6 +203,7 @@ namespace Litkey.InventorySystem
                 itemNameText.SetText($"{TMProUtility.GetColorText($"[{countableItem.CountableData.rarity.ToString()}]", rarityColor)} {countableItem.CountableData.Name}");
                 glowImage.color = rarityColor + colorVariant;
 
+                upgradeText.gameObject.SetActive(false);
                 highlightImage.gameObject.SetActive(false);
                 itemNameBG.gameObject.SetActive(false);
                 selectedBG.gameObject.SetActive(false);
@@ -198,6 +222,12 @@ namespace Litkey.InventorySystem
         public void UpdateCount(int count)
         {
             amountText.SetText($"x{count}");
+        }
+
+        public void UpdateUpgrade(int currentUpgrade)
+        {
+            upgradeText.SetText($"+{currentUpgrade}");
+            upgradeText.gameObject.SetActive(true);
         }
 
         public void ClearSlot()

@@ -41,8 +41,8 @@ namespace Litkey.InventorySystem
 
         public bool HasDurability() => _durability > 0;
 
-        private Dictionary<eSubStatType, StatModifier> _additiveStats;
-        private Dictionary<eSubStatType, StatModifier> _multiplicativeStats;
+        private Dictionary<eSubStatType, float> _additiveStats;
+        private Dictionary<eSubStatType, float> _multiplicativeStats;
         public bool Upgrade()
         {
             if (CurrentUpgrade >= EquipmentData.UpgradeData.MaxLevel) return false;
@@ -54,8 +54,9 @@ namespace Litkey.InventorySystem
         private void UpdateStats()
         {
             if (EquipmentData.UpgradeData == null) return;
+            if (CurrentUpgrade <= 0) return;
 
-            var upgradeModifiers = EquipmentData.UpgradeData.GetUpgradeModifiers(CurrentUpgrade);
+            var upgradeModifiers = EquipmentData.UpgradeData.GetUpgradeModifiers(CurrentUpgrade-1);
             
             foreach (var upgradeMod in upgradeModifiers)
             {
@@ -63,36 +64,51 @@ namespace Litkey.InventorySystem
                 {
                     if (!_additiveStats.ContainsKey(upgradeMod.statType))
                     {
-                        _additiveStats.Add(upgradeMod.statType, new StatModifier { statType = upgradeMod.statType, oper = upgradeMod.oper, value = 0 });
+                        _additiveStats.Add(upgradeMod.statType,  0f);
                     }
-                    _additiveStats[upgradeMod.statType].value += upgradeMod.value;
+                    _additiveStats[upgradeMod.statType] += upgradeMod.value;
                 }
                 else if (upgradeMod.oper == OperatorType.multiply)
                 {
                     if (!_multiplicativeStats.ContainsKey(upgradeMod.statType))
                     {
-                        _multiplicativeStats.Add(upgradeMod.statType, new StatModifier { statType = upgradeMod.statType, oper = OperatorType.multiply, value = 0f });
+                        _multiplicativeStats.Add(upgradeMod.statType, 0f);
                     }
-                    _multiplicativeStats[upgradeMod.statType].value += upgradeMod.value;
+                    _multiplicativeStats[upgradeMod.statType] += upgradeMod.value;
                 }
             }
         }
 
+        public EquipmentUpgradeData.UpgradeRequirements GetNextUpgradeRequirements()
+        {
+            return EquipmentData.UpgradeData.GetUpgradeRequirements(CurrentUpgrade);
+        }
 
+        public List<StatModifier> GetNextUpgradeStat()
+        {
+            return EquipmentData.UpgradeData.GetUpgradeModifiers(CurrentUpgrade);
+        }
         public EquipmentItem(EquipmentItemData data, int currentDurability, string uniqueID) : base(data, uniqueID)
         {
             EquipmentData = data;
             Durability = currentDurability;
 
-            _additiveStats = new Dictionary<eSubStatType, StatModifier>();
-            _multiplicativeStats = new Dictionary<eSubStatType, StatModifier>();
+            _additiveStats = new Dictionary<eSubStatType, float>();
+            _multiplicativeStats = new Dictionary<eSubStatType, float>();
         }
+        /// <summary>
+        /// 기본 스텟을 포함해서 강화스텟까지 +나*을가진 스텟을 가져온다
+        /// </summary>
+        /// <param name="oper"></param>
+        /// <returns></returns>
         public Dictionary<eSubStatType, float> GetFinalStats(OperatorType oper)
         {
             var finalStats = new Dictionary<eSubStatType, float>();
 
+            // 기본스텟들 넣기
             foreach (var baseStat in EquipmentData.GetStats())
             {
+                if (baseStat.oper != oper) continue;
                 if (!finalStats.ContainsKey(baseStat.statType))
                 {
                     finalStats[baseStat.statType] = baseStat.value;
@@ -108,11 +124,11 @@ namespace Litkey.InventorySystem
                 {
                     if (!finalStats.ContainsKey(additiveStat.Key))
                     {
-                        finalStats[additiveStat.Key] = additiveStat.Value.value;
+                        finalStats[additiveStat.Key] = additiveStat.Value;
                     }
                     else
                     {
-                        finalStats[additiveStat.Key] += additiveStat.Value.value;
+                        finalStats[additiveStat.Key] += additiveStat.Value;
                     }
                 }
             }
@@ -122,7 +138,7 @@ namespace Litkey.InventorySystem
                 {
                     if (finalStats.ContainsKey(multiplicativeStat.Key))
                     {
-                        finalStats[multiplicativeStat.Key] += multiplicativeStat.Value.value;
+                        finalStats[multiplicativeStat.Key] += multiplicativeStat.Value;
                     }
                 }
             }
@@ -133,18 +149,18 @@ namespace Litkey.InventorySystem
         public Dictionary<eSubStatType, float> GetFinalStatsWithoutBaseValue(OperatorType oper)
         {
             var finalStats = new Dictionary<eSubStatType, float>();
+
             if (oper == OperatorType.plus)
             {
-
                 foreach (var additiveStat in _additiveStats)
                 {
                     if (!finalStats.ContainsKey(additiveStat.Key))
                     {
-                        finalStats[additiveStat.Key] = additiveStat.Value.value;
+                        finalStats[additiveStat.Key] = additiveStat.Value;
                     }
                     else
                     {
-                        finalStats[additiveStat.Key] += additiveStat.Value.value;
+                        finalStats[additiveStat.Key] += additiveStat.Value;
                     }
                 }
             }
@@ -154,7 +170,7 @@ namespace Litkey.InventorySystem
                 {
                     if (finalStats.ContainsKey(multiplicativeStat.Key))
                     {
-                        finalStats[multiplicativeStat.Key] += multiplicativeStat.Value.value;
+                        finalStats[multiplicativeStat.Key] += multiplicativeStat.Value;
                     }
                 }
             }
@@ -169,8 +185,8 @@ namespace Litkey.InventorySystem
             Durability = data.MaxDurability;
             CurrentUpgrade = 0;
 
-            _additiveStats = new Dictionary<eSubStatType, StatModifier>();
-            _multiplicativeStats = new Dictionary<eSubStatType, StatModifier>();
+            _additiveStats = new Dictionary<eSubStatType, float>();
+            _multiplicativeStats = new Dictionary<eSubStatType, float>();
             UpdateStats();
         }
 
@@ -180,8 +196,8 @@ namespace Litkey.InventorySystem
             Durability = currentDurability;
             CurrentUpgrade = currentUpgrade;
 
-            _additiveStats = new Dictionary<eSubStatType, StatModifier>();
-            _multiplicativeStats = new Dictionary<eSubStatType, StatModifier>();
+            _additiveStats = new Dictionary<eSubStatType, float>();
+            _multiplicativeStats = new Dictionary<eSubStatType, float>();
             UpdateStats();
         }
 

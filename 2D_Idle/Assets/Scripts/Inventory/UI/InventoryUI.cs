@@ -61,7 +61,7 @@ namespace Litkey.InventorySystem
         private void Awake()
         {
             _inventory.InitInventory();
-            
+            _inventory.SetInventoryUI(this);
             Init();
 
             _inventory.OnInventoryLoaded.AddListener(LoadInventoryUI);
@@ -99,7 +99,12 @@ namespace Litkey.InventorySystem
 
         public void OpenItemUpgradeWindow(EquipmentItem equipmentItem)
         {
-            itemUpgradeUI.ShowUpgradeWindow(equipmentItem);
+            itemUpgradeUI.ShowUpgradeWindow(equipmentItem, () => {
+                int index = _inventory.FindItemInInventory(equipmentItem.ID);
+                if (index != -1)
+                {
+                    UpdateSlot(index);
+                }});
             itemUpgradeUI.gameObject.SetActive(true);
         }
 
@@ -197,7 +202,7 @@ namespace Litkey.InventorySystem
                         // ½½·Ô ÇØÁ¦
                         itemSlots[equippedIndex].SetUnEquipped();
                         // ÀåÂø½½·Ô ÇØÁ¦
-                        _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts); 
+                        _inventory.UnEquipItemFromSlot(equipmentItem.EquipmentData.Parts); 
                         // ½ºÅÝÇØÁ¦
                         playerStatContainer.UnEquipEquipment(equipmentItem);
                         equippedItemIndex[equipmentItem.EquipmentData.Parts] = -1;
@@ -215,11 +220,11 @@ namespace Litkey.InventorySystem
                             Debug.LogError($"Item index at {equippedIndex} is not equipment item");
                         }
                         itemSlots[equippedIndex].SetUnEquipped(); // ÀüÀåºñ ÇØÁ¦
-                        _inventory.UnEquipItem(equipmentItem.EquipmentData.Parts);
+                        _inventory.UnEquipItemFromSlot(equipmentItem.EquipmentData.Parts);
                         // »õ Àåºñ¸¦ ÀåÂø, ½½·Ô ÀåÂø
 
 
-                        _inventory.EquipItem(equipmentItem); // ÀåÂø ½½·Ô ÀåÂø
+                        _inventory.EquipItemToSlot(equipmentItem); // ÀåÂø ½½·Ô ÀåÂø
                         playerStatContainer.EquipEquipment(equipmentItem); // ½ºÅÝ ÀåÂø
 
                         equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // ÀÎµ¦½ºÀúÀå
@@ -229,7 +234,7 @@ namespace Litkey.InventorySystem
                 } else
                 {
                     // ÇØ´ç ½½·Ô¿¡ ¾Æ¹« Àåºñµµ ¾øÀ»‹š
-                    _inventory.EquipItem(equipmentItem); // ÀåÂø ½½·Ô ÀåÂø
+                    _inventory.EquipItemToSlot(equipmentItem); // ÀåÂø ½½·Ô ÀåÂø
                     playerStatContainer.EquipEquipment(equipmentItem); // ½ºÅÝ ÀåÂø
 
                     equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // ÀÎµ¦½ºÀúÀå
@@ -275,7 +280,7 @@ namespace Litkey.InventorySystem
         }
         private void SetItemEquipped(EquipmentItem equipmentItem, int slotIndex)
         {
-            _inventory.EquipItem(equipmentItem); // ÀåÂø ½½·Ô ÀåÂø
+            _inventory.EquipItemToSlot(equipmentItem); // ÀåÂø ½½·Ô ÀåÂø
             playerStatContainer.EquipEquipment(equipmentItem); // ½ºÅÝ ÀåÂø
 
             equippedItemIndex[equipmentItem.EquipmentData.Parts] = slotIndex; // ÀÎµ¦½ºÀúÀå
@@ -297,12 +302,24 @@ namespace Litkey.InventorySystem
 
         private void CheckSlotRemovable(int index)
         {
+            if (!_inventory.HasItem(index))
+            {
+                RemoveItemAndSlot(index);
+                return;
+            }
+
             var item = _inventory.GetItem(index);
+            if (item == null) RemoveSlot(index);
+
             if (item is CountableItem countableItem)
             {
                 if (countableItem.Amount <= 0)
                 {
                     RemoveItemAndSlot(index);
+                }
+                else
+                {
+                    UpdateSlot(index);
                 }
             }
             else if (item is ResourceGetterItem resourceGetterItem)
@@ -311,13 +328,13 @@ namespace Litkey.InventorySystem
                 {
                     RemoveItemAndSlot(index);
 
-                    _inventory.UnEquipItem(resourceGetterItem.EquipmentData.Parts);
+                    _inventory.UnEquipItemFromSlot(resourceGetterItem.EquipmentData.Parts);
                 }
             }
             else if (item is EquipmentItem equipmentItem)
             {
-                // ¸¸¾à Àåºñ°¡ ÆÈ·ÇÀ¸¸é »èÁ¦
-
+                    // ¸¸¾à Àåºñ°¡ ÆÈ·ÇÀ¸¸é »èÁ¦
+                RemoveItemAndSlot(index);
             }
         }
 
@@ -353,6 +370,10 @@ namespace Litkey.InventorySystem
             if (item is CountableItem countableItem)
             {
                 itemSlots[index].UpdateCount(countableItem.Amount);
+            }
+            else if (item is EquipmentItem equipmentItem)
+            {
+                itemSlots[index].UpdateUpgrade(equipmentItem.CurrentUpgrade);
             }
         }
 
