@@ -10,6 +10,7 @@ using Litkey.Interface;
 using DarkTonic.MasterAudio;
 using Litkey.Utility;
 using Litkey.Quest;
+using System.Linq;
 
 public class Health : MonoBehaviour, IPoolObject, IParryable
 {
@@ -51,6 +52,10 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
     protected float regenerationInterval = 1f; // Regenerate every second
     protected Coroutine regenerationCoroutine;
 
+    protected float currentShield;
+
+    public float CurrentShield => currentShield;
+
     protected void OnValidate()
     {
         Name = gameObject.name;
@@ -90,12 +95,72 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             StopCoroutine(regenerationCoroutine);
             regenerationCoroutine = null;
         }
+
+        foreach (var coroutine in shieldCoroutines.Values)
+        {
+            StopCoroutine(coroutine);
+        }
+        shieldCoroutines.Clear();
+        activeShields.Clear();
     }
 
     private void Start()
     {
         LoadHealth();
     }
+    #region Shield
+    private List<ShieldInstance> activeShields = new List<ShieldInstance>();
+    private Dictionary<ShieldInstance, Coroutine> shieldCoroutines = new Dictionary<ShieldInstance, Coroutine>();
+
+    public delegate void OnShieldChange(float current, float max);
+
+    public OnShieldChange onShieldChanged;
+    public float totalShield => activeShields.Sum(shieldInstance => shieldInstance.Amount);
+
+    public void AddShield(float amount, float duration, bool isPermanent)
+    {
+        ShieldInstance newShield = new ShieldInstance(amount, duration, isPermanent);
+        activeShields.Add(newShield);
+        UpdateTotalShield();
+
+        if (!isPermanent)
+        {
+            Coroutine shieldCoroutine = StartCoroutine(ShieldDurationCoroutine(newShield));
+            shieldCoroutines.Add(newShield, shieldCoroutine);
+        }
+    }
+    private IEnumerator ShieldDurationCoroutine(ShieldInstance shield)
+    {
+        yield return new WaitForSeconds(shield.RemainingDuration);
+
+        if (activeShields.Contains(shield))
+        {
+            activeShields.Remove(shield);
+            UpdateTotalShield();
+        }
+
+        shieldCoroutines.Remove(shield);
+    }
+
+    private void UpdateTotalShield()
+    {
+        currentShield = totalShield;
+        onShieldChanged?.Invoke(currentShield, maxHealth);
+    }
+
+
+    private void RemoveShield(ShieldInstance shield)
+    {
+        activeShields.Remove(shield);
+        if (shieldCoroutines.TryGetValue(shield, out Coroutine coroutine))
+        {
+            StopCoroutine(coroutine);
+            shieldCoroutines.Remove(shield);
+        }
+    }
+
+
+    #endregion
 
     protected IEnumerator RegenerateHealth()
     {
@@ -185,14 +250,34 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         // 명중 통과하면 데미지 계산
         for (int i = 0; i < damages.Count; i++)
         {
-            if (!Hit[i])
+            if (!Hit[i]) continue;
+
+            float remainingDamage = damages[i].damage;
+
+            // Apply damage to shields first
+            for (int j = 0; j < activeShields.Count && remainingDamage > 0; j++)
             {
-                // 빗나갔을떄 미스 넘어가기
-                continue;
+                float shieldDamage = Mathf.Min(activeShields[j].Amount, remainingDamage);
+                activeShields[j].ReduceAmount(shieldDamage);
+                remainingDamage -= shieldDamage;
+
+                if (activeShields[j].Amount <= 0)
+                {
+                    RemoveShield(activeShields[j]);
+                    j--;
+                }
             }
-            currentHealth -= damages[i].damage;
-            onTakeDamage?.Invoke(currentHealth, maxHealth);
+
+            UpdateTotalShield();
+
+            // Apply remaining damage to health
+            if (remainingDamage > 0)
+            {
+                currentHealth -= remainingDamage;
+                onTakeDamage?.Invoke(currentHealth, maxHealth);
+            }
         }
+
         OnHit?.Invoke(attacker);
 
         if (currentHealth <= 0f)
@@ -221,37 +306,50 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
         if (isDead) return true;
         var attackerStat = attacker;
         bool[] Hit = new bool[damages.Count];
-        // 명중 회피 계산하기
+
+        // Calculate hit chance
         for (int i = 0; i < damages.Count; i++)
         {
             Hit[i] = attackerStat.CalculateHit(_statContainer);
         }
-        //if (!attackerStat.CalculateHit(_statContainer))
-        //{
-        //    // 회피 텍스트, 회피 모션취하기
-        //    ShowMissText();
-        //    return false;
-        //}
+
         if (showDmgText)
         {
             StartCoroutine(DamagePopup.ShowDmgText(transform.position, damages, Hit));
-            //StartCoroutine(ShowDmgText(damages, Hit));
         }
 
         if (sfxOn)
             StartCoroutine(PlaySounds(damages.Count, "칼맞는소리"));
 
-        // 명중 통과하면 데미지 계산
+        // Calculate and apply damage
         for (int i = 0; i < damages.Count; i++)
         {
-            if (!Hit[i])
-            {
-                // 빗나갔을떄 미스 넘어가기
-                continue;
-            }
-            currentHealth -= damages[i].damage;
-            onTakeDamage?.Invoke(currentHealth, maxHealth);
+            if (!Hit[i]) continue;
 
+            float remainingDamage = damages[i].damage;
+
+            // Apply damage to shields first
+            for (int j = 0; j < activeShields.Count && remainingDamage > 0; j++)
+            {
+                float shieldDamage = Mathf.Min(activeShields[j].Amount, remainingDamage);
+                activeShields[j].ReduceAmount(shieldDamage);
+                remainingDamage -= shieldDamage;
+
+                if (activeShields[j].Amount <= 0)
+                {
+                    RemoveShield(activeShields[j]);
+                    j--;
+                }
+            }
+
+            UpdateTotalShield();
+
+            // Apply remaining damage to health
+            if (remainingDamage > 0)
+            {
+                currentHealth -= remainingDamage;
+                onTakeDamage?.Invoke(currentHealth, maxHealth);
+            }
         }
 
         OnHit?.Invoke(attacker.GetComponent<LevelSystem>());
@@ -263,13 +361,61 @@ public class Health : MonoBehaviour, IPoolObject, IParryable
             bCollider.isTrigger = true;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-
             OnDeath?.Invoke(attacker.GetComponent<LevelSystem>());
             return true;
         }
         return false;
     }
 
+    public virtual bool TakeDamage(StatContainer attacker, float fixedDamage, bool showDmgText = true)
+    {
+        if (isDead) return true;
+
+        if (showDmgText)
+            StartCoroutine(DamagePopup.ShowBleedText(transform.position, fixedDamage));
+
+        float remainingDamage = fixedDamage;
+
+        // Apply damage to shields first
+        if (currentShield > 0)
+        {
+            for (int j = 0; j < activeShields.Count && remainingDamage > 0; j++)
+            {
+                float shieldDamage = Mathf.Min(activeShields[j].Amount, remainingDamage);
+                activeShields[j].ReduceAmount(shieldDamage);
+                remainingDamage -= shieldDamage;
+
+                if (activeShields[j].Amount <= 0)
+                {
+                    RemoveShield(activeShields[j]);
+                    j--;
+                }
+            }
+            UpdateTotalShield();
+        }
+
+        // Apply remaining damage to health
+        if (remainingDamage > 0)
+        {
+            currentHealth -= remainingDamage;
+            currentHealth = Mathf.Max(0f, currentHealth);
+            onTakeDamage?.Invoke(currentHealth, maxHealth);
+        }
+
+        OnHit?.Invoke(attacker.GetComponent<LevelSystem>());
+
+        if (currentHealth <= 0f)
+        {
+            isDead = true;
+            bCollider.isTrigger = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+            OnDeath?.Invoke(attacker.GetComponent<LevelSystem>());
+            return true;
+        }
+
+        return false;
+    }
 
     protected void ShowMissText()
     {

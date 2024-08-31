@@ -359,12 +359,29 @@ namespace Litkey.Utility
         private static readonly string baseDMGTextPath = "Prefabs/BaseDamage";
         private static readonly string missTextPath = "Prefabs/Miss";
         private static readonly string critDMGTextPath = "Prefabs/CriticalDamage";
+        private static readonly string bleedingPath = "Prefabs/Bleeding";
 
         protected static DamageNumberMesh dmg;
+        protected static DamageNumberMesh bleedText;
         protected static DamageNumberMesh missText;
         protected static DamageNumberMesh critDamageText;
         protected static Vector3 dmgOffset = new Vector3(0f, 0.3f, 0f);
 
+        public static IEnumerator ShowBleedText(Vector3 spawnPosition, float damage)
+        {
+            CheckPoolExists();
+            WaitForSeconds delay = new WaitForSeconds(0.05f);
+            
+                //Debug.Log("Show damage text count: " + damages.Count);
+
+            var spawnPos = spawnPosition + Vector3.up * 0.5f + dmgOffset;
+
+            bleedText.Spawn(spawnPos, damage);
+                
+                yield return null;
+            
+            
+        }
 
         public static IEnumerator ShowDmgText(Vector3 spawnPosition, List<Damage> damages, bool[] misses)
         {
@@ -445,6 +462,7 @@ namespace Litkey.Utility
                 dmg = Resources.Load<DamageNumberMesh>(baseDMGTextPath);
                 missText = Resources.Load<DamageNumberMesh>(missTextPath);
                 critDamageText = Resources.Load<DamageNumberMesh>(critDMGTextPath);
+                bleedText = Resources.Load<DamageNumberMesh>(bleedingPath);
             }
         }
     }

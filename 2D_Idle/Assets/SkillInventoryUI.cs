@@ -128,13 +128,13 @@ public class SkillInventoryUI : MonoBehaviour
 
         RemoveAllSkillSlots();
 
-        if (passives != null)
-        {
-            for (int i = 0; i < passives.Count; i++)
-            {
-                AddSlot(passives[i]);
-            }
-        }
+        //if (passives != null)
+        //{
+        //    for (int i = 0; i < passives.Count; i++)
+        //    {
+        //        AddSlot(passives[i]);
+        //    }
+        //}
         rightBtnAnim.DORestartById("Right");
 
     }

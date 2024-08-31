@@ -6,6 +6,7 @@ using Litkey.Stat;
 using UnityEngine.Events;
 using Litkey.Character.Cooldowns;
 using Redcode.Pools;
+using Litkey.Interface;
 
 namespace Litkey.Skill
 {
@@ -95,21 +96,21 @@ namespace Litkey.Skill
         }
     }
 
-    public abstract class PassiveSkill : Skill
+    public class PassiveSkill : ScriptableObject, IPassiveSkill, ITriggerable
     {
         // 레벨당 업그레이드 스텟들
-        [SerializeField] protected Dictionary<eSkillRank, Dictionary<int, List<StatModifier>>> levelUpgrades; // 어떤 레벨 업그레이드들이 있는지 저장
-        public Dictionary<eSkillRank, Dictionary<int, List<StatModifier>>> LevelUpgrades => levelUpgrades;
-
-        public List<StatModifier> AppliedLevelUpgrades => _appliedLevelUpgrades;
-        protected List<StatModifier> _appliedLevelUpgrades; // 적용된 레벨 효과들 모음
+        [SerializeField] protected Dictionary<int, List<StatModifier>> levelUpgrades; // 어떤 레벨 업그레이드들이 있는지 저장
+        public Dictionary<int, List<StatModifier>> LevelUpgrades => levelUpgrades;
 
         public UnityEvent<PassiveSkill> OnSkillLevelUp;
 
-        protected abstract void OnRankUp(eSkillRank rank);
-        protected abstract void OnLevelUp();
+        protected virtual void OnLevelUp() { }
 
-        public abstract void EquipPassiveStat(StatContainer statContainer);
+        public virtual void EquipPassiveStat(StatContainer statContainer) { }
+
+        public virtual void Apply(GameObject entity) { }
+        public virtual void Remove(GameObject entity) { }
+        public virtual void OnTrigger(string triggerEvent, params object[] args) { }
 
     }
 

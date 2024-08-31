@@ -58,20 +58,21 @@ public class SkillInventory : MonoBehaviour, ILoadable, ISavable
 
         bool alreadyContainsSkill = true;
 
-        if (skill is PassiveSkill passive)
-        {
-            if (!passives.ContainsKey(passive.skillName))
-            {
-                passive.SetInitialState();
-                passive.OnSkillLevelUp.AddListener(playerStat.OnEquipPassive);
+        //if (skill is PassiveSkill passive)
+        //{
+        //    if (!passives.ContainsKey(passive.skillName))
+        //    {
+        //        passive.SetInitialState();
+        //        passive.OnSkillLevelUp.AddListener(playerStat.OnEquipPassive);
                 
-                playerStat.OnEquipPassive(passive);
+        //        playerStat.OnEquipPassive(passive);
                 
-                passives.Add(passive.skillName, passive);
-                alreadyContainsSkill = false;
-            }
-        }
-        else if (skill is ActiveSkill active)
+        //        passives.Add(passive.skillName, passive);
+        //        alreadyContainsSkill = false;
+        //    }
+        //}
+        //else 
+        if (skill is ActiveSkill active)
         {
             //active.Initialize();
 

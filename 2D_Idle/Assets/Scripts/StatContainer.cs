@@ -60,6 +60,7 @@ public class StatContainer : MonoBehaviour
 
     #endregion
 
+    Health health;
     [SerializeField] protected Alias alias;
 
     public int AbilityPoint { get; protected set; }
@@ -126,6 +127,7 @@ public class StatContainer : MonoBehaviour
     protected Dictionary<eMainStatType, int> statGiven; // 능력치 찍을떄 현재 찍은 스텟들
 
     public Dictionary<string, List<StatModifier>> passiveStats;
+
     public List<StatModifier> additionalStats;
 
     public UnityEvent<StatContainer> OnStatSetupComplete;
@@ -133,6 +135,7 @@ public class StatContainer : MonoBehaviour
 
     protected virtual void Awake()
     {
+        health = GetComponent<Health>();
         this.MonsterLevel = baseStat.MonsterLevel;
         SetupStats();
         additionalStats = new List<StatModifier>();
@@ -182,6 +185,7 @@ public class StatContainer : MonoBehaviour
             { eSubStatType.받는피해증가, this.ReceiveMoreDamage },
             { eSubStatType.받는피해감소, this.ReceiveLessDamage },
             { eSubStatType.체력재생, this.HP_Regeneration },
+
         };
 
         // Log the initialization of each SubStat
@@ -245,6 +249,7 @@ public class StatContainer : MonoBehaviour
         ReceiveLessDamage = new SubStat("받는 피해 감소", 0f, eSubStatType.받는피해감소, true);
         GiveLessDamage = new SubStat("주는 피해 감소", 0f, eSubStatType.받는피해증가, true);
         HP_Regeneration = new SubStat("체력재생", baseStat.HP_Regeneration, eSubStatType.체력재생);
+
 
         Strength.AddSubStatAsChild(Attack);
         Strength.AddSubStatAsChild(HP);
@@ -355,24 +360,24 @@ public class StatContainer : MonoBehaviour
 
     public void OnEquipPassive(PassiveSkill passive)
     {
-        if (!passiveStats.ContainsKey(passive.skillName))
-        {
-            passiveStats[passive.skillName] = new List<StatModifier>();
-        }
-        if (passiveStats[passive.skillName].Count > 0)
-        {
-            RemoveETCStat(passiveStats[passive.skillName]);
+        //if (!passiveStats.ContainsKey(passive.skillName))
+        //{
+        //    passiveStats[passive.skillName] = new List<StatModifier>();
+        //}
+        //if (passiveStats[passive.skillName].Count > 0)
+        //{
+        //    RemoveETCStat(passiveStats[passive.skillName]);
 
-        }
-        passiveStats[passive.skillName].Clear();
-        for (int i = 0; i < passive.AppliedLevelUpgrades.Count; i++)
-        {
-            passiveStats[passive.skillName].Add(passive.AppliedLevelUpgrades[i]);
-        }
-        // apply passive rank effects
-        //passive.ApplyEffect(this, null);
+        //}
+        //passiveStats[passive.skillName].Clear();
+        //for (int i = 0; i < passive.AppliedLevelUpgrades.Count; i++)
+        //{
+        //    passiveStats[passive.skillName].Add(passive.AppliedLevelUpgrades[i]);
+        //}
+        //// apply passive rank effects
+        ////passive.ApplyEffect(this, null);
 
-        passive.EquipPassiveStat(this);
+        //passive.EquipPassiveStat(this);
     }
 
     public void UnEquipStat(Skill skill)
@@ -442,6 +447,15 @@ public class StatContainer : MonoBehaviour
         }
     }
 
+    public void AddETCStat(List<MinMaxStatModifier> stats)
+    {
+        for (int i = 0; i < stats.Count; i++)
+        {
+            subStats[stats[i].statType].EquipETCStat(stats[i]);
+        }
+
+    }
+
     // 스킬 레벨업으로 인해 증가된 스텟들 해제
     public void RemoveETCStat(List<StatModifier> stats)
     {
@@ -450,6 +464,15 @@ public class StatContainer : MonoBehaviour
             subStats[stats[i].statType].UnEquipETCStat(stats[i]);
         }
     }
+
+    public void RemoveETCStat(List<MinMaxStatModifier> stats)
+    {
+        for (int i = 0; i < stats.Count; i++)
+        {
+            subStats[stats[i].statType].UnEquipETCStat(stats[i]);
+        }
+    }
+
     // addedstat = 0, 1, 5
     // 1, 1, 4
     // 2, 1, 3
@@ -673,6 +696,7 @@ public class StatContainer : MonoBehaviour
         return this.baseStat;
     }
 
+    #region Buff/Debuff
     public List<BuffInfo> appliedBuffs = new List<BuffInfo>();
     public UnityEvent<BuffInfo> OnAddBuff = new UnityEvent<BuffInfo>();
     public UnityEvent<BuffInfo> OnUpdateBuff = new UnityEvent<BuffInfo>();
@@ -717,7 +741,53 @@ public class StatContainer : MonoBehaviour
             UpdateBuffTimer(existingBuff);
         }
 
+        if (buff is DamageOverTimeBuff dotBuff)
+        {
+            StartDamageOverTimeEffect(dotBuff, existingBuff);
+        }
+
+        if (buff is ShieldBuff shieldBuff)
+        {
+            float shieldAmount = shieldBuff.CalculateShieldAmount(this) * buffStack;
+
+        }
+
+
         OnUpdateBuff?.Invoke(existingBuff);
+    }
+
+    private void StartDamageOverTimeEffect(DamageOverTimeBuff dotBuff, BuffInfo buffInfo)
+    {
+        if (damageOverTimeCoroutines.ContainsKey(dotBuff.BuffID))
+        {
+            StopCoroutine(damageOverTimeCoroutines[dotBuff.BuffID]);
+        }
+
+        Coroutine coroutine = StartCoroutine(DamageOverTimeCoroutine(dotBuff, buffInfo));
+        damageOverTimeCoroutines[dotBuff.BuffID] = coroutine;
+    }
+
+    private IEnumerator DamageOverTimeCoroutine(DamageOverTimeBuff dotBuff, BuffInfo buffInfo)
+    {
+        while (buffInfo.stackCount > 0)
+        {
+
+            float damage = dotBuff.CalculateDamage(this) * buffInfo.stackCount;
+            ApplyDamage(damage);
+            yield return new WaitForSeconds(dotBuff.DamageInterval);
+        }
+
+        damageOverTimeCoroutines.Remove(dotBuff.BuffID);
+    }
+
+    private void ApplyDamage(float damage)
+    {
+        // Implement your damage application logic here
+        // For example:
+        health.TakeDamage(this, damage, true);
+
+        //HP.AddStatValue(-damage);
+        Debug.Log($"Applied {damage} damage over time");
     }
 
     private void ApplySingleBuffStack(BuffInfo buffInfo)
@@ -901,6 +971,11 @@ public class StatContainer : MonoBehaviour
         }
         return 0;
     }
+
+    private Dictionary<int, Coroutine> damageOverTimeCoroutines = new Dictionary<int, Coroutine>();
+
+
+    #endregion
 
     #region AllStats
 

@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182bf272aac53d142bee15d4d714ba4a, type: 3}
   m_Name: "\uCD08\uAE09\uCCB4\uB825\uBC84\uD504"
   m_EditorClassIdentifier: 
-  BuffID: 0
+  buffID: 0
   BuffIcon: {fileID: 21300000, guid: 6065823be4ca73f4f9388f0bcdf3a24b, type: 3}
-  BuffName: "\uCD08\uAE09 \uCCB4\uB825 \uBC84\uD504"
+  buffName: "\uCD08\uAE09\uCCB4\uB825\uBC84\uD504"
   Explanation: "\uCCB4\uB825\uC744 10% \uC99D\uD3ED\uC2DC\uCF1C\uC900\uB2E4"
-  IsDebuff: 0
-  Stackable: 1
-  MaxStackableAmount: 5
-  PermanentDuration: 0
-  Duration: 20
+  isDebuff: 0
+  stackable: 1
+  maxStackableAmount: 5
+  permanentDuration: 0
+  duration: 5
   BuffStats:
   - statType: 0
     oper: 1

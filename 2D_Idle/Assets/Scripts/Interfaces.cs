@@ -45,5 +45,14 @@ namespace Litkey.Interface
         public void Deselect();
     }
 
+    public interface IPassiveSkill
+    {
+        void Apply(GameObject entity);
+        void Remove(GameObject entity);
+    }
+    public interface ITriggerable
+    {
+        void OnTrigger(string triggerEvent, params object[] args);
+    }
 
 }

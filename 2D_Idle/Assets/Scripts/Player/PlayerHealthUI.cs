@@ -17,7 +17,7 @@ namespace Litkey.UI
 		public Image hp;
 		public Image damaged;
 		public Image sp;
-
+		public Image ShieldBar;
 
 		[SerializeField] private PlayerHealth targetHealth;
 		[SerializeField] private Transform orientation;
@@ -60,7 +60,8 @@ namespace Litkey.UI
 			orientation.gameObject.SetActive(false);
 
 		}
-
+		// 실드 계산
+		// 실드 길이 = 현재 hp + 현재 실드 / maxhp
 		public void ResetHealthBar()
 		{
 			sp.fillAmount = 1f;
@@ -81,7 +82,6 @@ namespace Litkey.UI
 		{
 			hp.fillAmount = current / max;
 			
-
 			float previousHP = Hp;
 
 			Hp = current;
@@ -97,6 +97,12 @@ namespace Litkey.UI
 			});
 		}
 
+		public void UpdateShieldBar(float current, float max)
+        {
+
+			ShieldBar.fillAmount = (current + Hp)/ max;
+
+		}
 		private float startValue = 0f;
 		private void UIHitEffect(LevelSystem lvl)
         {

@@ -149,25 +149,25 @@ public class SkillInformationWindowUI : MonoBehaviour
                 descriptions.Add(descriptionUI);
             }
         }
-        else if (skill is PassiveSkill passiveSkill)
-        {
-            skillDamageText.SetText($"{passiveSkill.finalDamage} %");
-            cooldownText.SetText("상시적용");
-            Debug.Log("startRank: " + passiveSkill.startRank);
-            Debug.Log("maxRank: " + passiveSkill.GetMaxUpgradeRank());
+        //else if (skill is PassiveSkill passiveSkill)
+        //{
+        //    skillDamageText.SetText($"{passiveSkill.finalDamage} %");
+        //    cooldownText.SetText("상시적용");
+        //    Debug.Log("startRank: " + passiveSkill.startRank);
+        //    Debug.Log("maxRank: " + passiveSkill.GetMaxUpgradeRank());
 
-            for (int i = (int)passiveSkill.startRank; i < (int)passiveSkill.GetMaxUpgradeRank(); i++)
-            {
-                var currentRank = (eSkillRank)i;
-                if (!passiveSkill.LevelUpgrades.ContainsKey(currentRank)) continue;
-                var descriptionUI = descriptionsPool.Get();
-                descriptionUI.UpdateDescription(passiveSkill, currentRank);
-                //Debug.Log("currentRank: " + currentRank);
-                descriptionUI.gameObject.SetActive(true);
-                descriptions.Add(descriptionUI);
-            }
+        //    for (int i = (int)passiveSkill.startRank; i < (int)passiveSkill.GetMaxUpgradeRank(); i++)
+        //    {
+        //        var currentRank = (eSkillRank)i;
+        //        if (!passiveSkill.LevelUpgrades.ContainsKey(currentRank)) continue;
+        //        var descriptionUI = descriptionsPool.Get();
+        //        descriptionUI.UpdateDescription(passiveSkill, currentRank);
+        //        //Debug.Log("currentRank: " + currentRank);
+        //        descriptionUI.gameObject.SetActive(true);
+        //        descriptions.Add(descriptionUI);
+        //    }
 
-        }
+        //}
     }
 
 

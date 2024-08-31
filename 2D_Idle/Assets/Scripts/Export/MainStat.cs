@@ -547,7 +547,21 @@ namespace Litkey.Stat
 
             UpdateFinalValue();
         }
-        
+
+        public void EquipETCStat(MinMaxStatModifier stat)
+        {
+            if (stat.oper == OperatorType.plus)
+            {
+                _plusEtcValue += stat.GetRandomValue();
+            }
+            else if (stat.oper == OperatorType.multiply)
+            {
+                _multipliedEtcValue += stat.GetRandomValue();
+            }
+
+            UpdateFinalValue();
+        }
+
         public void UnEquipETCStat(StatModifier stat)
         {
             if (stat.oper == OperatorType.plus)
@@ -560,17 +574,31 @@ namespace Litkey.Stat
             }
             UpdateFinalValue();
         }
-      
+
+        public void UnEquipETCStat(MinMaxStatModifier stat)
+        {
+            if (stat.oper == OperatorType.plus)
+            {
+                _plusEtcValue -= stat.GetRandomValue();
+            }
+            else if (stat.oper == OperatorType.multiply)
+            {
+                _multipliedEtcValue -= stat.GetRandomValue();
+            }
+            UpdateFinalValue();
+        }
+
+
         private float UpdateFinalValue()
         {
             float origin = _finalValue;
             // 초기 스텟
             _finalValue = this.BaseStat;
 
-            _finalValue *= (1f + _multipliedValue);
             _finalValue += _plusValue;
+            _finalValue *= (1f + _multipliedValue);
 
-            //Debug.Log("Updated Final Value: " + _plusEquipValue);
+            Debug.Log($"{displayName} 플러스 스텟: {_plusValue}\n곱셈스텟: {_multipliedValue}\n공식 (전 {origin}: {this.BaseStat} * (1 + {_multipliedValue}) + {_plusValue} = {_finalValue}");
             if (origin != _finalValue) OnValueChanged?.Invoke(_finalValue);
             return _finalValue;
         }
@@ -817,8 +845,7 @@ namespace Litkey.Stat
         [HorizontalGroup("StatModifier")]
         [LabelText("Value")]
         public float value;
-
-        public bool Compare(StatModifier other)
+        public virtual bool Compare(StatModifier other)
         {
             return this.statType == other.statType
                 && this.oper == other.oper
@@ -888,4 +915,5 @@ public enum eSubStatType
     추가경험치,
     스킬데미지,
     방어구관통력,
+    쉴드,
 };
