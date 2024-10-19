@@ -135,7 +135,11 @@ public class ResourceInteractor : MonoBehaviour
         {
             return _inventory.GetEquippedFishingItem().EquipmentData.IconSprite;
         }
-        return _inventory.GetEquippedMiningItem().EquipmentData.IconSprite;
+        else if (resourceType == eResourceType.¸»°É±â)
+        {
+            return null;
+        }
+        return null;
     }
     private eResourceType GetResourceType(IInteractable interactable)
     {
